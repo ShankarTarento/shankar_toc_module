@@ -2,15 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:igot_ui_components/constants/color_constants.dart';
+import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
 import 'package:igot_ui_components/ui/components/microsite_image_view.dart';
 import 'package:igot_ui_components/ui/widgets/microsite_icon_button/microsite_icon_button.dart';
-import 'package:karmayogi_mobile/constants/_constants/color_constants.dart';
-import 'package:karmayogi_mobile/models/index.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
-import 'package:karmayogi_mobile/util/faderoute.dart';
-import 'package:karmayogi_mobile/util/in_app_webview_page.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/model/batch_model.dart';
 
 class TocOfflinePlayer extends StatefulWidget {
   final List<Batch> batches;
@@ -67,7 +64,7 @@ class TocOfflinePlayerState extends State<TocOfflinePlayer> {
     return Container(
         height: 250.w,
         width: 1.sw,
-        color: AppColors.grey40,
+        color: TocModuleColors.grey40,
         padding: EdgeInsets.symmetric(horizontal: 16).r,
         child: sessionItemWidgetSlider());
   }
@@ -105,9 +102,9 @@ class TocOfflinePlayerState extends State<TocOfflinePlayer> {
                       }
                     }
                   },
-                  backgroundColor: ModuleColors.black,
+                  backgroundColor: TocModuleColors.black,
                   icon: Icons.arrow_back_ios_sharp,
-                  iconColor: ModuleColors.white,
+                  iconColor: Colors.white,
                 ),
               ),
               Align(
@@ -136,9 +133,9 @@ class TocOfflinePlayerState extends State<TocOfflinePlayer> {
                           }
                         }
                       },
-                      backgroundColor: ModuleColors.black,
+                      backgroundColor: TocModuleColors.black,
                       icon: Icons.arrow_forward_ios_sharp,
-                      iconColor: ModuleColors.white,
+                      iconColor: Colors.white,
                     ),
                   ))
             ],
@@ -154,8 +151,8 @@ class TocOfflinePlayerState extends State<TocOfflinePlayer> {
                       controller: _bannerPageController,
                       count: sessionList.length,
                       effect: ExpandingDotsEffect(
-                          activeDotColor: AppColors.orangeTourText,
-                          dotColor: ModuleColors.profilebgGrey20,
+                          activeDotColor: TocModuleColors.orangeTourText,
+                          dotColor: TocModuleColors.profilebgGrey20,
                           dotHeight: 4,
                           dotWidth: 4,
                           spacing: 4),
@@ -205,7 +202,7 @@ class TocOfflinePlayerState extends State<TocOfflinePlayer> {
               Text(
                 sessionDetailV2.attachLinks[0].title ?? '',
                 style: GoogleFonts.lato(
-                    color: AppColors.appBarBackground,
+                    color: TocModuleColors.appBarBackground,
                     fontWeight: FontWeight.w700,
                     fontSize: 14.sp,
                     letterSpacing: 0.25),
@@ -219,8 +216,8 @@ class TocOfflinePlayerState extends State<TocOfflinePlayer> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    FadeRoute(
-                        page: InAppWebViewPage(
+                    MaterialPageRoute(
+                        builder: (context) => InAppWebViewPage(
                             parentContext: context,
                             url: sessionDetailV2.attachLinks[0].url ?? '')),
                   );
@@ -228,7 +225,7 @@ class TocOfflinePlayerState extends State<TocOfflinePlayer> {
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6).r,
                   decoration: BoxDecoration(
-                      color: AppColors.orangeTourText,
+                      color: TocModuleColors.orangeTourText,
                       borderRadius: BorderRadius.circular(63).r),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -238,13 +235,13 @@ class TocOfflinePlayerState extends State<TocOfflinePlayer> {
                         height: 24.w,
                         width: 24.w,
                         colorFilter: ColorFilter.mode(
-                            AppColors.greys87, BlendMode.srcIn),
+                            TocModuleColors.greys87, BlendMode.srcIn),
                       ),
                       SizedBox(width: 6.w),
                       Text(
                         TocLocalizations.of(context)!.mStaticOpen,
                         style: GoogleFonts.lato(
-                            color: AppColors.deepBlue,
+                            color: TocModuleColors.deepBlue,
                             fontWeight: FontWeight.w700,
                             fontSize: 14.sp,
                             letterSpacing: 0.25),

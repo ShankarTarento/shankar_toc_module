@@ -27,13 +27,13 @@ class TocAppbarWidget extends StatelessWidget {
     return SliverAppBar(
       pinned: true,
       shadowColor: Colors.transparent,
-      backgroundColor: AppColors.darkBlue,
+      backgroundColor: TocModuleColors.darkBlue,
       automaticallyImplyLeading: false,
       leading: IconButton(
         icon: Icon(
           Icons.arrow_back_ios,
           size: 24.sp,
-          color: AppColors.appBarBackground,
+          color: TocModuleColors.appBarBackground,
         ),
         onPressed: () {
           if (!isPressed) {
@@ -62,22 +62,22 @@ class TocAppbarWidget extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(right: 16.0).r,
             child: NotificationIcon(
-              iconColor: AppColors.appBarBackground,
+              iconColor: TocModuleColors.appBarBackground,
             ),
           ),
           showCourseShareOption!
               ? GestureDetector(
-                child: Icon(
-                  Icons.share,
-                  size: 24.sp,
-                  color: AppColors.appBarBackground,
-                ),
-                onTap: () {
-                  if (courseShareOptionCallback != null) {
-                    courseShareOptionCallback!();
-                  }
-                },
-              )
+                  child: Icon(
+                    Icons.share,
+                    size: 24.sp,
+                    color: TocModuleColors.appBarBackground,
+                  ),
+                  onTap: () {
+                    if (courseShareOptionCallback != null) {
+                      courseShareOptionCallback!();
+                    }
+                  },
+                )
               : SizedBox.shrink(),
         ],
       ),

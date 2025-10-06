@@ -40,17 +40,17 @@ class AutoplayNextResource extends StatelessWidget {
           children: [
             CircularCountDownTimer(
               duration: 30,
-              fillColor: AppColors.appBarBackground,
-              backgroundColor: AppColors.greys87,
+              fillColor: TocModuleColors.appBarBackground,
+              backgroundColor: TocModuleColors.greys87,
               height: 50.w,
-              ringColor: AppColors.greys87,
+              ringColor: TocModuleColors.greys87,
               width: 50.w,
               onComplete: () => clickedPlayNextResource(),
             ),
             Icon(
               Icons.play_arrow_rounded,
               size: 24.sp,
-              color: AppColors.appBarBackground,
+              color: TocModuleColors.appBarBackground,
             ),
           ],
         ),

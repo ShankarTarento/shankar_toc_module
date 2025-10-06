@@ -110,7 +110,8 @@ class OpenResource extends StatelessWidget {
                                         style: Theme.of(context)
                                             .textTheme
                                             .headlineSmall!
-                                            .copyWith(color: AppColors.greys)),
+                                            .copyWith(
+                                                color: TocModuleColors.greys)),
                                   ),
                                 ))
                             : ContentFeedback(
@@ -197,11 +198,11 @@ class OpenResource extends StatelessWidget {
       },
       child: Scaffold(
           appBar: AppBar(
-            backgroundColor: AppColors.greys,
+            backgroundColor: TocModuleColors.greys,
             elevation: 0,
             titleSpacing: 0.w,
             leading: BackButton(
-              color: AppColors.white70,
+              color: TocModuleColors.white70,
               onPressed: () async {
                 await setOrientationAndPop(context);
               },
@@ -213,7 +214,7 @@ class OpenResource extends StatelessWidget {
                     TocLocalizations.of(context)!.mStaticBack,
                     overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.lato(
-                      color: AppColors.white70,
+                      color: TocModuleColors.white70,
                       fontSize: 12.0.sp,
                       fontWeight: FontWeight.w600,
                     ),

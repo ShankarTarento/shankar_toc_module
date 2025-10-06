@@ -20,8 +20,8 @@ class CourseTypeButton extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(2),
         color: title.toLowerCase() == "online"
-            ? AppColors.positiveLight
-            : AppColors.greys60,
+            ? TocModuleColors.positiveLight
+            : TocModuleColors.greys60,
       ),
       child: Center(
         child: Text(
@@ -29,7 +29,7 @@ class CourseTypeButton extends StatelessWidget {
           style: GoogleFonts.lato(
             fontSize: 10,
             fontWeight: FontWeight.w400,
-            color: AppColors.appBarBackground,
+            color: TocModuleColors.appBarBackground,
           ),
         ),
       ),

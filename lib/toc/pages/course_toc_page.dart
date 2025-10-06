@@ -2,22 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:karmayogi_mobile/constants/index.dart';
-import 'package:karmayogi_mobile/localization/index.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/about_tab/about_tab.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/about_tab/widgets/igot_tutor_atrip.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/teachers_notes/teachers_notes.dart';
-import 'package:karmayogi_mobile/ui/widgets/base_scaffold.dart';
-import 'package:karmayogi_mobile/ui/widgets/index.dart';
-import 'package:karmayogi_mobile/util/app_config.dart';
 import 'package:provider/provider.dart';
-import '../../../../../models/_arguments/index.dart';
-import '../../../../../models/index.dart';
-import '../../../../../respositories/index.dart';
-import '../../../../skeleton/index.dart';
-import '../../../index.dart';
-import '../../learn/course_sharing/course_sharing_page.dart';
-import '../util/toc_helper.dart';
 import '../view_model/course_toc_view_model.dart';
 import '../widgets/rate_now_pop_up.dart';
 import '../widgets/toc_button_widget.dart';
@@ -90,7 +75,7 @@ class _CourseTocPageState extends State<CourseTocPage>
             showModalBottomSheet(
               isScrollControlled: true,
               context: context,
-              backgroundColor: AppColors.greys60,
+              backgroundColor: TocModuleColors.greys60,
               builder: (_) => RateNowPopUp(courseDetails: viewModel.course!),
             ).whenComplete(() {
               context
@@ -258,7 +243,7 @@ class _CourseTocPageState extends State<CourseTocPage>
       automaticallyImplyLeading: false,
       pinned: true,
       flexibleSpace: Container(
-        color: AppColors.darkBlue,
+        color: TocModuleColors.darkBlue,
         child: ClipRRect(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(16.0).r,
@@ -266,22 +251,22 @@ class _CourseTocPageState extends State<CourseTocPage>
           ),
           child: Container(
             padding: EdgeInsets.only(top: 4).r,
-            color: AppColors.appBarBackground,
+            color: TocModuleColors.appBarBackground,
             child: TabBar(
               tabAlignment: TabAlignment.start,
               isScrollable: true,
               indicator: BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
-                    color: AppColors.darkBlue,
+                    color: TocModuleColors.darkBlue,
                     width: 2.0.w,
                   ),
                 ),
               ),
-              indicatorColor: AppColors.appBarBackground,
+              indicatorColor: TocModuleColors.appBarBackground,
               labelPadding: EdgeInsets.only(top: 0.0).r,
-              unselectedLabelColor: AppColors.greys60,
-              labelColor: AppColors.darkBlue,
+              unselectedLabelColor: TocModuleColors.greys60,
+              labelColor: TocModuleColors.darkBlue,
               labelStyle: Theme.of(context).textTheme.titleSmall!.copyWith(
                     fontSize: 10.sp,
                     fontWeight: FontWeight.w600,
@@ -301,7 +286,7 @@ class _CourseTocPageState extends State<CourseTocPage>
                             child: Text(
                               tabItem.title,
                               style: GoogleFonts.lato(
-                                color: AppColors.greys87,
+                                color: TocModuleColors.greys87,
                                 fontSize: 14.0.sp,
                                 fontWeight: FontWeight.w700,
                               ),
@@ -453,8 +438,8 @@ class _CourseTocPageState extends State<CourseTocPage>
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              AppColors.lightGrey.withValues(alpha: 0),
-              AppColors.appBarBackground.withValues(alpha: 1),
+              TocModuleColors.lightGrey.withValues(alpha: 0),
+              TocModuleColors.appBarBackground.withValues(alpha: 1),
             ],
           ),
         ),
@@ -585,7 +570,7 @@ class _CourseTocPageState extends State<CourseTocPage>
                     padding: EdgeInsets.all(16).r,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12).r,
-                      color: AppColors.positiveLight,
+                      color: TocModuleColors.positiveLight,
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -596,7 +581,7 @@ class _CourseTocPageState extends State<CourseTocPage>
                               TocLocalizations.of(context)!
                                   .mContentSharePageSuccessMessage,
                               fontSize: 14.sp,
-                              color: AppColors.appBarBackground,
+                              color: TocModuleColors.appBarBackground,
                               maxLines: 3,
                             ),
                           ),
@@ -605,7 +590,7 @@ class _CourseTocPageState extends State<CourseTocPage>
                           padding: const EdgeInsets.fromLTRB(16, 4, 4, 0).r,
                           child: Icon(
                             Icons.check,
-                            color: AppColors.appBarBackground,
+                            color: TocModuleColors.appBarBackground,
                             size: 24.sp,
                           ),
                         ),

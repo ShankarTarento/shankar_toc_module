@@ -2,9 +2,9 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:karmayogi_mobile/constants/_constants/color_constants.dart';
-import 'package:karmayogi_mobile/models/_models/transcription_data_model.dart';
-import 'package:karmayogi_mobile/util/helper.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/helper/toc_helper.dart';
+import 'package:toc_module/toc/model/transcription_response.dart';
 
 class TranscriptDropdown extends StatefulWidget {
   final List<SubtitleUrl> subtitleUrls;
@@ -43,14 +43,14 @@ class _TranscriptDropdownState extends State<TranscriptDropdown> {
           style: GoogleFonts.lato(
               fontSize: 16.sp,
               fontWeight: FontWeight.w600,
-              color: AppColors.darkBlue),
+              color: TocModuleColors.darkBlue),
         ),
         DropdownButtonHideUnderline(
           child: Container(
             decoration: BoxDecoration(
               border: Border(
                 bottom: BorderSide(
-                  color: AppColors.grey40,
+                  color: TocModuleColors.grey40,
                   width: 1,
                 ),
               ),
@@ -62,7 +62,7 @@ class _TranscriptDropdownState extends State<TranscriptDropdown> {
                   .map((subtitle) => DropdownMenuItem<SubtitleUrl>(
                         value: subtitle,
                         child: Text(
-                          Helper.capitalize(subtitle.language),
+                          TocHelper.capitalize(subtitle.language),
                           style: Theme.of(context)
                               .textTheme
                               .bodyMedium!
@@ -81,7 +81,9 @@ class _TranscriptDropdownState extends State<TranscriptDropdown> {
                     style: GoogleFonts.lato(
                       fontWeight:
                           isSelected ? FontWeight.bold : FontWeight.normal,
-                      color: isSelected ? AppColors.darkBlue : Colors.black87,
+                      color: isSelected
+                          ? TocModuleColors.darkBlue
+                          : Colors.black87,
                     ),
                   ),
                 );

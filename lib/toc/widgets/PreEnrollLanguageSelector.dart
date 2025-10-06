@@ -51,7 +51,7 @@ class _PreEnrollanguageSelectorWidgetState
                       style: Theme.of(context)
                           .textTheme
                           .headlineSmall!
-                          .copyWith(color: AppColors.deepBlue),
+                          .copyWith(color: TocModuleColors.deepBlue),
                     ),
                     SizedBox(height: 8.w),
                     Text(
@@ -61,7 +61,7 @@ class _PreEnrollanguageSelectorWidgetState
                       style: Theme.of(context)
                           .textTheme
                           .titleMedium!
-                          .copyWith(color: AppColors.greys60),
+                          .copyWith(color: TocModuleColors.greys60),
                     ),
                   ],
                 ),
@@ -99,8 +99,8 @@ class _PreEnrollanguageSelectorWidgetState
                                           horizontal: 16, vertical: 24)
                                       .r,
                                   decoration: BoxDecoration(
-                                      border:
-                                          Border.all(color: AppColors.grey40)),
+                                      border: Border.all(
+                                          color: TocModuleColors.grey40)),
                                   child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
@@ -110,9 +110,10 @@ class _PreEnrollanguageSelectorWidgetState
                                                 .textTheme
                                                 .bodyLarge!
                                                 .copyWith(
-                                                    color: AppColors.deepBlue)),
+                                                    color: TocModuleColors
+                                                        .deepBlue)),
                                         Icon(Icons.arrow_drop_down,
-                                            color: AppColors.greys60)
+                                            color: TocModuleColors.greys60)
                                       ]))),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -147,7 +148,7 @@ class _PreEnrollanguageSelectorWidgetState
                                   },
                                   text: TocLocalizations.of(context)!
                                       .mTocConfirmStartCourse,
-                                  bgColor: AppColors.darkBlue,
+                                  bgColor: TocModuleColors.darkBlue,
                                   textStyle:
                                       Theme.of(context).textTheme.displaySmall,
                                   borderRadius: 4),

@@ -22,7 +22,7 @@ class ShareResponseDialog extends StatelessWidget {
                 padding: EdgeInsets.all(16).r,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12).r,
-                    color: AppColors.positiveLight),
+                    color: TocModuleColors.positiveLight),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -32,7 +32,7 @@ class ShareResponseDialog extends StatelessWidget {
                           TocLocalizations.of(context)!
                               .mContentSharePageSuccessMessage,
                           fontSize: 14.sp,
-                          color: AppColors.appBarBackground,
+                          color: TocModuleColors.appBarBackground,
                           maxLines: 3,
                         ),
                       ),
@@ -41,7 +41,7 @@ class ShareResponseDialog extends StatelessWidget {
                       padding: const EdgeInsets.fromLTRB(16, 4, 4, 0).r,
                       child: Icon(
                         Icons.check,
-                        color: AppColors.appBarBackground,
+                        color: TocModuleColors.appBarBackground,
                         size: 24.sp,
                       ),
                     ),

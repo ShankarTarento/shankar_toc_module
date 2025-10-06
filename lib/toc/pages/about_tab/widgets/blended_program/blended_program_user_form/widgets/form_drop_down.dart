@@ -68,15 +68,15 @@ class _FormDropDownState<T> extends State<FormDropDown<T>> {
           decoration: InputDecoration(
             contentPadding: EdgeInsets.only(left: 12).r,
             focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: AppColors.darkBlue),
+              borderSide: BorderSide(color: TocModuleColors.darkBlue),
             ),
             errorBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: AppColors.mandatoryRed),
+              borderSide: BorderSide(color: TocModuleColors.mandatoryRed),
             ),
             suffixIcon: Icon(Icons.keyboard_arrow_down),
             hintText: TocLocalizations.of(context)!.mStaticSelectHere,
             enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: AppColors.grey16),
+              borderSide: BorderSide(color: TocModuleColors.grey16),
             ),
           ),
           controller: _controller,
@@ -88,12 +88,12 @@ class _FormDropDownState<T> extends State<FormDropDown<T>> {
           Container(
             padding: EdgeInsets.all(8).r,
             decoration: BoxDecoration(
-              border: Border.all(color: AppColors.grey08),
-              color: AppColors.appBarBackground,
+              border: Border.all(color: TocModuleColors.grey08),
+              color: TocModuleColors.appBarBackground,
               borderRadius: BorderRadius.circular(4),
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.greys.withValues(alpha: 0.1),
+                  color: TocModuleColors.greys.withValues(alpha: 0.1),
                   spreadRadius: 2,
                   blurRadius: 5,
                   offset: Offset(0, 2),
@@ -111,8 +111,8 @@ class _FormDropDownState<T> extends State<FormDropDown<T>> {
                         fontWeight: FontWeight.w500,
                         fontSize: 14.sp,
                         color: option == _controller.text
-                            ? AppColors.darkBlue
-                            : AppColors.greys),
+                            ? TocModuleColors.darkBlue
+                            : TocModuleColors.greys),
                   ),
                   onTap: () => _onOptionSelected(option),
                 );

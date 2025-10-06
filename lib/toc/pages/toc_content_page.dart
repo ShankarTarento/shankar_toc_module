@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
-import 'package:karmayogi_mobile/localization/_langs/english_lang.dart';
-import '../../../../../constants/index.dart';
-import '../../../../../models/index.dart';
-import '../../../../../util/telemetry_repository.dart';
-import '../../../../widgets/index.dart';
-import '../../../index.dart';
-import '../util/toc_helper.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/helper/toc_helper.dart';
+import 'package:toc_module/toc/model/course_hierarchy_model.dart';
+import 'package:toc_module/toc/model/course_model.dart';
+import 'package:toc_module/toc/widgets/course_level_module_item.dart';
+import 'package:toc_module/toc/widgets/toc_content_object_widget.dart';
 
 class TocContentPage extends StatefulWidget {
   const TocContentPage(
@@ -61,7 +60,7 @@ class _TocContentPageState extends State<TocContentPage> {
     fetchData();
 
     checkAccess();
-    _generateTelemetryData();
+    // _generateTelemetryData();
   }
 
   void fetchData() {
@@ -122,34 +121,34 @@ class _TocContentPageState extends State<TocContentPage> {
     }
   }
 
-  void _generateTelemetryData() async {
-    var telemetryRepository = TelemetryRepository();
-    String pageUri = (!widget.isFeatured
-            ? TelemetryPageIdentifier.courseDetailsPageUri
-            : TelemetryPageIdentifier.publicCourseDetailsPageUri)
-        .replaceAll(':do_ID', widget.course.id);
-    if (batchId != null) {
-      pageUri = pageUri + "?batchId=$batchId";
-    }
-    Map eventData = telemetryRepository.getImpressionTelemetryEvent(
-        pageIdentifier: (!widget.isFeatured
-            ? TelemetryPageIdentifier.courseDetailsPageId
-            : TelemetryPageIdentifier.publicCourseDetailsPageId),
-        telemetryType:
-            !widget.isFeatured ? TelemetryType.public : TelemetryType.page,
-        pageUri: pageUri,
-        env: TelemetryEnv.learn,
-        objectId: widget.course.id,
-        objectType: widget.course.courseCategory,
-        isPublic: widget.isFeatured);
-    await telemetryRepository.insertEvent(eventData: eventData);
-  }
+  // void _generateTelemetryData() async {
+  //   var telemetryRepository = TelemetryRepository();
+  //   String pageUri = (!widget.isFeatured
+  //           ? TelemetryPageIdentifier.courseDetailsPageUri
+  //           : TelemetryPageIdentifier.publicCourseDetailsPageUri)
+  //       .replaceAll(':do_ID', widget.course.id);
+  //   if (batchId != null) {
+  //     pageUri = pageUri + "?batchId=$batchId";
+  //   }
+  //   Map eventData = telemetryRepository.getImpressionTelemetryEvent(
+  //       pageIdentifier: (!widget.isFeatured
+  //           ? TelemetryPageIdentifier.courseDetailsPageId
+  //           : TelemetryPageIdentifier.publicCourseDetailsPageId),
+  //       telemetryType:
+  //           !widget.isFeatured ? TelemetryType.public : TelemetryType.page,
+  //       pageUri: pageUri,
+  //       env: TelemetryEnv.learn,
+  //       objectId: widget.course.id,
+  //       objectType: widget.course.courseCategory,
+  //       isPublic: widget.isFeatured);
+  //   await telemetryRepository.insertEvent(eventData: eventData);
+  // }
 
   @override
   Widget build(BuildContext context) {
     if (courseHierarchyInfo != null) {
       if (courseHierarchyInfo.runtimeType == String) {
-        return NoDataWidget(message: 'No course');
+        return Text("No Course");
       } else {
         if (!isContentsAdded) {
           isContentsAdded = true;
@@ -158,7 +157,7 @@ class _TocContentPageState extends State<TocContentPage> {
             ? Container(
                 height: 1.sh,
                 width: 1.sw,
-                color: AppColors.scaffoldBackground,
+                color: TocModuleColors.scaffoldBackground,
                 child: SingleChildScrollView(
                     child: Container(
                         padding: EdgeInsets.only(bottom: 120).r,

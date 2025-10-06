@@ -2,17 +2,14 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:karmayogi_mobile/constants/_constants/color_constants.dart';
 import 'package:http/http.dart' as http;
-import 'package:karmayogi_mobile/models/_models/reference_nodes.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/gyaan_karmayogi_v2/pages/details_screen/details_screen.dart';
-import 'package:karmayogi_mobile/ui/widgets/_common/page_loader.dart';
-import 'package:karmayogi_mobile/util/faderoute.dart';
-import 'package:karmayogi_mobile/util/helper.dart';
 import 'package:open_file_plus/open_file_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/helper/toc_helper.dart';
+import 'package:toc_module/toc/model/reference_node.dart';
 
 class TeachersNotesCard extends StatefulWidget {
   final ReferenceNode referenceNode;
@@ -41,8 +38,8 @@ class _TeachersNotesCardState extends State<TeachersNotesCard> {
           _permision = Permission.photos;
         }
       }
-      if (await Helper.requestPermission(_permision) &&
-          await Helper.requestPermission(_videoPermission)) {
+      if (await TocHelper.requestPermission(_permision) &&
+          await TocHelper.requestPermission(_videoPermission)) {
         setState(() {
           _isDownloading = true;
         });
@@ -50,7 +47,7 @@ class _TeachersNotesCardState extends State<TeachersNotesCard> {
             await http.get(Uri.parse(widget.referenceNode.downloadUrl!));
 
         if (response.statusCode == 200) {
-          String path = await Helper.getDownloadPath();
+          String path = await TocHelper.getDownloadPath();
           String fileName = widget.referenceNode.name +
               widget.referenceNode.downloadUrl!.split('/').last;
           String filePath = '${path}/$fileName';
@@ -83,7 +80,7 @@ class _TeachersNotesCardState extends State<TeachersNotesCard> {
       height: 80.w,
       padding: EdgeInsets.all(12).r,
       decoration: BoxDecoration(
-        color: AppColors.appBarBackground,
+        color: TocModuleColors.appBarBackground,
         borderRadius: BorderRadius.circular(4).r,
       ),
       child: Column(
@@ -103,7 +100,7 @@ class _TeachersNotesCardState extends State<TeachersNotesCard> {
                       style: GoogleFonts.lato(
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.darkBlue,
+                        color: TocModuleColors.darkBlue,
                       ),
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -115,8 +112,8 @@ class _TeachersNotesCardState extends State<TeachersNotesCard> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        FadeRoute(
-                          page: ResourceDetailsScreenV2(
+                        MaterialPageRoute(
+                          builder: (context) => ResourceDetailsScreenV2(
                             resourceId: widget.referenceNode.identifier,
                           ),
                         ),
@@ -129,7 +126,7 @@ class _TeachersNotesCardState extends State<TeachersNotesCard> {
                           Icon(
                             Icons.visibility,
                             size: 18.sp,
-                            color: AppColors.greys60,
+                            color: TocModuleColors.greys60,
                           ),
                           SizedBox(
                             width: 6.w,
@@ -139,7 +136,7 @@ class _TeachersNotesCardState extends State<TeachersNotesCard> {
                             style: GoogleFonts.lato(
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w400,
-                              color: AppColors.greys60,
+                              color: TocModuleColors.greys60,
                             ),
                           ),
                         ],
@@ -150,25 +147,25 @@ class _TeachersNotesCardState extends State<TeachersNotesCard> {
               ),
               Spacer(),
               _isDownloading
-                  ? PageLoader()
+                  ? CircularProgressIndicator()
                   : SizedBox(
                       height: 30.w,
                       child: ElevatedButton(
                         onPressed: _isDownloading ? null : _downloadFile,
                         style: ElevatedButton.styleFrom(
                           elevation: 0,
-                          backgroundColor: AppColors.appBarBackground,
+                          backgroundColor: TocModuleColors.appBarBackground,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
-                            side:
-                                BorderSide(color: AppColors.darkBlue, width: 1),
+                            side: BorderSide(
+                                color: TocModuleColors.darkBlue, width: 1),
                           ),
                         ),
                         child: Text(
                           TocLocalizations.of(context)!.mDownload,
                           style: GoogleFonts.lato(
                             fontSize: 12.sp,
-                            color: AppColors.darkBlue,
+                            color: TocModuleColors.darkBlue,
                           ),
                         ),
                       ),
@@ -190,7 +187,7 @@ class _TeachersNotesCardState extends State<TeachersNotesCard> {
                   topLeft: Radius.circular(8), topRight: Radius.circular(8))
               .r,
           side: BorderSide(
-            color: AppColors.grey08,
+            color: TocModuleColors.grey08,
           ),
         ),
         context: context,
@@ -207,7 +204,7 @@ class _TeachersNotesCardState extends State<TeachersNotesCard> {
                         height: 6.w,
                         width: 0.25.sw,
                         decoration: BoxDecoration(
-                          color: AppColors.grey16,
+                          color: TocModuleColors.grey16,
                           borderRadius: BorderRadius.all(Radius.circular(16).r),
                         ),
                       ),
@@ -236,8 +233,8 @@ class _TeachersNotesCardState extends State<TeachersNotesCard> {
                               onTap: () => openFile(filePath),
                               child: roundedButton(
                                 TocLocalizations.of(context)!.mStaticOpen,
-                                AppColors.darkBlue,
-                                AppColors.appBarBackground,
+                                TocModuleColors.darkBlue,
+                                TocModuleColors.appBarBackground,
                               ),
                             ),
                           )
@@ -249,8 +246,8 @@ class _TeachersNotesCardState extends State<TeachersNotesCard> {
                         onTap: () => Navigator.of(context).pop(false),
                         child: roundedButton(
                             TocLocalizations.of(context)!.mCommonClose,
-                            AppColors.appBarBackground,
-                            AppColors.darkBlue),
+                            TocModuleColors.appBarBackground,
+                            TocModuleColors.darkBlue),
                       ),
                     ),
                   ],
@@ -267,8 +264,8 @@ class _TeachersNotesCardState extends State<TeachersNotesCard> {
       decoration: BoxDecoration(
         color: bgColor,
         borderRadius: BorderRadius.all(const Radius.circular(4.0).r),
-        border: bgColor == AppColors.appBarBackground
-            ? Border.all(color: AppColors.grey40)
+        border: bgColor == TocModuleColors.appBarBackground
+            ? Border.all(color: TocModuleColors.grey40)
             : Border.all(color: bgColor),
       ),
       child: Text(

@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:igot_ui_components/ui/widgets/alert_dialog/alert_dialog.dart';
-import 'package:karmayogi_mobile/constants/_constants/learn_compatibility_constants.dart';
-import 'package:karmayogi_mobile/respositories/_respositories/assessment_repository.dart';
-import 'package:karmayogi_mobile/ui/widgets/_learn/_assessment/_models/guest_data_model.dart';
-import '../../../../../constants/index.dart';
-import '../../../../../models/_models/assessment_info_model.dart';
-import '../../../../../util/index.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/constants/learn_compatability_constants.dart';
+import 'package:toc_module/toc/constants/toc_constants.dart';
+import 'package:toc_module/toc/model/assessment_info.dart';
+import 'package:toc_module/toc/model/gust_data_model.dart';
+
+import 'package:toc_module/toc/repository/assessment_repository.dart';
+
 import '../model/assessment_response_data_model.dart';
 import '../model/navigation_model.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
@@ -67,7 +69,7 @@ class AssessmentViewModel {
   Future<dynamic> _handleAssessmentWithURL(NavigationModel resourceInfo) async {
     String? fileUri =
         resourceInfo.artifactUrl!.contains('static.karmayogiprod.nic.in')
-            ? Helper.generateCdnUri(resourceInfo.artifactUrl)
+            ? TocHelper.generateCdnUri(resourceInfo.artifactUrl)
             : resourceInfo.artifactUrl;
 
     if (fileUri != null) {
@@ -174,12 +176,12 @@ class AssessmentViewModel {
                 Navigator.of(context).pop();
               },
               primaryButtonTextStyle: GoogleFonts.lato(
-                color: AppColors.appBarBackground,
+                color: TocModuleColors.appBarBackground,
                 fontWeight: FontWeight.w700,
                 fontSize: 14.0.sp,
                 height: 1.5.w,
               ),
-              primaryButtonBgColor: AppColors.darkBlue,
+              primaryButtonBgColor: TocModuleColors.darkBlue,
             );
           });
     }

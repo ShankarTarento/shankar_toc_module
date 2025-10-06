@@ -4,8 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../../../../../../constants/index.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
 
 class TocPlayerInNewScreen extends StatelessWidget {
   final Widget player;
@@ -35,7 +34,7 @@ class TocPlayerInNewScreen extends StatelessWidget {
                       ? 'Survey'
                       : 'Scorm'),
           style: GoogleFonts.lato(
-              color: AppColors.appBarBackground,
+              color: TocModuleColors.appBarBackground,
               fontWeight: FontWeight.w700,
               fontSize: 14.sp,
               letterSpacing: 0.25),
@@ -65,14 +64,15 @@ class TocPlayerInNewScreen extends StatelessWidget {
                                       await setOrientationAndPop(context);
                                     },
                                     child: Scaffold(
-                                      backgroundColor: AppColors.greys,
+                                      backgroundColor: TocModuleColors.greys,
                                       body: Scaffold(
                                         appBar: AppBar(
-                                          backgroundColor: AppColors.greys,
+                                          backgroundColor:
+                                              TocModuleColors.greys,
                                           elevation: 0,
                                           titleSpacing: 0,
                                           leading: BackButton(
-                                            color: AppColors.white70,
+                                            color: TocModuleColors.white70,
                                             onPressed: () async {
                                               await setOrientationAndPop(
                                                   context);
@@ -89,7 +89,8 @@ class TocPlayerInNewScreen extends StatelessWidget {
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   style: GoogleFonts.lato(
-                                                    color: AppColors.white70,
+                                                    color:
+                                                        TocModuleColors.white70,
                                                     fontSize: 12.0.sp,
                                                     fontWeight: FontWeight.w600,
                                                   ),
@@ -107,7 +108,7 @@ class TocPlayerInNewScreen extends StatelessWidget {
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6).r,
             decoration: BoxDecoration(
-                color: AppColors.orangeTourText,
+                color: TocModuleColors.orangeTourText,
                 borderRadius: BorderRadius.circular(63).r),
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -118,7 +119,7 @@ class TocPlayerInNewScreen extends StatelessWidget {
                         height: 24.w,
                         width: 24.w,
                         colorFilter: ColorFilter.mode(
-                            AppColors.greys87, BlendMode.srcIn),
+                            TocModuleColors.greys87, BlendMode.srcIn),
                       )
                     : isAssessment
                         ? SvgPicture.asset(
@@ -126,20 +127,20 @@ class TocPlayerInNewScreen extends StatelessWidget {
                             height: 24.w,
                             width: 24.w,
                             colorFilter: ColorFilter.mode(
-                                AppColors.greys87, BlendMode.srcIn),
+                                TocModuleColors.greys87, BlendMode.srcIn),
                           )
                         : SvgPicture.asset(
                             'assets/img/resource.svg',
                             height: 24,
                             width: 24,
                             colorFilter: ColorFilter.mode(
-                                AppColors.greys87, BlendMode.srcIn),
+                                TocModuleColors.greys87, BlendMode.srcIn),
                           ),
                 SizedBox(width: 6.w),
                 Text(
                   TocLocalizations.of(context)!.mStaticOpen,
                   style: GoogleFonts.lato(
-                      color: AppColors.deepBlue,
+                      color: TocModuleColors.deepBlue,
                       fontWeight: FontWeight.w700,
                       fontSize: 14.sp,
                       letterSpacing: 0.25),

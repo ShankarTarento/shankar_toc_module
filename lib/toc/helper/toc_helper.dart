@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:toc_module/toc/model/navigation_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../constants/color_constants.dart';
@@ -116,6 +117,84 @@ class TocHelper {
         Uri.parse(url),
         mode: mode,
       );
+    }
+  }
+
+  static Future<NavigationModel?> getResourceInfo(
+      {required BuildContext context,
+      required String resourceId,
+      required bool isFeatured,
+      required NavigationModel resourceNavigateItems}) async {
+    final courseInfo = {"": ""};
+    // await Provider.of<LearnRepository>(context,
+    //         listen: false)
+    //     .getCourseData(resourceId, isFeatured: isFeatured, isResource: true);
+
+    if (courseInfo != null) {
+      NavigationModel resource = NavigationModel.fromJson(courseInfo,
+          index: 0, language: resourceNavigateItems.language);
+      resource = TocHelper.compareAndUpdate(
+          resourseFromHierarchy: resourceNavigateItems, resource: resource);
+      return resource;
+    }
+    return null;
+  }
+
+  static NavigationModel compareAndUpdate(
+      {required NavigationModel resourseFromHierarchy,
+      required NavigationModel resource}) {
+    resource.parentBatchId = resourseFromHierarchy.parentBatchId;
+    resource.parentCourseId = resourseFromHierarchy.parentCourseId;
+    if (resource.duration == null || resource.duration == '0') {
+      resource.duration = resourseFromHierarchy.duration;
+    }
+    resource.moduleDuration = resourseFromHierarchy.moduleDuration;
+    resource.courseDuration = resourseFromHierarchy.courseDuration;
+    if (double.parse(resource.currentProgress) <
+        double.parse(resourseFromHierarchy.currentProgress != ''
+            ? resourseFromHierarchy.currentProgress
+            : '0')) {
+      resource.currentProgress = resourseFromHierarchy.currentProgress;
+    }
+    if (resource.completionPercentage <
+        resourseFromHierarchy.completionPercentage) {
+      resource.completionPercentage =
+          resourseFromHierarchy.completionPercentage;
+    }
+    if (resource.status < resourseFromHierarchy.status) {
+      resource.status = resourseFromHierarchy.status;
+    }
+    return resource;
+  }
+
+  static capitalize(String s) {
+    if (s.trim().isNotEmpty && (s[0] != '')) {
+      return s[0].toUpperCase() + s.substring(1).toLowerCase();
+    } else
+      return s;
+  }
+
+  static String generateCdnUri(String? artifactUri) {
+    if (artifactUri == null) return '';
+    try {
+      var chunk = artifactUri.split('/');
+      String host = Env.cdnHost;
+      String bucket = Env.cdnBucket;
+      var newChunk = host.split('/');
+      var newLink = [];
+      for (var i = 0; i < chunk.length; i += 1) {
+        if (i == 2 || i == 0) {
+          newLink.add(newChunk[i]);
+        } else if (i == 3) {
+          newLink.add(bucket.substring(1));
+        } else {
+          newLink.add(chunk[i]);
+        }
+      }
+      String newUrl = newLink.join('/');
+      return newUrl;
+    } catch (e) {
+      return artifactUri;
     }
   }
 }

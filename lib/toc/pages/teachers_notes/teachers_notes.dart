@@ -2,15 +2,14 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:karmayogi_mobile/constants/_constants/color_constants.dart';
-import 'package:karmayogi_mobile/models/_models/reference_nodes.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/teachers_notes/widgets/teachers_notes_card.dart';
-import 'package:karmayogi_mobile/ui/widgets/index.dart';
-import 'package:karmayogi_mobile/util/helper.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/helper/toc_helper.dart';
+import 'package:toc_module/toc/model/reference_node.dart';
+import 'package:toc_module/toc/pages/teachers_notes/widgets/teachers_notes_card.dart';
 
 class TeachersNotes extends StatefulWidget {
   final List<ReferenceNode> referenceNodes;
@@ -44,12 +43,12 @@ class _TeachersNotesState extends State<TeachersNotes> {
                 child: Text(
                   TocLocalizations.of(context)!.mTeachersNotesDescription,
                   style: GoogleFonts.lato(
-                      fontSize: 14.sp, color: AppColors.greys60),
+                      fontSize: 14.sp, color: TocModuleColors.greys60),
                 ),
               ),
               Spacer(),
               _isDownloading
-                  ? PageLoader()
+                  ? CircularProgressIndicator()
                   : TextButton(
                       onPressed: () {
                         _downloadFiles(downloadUrl);
@@ -61,7 +60,7 @@ class _TeachersNotesState extends State<TeachersNotes> {
                           style: GoogleFonts.lato(
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w700,
-                              color: AppColors.darkBlue),
+                              color: TocModuleColors.darkBlue),
                           textAlign: TextAlign.center,
                         ),
                       ))
@@ -108,12 +107,12 @@ class _TeachersNotesState extends State<TeachersNotes> {
         }
       }
 
-      if (await Helper.requestPermission(_permission)) {
+      if (await TocHelper.requestPermission(_permission)) {
         for (String url in urls) {
           var response = await http.get(Uri.parse(url));
 
           if (response.statusCode == 200) {
-            String path = await Helper.getDownloadPath();
+            String path = await TocHelper.getDownloadPath();
             String fileName = url.split('/').last;
             String filePath = '${path}/$fileName';
 

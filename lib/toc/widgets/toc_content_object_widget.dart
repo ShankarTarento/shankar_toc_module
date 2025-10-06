@@ -50,7 +50,7 @@ class TocContentObjectWidget extends StatelessWidget {
           : EdgeInsets.zero,
       child: Container(
         decoration: BoxDecoration(
-          color: AppColors.appBarBackground,
+          color: TocModuleColors.appBarBackground,
         ),
         child: InkWell(
           onTap: () async {
@@ -108,7 +108,7 @@ class TocContentObjectWidget extends StatelessWidget {
                   showModalBottomSheet(
                           isScrollControlled: true,
                           context: context,
-                          backgroundColor: AppColors.greys60,
+                          backgroundColor: TocModuleColors.greys60,
                           builder: (ctx) => RateNowPopUp(courseDetails: course))
                       .whenComplete(() => InAppReviewRespository()
                           .triggerInAppReviewPopup(context));

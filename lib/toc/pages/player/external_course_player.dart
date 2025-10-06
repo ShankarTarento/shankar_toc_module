@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:karmayogi_mobile/constants/index.dart';
 
 class ExternalCoursePlayer extends StatefulWidget {
   final String url;
@@ -47,11 +47,11 @@ class _ExternalCoursePlayerState extends State<ExternalCoursePlayer> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
-        foregroundColor: AppColors.greys87,
-        backgroundColor: AppColors.appBarBackground,
+        foregroundColor: TocModuleColors.greys87,
+        backgroundColor: TocModuleColors.appBarBackground,
         leading: InkWell(
           onTap: () => Navigator.of(widget.parentContext ?? context).pop(),
-          child: const BackButton(color: AppColors.greys60),
+          child: const BackButton(color: TocModuleColors.greys60),
         ),
       ),
       body: WebViewWidget(

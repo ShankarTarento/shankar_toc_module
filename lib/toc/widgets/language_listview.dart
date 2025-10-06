@@ -66,10 +66,11 @@ class _LanguageListViewState extends State<LanguageListView> {
                           EdgeInsets.symmetric(vertical: 6, horizontal: 8).r,
                       decoration: BoxDecoration(
                         color: item.value.selectedLanguage
-                            ? AppColors.appBarBackground
+                            ? TocModuleColors.appBarBackground
                             : null,
                         border: Border.all(
-                            color: AppColors.appBarBackground, width: 1.5),
+                            color: TocModuleColors.appBarBackground,
+                            width: 1.5),
                         borderRadius: BorderRadius.circular(70).r,
                       ),
                       child: Center(
@@ -80,8 +81,8 @@ class _LanguageListViewState extends State<LanguageListView> {
                             .headlineMedium!
                             .copyWith(
                                 color: item.value.selectedLanguage
-                                    ? AppColors.darkBlue
-                                    : AppColors.appBarBackground),
+                                    ? TocModuleColors.darkBlue
+                                    : TocModuleColors.appBarBackground),
                       )),
                     ),
                   )),
@@ -95,7 +96,7 @@ class _LanguageListViewState extends State<LanguageListView> {
                     padding: EdgeInsets.symmetric(vertical: 6, horizontal: 8).r,
                     decoration: BoxDecoration(
                       border: Border.all(
-                          color: AppColors.appBarBackground, width: 1.5),
+                          color: TocModuleColors.appBarBackground, width: 1.5),
                       borderRadius: BorderRadius.circular(70).r,
                     ),
                     child: Row(
@@ -105,7 +106,7 @@ class _LanguageListViewState extends State<LanguageListView> {
                             style: Theme.of(context).textTheme.displaySmall),
                         Icon(
                           Icons.keyboard_arrow_down_outlined,
-                          color: AppColors.appBarBackground,
+                          color: TocModuleColors.appBarBackground,
                         )
                       ],
                     ),

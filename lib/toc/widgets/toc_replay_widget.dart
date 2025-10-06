@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
-
-import '../../../../../constants/index.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
 
 class ReplayWidget extends StatefulWidget {
   final VoidCallback onPressed;
@@ -27,7 +26,7 @@ class _ReplayWidgetState extends State<ReplayWidget> {
         Container(
           padding: EdgeInsets.all(6).r,
           child: Text(
-            AppLocalizations.of(context) != null
+            TocLocalizations.of(context) != null
                 ? TocLocalizations.of(context)!.mReplay
                 : '',
             style: Theme.of(context).textTheme.labelSmall!.copyWith(
@@ -42,13 +41,13 @@ class _ReplayWidgetState extends State<ReplayWidget> {
           width: 50.w,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(63).r,
-            color: AppColors.greys87,
+            color: TocModuleColors.greys87,
           ),
           child: Center(
             child: Icon(
               Icons.replay,
               size: 24.sp,
-              color: AppColors.appBarBackground,
+              color: TocModuleColors.appBarBackground,
             ),
           ),
         )

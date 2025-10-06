@@ -36,7 +36,7 @@ class RateNowPopUp extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 30).r,
                   child: CircleAvatar(
                     radius: 12.r,
-                    backgroundColor: AppColors.grey40,
+                    backgroundColor: TocModuleColors.grey40,
                     child: GestureDetector(
                       onTap: () {
                         Navigator.pop(context);
@@ -44,7 +44,7 @@ class RateNowPopUp extends StatelessWidget {
                       child: Icon(
                         Icons.close,
                         size: 24.sp,
-                        color: AppColors.appBarBackground,
+                        color: TocModuleColors.appBarBackground,
                       ),
                     ),
                   ),
@@ -70,7 +70,7 @@ class RateNowPopUp extends StatelessWidget {
                   style: GoogleFonts.montserrat(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.appBarBackground,
+                    color: TocModuleColors.appBarBackground,
                   ),
                 ),
                 SizedBox(
@@ -82,11 +82,11 @@ class RateNowPopUp extends StatelessWidget {
                   style: GoogleFonts.montserrat(
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w400,
-                    color: AppColors.white70,
+                    color: TocModuleColors.white70,
                   ),
                 ),
                 Divider(
-                  color: AppColors.appBarBackground,
+                  color: TocModuleColors.appBarBackground,
                   height: 40.w,
                 ),
                 RatingBar.builder(
@@ -95,11 +95,11 @@ class RateNowPopUp extends StatelessWidget {
                   glow: false,
                   direction: Axis.horizontal,
                   itemCount: 5,
-                  unratedColor: AppColors.appBarBackground,
+                  unratedColor: TocModuleColors.appBarBackground,
                   itemPadding: EdgeInsets.symmetric(horizontal: 4.0).r,
                   itemBuilder: (context, _) => Icon(
                     Icons.star,
-                    color: AppColors.orangeBackground,
+                    color: TocModuleColors.orangeBackground,
                   ),
                   onRatingUpdate: (rating) {
                     //     print(rating);
@@ -119,7 +119,7 @@ class RateNowPopUp extends StatelessWidget {
                   style: GoogleFonts.montserrat(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.white70,
+                    color: TocModuleColors.white70,
                   ),
                 ),
               ],
@@ -149,7 +149,7 @@ class RateNowPopUp extends StatelessWidget {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(jsonDecode(response.body)['params']['errmsg']),
-          backgroundColor: AppColors.negativeLight,
+          backgroundColor: TocModuleColors.negativeLight,
         ),
       );
     }

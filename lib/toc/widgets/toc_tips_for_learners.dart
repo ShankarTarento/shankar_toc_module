@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:karmayogi_mobile/constants/_constants/color_constants.dart';
-import 'package:karmayogi_mobile/ui/widgets/_tips_for_learning/pages/view_all_tips.dart';
-import 'package:karmayogi_mobile/ui/widgets/_tips_for_learning/repository/tips_repository.dart';
-import 'package:karmayogi_mobile/ui/widgets/_tips_for_learning/widgets/tips_display_card.dart';
-import 'package:karmayogi_mobile/util/faderoute.dart';
+
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
 
 class TocTipsForLearner extends StatelessWidget {
@@ -44,12 +40,12 @@ class TocTipsForLearner extends StatelessWidget {
                       TocLocalizations.of(context)!.mCommonReadMore,
                       style: GoogleFonts.lato(
                           fontSize: 14.sp,
-                          color: AppColors.darkBlue,
+                          color: TocModuleColors.darkBlue,
                           fontWeight: FontWeight.w400),
                     ),
                     Icon(
                       Icons.chevron_right,
-                      color: AppColors.darkBlue,
+                      color: TocModuleColors.darkBlue,
                       size: 20,
                     )
                   ],

@@ -43,7 +43,7 @@ class _CertificateCompetencySubthemeState
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12).r,
                         border:
-                            Border.all(width: 1.w, color: AppColors.darkBlue)),
+                            Border.all(width: 1.w, color: TocModuleColors.darkBlue)),
                     child: Text(
                       subthemes.competencySubTheme,
                       maxLines: 1,

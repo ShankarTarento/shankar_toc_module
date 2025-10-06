@@ -51,10 +51,10 @@ class EnrollmentConfirmationForm extends StatelessWidget {
                   },
                   style: ButtonStyle(
                     backgroundColor: WidgetStateProperty.all<Color>(
-                        AppColors.appBarBackground),
+                        TocModuleColors.appBarBackground),
                     shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
-                        side: BorderSide(color: AppColors.darkBlue),
+                        side: BorderSide(color: TocModuleColors.darkBlue),
                         borderRadius: BorderRadius.circular(63.0).r,
                       ),
                     ),
@@ -74,8 +74,8 @@ class EnrollmentConfirmationForm extends StatelessWidget {
                     enrollParentAction("Confirm");
                   },
                   style: ButtonStyle(
-                    backgroundColor:
-                        WidgetStateProperty.all<Color>(AppColors.darkBlue),
+                    backgroundColor: WidgetStateProperty.all<Color>(
+                        TocModuleColors.darkBlue),
                     shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(63.0).r,

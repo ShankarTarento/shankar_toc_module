@@ -24,6 +24,8 @@ class PrimaryCategory {
   static const String referenceResource = "Reference Resource";
   static const String comprehensiveAssessmentProgram =
       "Comprehensive Assessment Program";
+  static const String multilingualCourse = 'Multilingual Course';
+
   static List<String> programCategoriesList = [
     PrimaryCategory.comprehensiveAssessmentProgram.toLowerCase(),
     PrimaryCategory.curatedProgram.toLowerCase(),

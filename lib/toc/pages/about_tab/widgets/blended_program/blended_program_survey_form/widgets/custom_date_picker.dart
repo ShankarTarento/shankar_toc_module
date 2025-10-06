@@ -137,9 +137,9 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
                             fillColor: WidgetStateProperty.resolveWith<Color>(
                               (Set<WidgetState> states) {
                                 if (states.contains(WidgetState.selected)) {
-                                  return AppColors.darkBlue;
+                                  return TocModuleColors.darkBlue;
                                 }
-                                return AppColors.black40;
+                                return TocModuleColors.black40;
                               },
                             ),
                           ),
@@ -148,7 +148,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
                             style: GoogleFonts.lato(
                               fontSize: 14.0.sp,
                               fontWeight: FontWeight.w700,
-                              color: AppColors.greys60,
+                              color: TocModuleColors.greys60,
                             ),
                           ),
                         ],

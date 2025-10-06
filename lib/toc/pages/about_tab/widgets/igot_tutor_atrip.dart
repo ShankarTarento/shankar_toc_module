@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:karmayogi_mobile/constants/index.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
-import 'package:karmayogi_mobile/localization/_langs/english_lang.dart';
-import 'package:karmayogi_mobile/models/_arguments/toc_player_model.dart';
-import 'package:karmayogi_mobile/models/_models/batch_model.dart';
-import 'package:karmayogi_mobile/models/_models/course_model.dart';
-import 'package:karmayogi_mobile/respositories/_respositories/learn_repository.dart';
-import 'package:karmayogi_mobile/ui/widgets/igot_ai/ai_widgets/ai_bot_icon.dart';
-import 'package:karmayogi_mobile/util/telemetry_repository.dart';
-
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/constants/toc_constants.dart';
+import 'package:toc_module/toc/model/batch_model.dart';
+import 'package:toc_module/toc/model/course_model.dart';
+import 'package:toc_module/toc/model/toc_player_model.dart';
+import 'package:toc_module/toc/screen/toc_player_screen.dart';
 import '../../../widgets/toc_button_widget.dart';
 
 class IgotTutorAtrip extends StatefulWidget {
@@ -60,7 +57,6 @@ class IgotTutorAtrip extends StatefulWidget {
 }
 
 class _IgotTutorAtripState extends State<IgotTutorAtrip> {
-  final LearnRepository learnRepository = LearnRepository();
   double progress = 0;
   bool isModeratedMultiBatchCourse = false;
   Course? enrolledCourse;
@@ -101,7 +97,7 @@ class _IgotTutorAtripState extends State<IgotTutorAtrip> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8).r,
         gradient: LinearGradient(
-          colors: [AppColors.primaryOne, AppColors.darkBlue],
+          colors: [TocModuleColors.primaryOne, TocModuleColors.darkBlue],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -110,7 +106,7 @@ class _IgotTutorAtripState extends State<IgotTutorAtrip> {
         padding: EdgeInsets.all(8).r,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8).r,
-          color: AppColors.appBarBackground,
+          color: TocModuleColors.appBarBackground,
         ),
         child: Row(
           children: [
@@ -143,9 +139,6 @@ class _IgotTutorAtripState extends State<IgotTutorAtrip> {
             Spacer(),
             InkWell(
               onTap: () {
-                _generateInteractTelemetryData(
-                  contentId: widget.courseId,
-                );
                 widget.isEnrolled
                     ? enrolledCourse?.batchId != null
                         ? navigateToContent(
@@ -159,7 +152,10 @@ class _IgotTutorAtripState extends State<IgotTutorAtrip> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(80).r,
                   gradient: LinearGradient(
-                    colors: [AppColors.primaryOne, AppColors.darkBlue],
+                    colors: [
+                      TocModuleColors.primaryOne,
+                      TocModuleColors.darkBlue
+                    ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
@@ -167,7 +163,7 @@ class _IgotTutorAtripState extends State<IgotTutorAtrip> {
                 child: Container(
                   padding: EdgeInsets.all(4).r,
                   decoration: BoxDecoration(
-                    color: AppColors.appBarBackground,
+                    color: TocModuleColors.appBarBackground,
                     borderRadius: BorderRadius.circular(80).r,
                   ),
                   child: Row(
@@ -179,7 +175,7 @@ class _IgotTutorAtripState extends State<IgotTutorAtrip> {
                       Text(
                         TocLocalizations.of(context)!.mAiTutor,
                         style: GoogleFonts.lato(
-                            color: AppColors.darkBlue,
+                            color: TocModuleColors.darkBlue,
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w600),
                         maxLines: 1,
@@ -216,9 +212,9 @@ class _IgotTutorAtripState extends State<IgotTutorAtrip> {
                   height: 16.w,
                 ),
                 Text(
-                  AppLocalizations.of(parentContext)!.mRememberToUseAiTutor,
+                  TocLocalizations.of(parentContext)!.mRememberToUseAiTutor,
                   style: GoogleFonts.lato(
-                      color: AppColors.darkBlue, fontSize: 15.sp),
+                      color: TocModuleColors.darkBlue, fontSize: 15.sp),
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(
@@ -231,19 +227,20 @@ class _IgotTutorAtripState extends State<IgotTutorAtrip> {
                       width: 0.3.sw,
                       child: ElevatedButton(
                         child: Text(
-                          AppLocalizations.of(parentContext)!.mStaticCancel,
-                          style: GoogleFonts.lato(color: AppColors.darkBlue),
+                          TocLocalizations.of(parentContext)!.mStaticCancel,
+                          style:
+                              GoogleFonts.lato(color: TocModuleColors.darkBlue),
                         ),
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
                         style: ElevatedButton.styleFrom(
                           elevation: 0,
-                          backgroundColor: AppColors.appBarBackground,
+                          backgroundColor: TocModuleColors.appBarBackground,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(40.0),
                             side: BorderSide(
-                              color: AppColors.darkBlue,
+                              color: TocModuleColors.darkBlue,
                               width: 1,
                             ),
                           ),
@@ -255,7 +252,7 @@ class _IgotTutorAtripState extends State<IgotTutorAtrip> {
                         child: TocButtonWidget(
                           isStandAloneAssesment:
                               widget.courseDetails.courseCategory ==
-                                  EnglishLang.standaloneAssessment,
+                                  PrimaryCategory.standaloneAssessment,
                           courseDetails: widget.courseDetails,
                           navigationItems: widget.navigationItems,
                           courseId: widget.courseId,
@@ -286,19 +283,20 @@ class _IgotTutorAtripState extends State<IgotTutorAtrip> {
   }
 
   navigateToContent({required String batchId, List? navigationItems}) async {
-    await Navigator.pushNamed(
-      context,
-      AppUrl.tocPlayer,
-      arguments: TocPlayerModel(
-          enrolledCourse: enrolledCourse,
-          navigationItems: navigationItems,
-          isCuratedProgram: widget.isCuratedProgram,
-          batchId: batchId,
-          lastAccessContentId: widget.lastAccessContentId,
-          courseId: widget.courseId,
-          isFeatured: widget.isFeatured,
-          enrollmentList: enrollmentList),
-    );
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => TocPlayerScreen(
+                  arguments: TocPlayerModel(
+                      enrolledCourse: enrolledCourse,
+                      navigationItems: navigationItems,
+                      isCuratedProgram: widget.isCuratedProgram,
+                      batchId: batchId,
+                      lastAccessContentId: widget.lastAccessContentId,
+                      courseId: widget.courseId,
+                      isFeatured: widget.isFeatured,
+                      enrollmentList: enrollmentList),
+                )));
 
     widget.readCourseProgress();
   }
@@ -329,17 +327,5 @@ class _IgotTutorAtripState extends State<IgotTutorAtrip> {
     } else {
       return 0;
     }
-  }
-
-  void _generateInteractTelemetryData(
-      {String? contentId, String? subType}) async {
-    var telemetryRepository = TelemetryRepository();
-    Map eventData = telemetryRepository.getInteractTelemetryEvent(
-        pageIdentifier: TelemetryPageIdentifier.learnPageId,
-        contentId: contentId ?? "",
-        subType: subType ?? "",
-        clickId: TelemetryIdentifier.aiTutorTocPage,
-        env: TelemetryEnv.learn);
-    await telemetryRepository.insertEvent(eventData: eventData);
   }
 }

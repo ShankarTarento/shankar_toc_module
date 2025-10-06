@@ -57,4 +57,15 @@ class NetworkHeaders {
     };
     return headers;
   }
+
+  static Map<String, String> publicHeaders(
+      {bool pointToProd = false, required String apiKey}) {
+    Map<String, String> headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json; charset=utf-8',
+      'Authorization': 'bearer $apiKey',
+      'rootorg': 'igot'
+    };
+    return headers;
+  }
 }

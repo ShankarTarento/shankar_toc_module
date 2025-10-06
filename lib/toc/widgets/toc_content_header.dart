@@ -36,7 +36,7 @@ class TocContentHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.darkBlue,
+      color: TocModuleColors.darkBlue,
       child: ListView(
         shrinkWrap: true,
         children: [
@@ -48,15 +48,15 @@ class TocContentHeader extends StatelessWidget {
             child: ListView(shrinkWrap: true, children: <Widget>[
               PrimaryCategoryWidget(
                 contentType: course.courseCategory,
-                bgColor: AppColors.black40,
-                textColor: AppColors.appBarBackground,
+                bgColor: TocModuleColors.black40,
+                textColor: TocModuleColors.appBarBackground,
                 addedMargin: true,
               ),
               SizedBox(height: 12.w),
               Text(
                 course.name,
                 style: GoogleFonts.montserrat(
-                    color: AppColors.appBarBackground,
+                    color: TocModuleColors.appBarBackground,
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w700,
                     letterSpacing: 0.12),
@@ -71,7 +71,7 @@ class TocContentHeader extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                       height: 1.429.w,
                       fontSize: 14.sp,
-                      color: AppColors.white70,
+                      color: TocModuleColors.white70,
                       letterSpacing: 0.25,
                     ),
                 maxLines: 2,
@@ -108,7 +108,7 @@ class TocContentHeader extends StatelessWidget {
                 style: Theme.of(context).textTheme.labelSmall!.copyWith(
                       fontSize: 12.sp,
                       height: 1.333.w,
-                      color: AppColors.white70,
+                      color: TocModuleColors.white70,
                       letterSpacing: 0.25,
                     ),
                 maxLines: 2,
@@ -132,7 +132,7 @@ class TocContentHeader extends StatelessWidget {
                   margin: EdgeInsets.only(left: 16, right: 16, bottom: 16).r,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16).r,
-                      color: AppColors.whiteGradientOne),
+                      color: TocModuleColors.whiteGradientOne),
                   padding: EdgeInsets.symmetric(horizontal: 16).r,
                   child: Row(
                     children: [
@@ -157,7 +157,8 @@ class TocContentHeader extends StatelessWidget {
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyLarge!
-                                            .copyWith(color: AppColors.greys)),
+                                            .copyWith(
+                                                color: TocModuleColors.greys)),
                                     SizedBox(height: 8.w),
                                     Text(
                                         TocLocalizations.of(context)!
@@ -165,7 +166,8 @@ class TocContentHeader extends StatelessWidget {
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyMedium!
-                                            .copyWith(color: AppColors.grey84))
+                                            .copyWith(
+                                                color: TocModuleColors.grey84))
                                   ]),
                             ),
                             Padding(
@@ -202,15 +204,19 @@ class TocContentHeader extends StatelessWidget {
                                                         isVisible: true,
                                                         padding: 16,
                                                         titleColor:
-                                                            AppColors.deepBlue,
-                                                        borderColor:
-                                                            AppColors.grey16,
+                                                            TocModuleColors
+                                                                .deepBlue,
+                                                        borderColor: TocModuleColors
+                                                            .grey16,
                                                         submitBtnColor:
-                                                            AppColors.darkBlue,
-                                                        submitTextColor: AppColors
-                                                            .appBarBackground,
+                                                            TocModuleColors
+                                                                .darkBlue,
+                                                        submitTextColor:
+                                                            TocModuleColors
+                                                                .appBarBackground,
                                                         cancelBtnColor:
-                                                            AppColors.darkBlue,
+                                                            TocModuleColors
+                                                                .darkBlue,
                                                         textFieldFillColor:
                                                             Colors.transparent,
                                                         submitPressed:

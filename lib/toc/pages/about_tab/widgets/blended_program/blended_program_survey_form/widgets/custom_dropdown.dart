@@ -50,13 +50,13 @@ class _CustomDropDownState extends State<CustomDropDown> {
           child: DropdownButtonFormField2<String>(
             isExpanded: true,
             decoration: InputDecoration(
-              fillColor: AppColors.appBarBackground,
+              fillColor: TocModuleColors.appBarBackground,
               contentPadding: const EdgeInsets.only(bottom: 6).r,
               border: OutlineInputBorder(
-                  borderSide: BorderSide(color: AppColors.grey16),
+                  borderSide: BorderSide(color: TocModuleColors.grey16),
                   borderRadius: BorderRadius.circular(5).r),
               enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: AppColors.grey16),
+                  borderSide: BorderSide(color: TocModuleColors.grey16),
                   borderRadius: BorderRadius.circular(5).r),
               filled: true,
             ),
@@ -82,8 +82,8 @@ class _CustomDropDownState extends State<CustomDropDown> {
                             Helper.capitalize(item),
                             style: GoogleFonts.lato(
                               color: widget.value == item
-                                  ? AppColors.darkBlue
-                                  : AppColors.greys,
+                                  ? TocModuleColors.darkBlue
+                                  : TocModuleColors.greys,
                               fontSize: 14.sp,
                               fontWeight: widget.value == item
                                   ? FontWeight.w600
@@ -102,7 +102,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
               });
             },
             style: GoogleFonts.lato(
-                color: AppColors.greys,
+                color: TocModuleColors.greys,
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w400),
             buttonStyleData: ButtonStyleData(
@@ -114,7 +114,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
                 padding: const EdgeInsets.symmetric(horizontal: 10).r,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5).r,
-                    border: Border.all(color: AppColors.grey16))),
+                    border: Border.all(color: TocModuleColors.grey16))),
             menuItemStyleData:
                 const MenuItemStyleData(padding: EdgeInsets.all(0)),
             hint: Text(TocLocalizations.of(context)!.mStaticSelectHere),
@@ -161,9 +161,9 @@ class _CustomDropDownState extends State<CustomDropDown> {
                       fillColor: WidgetStateProperty.resolveWith<Color>(
                         (Set<WidgetState> states) {
                           if (states.contains(WidgetState.selected)) {
-                            return AppColors.darkBlue;
+                            return TocModuleColors.darkBlue;
                           }
-                          return AppColors.black40;
+                          return TocModuleColors.black40;
                         },
                       ),
                     ),
@@ -172,7 +172,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
                       style: GoogleFonts.lato(
                         fontSize: 14.0.sp,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.greys60,
+                        color: TocModuleColors.greys60,
                       ),
                     ),
                   ],

@@ -78,7 +78,7 @@ class _VerifyPhoneFieldState extends State<VerifyPhoneField> {
               TextSpan(
                 text: TocLocalizations.of(context)!.mRegistermobileNumber,
                 style: GoogleFonts.lato(
-                  color: AppColors.greys87,
+                  color: TocModuleColors.greys87,
                   fontWeight: FontWeight.w700,
                   height: 1.5.w,
                   letterSpacing: 0.25,
@@ -88,7 +88,7 @@ class _VerifyPhoneFieldState extends State<VerifyPhoneField> {
               TextSpan(
                 text: ' *',
                 style: TextStyle(
-                  color: AppColors.mandatoryRed,
+                  color: TocModuleColors.mandatoryRed,
                   fontWeight: FontWeight.w700,
                   fontSize: 14.sp,
                 ),
@@ -117,11 +117,11 @@ class _VerifyPhoneFieldState extends State<VerifyPhoneField> {
           Icon(
             Icons.edit,
             size: 18.sp,
-            color: AppColors.darkBlue,
+            color: TocModuleColors.darkBlue,
           ),
           Text(TocLocalizations.of(context)!.mStaticEdit,
               style: GoogleFonts.lato(
-                  color: AppColors.darkBlue,
+                  color: TocModuleColors.darkBlue,
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w600)),
         ],
@@ -175,8 +175,8 @@ class _VerifyPhoneFieldState extends State<VerifyPhoneField> {
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: _freezeMobileField
-                      ? AppColors.grey04
-                      : AppColors.appBarBackground,
+                      ? TocModuleColors.grey04
+                      : TocModuleColors.appBarBackground,
                   counterText: '',
                   suffixIcon:
                       _isMobileNumberVerified || _mobileNumberFocus.hasFocus
@@ -192,17 +192,17 @@ class _VerifyPhoneFieldState extends State<VerifyPhoneField> {
                                   },
                                   child: Icon(
                                     Icons.close,
-                                    color: AppColors.greys60,
+                                    color: TocModuleColors.greys60,
                                   ),
                                 )
                               : Icon(
                                   Icons.check_circle,
-                                  color: AppColors.positiveLight,
+                                  color: TocModuleColors.positiveLight,
                                 )
                           : null,
                   contentPadding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0).r,
                   border: OutlineInputBorder(
-                      borderSide: BorderSide(color: AppColors.grey08)),
+                      borderSide: BorderSide(color: TocModuleColors.grey08)),
                   hintText: TocLocalizations.of(context)!.mStaticMobileNumber,
                   helperText: (_isMobileNumberVerified ||
                           (_mobileNoController.text.trim().length == 10 &&
@@ -212,15 +212,15 @@ class _VerifyPhoneFieldState extends State<VerifyPhoneField> {
                       : TocLocalizations.of(context)!
                           .mStaticPleaseAddValidNumber,
                   hintStyle: GoogleFonts.lato(
-                      color: AppColors.grey40,
+                      color: TocModuleColors.grey40,
                       fontSize: 14.0.sp,
                       fontWeight: FontWeight.w400),
                   enabled: !_freezeMobileField,
                   enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: AppColors.grey16)),
+                      borderSide: BorderSide(color: TocModuleColors.grey16)),
                   focusedBorder: OutlineInputBorder(
-                    borderSide:
-                        const BorderSide(color: AppColors.darkBlue, width: 1.0),
+                    borderSide: const BorderSide(
+                        color: TocModuleColors.darkBlue, width: 1.0),
                   ),
                 ),
               ),
@@ -275,21 +275,23 @@ class _VerifyPhoneFieldState extends State<VerifyPhoneField> {
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         filled: true,
-                        fillColor: AppColors.appBarBackground,
+                        fillColor: TocModuleColors.appBarBackground,
                         contentPadding:
                             EdgeInsets.fromLTRB(16.0, 0.0, 20.0, 0.0).r,
                         border: OutlineInputBorder(
-                            borderSide: BorderSide(color: AppColors.grey16)),
+                            borderSide:
+                                BorderSide(color: TocModuleColors.grey16)),
                         enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: AppColors.grey16)),
+                            borderSide:
+                                BorderSide(color: TocModuleColors.grey16)),
                         hintText: TocLocalizations.of(context)!.mStaticEnterOtp,
                         hintStyle: GoogleFonts.lato(
-                            color: AppColors.grey40,
+                            color: TocModuleColors.grey40,
                             fontSize: 14.0.sp,
                             fontWeight: FontWeight.w400),
                         focusedBorder: OutlineInputBorder(
                           borderSide: const BorderSide(
-                              color: AppColors.darkBlue, width: 1.0),
+                              color: TocModuleColors.darkBlue, width: 1.0),
                         ),
                       ),
                     ),
@@ -298,7 +300,7 @@ class _VerifyPhoneFieldState extends State<VerifyPhoneField> {
                 width: 0.4.sw,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.darkBlue,
+                    backgroundColor: TocModuleColors.darkBlue,
                     minimumSize: const Size.fromHeight(48),
                   ),
                   onPressed: () async {
@@ -310,7 +312,7 @@ class _VerifyPhoneFieldState extends State<VerifyPhoneField> {
                         height: 1.429.w,
                         letterSpacing: 0.5,
                         fontSize: 14.sp,
-                        color: AppColors.appBarBackground,
+                        color: TocModuleColors.appBarBackground,
                         fontWeight: FontWeight.w700),
                   ),
                 ),
@@ -325,7 +327,7 @@ class _VerifyPhoneFieldState extends State<VerifyPhoneField> {
                     '${TocLocalizations.of(context)!.mRegisterresendOTPAfter} $_timeFormat',
                     style: GoogleFonts.lato(
                       fontSize: 14.sp,
-                      color: AppColors.darkBlue,
+                      color: TocModuleColors.darkBlue,
                     ),
                   ),
                 )
@@ -376,7 +378,7 @@ class _VerifyPhoneFieldState extends State<VerifyPhoneField> {
               style: GoogleFonts.lato(
                   fontWeight: FontWeight.w700,
                   fontSize: 14.sp,
-                  color: AppColors.darkBlue),
+                  color: TocModuleColors.darkBlue),
             ),
           )),
     );
@@ -407,7 +409,7 @@ class _VerifyPhoneFieldState extends State<VerifyPhoneField> {
             padding: EdgeInsets.only(top: 8).w,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.darkBlue,
+                backgroundColor: TocModuleColors.darkBlue,
                 minimumSize: const Size.fromHeight(48),
               ),
               onPressed: _mobileNoController.text.trim().length == 10
@@ -421,7 +423,7 @@ class _VerifyPhoneFieldState extends State<VerifyPhoneField> {
                     height: 1.429.w,
                     letterSpacing: 0.5,
                     fontSize: 14.sp,
-                    color: AppColors.appBarBackground,
+                    color: TocModuleColors.appBarBackground,
                     fontWeight: FontWeight.w700),
               ),
             ),
@@ -436,7 +438,7 @@ class _VerifyPhoneFieldState extends State<VerifyPhoneField> {
         .generateMobileNumberOTP(_mobileNoController.text);
     if (response == '') {
       _showSnackBar(TocLocalizations.of(context)!.mStaticOtpSentToMobile,
-          AppColors.positiveLight);
+          TocModuleColors.positiveLight);
       setState(() {
         _hasSendOTPRequest = true;
         _freezeMobileField = true;
@@ -447,7 +449,7 @@ class _VerifyPhoneFieldState extends State<VerifyPhoneField> {
       FocusScope.of(context).requestFocus(_otpFocus);
       _startTimer();
     } else {
-      _showSnackBar(response, AppColors.primaryTwo);
+      _showSnackBar(response, TocModuleColors.primaryTwo);
     }
   }
 
@@ -456,7 +458,7 @@ class _VerifyPhoneFieldState extends State<VerifyPhoneField> {
         _mobileNoController.text, otp);
     if (response == '') {
       _showSnackBar(TocLocalizations.of(context)!.mStaticMobileVerifiedMessage,
-          AppColors.positiveLight);
+          TocModuleColors.positiveLight);
       setState(() {
         _hasSendOTPRequest = false;
         _isMobileNumberVerified = true;
@@ -466,7 +468,7 @@ class _VerifyPhoneFieldState extends State<VerifyPhoneField> {
         _timer?.cancel();
       });
     } else {
-      _showSnackBar(response, AppColors.primaryTwo);
+      _showSnackBar(response, TocModuleColors.primaryTwo);
       widget.mobileNumber(_mobileNoController.text);
     }
     setState(() {
@@ -490,7 +492,7 @@ class _VerifyPhoneFieldState extends State<VerifyPhoneField> {
           child: Text(
             message,
             style: GoogleFonts.lato(
-                color: AppColors.appBarBackground,
+                color: TocModuleColors.appBarBackground,
                 fontSize: 13.sp,
                 decoration: TextDecoration.none),
             textAlign: TextAlign.center,

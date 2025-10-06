@@ -25,8 +25,8 @@ class LinearProgressIndicatorWidget extends StatelessWidget {
           '${(value * 100).toInt()}%',
           style: GoogleFonts.lato(
               color: isExpnaded && isCourse
-                  ? AppColors.appBarBackground
-                  : AppColors.darkBlue,
+                  ? TocModuleColors.appBarBackground
+                  : TocModuleColors.darkBlue,
               fontWeight: FontWeight.w400,
               fontSize: 12.sp,
               letterSpacing: 0.25),
@@ -36,8 +36,10 @@ class LinearProgressIndicatorWidget extends StatelessWidget {
           width: 0.75.sw,
           child: LinearProgressIndicator(
             value: value,
-            backgroundColor: isExpnaded ? AppColors.white016 : AppColors.grey16,
-            valueColor: AlwaysStoppedAnimation<Color>(AppColors.orangeTourText),
+            backgroundColor:
+                isExpnaded ? TocModuleColors.white016 : TocModuleColors.grey16,
+            valueColor:
+                AlwaysStoppedAnimation<Color>(TocModuleColors.orangeTourText),
           ),
         ),
       ],

@@ -257,7 +257,7 @@ class CourseTocViewModel extends ChangeNotifier {
                       Icon(
                         Icons.translate,
                         size: 40.sp,
-                        color: AppColors.darkBlue,
+                        color: TocModuleColors.darkBlue,
                       ),
                       SizedBox(height: 16.w),
                       Text(
@@ -354,7 +354,7 @@ class CourseTocViewModel extends ChangeNotifier {
                                 Navigator.of(context).pop();
                               },
                               text: TocLocalizations.of(context)!.mLearnResume,
-                              bgColor: AppColors.darkBlue,
+                              bgColor: TocModuleColors.darkBlue,
                               textStyle:
                                   Theme.of(context).textTheme.displaySmall,
                               borderRadius: 4),
@@ -635,7 +635,7 @@ class CourseTocViewModel extends ChangeNotifier {
             isScrollControlled: true,
             isDismissible: false,
             enableDrag: false,
-            backgroundColor: AppColors.grey04.withValues(alpha: 0.4),
+            backgroundColor: TocModuleColors.grey04.withValues(alpha: 0.4),
             builder: (BuildContext context) {
               return SafeArea(
                 child: Padding(

@@ -236,7 +236,7 @@ class _PreTocPlayerScreenState extends State<PreTocPlayerScreen>
                 !fullScreen
                     ? Column(children: [
                         Container(
-                          color: AppColors.greys87,
+                          color: TocModuleColors.greys87,
                           width: 1.sw,
                           child: ClipRRect(
                             borderRadius: BorderRadius.only(
@@ -245,22 +245,23 @@ class _PreTocPlayerScreenState extends State<PreTocPlayerScreen>
                             ).r,
                             child: Container(
                               padding: EdgeInsets.only(top: 4).r,
-                              color: AppColors.appBarBackground,
+                              color: TocModuleColors.appBarBackground,
                               child: TabBar(
                                 tabAlignment: TabAlignment.start,
                                 isScrollable: true,
                                 indicator: BoxDecoration(
                                   border: Border(
                                     bottom: BorderSide(
-                                      color: AppColors.darkBlue,
+                                      color: TocModuleColors.darkBlue,
                                       width: 2.0.w,
                                     ),
                                   ),
                                 ),
-                                indicatorColor: AppColors.appBarBackground,
+                                indicatorColor:
+                                    TocModuleColors.appBarBackground,
                                 labelPadding: EdgeInsets.only(top: 0.0).r,
-                                unselectedLabelColor: AppColors.greys60,
-                                labelColor: AppColors.darkBlue,
+                                unselectedLabelColor: TocModuleColors.greys60,
+                                labelColor: TocModuleColors.darkBlue,
                                 labelStyle: Theme.of(context)
                                     .textTheme
                                     .titleSmall!
@@ -285,7 +286,7 @@ class _PreTocPlayerScreenState extends State<PreTocPlayerScreen>
                                           child: Text(
                                             tabItem.title,
                                             style: GoogleFonts.lato(
-                                              color: AppColors.greys87,
+                                              color: TocModuleColors.greys87,
                                               fontSize: 14.0.sp,
                                               fontWeight: FontWeight.w700,
                                             ),
@@ -354,8 +355,8 @@ class _PreTocPlayerScreenState extends State<PreTocPlayerScreen>
           width: 1.sw,
           color: (progress * 100).toInt() ==
                   TocConstants.COURSE_COMPLETION_PERCENTAGE
-              ? AppColors.deepBlue
-              : AppColors.appBarBackground,
+              ? TocModuleColors.deepBlue
+              : TocModuleColors.appBarBackground,
           child: CourseProgressWidget(progress: progress, width: 200.w));
     });
   }
@@ -574,7 +575,7 @@ class _PreTocPlayerScreenState extends State<PreTocPlayerScreen>
                               padding: EdgeInsets.all(16).r,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(12).r,
-                                  color: AppColors.positiveLight),
+                                  color: TocModuleColors.positiveLight),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
@@ -585,7 +586,7 @@ class _PreTocPlayerScreenState extends State<PreTocPlayerScreen>
                                         TocLocalizations.of(context)!
                                             .mContentSharePageSuccessMessage,
                                         fontSize: 14.sp,
-                                        color: AppColors.appBarBackground,
+                                        color: TocModuleColors.appBarBackground,
                                         maxLines: 3,
                                       ),
                                     ),
@@ -596,7 +597,7 @@ class _PreTocPlayerScreenState extends State<PreTocPlayerScreen>
                                             .r,
                                     child: Icon(
                                       Icons.check,
-                                      color: AppColors.appBarBackground,
+                                      color: TocModuleColors.appBarBackground,
                                       size: 24.sp,
                                     ),
                                   ),

@@ -2,14 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
-import 'package:karmayogi_mobile/constants/_constants/learn_compatibility_constants.dart';
-import 'package:karmayogi_mobile/models/index.dart';
-import 'package:karmayogi_mobile/ui/pages/index.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/constants/learn_compatability_constants.dart';
+import 'package:toc_module/toc/constants/toc_constants.dart';
+import 'package:toc_module/toc/model/course_hierarchy_model.dart';
+import 'package:toc_module/toc/pages/player/toc_player_in_new_screen.dart';
+import 'package:toc_module/toc/pages/player/toc_player_pdf_screen.dart';
+import 'package:toc_module/toc/resource_players/course_assessment_player.dart';
+import 'package:toc_module/toc/resource_players/course_audio_player.dart';
+import 'package:toc_module/toc/resource_players/course_html_player.dart';
+import 'package:toc_module/toc/resource_players/course_pdf_player.dart';
+import 'package:toc_module/toc/resource_players/course_video_player.dart';
+import 'package:toc_module/toc/resource_players/course_youtube_player.dart';
 
-import '../../../../../../constants/index.dart';
-import '../../../../../../feedback/pages/_pages/_cbpSurvey/content_feedback.dart';
-import '../../../../../widgets/index.dart';
-import '../../../../../widgets/_learn/_contentPlayers/course_youtube_player.dart';
 import '../update_message.dart';
 
 class TocContentPlayer extends StatelessWidget {
@@ -165,7 +170,7 @@ class TocContentPlayer extends StatelessWidget {
                                                         100
                                                 ? Center(
                                                     child: Text(
-                                                        AppLocalizations.of(
+                                                        TocLocalizations.of(
                                                                 context)!
                                                             .mSurveySubmitted,
                                                         textAlign:
@@ -174,7 +179,7 @@ class TocContentPlayer extends StatelessWidget {
                                                             .textTheme
                                                             .headlineSmall!
                                                             .copyWith(
-                                                                color: AppColors
+                                                                color: TocModuleColors
                                                                     .appBarBackground)),
                                                   )
                                                 : TocPlayerInNewScreen(
@@ -226,7 +231,7 @@ class TocContentPlayer extends StatelessWidget {
                                             //     textAlign: TextAlign.center,
                                             //     style: GoogleFonts.lato(
                                             //         height: 1.5,
-                                            //         color: AppColors.greys87,
+                                            //         color: TocModuleColors.greys87,
                                             //         fontSize: 16,
                                             //         fontWeight: FontWeight.w400),
                                             //   ))
@@ -241,7 +246,7 @@ class TocContentPlayer extends StatelessWidget {
                                                               32, 16, 32, 8)
                                                           .r,
                                                       child: Text(
-                                                        AppLocalizations.of(
+                                                        TocLocalizations.of(
                                                                 context)!
                                                             .mDoSignInOrRegisterMessage,
                                                         textAlign:
@@ -286,7 +291,7 @@ class TocContentPlayer extends StatelessWidget {
                                                               32, 16, 32, 8)
                                                           .r,
                                                       child: Text(
-                                                        AppLocalizations.of(
+                                                        TocLocalizations.of(
                                                                 context)!
                                                             .mCourseTapOnAssessment,
                                                         textAlign:
@@ -294,7 +299,7 @@ class TocContentPlayer extends StatelessWidget {
                                                         style: GoogleFonts.lato(
                                                           fontWeight:
                                                               FontWeight.w500,
-                                                          color: AppColors
+                                                          color: TocModuleColors
                                                               .appBarBackground,
                                                           fontSize: 16.sp,
                                                         ),

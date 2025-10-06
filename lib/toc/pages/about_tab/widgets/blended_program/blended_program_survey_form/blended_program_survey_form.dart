@@ -122,7 +122,7 @@ class _BlendedProgramSurveyFormState extends State<BlendedProgramSurveyForm> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.appBarBackground,
+      color: TocModuleColors.appBarBackground,
       child: Padding(
         padding: const EdgeInsets.only(left: 16, right: 16).r,
         child: SingleChildScrollView(
@@ -173,7 +173,7 @@ class _BlendedProgramSurveyFormState extends State<BlendedProgramSurveyForm> {
                                     ),
                                     Divider(
                                       thickness: 1,
-                                      color: AppColors.grey24,
+                                      color: TocModuleColors.grey24,
                                       height: 20.w,
                                     ),
                                   ],
@@ -210,10 +210,10 @@ class _BlendedProgramSurveyFormState extends State<BlendedProgramSurveyForm> {
                                         borderRadius:
                                             BorderRadius.circular(4.0).r,
                                         side: BorderSide(
-                                            color: AppColors.darkBlue,
+                                            color: TocModuleColors.darkBlue,
                                             width: 1.5.w))),
                             backgroundColor: WidgetStateProperty.all<Color>(
-                                AppColors.appBarBackground),
+                                TocModuleColors.appBarBackground),
                           ),
                           child: Text(
                             EnglishLang.cancel,
@@ -243,10 +243,10 @@ class _BlendedProgramSurveyFormState extends State<BlendedProgramSurveyForm> {
                                         borderRadius:
                                             BorderRadius.circular(4.0).r,
                                         side: BorderSide(
-                                            color: AppColors.darkBlue,
+                                            color: TocModuleColors.darkBlue,
                                             width: 1.5.w))),
                             backgroundColor: WidgetStateProperty.all<Color>(
-                                AppColors.darkBlue),
+                                TocModuleColors.darkBlue),
                           ),
                           child: Text(
                             EnglishLang.confirm,
@@ -461,7 +461,7 @@ class _BlendedProgramSurveyFormState extends State<BlendedProgramSurveyForm> {
               ),
               Divider(
                 thickness: 1,
-                color: AppColors.grey24,
+                color: TocModuleColors.grey24,
               ),
             ],
           ),
@@ -469,10 +469,10 @@ class _BlendedProgramSurveyFormState extends State<BlendedProgramSurveyForm> {
 
       case QuestionType.separator:
         return Container(
-          color: AppColors.appBarBackground,
+          color: TocModuleColors.appBarBackground,
           child: Divider(
             thickness: 1,
-            color: AppColors.grey24,
+            color: TocModuleColors.grey24,
             height: 20,
           ),
         );
@@ -498,7 +498,7 @@ class _BlendedProgramSurveyFormState extends State<BlendedProgramSurveyForm> {
           child: Text(
             message,
             style: GoogleFonts.lato(
-                color: AppColors.appBarBackground,
+                color: TocModuleColors.appBarBackground,
                 fontSize: 13.sp,
                 decoration: TextDecoration.none),
             textAlign: TextAlign.center,
@@ -556,7 +556,7 @@ class _BlendedProgramSurveyFormState extends State<BlendedProgramSurveyForm> {
       } else {
         widget.enrollParentAction!('Failed');
         _showSnackBar(TocLocalizations.of(context)!.mStaticSomethingWrong,
-            AppColors.mandatoryRed);
+            TocModuleColors.mandatoryRed);
       }
 
       Navigator.pop(context);
@@ -564,7 +564,7 @@ class _BlendedProgramSurveyFormState extends State<BlendedProgramSurveyForm> {
       debugPrint("===============Form submitted");
     } else {
       _showSnackBar(TocLocalizations.of(context)!.mStaticPleaseFillAllMandatory,
-          AppColors.mandatoryRed);
+          TocModuleColors.mandatoryRed);
     }
   }
 

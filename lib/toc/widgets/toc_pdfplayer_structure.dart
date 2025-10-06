@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../../../../../constants/index.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
 
 class PDFStructureWidget extends StatefulWidget {
   const PDFStructureWidget({
@@ -35,13 +34,13 @@ class _PDFStructureWidgetState extends State<PDFStructureWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.scaffoldBackground,
+      backgroundColor: TocModuleColors.scaffoldBackground,
       body: SafeArea(
         child: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
               SliverAppBar(
-                backgroundColor: AppColors.appBarBackground,
+                backgroundColor: TocModuleColors.appBarBackground,
                 pinned: false,
                 automaticallyImplyLeading: false,
                 flexibleSpace: Row(
@@ -49,7 +48,7 @@ class _PDFStructureWidgetState extends State<PDFStructureWidget> {
                     IconButton(
                         icon: Icon(
                           Icons.close,
-                          color: AppColors.greys60,
+                          color: TocModuleColors.greys60,
                         ),
                         onPressed: () {
                           WidgetsBinding.instance
@@ -72,7 +71,7 @@ class _PDFStructureWidgetState extends State<PDFStructureWidget> {
                               overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.center,
                               style: GoogleFonts.lato(
-                                  color: AppColors.greys87,
+                                  color: TocModuleColors.greys87,
                                   fontSize: value ? 8.sp : 14.0.sp,
                                   fontWeight: FontWeight.w700,
                                   letterSpacing: 0.25),

@@ -292,7 +292,7 @@ class _TocPlayerScreenState extends State<TocPlayerScreen>
                                                 enrolledCourse:
                                                     enrolledCourse!),
                                           Container(
-                                            color: AppColors.greys87,
+                                            color: TocModuleColors.greys87,
                                             width: 1.sw,
                                             child: ClipRRect(
                                               borderRadius: BorderRadius.only(
@@ -302,8 +302,8 @@ class _TocPlayerScreenState extends State<TocPlayerScreen>
                                               child: Container(
                                                 padding:
                                                     EdgeInsets.only(top: 4).r,
-                                                color:
-                                                    AppColors.appBarBackground,
+                                                color: TocModuleColors
+                                                    .appBarBackground,
                                                 child: TabBar(
                                                   tabAlignment:
                                                       TabAlignment.start,
@@ -311,21 +311,22 @@ class _TocPlayerScreenState extends State<TocPlayerScreen>
                                                   indicator: BoxDecoration(
                                                     border: Border(
                                                       bottom: BorderSide(
-                                                        color:
-                                                            AppColors.darkBlue,
+                                                        color: TocModuleColors
+                                                            .darkBlue,
                                                         width: 2.0.w,
                                                       ),
                                                     ),
                                                   ),
-                                                  indicatorColor: AppColors
-                                                      .appBarBackground,
+                                                  indicatorColor:
+                                                      TocModuleColors
+                                                          .appBarBackground,
                                                   labelPadding:
                                                       EdgeInsets.only(top: 0.0)
                                                           .r,
                                                   unselectedLabelColor:
-                                                      AppColors.greys60,
+                                                      TocModuleColors.greys60,
                                                   labelColor:
-                                                      AppColors.darkBlue,
+                                                      TocModuleColors.darkBlue,
                                                   labelStyle: Theme.of(context)
                                                       .textTheme
                                                       .titleSmall!
@@ -746,7 +747,7 @@ class _TocPlayerScreenState extends State<TocPlayerScreen>
                               padding: EdgeInsets.all(16).r,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(12).r,
-                                  color: AppColors.positiveLight),
+                                  color: TocModuleColors.positiveLight),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
@@ -757,7 +758,7 @@ class _TocPlayerScreenState extends State<TocPlayerScreen>
                                         TocLocalizations.of(context)!
                                             .mContentSharePageSuccessMessage,
                                         fontSize: 14.sp,
-                                        color: AppColors.appBarBackground,
+                                        color: TocModuleColors.appBarBackground,
                                         maxLines: 3,
                                       ),
                                     ),
@@ -768,7 +769,7 @@ class _TocPlayerScreenState extends State<TocPlayerScreen>
                                             .r,
                                     child: Icon(
                                       Icons.check,
-                                      color: AppColors.appBarBackground,
+                                      color: TocModuleColors.appBarBackground,
                                       size: 24.sp,
                                     ),
                                   ),
@@ -917,7 +918,7 @@ class _TocPlayerScreenState extends State<TocPlayerScreen>
                       child: Text(
                         tabItem.title,
                         style: GoogleFonts.lato(
-                          color: AppColors.greys87,
+                          color: TocModuleColors.greys87,
                           fontSize: 14.0.sp,
                           fontWeight: FontWeight.w700,
                         ),
@@ -940,7 +941,7 @@ class _TocPlayerScreenState extends State<TocPlayerScreen>
                   child: Text(
                     tabItem.title,
                     style: GoogleFonts.lato(
-                      color: AppColors.greys87,
+                      color: TocModuleColors.greys87,
                       fontSize: 14.0.sp,
                       fontWeight: FontWeight.w700,
                     ),

@@ -1,9 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-import 'package:karmayogi_mobile/models/_models/transcription_data_model.dart';
-import 'package:karmayogi_mobile/services/_services/learn_service.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/transcript/model/transcript_model.dart';
+import 'package:toc_module/toc/model/transcription_response.dart';
+import 'package:toc_module/toc/pages/transcript/model/transcript_model.dart';
 
 class TranscriptRepository with ChangeNotifier {
   int _currentSecond = 0;

@@ -64,15 +64,17 @@ class _CustomTextFieldState extends State<CustomTextField> {
               contentPadding:
                   EdgeInsets.symmetric(vertical: 10.0, horizontal: 12.0).r,
               filled: true,
-              fillColor: AppColors.appBarBackground,
+              fillColor: TocModuleColors.appBarBackground,
               border: OutlineInputBorder(
-                  borderSide: BorderSide(width: 1, color: AppColors.grey16)),
+                  borderSide:
+                      BorderSide(width: 1, color: TocModuleColors.grey16)),
               enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(width: 1, color: AppColors.grey16)),
+                  borderSide:
+                      BorderSide(width: 1, color: TocModuleColors.grey16)),
               focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(
                 width: 1,
-                color: AppColors.darkBlue,
+                color: TocModuleColors.darkBlue,
               )),
               errorText: errorMessage,
             ),
@@ -118,9 +120,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
                             fillColor: WidgetStateProperty.resolveWith<Color>(
                               (Set<WidgetState> states) {
                                 if (states.contains(WidgetState.selected)) {
-                                  return AppColors.darkBlue;
+                                  return TocModuleColors.darkBlue;
                                 }
-                                return AppColors.black40;
+                                return TocModuleColors.black40;
                               },
                             ),
                           ),
@@ -129,7 +131,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                             style: GoogleFonts.lato(
                               fontSize: 14.0.sp,
                               fontWeight: FontWeight.w700,
-                              color: AppColors.greys60,
+                              color: TocModuleColors.greys60,
                             ),
                           ),
                         ],

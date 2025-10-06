@@ -57,12 +57,12 @@ class LanguageSelectionSheetState extends State<LanguageSelectionSheet> {
                     style: Theme.of(context)
                         .textTheme
                         .headlineSmall!
-                        .copyWith(color: AppColors.deepBlue),
+                        .copyWith(color: TocModuleColors.deepBlue),
                   ),
                   IconButton(
                     icon: const Icon(
                       Icons.close,
-                      color: AppColors.greys60,
+                      color: TocModuleColors.greys60,
                     ),
                     onPressed: () => Navigator.of(context).pop(),
                   ),
@@ -73,7 +73,7 @@ class LanguageSelectionSheetState extends State<LanguageSelectionSheet> {
               padding: const EdgeInsets.symmetric(horizontal: 16.0).r,
               child: const Divider(
                 height: 1,
-                color: AppColors.grey24,
+                color: TocModuleColors.grey24,
               ),
             ),
 
@@ -94,10 +94,10 @@ class LanguageSelectionSheetState extends State<LanguageSelectionSheet> {
                         style: Theme.of(context)
                             .textTheme
                             .titleMedium!
-                            .copyWith(color: AppColors.deepBlue)),
+                            .copyWith(color: TocModuleColors.deepBlue)),
                     value: option,
                     groupValue: selectedOption,
-                    activeColor: AppColors.darkBlue,
+                    activeColor: TocModuleColors.darkBlue,
                     onChanged: (value) {
                       setState(() {
                         selectedOption = value;
@@ -114,7 +114,8 @@ class LanguageSelectionSheetState extends State<LanguageSelectionSheet> {
               padding:
                   const EdgeInsets.symmetric(horizontal: 16, vertical: 8).r,
               decoration: BoxDecoration(
-                  border: Border(top: BorderSide(color: AppColors.grey24))),
+                  border:
+                      Border(top: BorderSide(color: TocModuleColors.grey24))),
               child: ButtonWithBorder(
                   onPressCallback: () {
                     if (selectedOption != null) {

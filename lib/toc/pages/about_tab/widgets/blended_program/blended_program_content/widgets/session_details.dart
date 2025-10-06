@@ -81,12 +81,12 @@ class _SessionDetailsState extends State<SessionDetails> {
               padding: const EdgeInsets.only(left: 8.0, right: 8).r,
               child: CircleAvatar(
                 radius: 1.r,
-                backgroundColor: AppColors.greys60,
+                backgroundColor: TocModuleColors.greys60,
               ),
             ),
             Icon(
               Icons.play_circle,
-              color: AppColors.greys60,
+              color: TocModuleColors.greys60,
             ),
             SizedBox(
               width: 6.w,
@@ -102,7 +102,7 @@ class _SessionDetailsState extends State<SessionDetails> {
               padding: const EdgeInsets.only(left: 8.0, right: 8).r,
               child: CircleAvatar(
                 radius: 1.r,
-                backgroundColor: AppColors.greys60,
+                backgroundColor: TocModuleColors.greys60,
               ),
             ),
             Text(
@@ -121,8 +121,8 @@ class _SessionDetailsState extends State<SessionDetails> {
           width: 1.sw,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8).r,
-            color: AppColors.orange32,
-            border: Border.all(color: AppColors.primaryOne),
+            color: TocModuleColors.orange32,
+            border: Border.all(color: TocModuleColors.primaryOne),
           ),
           child: Row(children: [
             SizedBox(

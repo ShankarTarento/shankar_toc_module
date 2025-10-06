@@ -133,27 +133,27 @@ class _ExternalCourseTOCState extends State<ExternalCourseTOC>
           return tocData.connectionState == ConnectionState.done &&
                   tocData.hasData
               ? Scaffold(
-                  backgroundColor: AppColors.darkBlue,
+                  backgroundColor: TocModuleColors.darkBlue,
                   body: NestedScrollView(
                       headerSliverBuilder:
                           (BuildContext context, innerBoxIsScrolled) {
                         return <Widget>[
                           SliverAppBar(
                             pinned: true,
-                            backgroundColor: AppColors.darkBlue,
+                            backgroundColor: TocModuleColors.darkBlue,
                             automaticallyImplyLeading: false,
                             leading: IconButton(
                               icon: Icon(
                                 Icons.arrow_back_ios,
                                 size: 24.sp,
-                                color: AppColors.appBarBackground,
+                                color: TocModuleColors.appBarBackground,
                               ),
                               onPressed: () => Navigator.pop(context),
                             ),
                           ),
                           SliverToBoxAdapter(
                             child: Container(
-                              color: AppColors.darkBlue,
+                              color: TocModuleColors.darkBlue,
                               child: Padding(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 16)
@@ -167,9 +167,9 @@ class _ExternalCourseTOCState extends State<ExternalCourseTOC>
                             automaticallyImplyLeading: false,
                             pinned: true,
                             toolbarHeight: 28.w,
-                            backgroundColor: AppColors.lightBackground,
+                            backgroundColor: TocModuleColors.lightBackground,
                             flexibleSpace: Container(
-                              color: AppColors.darkBlue,
+                              color: TocModuleColors.darkBlue,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(16.0).r,
@@ -177,22 +177,24 @@ class _ExternalCourseTOCState extends State<ExternalCourseTOC>
                                 ),
                                 child: Container(
                                   padding: EdgeInsets.only(top: 4).r,
-                                  color: AppColors.appBarBackground,
+                                  color: TocModuleColors.appBarBackground,
                                   child: TabBar(
                                     tabAlignment: TabAlignment.start,
                                     isScrollable: true,
                                     indicator: BoxDecoration(
                                       border: Border(
                                         bottom: BorderSide(
-                                          color: AppColors.darkBlue,
+                                          color: TocModuleColors.darkBlue,
                                           width: 2.0.w,
                                         ),
                                       ),
                                     ),
-                                    indicatorColor: AppColors.appBarBackground,
+                                    indicatorColor:
+                                        TocModuleColors.appBarBackground,
                                     labelPadding: EdgeInsets.only(top: 0.0).r,
-                                    unselectedLabelColor: AppColors.greys60,
-                                    labelColor: AppColors.darkBlue,
+                                    unselectedLabelColor:
+                                        TocModuleColors.greys60,
+                                    labelColor: TocModuleColors.darkBlue,
                                     labelStyle: Theme.of(context)
                                         .textTheme
                                         .titleSmall!
@@ -226,7 +228,8 @@ class _ExternalCourseTOCState extends State<ExternalCourseTOC>
                                               child: Text(
                                                 tabItem.title,
                                                 style: GoogleFonts.lato(
-                                                  color: AppColors.greys87,
+                                                  color:
+                                                      TocModuleColors.greys87,
                                                   fontSize: 14.0.sp,
                                                   fontWeight: FontWeight.w700,
                                                 ),
@@ -244,7 +247,7 @@ class _ExternalCourseTOCState extends State<ExternalCourseTOC>
                         ];
                       },
                       body: Container(
-                        color: AppColors.lightBackground,
+                        color: TocModuleColors.lightBackground,
                         child: TabBarView(
                             controller: learnTabController,
                             children: [
@@ -309,9 +312,10 @@ class _ExternalCourseTOCState extends State<ExternalCourseTOC>
                                             : TocLocalizations.of(context)!
                                                 .mEnroll,
                                         bgColor: isEnrolled != null
-                                            ? AppColors.darkBlue
-                                            : AppColors.grey16,
-                                        textColor: AppColors.appBarBackground,
+                                            ? TocModuleColors.darkBlue
+                                            : TocModuleColors.grey16,
+                                        textColor:
+                                            TocModuleColors.appBarBackground,
                                         icon: isEnrolled != null && isEnrolled
                                             ? Icons.open_in_new
                                             : null),
@@ -331,7 +335,7 @@ class _ExternalCourseTOCState extends State<ExternalCourseTOC>
           Text(
             courseData.name,
             style: GoogleFonts.montserrat(
-                color: AppColors.appBarBackground,
+                color: TocModuleColors.appBarBackground,
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w700,
                 letterSpacing: 0.12.sp),
@@ -343,7 +347,7 @@ class _ExternalCourseTOCState extends State<ExternalCourseTOC>
                 ? '${TocLocalizations.of(context)!.mCommonBy.toLowerCase()} ${courseData.contentPartner?.contentPartnerName}'
                 : '',
             style: GoogleFonts.lato(
-                color: AppColors.white70,
+                color: TocModuleColors.white70,
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w600,
                 height: 1.429.w,
@@ -356,7 +360,7 @@ class _ExternalCourseTOCState extends State<ExternalCourseTOC>
               ? Text(
                   '(${TocLocalizations.of(context)!.mCourseLastUpdatedOn} ${DateTimeHelper.getDateTimeInFormat(courseData.lastUpdatedOn!, desiredDateFormat: DateFormatString.MMMddyyyy)})',
                   style: GoogleFonts.lato(
-                      color: AppColors.white70,
+                      color: TocModuleColors.white70,
                       fontSize: 12.sp,
                       fontWeight: FontWeight.w400,
                       height: 1.333.w,
@@ -384,7 +388,7 @@ class _ExternalCourseTOCState extends State<ExternalCourseTOC>
       Helper.showSnackBarMessage(
           context: context,
           text: TocLocalizations.of(context)!.mStaticSomethingWrongTryLater,
-          bgColor: AppColors.negativeLight);
+          bgColor: TocModuleColors.negativeLight);
     }
     setState(() {});
   }
@@ -402,7 +406,7 @@ class _ExternalCourseTOCState extends State<ExternalCourseTOC>
       _showSnackBar(
           context,
           TocLocalizations.of(context)!.mStaticEnrolledSuccessMessage,
-          AppColors.positiveLight);
+          TocModuleColors.positiveLight);
       Future.delayed(
         Duration(seconds: 1),
         () => _navigateToExtCoursePlayer(redirectUrl: redirectUrl),
@@ -410,7 +414,7 @@ class _ExternalCourseTOCState extends State<ExternalCourseTOC>
     } else {
       _isEnrolled.value = false;
       _showSnackBar(context, TocLocalizations.of(context)!.mStaticErrorMessage,
-          AppColors.negativeLight);
+          TocModuleColors.negativeLight);
     }
   }
 
@@ -498,7 +502,7 @@ class _ExternalCourseTOCState extends State<ExternalCourseTOC>
         //    height: 1.sh,
         padding: EdgeInsets.fromLTRB(16, 32, 16, 32).w,
         decoration: BoxDecoration(
-          color: AppColors.scaffoldBackground,
+          color: TocModuleColors.scaffoldBackground,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -515,7 +519,7 @@ class _ExternalCourseTOCState extends State<ExternalCourseTOC>
                         child: Column(
                           children: [
                             Icon(Icons.access_time_sharp,
-                                color: AppColors.darkBlue, size: 20.sp),
+                                color: TocModuleColors.darkBlue, size: 20.sp),
                             SizedBox(
                               height: 2.w,
                             ),
@@ -552,9 +556,9 @@ class _ExternalCourseTOCState extends State<ExternalCourseTOC>
                         padding: EdgeInsets.all(16).r,
                         decoration: BoxDecoration(
                             border: Border.all(
-                              color: AppColors.orangeTourText,
+                              color: TocModuleColors.orangeTourText,
                             ),
-                            color: AppColors.orangeTourText
+                            color: TocModuleColors.orangeTourText
                                 .withValues(alpha: 0.24),
                             borderRadius: BorderRadius.circular(8.r)),
                         child: Text(
@@ -566,7 +570,7 @@ class _ExternalCourseTOCState extends State<ExternalCourseTOC>
                             fontSize: 14.sp,
                             height: 1.3.w,
                             fontWeight: FontWeight.w500,
-                            color: AppColors.greys,
+                            color: TocModuleColors.greys,
                           ),
                           textAlign: TextAlign.center,
                         ),
@@ -593,7 +597,7 @@ class _ExternalCourseTOCState extends State<ExternalCourseTOC>
                                 fontSize: 16.sp,
                                 height: 1.5.w,
                                 fontWeight: FontWeight.w400,
-                                color: AppColors.greys60,
+                                color: TocModuleColors.greys60,
                               ),
                             )
                           ],
@@ -618,7 +622,7 @@ class _ExternalCourseTOCState extends State<ExternalCourseTOC>
                               fontSize: 16.sp,
                               height: 1.5.w,
                               fontWeight: FontWeight.w400,
-                              color: AppColors.greys60,
+                              color: TocModuleColors.greys60,
                             ),
                           )
                         ],

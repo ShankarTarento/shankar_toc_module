@@ -1,12 +1,12 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../../../../constants/index.dart';
-import '../../../../../models/index.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/constants/toc_constants.dart';
+import 'package:toc_module/toc/model/course_hierarchy_model.dart';
 
 class CourseAtGlanceWidget extends StatelessWidget {
   CourseAtGlanceWidget(
@@ -71,8 +71,8 @@ class CourseAtGlanceWidget extends StatelessWidget {
                   : 'assets/img/icons-file-types-module.svg',
               colorFilter: ColorFilter.mode(
                   isExpanded && isCourse
-                      ? AppColors.appBarBackground
-                      : AppColors.greys60,
+                      ? TocModuleColors.appBarBackground
+                      : TocModuleColors.greys60,
                   BlendMode.srcIn)),
           Padding(
             padding: const EdgeInsets.only(left: 8).r,
@@ -114,8 +114,8 @@ class CourseAtGlanceWidget extends StatelessWidget {
           height: 1.33.w,
           letterSpacing: 0.25,
           color: isExpanded && isCourse
-              ? AppColors.appBarBackground
-              : AppColors.greys60,
+              ? TocModuleColors.appBarBackground
+              : TocModuleColors.greys60,
           fontSize: 12.sp,
           fontWeight: FontWeight.w400),
     );

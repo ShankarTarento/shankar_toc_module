@@ -61,7 +61,7 @@ class _LedByInstructorState extends State<LedByInstructor> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
-        decoration: BoxDecoration(color: AppColors.appBarBackground),
+        decoration: BoxDecoration(color: TocModuleColors.appBarBackground),
         margin: EdgeInsets.only(
           top: 16,
         ).r,
@@ -103,11 +103,11 @@ class _LedByInstructorState extends State<LedByInstructor> {
           trailing: !isExpanded
               ? Icon(
                   Icons.arrow_drop_up,
-                  color: AppColors.darkBlue,
+                  color: TocModuleColors.darkBlue,
                 )
               : Icon(
                   Icons.arrow_drop_down,
-                  color: AppColors.darkBlue,
+                  color: TocModuleColors.darkBlue,
                 ),
           children: [
             ...List.generate(

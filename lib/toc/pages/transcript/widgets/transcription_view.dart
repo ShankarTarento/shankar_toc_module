@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:karmayogi_mobile/constants/_constants/color_constants.dart';
-import 'package:karmayogi_mobile/models/_models/transcription_data_model.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/transcript/model/transcript_model.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/transcript/repository/transcript_repository.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/transcript/widgets/transcript_skeleton.dart';
+
 import 'package:provider/provider.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/model/transcription_response.dart';
+import 'package:toc_module/toc/pages/transcript/model/transcript_model.dart';
+import 'package:toc_module/toc/pages/transcript/repository/transcript_repository.dart';
+import 'package:toc_module/toc/pages/transcript/widgets/transcript_skeleton.dart';
 
 class TranscriptionView extends StatefulWidget {
   final SubtitleUrl subtitleUrl;
@@ -128,7 +129,7 @@ class _TranscriptionViewState extends State<TranscriptionView> {
         style: GoogleFonts.lato(
           fontSize: 12.sp,
           fontWeight: FontWeight.w500,
-          color: AppColors.darkBlue,
+          color: TocModuleColors.darkBlue,
           decoration: TextDecoration.underline,
         ),
       ),

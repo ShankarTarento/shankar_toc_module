@@ -93,11 +93,11 @@ class _CourseLevelModuleItemState extends State<CourseLevelModuleItem> {
                 decoration: BoxDecoration(
                     border: Border.all(
                         color: isExpanded
-                            ? AppColors.darkBlue
-                            : AppColors.appBarBackground),
+                            ? TocModuleColors.darkBlue
+                            : TocModuleColors.appBarBackground),
                     color: isExpanded
-                        ? AppColors.darkBlue
-                        : AppColors.appBarBackground),
+                        ? TocModuleColors.darkBlue
+                        : TocModuleColors.appBarBackground),
                 child: ExpansionTile(
                   onExpansionChanged: (value) {
                     setState(() {
@@ -124,8 +124,8 @@ class _CourseLevelModuleItemState extends State<CourseLevelModuleItem> {
                                   height: 1.5.w,
                                   decoration: TextDecoration.none,
                                   color: isExpanded
-                                      ? AppColors.appBarBackground
-                                      : AppColors.greys87,
+                                      ? TocModuleColors.appBarBackground
+                                      : TocModuleColors.greys87,
                                   fontSize: 16.sp,
                                   fontWeight: isExpanded
                                       ? FontWeight.w700
@@ -175,16 +175,16 @@ class _CourseLevelModuleItemState extends State<CourseLevelModuleItem> {
                   trailing: isExpanded
                       ? Icon(
                           Icons.arrow_drop_up,
-                          color: AppColors.appBarBackground,
+                          color: TocModuleColors.appBarBackground,
                         )
                       : Icon(
                           Icons.arrow_drop_down,
-                          color: AppColors.darkBlue,
+                          color: TocModuleColors.darkBlue,
                         ),
                   children: [
                     for (var k = 0; k < widget.content[index].length; k++, j++)
                       Container(
-                        color: AppColors.appBarBackground,
+                        color: TocModuleColors.appBarBackground,
                         child: (widget.content[index][k] is List &&
                                 widget.content[index][k][0] != null
                             ? ModuleItem(

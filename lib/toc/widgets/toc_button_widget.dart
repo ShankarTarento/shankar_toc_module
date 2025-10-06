@@ -140,11 +140,11 @@ class _TocButtonWidgetState extends State<TocButtonWidget> {
                         }
                       },
                       bgColor: isEnabled.value
-                          ? AppColors.darkBlue
-                          : AppColors.black40,
+                          ? TocModuleColors.darkBlue
+                          : TocModuleColors.black40,
                       borderColor: isEnabled.value
-                          ? AppColors.darkBlue
-                          : AppColors.grey04,
+                          ? TocModuleColors.darkBlue
+                          : TocModuleColors.grey04,
                       text: widget.isFeatured
                           // navigatorKey.currentState!.context is used to handle context issue from dialog widgets
                           ? TocLocalizations.of(
@@ -152,7 +152,7 @@ class _TocButtonWidgetState extends State<TocButtonWidget> {
                               .mStaticView
                           : checkButtonStatus(),
                       textStyle: TextStyle(
-                          color: AppColors.appBarBackground,
+                          color: TocModuleColors.appBarBackground,
                           fontSize: !isEnabled.value && widget.isAITutor
                               ? 10.sp
                               : 15.sp),
@@ -426,7 +426,7 @@ class _TocButtonWidgetState extends State<TocButtonWidget> {
         await showModalBottomSheet(
             isScrollControlled: true,
             context: navigatorKey.currentState!.context,
-            backgroundColor: AppColors.greys60,
+            backgroundColor: TocModuleColors.greys60,
             builder: (ctx) => RateNowPopUp(
                   courseDetails: widget.courseDetails,
                 )).whenComplete(() => InAppReviewRespository()

@@ -285,7 +285,7 @@ class _EnrollBlendedProgramButtonState
                           fontWeight: FontWeight.w400,
                           fontSize: 14.sp,
                           letterSpacing: 0.25,
-                          color: AppColors.greys87,
+                          color: TocModuleColors.greys87,
                         )),
                     actionsAlignment: MainAxisAlignment.center,
                     actions: [
@@ -301,16 +301,16 @@ class _EnrollBlendedProgramButtonState
                                       borderRadius:
                                           BorderRadius.circular(4.0).w,
                                       side: BorderSide(
-                                          color: AppColors.darkBlue,
+                                          color: TocModuleColors.darkBlue,
                                           width: 1.5.w))),
                           backgroundColor: WidgetStateProperty.all<Color>(
-                              AppColors.appBarBackground),
+                              TocModuleColors.appBarBackground),
                         ),
                         // padding: EdgeInsets.all(15.0),
                         child: Text(
                           EnglishLang.cancel,
                           style: GoogleFonts.lato(
-                            color: AppColors.darkBlue,
+                            color: TocModuleColors.darkBlue,
                             fontSize: 14.0.sp,
                             letterSpacing: 1,
                             fontWeight: FontWeight.w700,
@@ -329,12 +329,12 @@ class _EnrollBlendedProgramButtonState
                         },
                         style: ButtonStyle(
                           backgroundColor: WidgetStateProperty.all<Color>(
-                              AppColors.darkBlue),
+                              TocModuleColors.darkBlue),
                         ),
                         child: Text(
                           EnglishLang.withdraw,
                           style: GoogleFonts.lato(
-                            color: AppColors.appBarBackground,
+                            color: TocModuleColors.appBarBackground,
                             fontSize: 14.0.sp,
                             letterSpacing: 1,
                             fontWeight: FontWeight.w700,
@@ -447,7 +447,7 @@ class _EnrollBlendedProgramButtonState
             topRight: Radius.circular(16),
           ).r,
           side: BorderSide(
-            color: AppColors.grey08,
+            color: TocModuleColors.grey08,
           ),
         ),
         builder: (BuildContext context) {
@@ -506,7 +506,7 @@ class _EnrollBlendedProgramButtonState
                     " " +
                     TocLocalizations.of(context)!
                         .mDoptBlendedProgramEligibilityMessage2,
-                bgColor: AppColors.darkBlue);
+                bgColor: TocModuleColors.darkBlue);
             return false;
           }
         } else {
@@ -514,7 +514,7 @@ class _EnrollBlendedProgramButtonState
               context: context,
               text: TocLocalizations.of(context)!
                   .mNonEligibleServiceMessageForDoptBlendedProgram,
-              bgColor: AppColors.darkBlue);
+              bgColor: TocModuleColors.darkBlue);
           return false;
         }
       } else {
@@ -522,7 +522,7 @@ class _EnrollBlendedProgramButtonState
             context: context,
             text: TocLocalizations.of(context)!
                 .mNonEligibleServiceMessageForDoptBlendedProgram,
-            bgColor: AppColors.darkBlue);
+            bgColor: TocModuleColors.darkBlue);
         return false;
       }
     } catch (e) {
@@ -530,7 +530,7 @@ class _EnrollBlendedProgramButtonState
       Helper.showSnackBarMessage(
           context: context,
           text: TocLocalizations.of(context)!.mStaticSomethingWrong,
-          bgColor: AppColors.darkBlue);
+          bgColor: TocModuleColors.darkBlue);
       return false;
     }
   }
@@ -656,7 +656,7 @@ class _EnrollBlendedProgramButtonState
                 showModalBottomSheet(
                     isScrollControlled: true,
                     context: context,
-                    backgroundColor: AppColors.greys60,
+                    backgroundColor: TocModuleColors.greys60,
                     builder: (ctx) => RateNowPopUp(
                           courseDetails: widget.courseDetails,
                         )).whenComplete(() =>
@@ -669,9 +669,9 @@ class _EnrollBlendedProgramButtonState
         style: ButtonStyle(
           overlayColor: WidgetStateProperty.all<Color>(Colors.transparent),
           backgroundColor: enableStartButton
-              ? WidgetStateProperty.all<Color>(AppColors.darkBlue)
+              ? WidgetStateProperty.all<Color>(TocModuleColors.darkBlue)
               : WidgetStateProperty.all<Color>(
-                  AppColors.darkBlue.withValues(alpha: 0.5)),
+                  TocModuleColors.darkBlue.withValues(alpha: 0.5)),
           shape: WidgetStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(63.0).r,
@@ -726,7 +726,8 @@ class _EnrollBlendedProgramButtonState
         onPressed: () => onPreEnrollmentButtonClick(),
         style: ButtonStyle(
           overlayColor: WidgetStateProperty.all<Color>(Colors.transparent),
-          backgroundColor: WidgetStateProperty.all<Color>(AppColors.darkBlue),
+          backgroundColor:
+              WidgetStateProperty.all<Color>(TocModuleColors.darkBlue),
           shape: WidgetStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(63.0).r,
@@ -747,13 +748,13 @@ class _EnrollBlendedProgramButtonState
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12).r,
-        color: AppColors.appBarBackground,
+        color: TocModuleColors.appBarBackground,
       ),
       child: Container(
         padding: EdgeInsets.only(bottom: 16).r,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12).r,
-            color: AppColors.orangeTourText.withValues(alpha: 0.2)),
+            color: TocModuleColors.orangeTourText.withValues(alpha: 0.2)),
         width: 1.sw,
         child: Column(children: [
           if (widget.selectedBatch == null) _emptyBatchView(),
@@ -765,9 +766,9 @@ class _EnrollBlendedProgramButtonState
                   EdgeInsets.only(bottom: 10, left: 16, top: 16, right: 16).r,
               padding: EdgeInsets.all(12).r,
               decoration: BoxDecoration(
-                  color: AppColors.appBarBackground,
+                  color: TocModuleColors.appBarBackground,
                   borderRadius: BorderRadius.circular(4).r,
-                  border: Border.all(color: AppColors.primaryOne)),
+                  border: Border.all(color: TocModuleColors.primaryOne)),
               width: 1.sw,
               child: Row(
                 children: [
@@ -811,7 +812,7 @@ class _EnrollBlendedProgramButtonState
                                 topRight: Radius.circular(16),
                               ).r,
                               side: BorderSide(
-                                color: AppColors.grey08,
+                                color: TocModuleColors.grey08,
                               ),
                             ),
                             builder: (BuildContext context) {
@@ -927,8 +928,8 @@ class _EnrollBlendedProgramButtonState
                               }
                             : null,
                     style: ButtonStyle(
-                      backgroundColor:
-                          WidgetStateProperty.all<Color>(AppColors.primaryOne),
+                      backgroundColor: WidgetStateProperty.all<Color>(
+                          TocModuleColors.primaryOne),
                       shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(63.0).r,
@@ -959,8 +960,8 @@ class _EnrollBlendedProgramButtonState
             borderRadius: BorderRadius.circular(50).r,
             border: Border.all(
                 color: isPreEnrollRequisiteCompleted
-                    ? AppColors.positiveLight
-                    : AppColors.darkBlue)),
+                    ? TocModuleColors.positiveLight
+                    : TocModuleColors.darkBlue)),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -974,8 +975,8 @@ class _EnrollBlendedProgramButtonState
               style: GoogleFonts.lato(
                   fontSize: 14.sp,
                   color: isPreEnrollRequisiteCompleted
-                      ? AppColors.positiveLight
-                      : AppColors.darkBlue,
+                      ? TocModuleColors.positiveLight
+                      : TocModuleColors.darkBlue,
                   fontWeight: FontWeight.w700),
             ),
             if (isPreEnrollRequisiteCompleted)
@@ -997,13 +998,13 @@ class _EnrollBlendedProgramButtonState
     return Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12).r,
-          color: AppColors.appBarBackground,
+          color: TocModuleColors.appBarBackground,
         ),
         child: Container(
           padding: EdgeInsets.all(16).r,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12).r,
-              color: AppColors.orangeTourText.withValues(alpha: 0.2)),
+              color: TocModuleColors.orangeTourText.withValues(alpha: 0.2)),
           width: 1.sw,
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -1012,15 +1013,15 @@ class _EnrollBlendedProgramButtonState
               padding: EdgeInsets.all(12).r,
               height: 50.w,
               decoration: BoxDecoration(
-                  color: AppColors.appBarBackground,
+                  color: TocModuleColors.appBarBackground,
                   borderRadius: BorderRadius.circular(4).r,
-                  border: Border.all(color: AppColors.black40)),
+                  border: Border.all(color: TocModuleColors.black40)),
               width: 1.sw,
             ),
             Text(
               TocLocalizations.of(context)!.mLearnNoActiveBatches,
               style: GoogleFonts.lato(
-                  color: AppColors.textHeadingColor,
+                  color: TocModuleColors.textHeadingColor,
                   fontSize: 12.sp,
                   fontWeight: FontWeight.w600),
             ),
@@ -1058,7 +1059,7 @@ class _EnrollBlendedProgramButtonState
                   style: ButtonStyle(
                     elevation: WidgetStateProperty.all(0),
                     backgroundColor:
-                        WidgetStateProperty.all<Color>(AppColors.black40),
+                        WidgetStateProperty.all<Color>(TocModuleColors.black40),
                     shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(63.0).w,
@@ -1070,7 +1071,7 @@ class _EnrollBlendedProgramButtonState
                     style: GoogleFonts.lato(
                       fontWeight: FontWeight.w700,
                       fontSize: 14.sp,
-                      color: AppColors.appBarBackground,
+                      color: TocModuleColors.appBarBackground,
                     ),
                   ),
                 ),

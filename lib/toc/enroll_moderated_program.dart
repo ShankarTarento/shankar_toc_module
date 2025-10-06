@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:karmayogi_mobile/constants/_constants/app_constants.dart';
-import 'package:karmayogi_mobile/constants/_constants/color_constants.dart';
-import 'package:karmayogi_mobile/models/_models/batch_model.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/about_tab/widgets/select_batch_bottom_sheer.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/services/toc_services.dart';
-import 'package:karmayogi_mobile/util/date_time_helper.dart';
 import 'package:provider/provider.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/model/batch_model.dart';
 
 class EnrollModeratedProgram extends StatelessWidget {
   final Batch? selectedBatch;
@@ -25,22 +21,22 @@ class EnrollModeratedProgram extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12).r,
-        color: AppColors.appBarBackground,
+        color: TocModuleColors.appBarBackground,
       ),
       child: Container(
         padding: EdgeInsets.all(16).r,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12).r,
-            color: AppColors.orangeTourText.withValues(alpha: 0.2)),
+            color: TocModuleColors.orangeTourText.withValues(alpha: 0.2)),
         width: 1.sw,
         child: Column(children: [
           Container(
             margin: EdgeInsets.only(bottom: selectedBatch != null ? 10 : 0).r,
             padding: EdgeInsets.all(12).r,
             decoration: BoxDecoration(
-                color: AppColors.appBarBackground,
+                color: TocModuleColors.appBarBackground,
                 borderRadius: BorderRadius.circular(4).r,
-                border: Border.all(color: AppColors.primaryOne)),
+                border: Border.all(color: TocModuleColors.primaryOne)),
             width: 1.sw,
             child: selectedBatch != null
                 ? Row(
@@ -85,7 +81,7 @@ class EnrollModeratedProgram extends StatelessWidget {
                                     topRight: Radius.circular(16),
                                   ).r,
                                   side: BorderSide(
-                                    color: AppColors.grey08,
+                                    color: TocModuleColors.grey08,
                                   ),
                                 ),
                                 builder: (BuildContext context) {
@@ -140,7 +136,7 @@ class EnrollModeratedProgram extends StatelessWidget {
                       onPressed: () => onEnrollPressed(context),
                       style: ButtonStyle(
                         backgroundColor: WidgetStateProperty.all<Color>(
-                            AppColors.primaryOne),
+                            TocModuleColors.primaryOne),
                         shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(63.0).r,
@@ -152,7 +148,7 @@ class EnrollModeratedProgram extends StatelessWidget {
                         style: GoogleFonts.lato(
                           fontWeight: FontWeight.w700,
                           fontSize: 14.sp,
-                          color: AppColors.appBarBackground,
+                          color: TocModuleColors.appBarBackground,
                         ),
                       ),
                     ),

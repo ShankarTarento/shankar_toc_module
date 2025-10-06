@@ -21,7 +21,8 @@ class LanguageCountWidget extends StatelessWidget {
               padding: padding ?? EdgeInsets.only(top: 16).r,
               child: Row(
                 children: [
-                  Icon(Icons.language, size: 20.sp, color: AppColors.black),
+                  Icon(Icons.language,
+                      size: 20.sp, color: TocModuleColors.black),
                   SizedBox(width: 4.w),
                   Expanded(
                     child: Text(
@@ -33,7 +34,7 @@ class LanguageCountWidget extends StatelessWidget {
                   ),
                   SizedBox(width: 4.w),
                   Icon(Icons.arrow_forward_ios_outlined,
-                      size: 12.sp, color: AppColors.black),
+                      size: 12.sp, color: TocModuleColors.black),
                 ],
               ),
             ),
@@ -71,12 +72,12 @@ class LanguageCountWidget extends StatelessWidget {
                         style: Theme.of(context)
                             .textTheme
                             .headlineSmall!
-                            .copyWith(color: AppColors.deepBlue),
+                            .copyWith(color: TocModuleColors.deepBlue),
                       ),
                       IconButton(
                         icon: const Icon(
                           Icons.close,
-                          color: AppColors.greys60,
+                          color: TocModuleColors.greys60,
                         ),
                         onPressed: () => Navigator.of(context).pop(),
                       ),
@@ -87,7 +88,7 @@ class LanguageCountWidget extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 16.0).r,
                   child: const Divider(
                     height: 1,
-                    color: AppColors.grey24,
+                    color: TocModuleColors.grey24,
                   ),
                 ),
 
@@ -107,7 +108,7 @@ class LanguageCountWidget extends StatelessWidget {
                               style: Theme.of(context)
                                   .textTheme
                                   .titleMedium!
-                                  .copyWith(color: AppColors.deepBlue)),
+                                  .copyWith(color: TocModuleColors.deepBlue)),
                         );
                       },
                     ),

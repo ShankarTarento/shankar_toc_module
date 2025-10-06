@@ -170,9 +170,9 @@ class _CustomFilterCheckBoxState extends State<CustomFilterCheckBox> {
                             fillColor: WidgetStateProperty.resolveWith<Color>(
                               (Set<WidgetState> states) {
                                 if (states.contains(WidgetState.selected)) {
-                                  return AppColors.darkBlue;
+                                  return TocModuleColors.darkBlue;
                                 }
-                                return AppColors.black40;
+                                return TocModuleColors.black40;
                               },
                             ),
                           ),
@@ -181,7 +181,7 @@ class _CustomFilterCheckBoxState extends State<CustomFilterCheckBox> {
                             style: GoogleFonts.lato(
                               fontSize: 14.0.sp,
                               fontWeight: FontWeight.w700,
-                              color: AppColors.greys60,
+                              color: TocModuleColors.greys60,
                             ),
                           ),
                         ],
@@ -199,7 +199,7 @@ class _CustomFilterCheckBoxState extends State<CustomFilterCheckBox> {
               style: GoogleFonts.lato(
                 fontSize: 11.0.sp,
                 fontWeight: FontWeight.w500,
-                color: AppColors.mandatoryRed,
+                color: TocModuleColors.mandatoryRed,
               ),
             ),
           ),

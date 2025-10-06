@@ -33,7 +33,7 @@ class PostEnrollLanguageChangeWidget extends StatelessWidget {
           Icon(
             Icons.translate,
             size: 40.sp,
-            color: AppColors.darkBlue,
+            color: TocModuleColors.darkBlue,
           ),
           SizedBox(height: 16.w),
           const Divider(),
@@ -46,7 +46,7 @@ class PostEnrollLanguageChangeWidget extends StatelessWidget {
                 style: Theme.of(context)
                     .textTheme
                     .headlineSmall!
-                    .copyWith(color: AppColors.deepBlue),
+                    .copyWith(color: TocModuleColors.deepBlue),
               ),
               description1.isNotEmpty
                   ? Padding(
@@ -57,7 +57,7 @@ class PostEnrollLanguageChangeWidget extends StatelessWidget {
                         style: Theme.of(context)
                             .textTheme
                             .titleMedium!
-                            .copyWith(color: AppColors.greys60),
+                            .copyWith(color: TocModuleColors.greys60),
                       ),
                     )
                   : Center(),
@@ -70,7 +70,7 @@ class PostEnrollLanguageChangeWidget extends StatelessWidget {
                         style: Theme.of(context)
                             .textTheme
                             .titleMedium!
-                            .copyWith(color: AppColors.greys60),
+                            .copyWith(color: TocModuleColors.greys60),
                       ),
                     )
                   : Center()
@@ -94,7 +94,7 @@ class PostEnrollLanguageChangeWidget extends StatelessWidget {
                     Navigator.of(context).pop();
                   },
                   text: button2,
-                  bgColor: AppColors.darkBlue,
+                  bgColor: TocModuleColors.darkBlue,
                   padding: EdgeInsets.symmetric(horizontal: 16).r,
                   textStyle: Theme.of(context).textTheme.displaySmall,
                   borderRadius: 4),

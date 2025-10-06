@@ -16,4 +16,32 @@ class ApiUrls {
       '/api/course/v4/user/enrollment/details/';
   static const String getYourRating = '/api/ratings/v2/read';
   static const String postReview = '/api/ratings/v1/upsert';
+  static const String getStandaloneAssessmentQuestions =
+      '/api/player/question/v5/list';
+  static const String submitV6StandaloneAssessment =
+      '/api/v6/user/assessment/submit';
+  static const String submitStandaloneAssessment =
+      '/api/v5/user/assessment/submit';
+  static const String saveAssessmentQuestion = '/api/assessment/save';
+  static const String getAssessmentInfo =
+      '/api/player/questionset/v4/hierarchy/';
+  static const String getRetakeAssessmentInfo = '/api/user/assessment/retake/';
+  static const String getAssessmentQuestions = '/api/player/question/v4/list';
+  static const String saveAssessmentNew = '/api/v4/user/assessment/submit';
+  static const String getAssessmentCompletionStatus =
+      '/api/user/assessment/v4/result';
+  static const String saveAssessment = '/api/v2/user/assessment/submit';
+  static const String publicAssessmentV5Read = '/api/public/assessment/v5/read';
+  static const String getPublicAssessmentCompletionStatus =
+      '/api/public/assessment/v5/result';
+  static const String publicAdvanceAssessmentSubmit =
+      '/api/public/assessment/v5/assessment/submit';
+  static const String publicBasicAssessmentSubmit =
+      '/api/public/assessment/v4/assessment/submit';
+  static const String publicAssessmentQuestionList =
+      '/api/public/assessment/v5/question/list';
+  static const String getStandaloneRetakeAssessmentInfo =
+      '/api/user/assessment/v5/retake/';
+  static const String getStandaloneAssessmentInfo =
+      '/api/player/questionset/v5/hierarchy/';
 }

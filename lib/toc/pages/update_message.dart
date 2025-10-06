@@ -17,14 +17,14 @@ class UpdateMessage extends StatelessWidget {
       padding: EdgeInsets.all(12).r,
       height: 250.w,
       width: 1.sw,
-      color: AppColors.greys,
+      color: TocModuleColors.greys,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(TocLocalizations.of(context)!.mCompatibilityTitle,
               style: GoogleFonts.lato(
-                  color: AppColors.appBarBackground,
+                  color: TocModuleColors.appBarBackground,
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w600)),
           SizedBox(
@@ -33,7 +33,7 @@ class UpdateMessage extends StatelessWidget {
           Text(
             TocLocalizations.of(context)!.mCompatibilityDescription,
             style: GoogleFonts.lato(
-              color: AppColors.appBarBackground,
+              color: TocModuleColors.appBarBackground,
             ),
             textAlign: TextAlign.center,
           ),
@@ -47,7 +47,7 @@ class UpdateMessage extends StatelessWidget {
                 );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.orangeTourText,
+                backgroundColor: TocModuleColors.orangeTourText,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(50).r,
                 ),
@@ -58,7 +58,7 @@ class UpdateMessage extends StatelessWidget {
                   Text(
                     TocLocalizations.of(context)!.mStaticUpdateApp,
                     style: GoogleFonts.lato(
-                        color: AppColors.appBarBackground,
+                        color: TocModuleColors.appBarBackground,
                         fontWeight: FontWeight.w600),
                   ),
                   SizedBox(

@@ -165,10 +165,10 @@ class _BlendedProgramUserFormState extends State<BlendedProgramUserForm> {
                                       borderRadius:
                                           BorderRadius.circular(4.0).r,
                                       side: BorderSide(
-                                          color: AppColors.darkBlue,
+                                          color: TocModuleColors.darkBlue,
                                           width: 1.5.w))),
                               backgroundColor: WidgetStateProperty.all<Color>(
-                                  AppColors.appBarBackground),
+                                  TocModuleColors.appBarBackground),
                             ),
                             child: Text(
                               EnglishLang.cancel,
@@ -202,14 +202,14 @@ class _BlendedProgramUserFormState extends State<BlendedProgramUserForm> {
                                       borderRadius:
                                           BorderRadius.circular(4.0).r,
                                       side: BorderSide(
-                                          color: AppColors.darkBlue,
+                                          color: TocModuleColors.darkBlue,
                                           width: 1.5.w))),
                               backgroundColor: WidgetStateProperty.all<Color>(
-                                  AppColors.darkBlue),
+                                  TocModuleColors.darkBlue),
                             ),
                             child: _savePressed.value
                                 ? CircularProgressIndicator(
-                                    color: AppColors.appBarBackground,
+                                    color: TocModuleColors.appBarBackground,
                                     strokeWidth: 2,
                                   )
                                 : Text(
@@ -685,7 +685,7 @@ class _BlendedProgramUserFormState extends State<BlendedProgramUserForm> {
 
             _showSnackBar(
               TocLocalizations.of(context)!.mStaticSomethingWrongTryLater,
-              AppColors.mandatoryRed,
+              TocModuleColors.mandatoryRed,
             );
             _savePressed.value = false;
             return;
@@ -711,7 +711,7 @@ class _BlendedProgramUserFormState extends State<BlendedProgramUserForm> {
             } else {
               _showSnackBar(
                 TocLocalizations.of(context)!.mStaticSomethingWrongTryLater,
-                AppColors.mandatoryRed,
+                TocModuleColors.mandatoryRed,
               );
             }
           } catch (e) {
@@ -719,21 +719,21 @@ class _BlendedProgramUserFormState extends State<BlendedProgramUserForm> {
 
             _showSnackBar(
               TocLocalizations.of(context)!.mStaticSomethingWrongTryLater,
-              AppColors.mandatoryRed,
+              TocModuleColors.mandatoryRed,
             );
           }
         } else {
           debugPrint('********************please verify email');
           _showSnackBar(
               TocLocalizations.of(context)!.mEditProfilePleaseVerifyYourEmail,
-              AppColors.greys87);
+              TocModuleColors.greys87);
         }
       } else {
         _showSnackBar(TocLocalizations.of(context)!.mRegisterVerifyMobile,
-            AppColors.greys87);
+            TocModuleColors.greys87);
       }
     } else {
-      _showSnackBar(_errorMessage, AppColors.greys87);
+      _showSnackBar(_errorMessage, TocModuleColors.greys87);
     }
 
     _savePressed.value = false;
@@ -854,7 +854,7 @@ class _BlendedProgramUserFormState extends State<BlendedProgramUserForm> {
           child: Text(
             message,
             style: GoogleFonts.lato(
-                color: AppColors.appBarBackground,
+                color: TocModuleColors.appBarBackground,
                 fontSize: 13.sp,
                 decoration: TextDecoration.none),
             textAlign: TextAlign.center,

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/view_model/course_toc_view_model.dart';
 import 'package:provider/provider.dart';
-
-import '../../../../../models/index.dart';
+import 'package:toc_module/toc/model/course_model.dart';
+import 'package:toc_module/toc/view_model/course_toc_view_model.dart';
 
 class TocPlayerViewModel {
   String getEnrolledCourseId(BuildContext context, String id) {

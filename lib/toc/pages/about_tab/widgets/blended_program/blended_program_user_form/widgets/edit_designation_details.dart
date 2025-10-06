@@ -63,7 +63,7 @@ class _EditDesignationDetailsState extends State<EditDesignationDetails> {
             builder: (context, designations, _) {
               return Container(
                 decoration: BoxDecoration(
-                    color: AppColors.appBarBackground,
+                    color: TocModuleColors.appBarBackground,
                     borderRadius: BorderRadius.circular(4).r),
                 child: DropdownWithSearch(
                   hintText: TocLocalizations.of(context)!.mStaticSelectHere,
@@ -73,7 +73,7 @@ class _EditDesignationDetailsState extends State<EditDesignationDetails> {
                   optionList: designations,
                   selectedOption: _designation,
                   borderRadius: 4,
-                  borderColor: AppColors.grey16,
+                  borderColor: TocModuleColors.grey16,
                   defaultItem: widget.isCadreProgram
                       ? EnglishLang.others.toUpperCase()
                       : null,

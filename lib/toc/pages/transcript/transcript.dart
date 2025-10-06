@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:karmayogi_mobile/constants/_constants/color_constants.dart';
-import 'package:karmayogi_mobile/models/_models/transcription_data_model.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/transcript/repository/transcript_repository.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/transcript/widgets/transcript_dropdown.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/transcript/widgets/transcript_skeleton.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/transcript/widgets/transcription_view.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/model/transcription_response.dart';
+import 'package:toc_module/toc/pages/transcript/repository/transcript_repository.dart';
+import 'package:toc_module/toc/pages/transcript/widgets/transcript_dropdown.dart';
+import 'package:toc_module/toc/pages/transcript/widgets/transcript_skeleton.dart';
+import 'package:toc_module/toc/pages/transcript/widgets/transcription_view.dart';
 
 class Transcript extends StatefulWidget {
   final Function(int) startAt;
@@ -65,7 +65,7 @@ class _TranscriptState extends State<Transcript> {
                   Container(
                     padding: EdgeInsets.all(12).r,
                     decoration: BoxDecoration(
-                      color: AppColors.learnerTipsColor2,
+                      color: TocModuleColors.learnerTipsColor2,
                       borderRadius: BorderRadius.circular(8).r,
                     ),
                     child: Text(
@@ -99,7 +99,7 @@ class _TranscriptState extends State<Transcript> {
               padding: EdgeInsets.only(top: 70.0).r,
               child: Text(TocLocalizations.of(context)!.mNoTranscriptAvailable,
                   style: GoogleFonts.lato(
-                      color: AppColors.greys87,
+                      color: TocModuleColors.greys87,
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w500)),
             ));

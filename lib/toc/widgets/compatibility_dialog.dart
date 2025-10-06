@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:karmayogi_mobile/constants/_constants/api_endpoints.dart';
-import 'package:karmayogi_mobile/constants/_constants/color_constants.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
 
@@ -36,10 +36,10 @@ class _CompatibilityDialogState extends State<CompatibilityDialog> {
               borderRadius: BorderRadius.circular(12).r,
               child: Container(
                 decoration: BoxDecoration(
-                    border: Border.all(color: AppColors.grey16),
+                    border: Border.all(color: TocModuleColors.grey16),
                     borderRadius:
                         BorderRadius.all(const Radius.circular(12.0).r),
-                    color: AppColors.appBarBackground),
+                    color: TocModuleColors.appBarBackground),
                 child: _buildLayout(),
               ),
             ),
@@ -54,7 +54,7 @@ class _CompatibilityDialogState extends State<CompatibilityDialog> {
     return Container(
       height: 1.sh,
       margin: EdgeInsets.only(top: 16).r,
-      decoration: BoxDecoration(color: AppColors.appBarBackground),
+      decoration: BoxDecoration(color: TocModuleColors.appBarBackground),
       alignment: Alignment.center,
       child: SingleChildScrollView(
           physics: BouncingScrollPhysics(),
@@ -66,7 +66,7 @@ class _CompatibilityDialogState extends State<CompatibilityDialog> {
               children: [
                 Text(TocLocalizations.of(context)!.mCompatibilityTitle,
                     style: GoogleFonts.lato(
-                      color: AppColors.greys87,
+                      color: TocModuleColors.greys87,
                       fontWeight: FontWeight.w700,
                       fontSize: 16.sp,
                     )),
@@ -76,7 +76,7 @@ class _CompatibilityDialogState extends State<CompatibilityDialog> {
                 Text(
                   TocLocalizations.of(context)!.mCompatibilityDescription,
                   style: GoogleFonts.lato(
-                    color: AppColors.greys87,
+                    color: TocModuleColors.greys87,
                     fontWeight: FontWeight.w400,
                     fontSize: 14.sp,
                   ),
@@ -94,7 +94,7 @@ class _CompatibilityDialogState extends State<CompatibilityDialog> {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.orangeTourText,
+                      backgroundColor: TocModuleColors.orangeTourText,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(50).r,
                       ),
@@ -105,7 +105,7 @@ class _CompatibilityDialogState extends State<CompatibilityDialog> {
                         Text(
                           TocLocalizations.of(context)!.mStaticUpdateApp,
                           style: GoogleFonts.lato(
-                              color: AppColors.appBarBackground,
+                              color: TocModuleColors.appBarBackground,
                               fontWeight: FontWeight.w600),
                         ),
                         SizedBox(
@@ -139,11 +139,11 @@ class _CompatibilityDialogState extends State<CompatibilityDialog> {
               width: 36.w,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: AppColors.grey84,
+                color: TocModuleColors.grey84,
               ),
               child: Icon(
                 Icons.close,
-                color: AppColors.whiteGradientOne,
+                color: TocModuleColors.whiteGradientOne,
                 size: 16.sp,
               ),
             ),
@@ -155,7 +155,7 @@ class _CompatibilityDialogState extends State<CompatibilityDialog> {
     if (await canLaunchUrl(Uri.parse(url))) {
       await launchUrl(Uri.parse(url));
     } else {
-      throw AppLocalizations.of(context!)!.mStaticErrorMessage;
+      throw TocLocalizations.of(context!)!.mStaticErrorMessage;
     }
   }
 }

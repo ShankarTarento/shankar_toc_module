@@ -27,7 +27,7 @@ class CustomStarRating extends StatelessWidget {
           height: 8.w,
         ),
         RatingBar.builder(
-          unratedColor: AppColors.grey16,
+          unratedColor: TocModuleColors.grey16,
           initialRating: 0,
           minRating: 1,
           direction: Axis.horizontal,
