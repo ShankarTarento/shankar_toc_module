@@ -4018,9 +4018,6 @@ class TocLocalizationsHi extends TocLocalizations {
   String get mStaticGetstartvideo => 'आइगॉट कर्मयोगी क्या है?';
 
   @override
-  String get mStaticJoinnow => 'अभी जुड़ें';
-
-  @override
   String get mStaticVideoConference => 'हम अब वीडियो कॉन्फ्रेंस पर उपलब्ध हैं';
 
   @override
@@ -5854,9 +5851,6 @@ class TocLocalizationsHi extends TocLocalizations {
   String get mLearnRedirect => 'पुनर्निर्देशित करें';
 
   @override
-  String get mStaticForYou => 'आपके लिए।';
-
-  @override
   String get mExploreDiscoverMentors => 'Discover Mentors';
 
   @override
@@ -6279,9 +6273,6 @@ class TocLocalizationsHi extends TocLocalizations {
 
   @override
   String get mSelfRegisterRegistrationClosedDescription => 'पंजीकरण अभी बंद हैं कृपया अपने विभाग के MDO से संपर्क करें या कृपया हमें यहाँ लिखें ';
-
-  @override
-  String get mSelfRegisterWithOrgAndDesignation => 'संगठन और पदनाम के साथ।';
 
   @override
   String get mThisFieldIsRequired => 'यह क्षेत्र आवश्यक है';
@@ -6711,6 +6702,9 @@ class TocLocalizationsHi extends TocLocalizations {
 
   @override
   String get mDiscussionShowPost => 'पोस्ट दिखाएं';
+
+  @override
+  String get mDiscussionPostModerationInfoMessage => 'This content is being moderated and may be removed if it violates community guidelines.';
 
   @override
   String get mCommonRelevant => 'प्रासंगिक';
@@ -7383,6 +7377,44 @@ class TocLocalizationsHi extends TocLocalizations {
   String get mKarmapointEnrollTooltipMsg => 'नोटः यह केवल आपके पहले नामांकन के लिए लागू है।';
 
   @override
+  String get mAboutLanguagesAvailable => 'Languages available';
+
+  @override
+  String get mTocSelectContentLanguage => 'Select Content Language';
+
+  @override
+  String mTocContinueWhereyouLeftOff(Object lang) {
+    return 'Continue where you left off in $lang?';
+  }
+
+  @override
+  String get mTocYouHaveMadeProgress => 'You\'ve already made some progress in this language.';
+
+  @override
+  String get mTocContinueFromLeftOff => 'If you continue it will resume from where you left off.';
+
+  @override
+  String get mTocWantToChangeLanguage => 'Are you sure you want to change the language?';
+
+  @override
+  String get mTocSwitchingLangWillResetProgress => 'Switching the language will reset your progress.';
+
+  @override
+  String get mTocChangeLanguage => 'Change Language';
+
+  @override
+  String get mTocCourseRestartFromBeginning => 'The course will restart from the beginning in the selected language.';
+
+  @override
+  String get mTocChoosPreferredLanguage => 'Choose Your Preferred Language';
+
+  @override
+  String get mTocChoosPreferredLanguageDescription => 'This course is available in multiple languages. You can select one to begin.';
+
+  @override
+  String get mTocConfirmStartCourse => 'Confirm & Start Course';
+
+  @override
   String get mRequestRejectedMessage => 'क्या आप वाकई इस अनुरोध को अनदेखा करना चाहते हैं?';
 
   @override
@@ -7434,6 +7466,68 @@ class TocLocalizationsHi extends TocLocalizations {
   String get mBlockIncomingMessage => 'आप इस प्रोफ़ाइल को देखने के लिए अधिकृत नहीं हैं';
 
   @override
+  String get mProfileVisibilityControl => 'Visibility Control';
+
+  @override
+  String get mProfilePublic => 'Public';
+
+  @override
+  String get mProfilePrivate => 'Private';
+
+  @override
+  String get mProfileAnyone => 'Anyone';
+
+  @override
+  String get mProfileAnyoneCanViewDataOnYourProfile => 'Your profile details will be visible to everyone on the platform.';
+
+  @override
+  String get mProfileConnectionOnly => 'Connections Only';
+
+  @override
+  String get mProfileLockMyProfile => 'No One/Lock my profile';
+
+  @override
+  String get mProfileNoOneCanViewDataOnYourProfile => 'Selecting this option will hide your profile details from everyone, including your connections.';
+
+  @override
+  String get mProfileLockedProfile => 'This profile is locked';
+
+  @override
+  String get mProfileVisibilityUpdated => 'Updated Successfully';
+
+  @override
+  String mTocAvailableInLanguages(Object count) {
+    return 'Available in $count languages';
+  }
+
+  @override
+  String get mTocAvailableLanguages => 'Available Languages';
+
+  @override
+  String get mTocAlreadyStartedCourse => 'You\'ve already started this course';
+
+  @override
+  String get mTocYouHaveMadeSome => 'You’ve made some ';
+
+  @override
+  String get mTocProgress => 'progress';
+
+  @override
+  String get mTocInAnotherLanguageCourse => ' in another language of this course.';
+
+  @override
+  String get mTocWouldYouLikeTo => 'Would you like to ';
+
+  @override
+  String get mTocWhereYouLeftOff => 'resume where you left off';
+
+  @override
+  String get mTocContinueWithThisVersion => ', or continue with this version instead?';
+
+  @override
+  String get mTocContinueHere => 'Continue Here';
+
+  @override
   String get mNotificationEnabled => 'अधिसूचना सक्षम!';
 
   @override
@@ -7441,4 +7535,7 @@ class TocLocalizationsHi extends TocLocalizations {
 
   @override
   String get mProfileCentralDeputation => 'केंद्रीय प्रतिनियुक्ति';
+
+  @override
+  String get mStaticApar => 'APAR';
 }

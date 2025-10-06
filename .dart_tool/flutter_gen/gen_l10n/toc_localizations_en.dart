@@ -4018,9 +4018,6 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticGetstartvideo => 'What is iGOT Karmayogi?';
 
   @override
-  String get mStaticJoinnow => 'Join Now';
-
-  @override
   String get mStaticVideoConference => 'We are now available on Video Conference';
 
   @override
@@ -5854,9 +5851,6 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mLearnRedirect => 'Redirect';
 
   @override
-  String get mStaticForYou => 'For You';
-
-  @override
   String get mExploreDiscoverMentors => 'Discover Mentors';
 
   @override
@@ -6278,10 +6272,7 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mSelfRegisterRegistrationClosed => 'Registrations are closed';
 
   @override
-  String get mSelfRegisterRegistrationClosedDescription => 'Registrations are closed as of now please reach out to your department MDO or please write us at ';
-
-  @override
-  String get mSelfRegisterWithOrgAndDesignation => 'with organization and designation name.';
+  String get mSelfRegisterRegistrationClosedDescription => 'Registrations are closed as of now. You may reach out to your respective nodal officer for assistance. Click on the below link to get the name and email of your respective Nodal officer.';
 
   @override
   String get mThisFieldIsRequired => 'This field is required';
@@ -6711,6 +6702,9 @@ class TocLocalizationsEn extends TocLocalizations {
 
   @override
   String get mDiscussionShowPost => 'Show post';
+
+  @override
+  String get mDiscussionPostModerationInfoMessage => 'This content is being moderated and may be removed if it violates community guidelines.';
 
   @override
   String get mCommonRelevant => 'Relevant';
@@ -7383,6 +7377,44 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mKarmapointEnrollTooltipMsg => 'Note: This is only applicable for your first enrolment.';
 
   @override
+  String get mAboutLanguagesAvailable => 'Languages available';
+
+  @override
+  String get mTocSelectContentLanguage => 'Select Content Language';
+
+  @override
+  String mTocContinueWhereyouLeftOff(Object lang) {
+    return 'Continue where you left off in $lang?';
+  }
+
+  @override
+  String get mTocYouHaveMadeProgress => 'You\'ve already made some progress in this language.';
+
+  @override
+  String get mTocContinueFromLeftOff => 'If you continue it will resume from where you left off.';
+
+  @override
+  String get mTocWantToChangeLanguage => 'Are you sure you want to change the language?';
+
+  @override
+  String get mTocSwitchingLangWillResetProgress => 'Switching the language will reset your progress.';
+
+  @override
+  String get mTocChangeLanguage => 'Change Language';
+
+  @override
+  String get mTocCourseRestartFromBeginning => 'The course will restart from the beginning in the selected language.';
+
+  @override
+  String get mTocChoosPreferredLanguage => 'Choose Your Preferred Language';
+
+  @override
+  String get mTocChoosPreferredLanguageDescription => 'This course is available in multiple languages. You can select one to begin.';
+
+  @override
+  String get mTocConfirmStartCourse => 'Confirm & Start Course';
+
+  @override
   String get mRequestRejectedMessage => 'Are you sure you want to ignore this request?';
 
   @override
@@ -7434,6 +7466,68 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mBlockIncomingMessage => 'You are not authorised to see this profile.';
 
   @override
+  String get mProfileVisibilityControl => 'Visibility Control';
+
+  @override
+  String get mProfilePublic => 'Public';
+
+  @override
+  String get mProfilePrivate => 'Private';
+
+  @override
+  String get mProfileAnyone => 'Anyone';
+
+  @override
+  String get mProfileAnyoneCanViewDataOnYourProfile => 'Your profile details will be visible to everyone on the platform.';
+
+  @override
+  String get mProfileConnectionOnly => 'Connections Only';
+
+  @override
+  String get mProfileLockMyProfile => 'No One/Lock my profile';
+
+  @override
+  String get mProfileNoOneCanViewDataOnYourProfile => 'Selecting this option will hide your profile details from everyone, including your connections.';
+
+  @override
+  String get mProfileLockedProfile => 'This profile is locked';
+
+  @override
+  String get mProfileVisibilityUpdated => 'Updated Successfully';
+
+  @override
+  String mTocAvailableInLanguages(Object count) {
+    return 'Available in $count languages';
+  }
+
+  @override
+  String get mTocAvailableLanguages => 'Available Languages';
+
+  @override
+  String get mTocAlreadyStartedCourse => 'You\'ve already started this course';
+
+  @override
+  String get mTocYouHaveMadeSome => 'You’ve made some ';
+
+  @override
+  String get mTocProgress => 'progress';
+
+  @override
+  String get mTocInAnotherLanguageCourse => ' in another language of this course.';
+
+  @override
+  String get mTocWouldYouLikeTo => 'Would you like to ';
+
+  @override
+  String get mTocWhereYouLeftOff => 'resume where you left off';
+
+  @override
+  String get mTocContinueWithThisVersion => ', or continue with this version instead?';
+
+  @override
+  String get mTocContinueHere => 'Continue Here';
+
+  @override
   String get mNotificationEnabled => 'Notification enabled!';
 
   @override
@@ -7441,4 +7535,7 @@ class TocLocalizationsEn extends TocLocalizations {
 
   @override
   String get mProfileCentralDeputation => 'Central Deputation';
+
+  @override
+  String get mStaticApar => 'APAR';
 }

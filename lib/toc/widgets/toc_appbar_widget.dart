@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:karmayogi_mobile/common_components/notification_engine/notification_icon.dart';
 import 'package:provider/provider.dart';
-
-import '../../../../../constants/index.dart';
-import '../../../../../respositories/_respositories/learn_repository.dart';
-import '../pages/services/toc_services.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
 
 class TocAppbarWidget extends StatelessWidget {
   final bool isOverview;

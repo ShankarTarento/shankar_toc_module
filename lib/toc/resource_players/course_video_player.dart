@@ -224,8 +224,8 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer>
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      AppColors.black.withValues(alpha: 0.2),
-                      AppColors.greys.withValues(alpha: 0.2),
+                      TocModuleColors.black.withValues(alpha: 0.2),
+                      TocModuleColors.greys.withValues(alpha: 0.2),
                     ],
                   ),
                   borderRadius: BorderRadius.circular(8),
@@ -536,7 +536,7 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer>
                                     ? Container(
                                         width: 1.sw,
                                         height: 250.w,
-                                        color: AppColors.greys
+                                        color: TocModuleColors.greys
                                             .withValues(alpha: 0.8),
                                         child: Center(
                                           child: SizedBox(

@@ -5,15 +5,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
-import 'package:karmayogi_mobile/constants/index.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:karmayogi_mobile/services/_services/learn_service.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
 import 'package:provider/provider.dart';
-
-import '../../../../../models/_models/course_model.dart';
-import '../../../../../util/faderoute.dart';
-import '../../../index.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/model/course_model.dart';
 
 class RateNowPopUp extends StatelessWidget {
   final Course courseDetails;

@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/view_model/course_toc_view_model.dart';
 import 'package:provider/provider.dart';
-
-import '../../../../../constants/index.dart';
-import '../../../../../models/index.dart';
-import '../../../../../respositories/index.dart';
-import '../../../index.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/model/course_model.dart';
+import 'package:toc_module/toc/view_model/course_toc_view_model.dart';
 import '../model/language_map_model.dart';
 import 'PostEnrollLanguageChange.dart';
 import 'language_selection_sheet.dart';

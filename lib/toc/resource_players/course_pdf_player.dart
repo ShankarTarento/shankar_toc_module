@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:internet_file/internet_file.dart';
 import 'package:karmayogi_mobile/ui/skeleton/pages/pdf_player_skeleton.dart';
@@ -24,7 +25,8 @@ class CoursePdfPlayer extends StatefulWidget {
   final ValueChanged<bool>? playNextResource;
   final resourceNavigateItems;
   final int? startAt;
-  final bool? isPreRequisite;final String language;
+  final bool? isPreRequisite;
+  final String language;
 
   CoursePdfPlayer(
       {required this.identifier,
@@ -36,7 +38,8 @@ class CoursePdfPlayer extends StatefulWidget {
       this.playNextResource,
       this.startAt,
       this.resourceNavigateItems,
-      this.isPreRequisite = false,required this.language});
+      this.isPreRequisite = false,
+      required this.language});
 
   @override
   _CoursePdfPlayerState createState() => _CoursePdfPlayerState();
@@ -194,16 +197,16 @@ class _CoursePdfPlayerState extends State<CoursePdfPlayer> {
       int maxSize = totalPages;
       double completionPercentage = currentPage / totalPages * 100;
       await learnService.updateContentProgress(
-        courseId,
-        widget.batchId!,
-        widget.identifier,
-        status,
-        EMimeTypes.pdf,
-        current,
-        maxSize,
-        completionPercentage,
-        isPreRequisite: widget.isPreRequisite, language: widget.language
-      );
+          courseId,
+          widget.batchId!,
+          widget.identifier,
+          status,
+          EMimeTypes.pdf,
+          current,
+          maxSize,
+          completionPercentage,
+          isPreRequisite: widget.isPreRequisite,
+          language: widget.language);
 
       widget.updateProgress({
         'identifier': widget.identifier,
@@ -287,7 +290,7 @@ class _CoursePdfPlayerState extends State<CoursePdfPlayer> {
                     Align(
                       alignment: Alignment.bottomCenter,
                       child: Container(
-                        color: AppColors.appBarBackground,
+                        color: TocModuleColors.appBarBackground,
                         height: _fullScreen ? 25.w : 60.w,
                         padding: EdgeInsets.only(left: 16, right: 16).w,
                         child: Flex(
@@ -317,7 +320,7 @@ class _CoursePdfPlayerState extends State<CoursePdfPlayer> {
                                                         vertical: 4)
                                                     .w,
                                                 child: Text(
-                                                  AppLocalizations.of(context)!
+                                                  TocLocalizations.of(context)!
                                                       .mPdfPlayerPrevious,
                                                   style: Theme.of(context)
                                                       .textTheme
@@ -342,10 +345,10 @@ class _CoursePdfPlayerState extends State<CoursePdfPlayer> {
                                               Icon(
                                                 Icons.done,
                                                 size: 24.sp,
-                                                color: AppColors.darkBlue,
+                                                color: TocModuleColors.darkBlue,
                                               ),
                                               Text(
-                                                AppLocalizations.of(context)!
+                                                TocLocalizations.of(context)!
                                                     .mCommoncompleted,
                                                 style: Theme.of(context)
                                                     .textTheme
@@ -384,10 +387,10 @@ class _CoursePdfPlayerState extends State<CoursePdfPlayer> {
                                                                   63)
                                                               .w,
                                                       border: Border.all(
-                                                          color: AppColors
+                                                          color: TocModuleColors
                                                               .darkBlue)),
                                                   child: Text(
-                                                    AppLocalizations.of(
+                                                    TocLocalizations.of(
                                                             context)!
                                                         .mPdfPlayerMarkAsComplete,
                                                     style: Theme.of(context)
@@ -432,7 +435,7 @@ class _CoursePdfPlayerState extends State<CoursePdfPlayer> {
                                                                 vertical: 4)
                                                             .w,
                                                     child: Text(
-                                                      AppLocalizations.of(
+                                                      TocLocalizations.of(
                                                               context)!
                                                           .mPdfPlayerNext,
                                                       style: Theme.of(context)
@@ -467,7 +470,7 @@ class _CoursePdfPlayerState extends State<CoursePdfPlayer> {
                                 decoration: BoxDecoration(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(4)).r,
-                                    color: AppColors.greys60),
+                                    color: TocModuleColors.greys60),
                                 child: Text(
                                   '${_currentPage.value} of $_totalPages',
                                   textAlign: TextAlign.center,

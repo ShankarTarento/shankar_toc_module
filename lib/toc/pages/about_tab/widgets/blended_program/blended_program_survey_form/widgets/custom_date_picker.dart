@@ -5,7 +5,8 @@ import 'package:karmayogi_mobile/constants/index.dart';
 import 'package:karmayogi_mobile/ui/screens/_screens/profile/ui/widgets/field_name_widget.dart';
 import 'package:karmayogi_mobile/ui/screens/_screens/profile/ui/widgets/text_input_field.dart';
 import 'package:karmayogi_mobile/util/date_time_helper.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart'; // For localization
+import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+// For localization
 import 'package:intl/intl.dart';
 
 class CustomDatePicker extends StatefulWidget {

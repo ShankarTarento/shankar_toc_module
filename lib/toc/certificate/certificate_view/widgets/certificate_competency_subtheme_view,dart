@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:karmayogi_mobile/constants/_constants/color_constants.dart';
 
@@ -67,8 +68,8 @@ class _CertificateCompetencySubthemeState
                         borderRadius: BorderRadius.circular(12).r),
                     child: Text(
                       viewMore
-                          ? AppLocalizations.of(context)!.mStaticViewMore
-                          : AppLocalizations.of(context)!.mStaticViewLess,
+                          ? TocLocalizations.of(context)!.mStaticViewMore
+                          : TocLocalizations.of(context)!.mStaticViewLess,
                       style: Theme.of(context).textTheme.bodySmall!.copyWith(
                             fontSize: 12.sp,
                             decoration: TextDecoration.underline,

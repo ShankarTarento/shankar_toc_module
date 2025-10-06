@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../../../constants/index.dart';
-import '../../../../../models/index.dart';
-import '../../../../widgets/buttons/button_with_border.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/model/course_model.dart';
 
 class PostEnrollLanguageChangeWidget extends StatelessWidget {
   final Course course;

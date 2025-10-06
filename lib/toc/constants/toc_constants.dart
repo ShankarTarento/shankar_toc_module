@@ -204,3 +204,18 @@ class RegExpressions {
   static RegExp alphabetWithAmbresandDotCommaSlashBracketHyphen =
       RegExp(r'^[a-zA-Z\s(),.&/\-]+$');
 }
+
+class AssessmentQuestionStatus {
+  static const String markForReviewAndNext = "Mark for review & next";
+  static const String clearResponse = "Clear Response";
+  static const String saveAndNext = "Save & Next";
+  static const String nextSection = "Next Section";
+  static const String notAnswered = "Not answered";
+  static const String correct = "Correct";
+  static const String wrong = "Wrong";
+  static const String incorrect = "Incorrect";
+  static const String all = "All";
+  static const String unattempted = "Unattempted";
+  static const String retakeNotAllowed = "Retake Not Allowed";
+  static const String previous = "Previous";
+}

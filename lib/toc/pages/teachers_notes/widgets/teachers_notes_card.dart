@@ -10,6 +10,7 @@ import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/helper/toc_helper.dart';
 import 'package:toc_module/toc/model/reference_node.dart';
+import 'package:toc_module/toc/pages/resource_details_screen.dart';
 
 class TeachersNotesCard extends StatefulWidget {
   final ReferenceNode referenceNode;
@@ -113,7 +114,7 @@ class _TeachersNotesCardState extends State<TeachersNotesCard> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ResourceDetailsScreenV2(
+                          builder: (context) => ResourceDetailsScreen(
                             resourceId: widget.referenceNode.identifier,
                           ),
                         ),

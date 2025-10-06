@@ -79,7 +79,7 @@ class UpdateMessage extends StatelessWidget {
     if (await canLaunchUrl(Uri.parse(url))) {
       await launchUrl(Uri.parse(url));
     } else {
-      throw AppLocalizations.of(context!)!.mStaticErrorMessage;
+      throw TocLocalizations.of(context!)!.mStaticErrorMessage;
     }
   }
 }

@@ -3,17 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
-import 'package:karmayogi_mobile/models/_models/course_model.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/widgets/overall_progress.dart';
-import 'package:karmayogi_mobile/util/date_time_helper.dart';
 import 'package:provider/provider.dart';
-
-import '../../../../../constants/index.dart';
-import '../../../../../localization/index.dart';
-import '../../../../../respositories/index.dart';
-import '../../../../../util/helper.dart';
-import '../../../../widgets/index.dart';
-import '../../../index.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/model/course_model.dart';
 import 'language_listview.dart';
 
 class TocContentHeader extends StatelessWidget {

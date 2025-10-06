@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/util/toc_helper.dart';
-import 'package:karmayogi_mobile/util/date_time_helper.dart';
-
-import '../../../../../constants/index.dart';
-import '../../../../../models/index.dart';
-import '../../../../widgets/index.dart';
-import '../../../index.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/helper/date_time_helper.dart';
+import 'package:toc_module/toc/helper/toc_helper.dart';
+import 'package:toc_module/toc/model/course_hierarchy_model.dart';
+import 'package:toc_module/toc/model/course_model.dart';
+import 'package:toc_module/toc/widgets/course_at_glance_widget.dart';
+import 'package:toc_module/toc/widgets/toc_content_object_widget.dart';
 
 class CourseLevelModuleItem extends StatefulWidget {
   final index, content;

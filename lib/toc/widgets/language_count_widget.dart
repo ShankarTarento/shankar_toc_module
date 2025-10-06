@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
-
-import '../../../../../constants/index.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
 import '../model/language_map_model.dart';
 
 class LanguageCountWidget extends StatelessWidget {

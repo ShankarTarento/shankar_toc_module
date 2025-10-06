@@ -8117,12 +8117,6 @@ abstract class TocLocalizations {
   /// **'What is iGOT Karmayogi?'**
   String get mStaticGetstartvideo;
 
-  /// No description provided for @mStaticJoinnow.
-  ///
-  /// In en, this message translates to:
-  /// **'Join Now'**
-  String get mStaticJoinnow;
-
   /// No description provided for @mStaticVideoConference.
   ///
   /// In en, this message translates to:
@@ -11753,12 +11747,6 @@ abstract class TocLocalizations {
   /// **'Redirect'**
   String get mLearnRedirect;
 
-  /// No description provided for @mStaticForYou.
-  ///
-  /// In en, this message translates to:
-  /// **'For You'**
-  String get mStaticForYou;
-
   /// No description provided for @mExploreDiscoverMentors.
   ///
   /// In en, this message translates to:
@@ -12596,14 +12584,8 @@ abstract class TocLocalizations {
   /// No description provided for @mSelfRegisterRegistrationClosedDescription.
   ///
   /// In en, this message translates to:
-  /// **'Registrations are closed as of now please reach out to your department MDO or please write us at '**
+  /// **'Registrations are closed as of now. You may reach out to your respective nodal officer for assistance. Click on the below link to get the name and email of your respective Nodal officer.'**
   String get mSelfRegisterRegistrationClosedDescription;
-
-  /// No description provided for @mSelfRegisterWithOrgAndDesignation.
-  ///
-  /// In en, this message translates to:
-  /// **'with organization and designation name.'**
-  String get mSelfRegisterWithOrgAndDesignation;
 
   /// No description provided for @mThisFieldIsRequired.
   ///
@@ -13450,6 +13432,12 @@ abstract class TocLocalizations {
   /// In en, this message translates to:
   /// **'Show post'**
   String get mDiscussionShowPost;
+
+  /// No description provided for @mDiscussionPostModerationInfoMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This content is being moderated and may be removed if it violates community guidelines.'**
+  String get mDiscussionPostModerationInfoMessage;
 
   /// No description provided for @mCommonRelevant.
   ///
@@ -14771,6 +14759,78 @@ abstract class TocLocalizations {
   /// **'Note: This is only applicable for your first enrolment.'**
   String get mKarmapointEnrollTooltipMsg;
 
+  /// No description provided for @mAboutLanguagesAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Languages available'**
+  String get mAboutLanguagesAvailable;
+
+  /// No description provided for @mTocSelectContentLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Content Language'**
+  String get mTocSelectContentLanguage;
+
+  /// No description provided for @mTocContinueWhereyouLeftOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue where you left off in {lang}?'**
+  String mTocContinueWhereyouLeftOff(Object lang);
+
+  /// No description provided for @mTocYouHaveMadeProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve already made some progress in this language.'**
+  String get mTocYouHaveMadeProgress;
+
+  /// No description provided for @mTocContinueFromLeftOff.
+  ///
+  /// In en, this message translates to:
+  /// **'If you continue it will resume from where you left off.'**
+  String get mTocContinueFromLeftOff;
+
+  /// No description provided for @mTocWantToChangeLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to change the language?'**
+  String get mTocWantToChangeLanguage;
+
+  /// No description provided for @mTocSwitchingLangWillResetProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Switching the language will reset your progress.'**
+  String get mTocSwitchingLangWillResetProgress;
+
+  /// No description provided for @mTocChangeLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Language'**
+  String get mTocChangeLanguage;
+
+  /// No description provided for @mTocCourseRestartFromBeginning.
+  ///
+  /// In en, this message translates to:
+  /// **'The course will restart from the beginning in the selected language.'**
+  String get mTocCourseRestartFromBeginning;
+
+  /// No description provided for @mTocChoosPreferredLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Your Preferred Language'**
+  String get mTocChoosPreferredLanguage;
+
+  /// No description provided for @mTocChoosPreferredLanguageDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'This course is available in multiple languages. You can select one to begin.'**
+  String get mTocChoosPreferredLanguageDescription;
+
+  /// No description provided for @mTocConfirmStartCourse.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm & Start Course'**
+  String get mTocConfirmStartCourse;
+
   /// No description provided for @mRequestRejectedMessage.
   ///
   /// In en, this message translates to:
@@ -14873,6 +14933,126 @@ abstract class TocLocalizations {
   /// **'You are not authorised to see this profile.'**
   String get mBlockIncomingMessage;
 
+  /// No description provided for @mProfileVisibilityControl.
+  ///
+  /// In en, this message translates to:
+  /// **'Visibility Control'**
+  String get mProfileVisibilityControl;
+
+  /// No description provided for @mProfilePublic.
+  ///
+  /// In en, this message translates to:
+  /// **'Public'**
+  String get mProfilePublic;
+
+  /// No description provided for @mProfilePrivate.
+  ///
+  /// In en, this message translates to:
+  /// **'Private'**
+  String get mProfilePrivate;
+
+  /// No description provided for @mProfileAnyone.
+  ///
+  /// In en, this message translates to:
+  /// **'Anyone'**
+  String get mProfileAnyone;
+
+  /// No description provided for @mProfileAnyoneCanViewDataOnYourProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Your profile details will be visible to everyone on the platform.'**
+  String get mProfileAnyoneCanViewDataOnYourProfile;
+
+  /// No description provided for @mProfileConnectionOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Connections Only'**
+  String get mProfileConnectionOnly;
+
+  /// No description provided for @mProfileLockMyProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'No One/Lock my profile'**
+  String get mProfileLockMyProfile;
+
+  /// No description provided for @mProfileNoOneCanViewDataOnYourProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Selecting this option will hide your profile details from everyone, including your connections.'**
+  String get mProfileNoOneCanViewDataOnYourProfile;
+
+  /// No description provided for @mProfileLockedProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'This profile is locked'**
+  String get mProfileLockedProfile;
+
+  /// No description provided for @mProfileVisibilityUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Updated Successfully'**
+  String get mProfileVisibilityUpdated;
+
+  /// No description provided for @mTocAvailableInLanguages.
+  ///
+  /// In en, this message translates to:
+  /// **'Available in {count} languages'**
+  String mTocAvailableInLanguages(Object count);
+
+  /// No description provided for @mTocAvailableLanguages.
+  ///
+  /// In en, this message translates to:
+  /// **'Available Languages'**
+  String get mTocAvailableLanguages;
+
+  /// No description provided for @mTocAlreadyStartedCourse.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve already started this course'**
+  String get mTocAlreadyStartedCourse;
+
+  /// No description provided for @mTocYouHaveMadeSome.
+  ///
+  /// In en, this message translates to:
+  /// **'You’ve made some '**
+  String get mTocYouHaveMadeSome;
+
+  /// No description provided for @mTocProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'progress'**
+  String get mTocProgress;
+
+  /// No description provided for @mTocInAnotherLanguageCourse.
+  ///
+  /// In en, this message translates to:
+  /// **' in another language of this course.'**
+  String get mTocInAnotherLanguageCourse;
+
+  /// No description provided for @mTocWouldYouLikeTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Would you like to '**
+  String get mTocWouldYouLikeTo;
+
+  /// No description provided for @mTocWhereYouLeftOff.
+  ///
+  /// In en, this message translates to:
+  /// **'resume where you left off'**
+  String get mTocWhereYouLeftOff;
+
+  /// No description provided for @mTocContinueWithThisVersion.
+  ///
+  /// In en, this message translates to:
+  /// **', or continue with this version instead?'**
+  String get mTocContinueWithThisVersion;
+
+  /// No description provided for @mTocContinueHere.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue Here'**
+  String get mTocContinueHere;
+
   /// No description provided for @mNotificationEnabled.
   ///
   /// In en, this message translates to:
@@ -14890,6 +15070,12 @@ abstract class TocLocalizations {
   /// In en, this message translates to:
   /// **'Central Deputation'**
   String get mProfileCentralDeputation;
+
+  /// No description provided for @mStaticApar.
+  ///
+  /// In en, this message translates to:
+  /// **'APAR'**
+  String get mStaticApar;
 }
 
 class _TocLocalizationsDelegate extends LocalizationsDelegate<TocLocalizations> {

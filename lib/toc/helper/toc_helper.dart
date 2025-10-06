@@ -197,4 +197,11 @@ class TocHelper {
       return artifactUri;
     }
   }
+
+  static capitalizeFirstLetter(String s) {
+    if (s.trim().isNotEmpty && (s[0] != '')) {
+      return s[0].toUpperCase() + s.substring(1);
+    } else
+      return s;
+  }
 }

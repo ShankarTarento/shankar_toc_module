@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/constants/learn_compatability_constants.dart';
 
 import 'package:toc_module/toc/constants/toc_constants.dart';
+import 'package:toc_module/toc/model/course_model.dart';
+import 'package:toc_module/toc/model/toc_player_model.dart';
+import 'package:toc_module/toc/widgets/rate_now_pop_up.dart';
 
 class TocContentObjectWidget extends StatelessWidget {
   const TocContentObjectWidget(

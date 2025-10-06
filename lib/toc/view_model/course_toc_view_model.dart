@@ -1,22 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:karmayogi_mobile/constants/index.dart';
-import 'package:karmayogi_mobile/models/_models/reference_nodes.dart';
-import 'package:karmayogi_mobile/respositories/_respositories/learn_repository.dart';
-import 'package:karmayogi_mobile/services/_services/smartech_service.dart';
-import 'package:karmayogi_mobile/respositories/_respositories/profile_repository.dart';
-import 'package:karmayogi_mobile/util/app_config.dart';
 import 'package:provider/provider.dart';
-import '../../../../../models/_arguments/index.dart';
-import '../../../../../models/index.dart';
-import '../../../../../util/telemetry_repository.dart';
-import '../../../../widgets/buttons/button_with_border.dart';
-import '../../../../widgets/index.dart';
-import '../../../index.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/constants/toc_constants.dart';
+import 'package:toc_module/toc/model/batch_model.dart';
+import 'package:toc_module/toc/model/course_hierarchy_model.dart';
+import 'package:toc_module/toc/model/course_model.dart';
+import 'package:toc_module/toc/model/reference_node.dart';
 import '../model/language_map_model.dart';
-import '../util/toc_helper.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
-
 import '../widgets/compatibility_dialog.dart';
 
 class CourseTocViewModel extends ChangeNotifier {

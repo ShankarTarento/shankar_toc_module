@@ -7,15 +7,19 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:igot_ui_components/ui/widgets/alert_dialog/alert_dialog.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/constants/learn_compatability_constants.dart';
 import 'package:toc_module/toc/constants/toc_constants.dart';
 import 'package:toc_module/toc/helper/toc_helper.dart';
 import 'package:toc_module/toc/model/assessment_info.dart';
+import 'package:toc_module/toc/model/assessment_response_data_model.dart';
 import 'package:toc_module/toc/model/course_hierarchy_model.dart';
 import 'package:toc_module/toc/model/gust_data_model.dart';
 import 'package:toc_module/toc/model/navigation_model.dart';
 import 'package:toc_module/toc/model/save_ponit_model.dart';
 import 'package:toc_module/toc/repository/assessment_repository.dart';
+import 'package:toc_module/toc/util/assessment_view_model.dart';
 
 class CourseAssessmentPlayer extends StatefulWidget {
   final CourseHierarchyModel course;
@@ -161,7 +165,8 @@ class _CourseAssessmentPlayerState extends State<CourseAssessmentPlayer> {
               isFeatured: widget.isFeatured,
               guestUserData: _guestUserData);
         } else {
-          Helper.showSnackBarMessage(
+          TocHelper.showSnackBarMessage(
+              textColor: Colors.white,
               context: context,
               text: TocLocalizations.of(context)!.mStaticSomethingWrongTryLater,
               bgColor: TocModuleColors.blackLegend,
@@ -187,9 +192,10 @@ class _CourseAssessmentPlayerState extends State<CourseAssessmentPlayer> {
           _assessmentInfo = assessmentData.assessmentInfo;
         } else if (assessmentData.assessmentInfo != null &&
             assessmentData.assessmentInfo!.errMessage != null) {
-          Helper.showSnackBarMessage(
+          TocHelper.showSnackBarMessage(
               context: context,
-              text: assessmentData.assessmentInfo!.errMessage,
+              textColor: Colors.white,
+              text: assessmentData.assessmentInfo!.errMessage ?? "",
               bgColor: TocModuleColors.blackLegend,
               durationInSec: 5);
           Future.delayed(

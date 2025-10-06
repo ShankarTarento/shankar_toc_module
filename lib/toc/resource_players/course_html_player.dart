@@ -25,7 +25,8 @@ class CourseHtmlPlayer extends StatefulWidget {
   final bool isFeaturedCourse;
   final String parentCourseId;
   final NavigationModel resourceNavigateItems;
-  final bool? isPreRequisite;final String language;
+  final bool? isPreRequisite;
+  final String language;
 
   CourseHtmlPlayer(
       this.course, this.identifier, this.batchId, this.parentAction1,
@@ -34,7 +35,8 @@ class CourseHtmlPlayer extends StatefulWidget {
       this.isFeaturedCourse = false,
       required this.parentCourseId,
       required this.resourceNavigateItems,
-      this.isPreRequisite = false,required this.language});
+      this.isPreRequisite = false,
+      required this.language});
 
   _CourseHtmlPlayerState createState() => _CourseHtmlPlayerState();
 }
@@ -206,7 +208,9 @@ class _CourseHtmlPlayerState extends State<CourseHtmlPlayer> {
       }
       await learnService.updateContentProgress(courseId, batchId, contentId,
           status, contentType, current, maxSize, completionPercentage,
-          spentTime: spentTime, isPreRequisite: widget.isPreRequisite, language: widget.language);
+          spentTime: spentTime,
+          isPreRequisite: widget.isPreRequisite,
+          language: widget.language);
       Map data = {
         'identifier': contentId,
         'mimeType': contentType,
@@ -329,7 +333,7 @@ class _CourseHtmlPlayerState extends State<CourseHtmlPlayer> {
             '${ApiUrl.baseUrl}/viewer/mobile/html/${widget.identifier}?primaryCategory=Learning Resource&collectionId=${widget.parentCourseId}&collectionType=Course&batchId=${widget.batchId}&courseName=${widget.course.name}&embed=true${'&preview=true'}'));
 
       if (kIsWeb || !Platform.isMacOS) {
-        controller.setBackgroundColor(AppColors.greys60);
+        controller.setBackgroundColor(TocModuleColors.greys60);
       }
 
       setState(() {

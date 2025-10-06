@@ -1,8 +1,7 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
-import 'package:karmayogi_mobile/util/helper.dart';
+import 'package:toc_module/toc/helper/toc_helper.dart';
 
 class InviteOnlyAssessmentTimer extends StatefulWidget {
   final String startdate;
@@ -51,6 +50,6 @@ class _InviteOnlyAssessmentTimerState extends State<InviteOnlyAssessmentTimer> {
     int hours = _remainingTime!.inHours.remainder(24);
     int minutes = _remainingTime!.inMinutes.remainder(60);
     return Text(
-        "${TocLocalizations.of(context)!.mHomeBlendedProgramBatchStart} $days ${Helper.capitalizeFirstLetter(TocLocalizations.of(context)!.mStaticDays)}:$hours ${Helper.capitalizeFirstLetter(TocLocalizations.of(context)!.mStaticHours)}:$minutes ${Helper.capitalizeFirstLetter(TocLocalizations.of(context)!.mStaticMins)}");
+        "${TocLocalizations.of(context)!.mHomeBlendedProgramBatchStart} $days ${TocHelper.capitalizeFirstLetter(TocLocalizations.of(context)!.mStaticDays)}:$hours ${TocHelper.capitalizeFirstLetter(TocLocalizations.of(context)!.mStaticHours)}:$minutes ${TocHelper.capitalizeFirstLetter(TocLocalizations.of(context)!.mStaticMins)}");
   }
 }
