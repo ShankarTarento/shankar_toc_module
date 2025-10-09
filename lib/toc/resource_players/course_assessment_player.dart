@@ -8,9 +8,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:igot_ui_components/ui/widgets/alert_dialog/alert_dialog.dart';
+import 'package:toc_module/toc/assessment_module/widget/assessment_start_button_widget.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/constants/learn_compatability_constants.dart';
 import 'package:toc_module/toc/constants/toc_constants.dart';
+import 'package:toc_module/toc/helper/date_time_helper.dart';
 import 'package:toc_module/toc/helper/toc_helper.dart';
 import 'package:toc_module/toc/model/assessment_info.dart';
 import 'package:toc_module/toc/model/assessment_response_data_model.dart';
@@ -348,7 +350,7 @@ class _CourseAssessmentPlayerState extends State<CourseAssessmentPlayer> {
                                 ),
                                 _assessmentInfo != null
                                     ? HtmlWidget(
-                                        Helper.decodeHtmlEntities(
+                                        TocHelper.decodeHtmlEntities(
                                             _assessmentInfo!.description),
                                         textStyle: TextStyle(fontSize: 14.sp),
                                       )

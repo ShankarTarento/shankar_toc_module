@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/constants/english_lang.dart';
+import 'package:toc_module/toc/constants/toc_constants.dart';
 import 'package:toc_module/toc/helper/toc_helper.dart';
 import 'package:toc_module/toc/model/course_hierarchy_model.dart';
 import 'package:toc_module/toc/model/course_model.dart';
@@ -81,7 +83,7 @@ class _TocContentPageState extends State<TocContentPage> {
       DateTime? endDate = widget.enrolledCourse!.batch!.endDate.isNotEmpty
           ? DateTime.parse(widget.enrolledCourse!.batch!.endDate)
           : null;
-      if (widget.course.courseCategory == EnglishLang.program ||
+      if (widget.course.courseCategory == PrimaryCategory.program ||
           (endDate != null &&
               (DateTime(endDate.year, endDate.month, endDate.day)
                       .isAtSameMomentAs(

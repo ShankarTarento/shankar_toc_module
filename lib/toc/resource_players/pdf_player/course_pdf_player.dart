@@ -4,16 +4,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:internet_file/internet_file.dart';
-import 'package:karmayogi_mobile/ui/skeleton/pages/pdf_player_skeleton.dart';
 import 'package:pdfx/pdfx.dart';
-import '../../../../util/index.dart';
-import '../../../pages/_pages/toc/model/navigation_model.dart';
-import '../../../pages/_pages/toc/util/toc_helper.dart';
-import '../../../pages/_pages/toc/view_model/toc_player_view_model.dart';
-import './../../../../services/index.dart';
-import './../../../../constants/index.dart';
-import './../../../widgets/index.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/constants/toc_constants.dart';
+import 'package:toc_module/toc/helper/toc_helper.dart';
+import 'package:toc_module/toc/model/navigation_model.dart';
+import 'package:toc_module/toc/resource_players/pdf_player/course_pdf_player_skeleton.dart';
+import 'package:toc_module/toc/util/error_page.dart';
+
+import '../../view_model/toc_player_view_model.dart';
 
 class CoursePdfPlayer extends StatefulWidget {
   final String identifier;
@@ -156,10 +155,10 @@ class _CoursePdfPlayerState extends State<CoursePdfPlayer> {
       String resUri = resourceInfo?.artifactUrl ?? '';
       if (resUri == '') return;
       if (resUri.contains('http://')) {
-        resUri = Helper.upgradeToHttps(resUri, replaceFirst: true);
+        resUri = TocHelper.upgradeToHttps(resUri, replaceFirst: true);
       }
       if (resUri.contains('https://storage.googleapis.com/igotprod')) {
-        resUri = Helper.upgradeGoogleAPI(resUri);
+        resUri = TocHelper.upgradeGoogleAPI(resUri);
       }
 
       var pdfData = await InternetFile.get(resUri);

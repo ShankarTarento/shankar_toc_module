@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:toc_module/toc/constants/toc_constants.dart';
 import 'package:toc_module/toc/helper/toc_helper.dart';
 import 'package:toc_module/toc/model/navigation_model.dart';
+import 'package:toc_module/toc/util/page_loader.dart';
 import 'package:toc_module/toc/view_model/toc_player_view_model.dart';
 import 'package:video_player/video_player.dart';
 
@@ -209,7 +210,7 @@ class _CourseAudioPlayerState extends State<CourseAudioPlayer> {
       _currentProgress = 0;
     }
     _videoPlayerController1 = VideoPlayerController.networkUrl(
-        Uri.parse(Helper.generateCdnUri(resourceInfo!.artifactUrl)));
+        Uri.parse(TocHelper.generateCdnUri(resourceInfo!.artifactUrl)));
     await Future.wait([
       _videoPlayerController1!.initialize(),
     ]);

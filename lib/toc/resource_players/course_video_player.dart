@@ -5,23 +5,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:karmayogi_mobile/models/_models/transcription_data_model.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/transcript/model/transcript_model.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/transcript/repository/transcript_repository.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/util/toc_helper.dart';
-import 'package:karmayogi_mobile/ui/widgets/_learn/_contentPlayers/course_video_player_widget/custom_video_controller.dart';
-import 'package:karmayogi_mobile/util/app_config.dart';
+
 import 'package:provider/provider.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/constants/toc_constants.dart';
+import 'package:toc_module/toc/helper/toc_helper.dart';
+import 'package:toc_module/toc/model/navigation_model.dart';
+import 'package:toc_module/toc/model/transcription_response.dart';
+import 'package:toc_module/toc/pages/transcript/model/transcript_model.dart';
+import 'package:toc_module/toc/pages/transcript/repository/transcript_repository.dart';
+import 'package:toc_module/toc/resource_players/course_video_player_widget/custom_video_controller.dart';
+import 'package:toc_module/toc/util/page_loader.dart';
+import 'package:toc_module/toc/view_model/toc_player_view_model.dart';
+import 'package:toc_module/toc/widgets/toc_autoplay_next_resource.dart';
+import 'package:toc_module/toc/widgets/toc_replay_widget.dart';
 import 'package:video_player/video_player.dart';
-import '../../../../respositories/_respositories/settings_repository.dart';
-import '../../../../util/index.dart';
-import '../../../pages/_pages/toc/model/navigation_model.dart';
-import '../../../pages/_pages/toc/util/toc_constants.dart';
-import '../../../pages/_pages/toc/view_model/toc_player_view_model.dart';
-import '../../../pages/index.dart';
-import './../../../widgets/index.dart';
-import './../../../../constants/index.dart';
-import './../../../../services/index.dart';
 
 class CourseVideoPlayer extends StatefulWidget {
   CourseVideoPlayer(
@@ -624,7 +622,7 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer>
   Uri getUri() {
     if (widget.isPlayer) {
       String url = resourceInfo != null ? resourceInfo!.artifactUrl ?? '' : '';
-      return Uri.parse(Helper.generateCdnUri(url));
+      return Uri.parse(TocHelper.generateCdnUri(url));
     } else {
       return Uri.parse(widget.fileUrl ?? '');
     }

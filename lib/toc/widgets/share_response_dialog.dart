@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
-
-import '../../../../../constants/index.dart';
-import '../../../../widgets/index.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
 
 class ShareResponseDialog extends StatelessWidget {
   @override
@@ -28,11 +26,13 @@ class ShareResponseDialog extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Container(
-                        child: TitleRegularGrey60(
+                        child: Text(
                           TocLocalizations.of(context)!
                               .mContentSharePageSuccessMessage,
-                          fontSize: 14.sp,
-                          color: TocModuleColors.appBarBackground,
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            color: TocModuleColors.appBarBackground,
+                          ),
                           maxLines: 3,
                         ),
                       ),

@@ -35,6 +35,8 @@ dependencies:
   autocomplete_textfield: ^2.0.1
   clippy_flutter: ^2.0.0-nullsafety.1
   reorderables: ^0.6.0
+  youtube_player_flutter: ^9.1.2
+
 
 
 

@@ -242,3 +242,10 @@ class AssessmentSectionType {
 
 const String ASSESSMENT_FITB_QUESTION_INPUT =
     '<input style=\"border-style:none none solid none\" />';
+
+class EventType {
+  static const karmayogiTalks = "Karmayogi Talks";
+  static const webinar = "Webinar";
+  static const karmayogiSaptah = "Karmayogi Saptah";
+  static const rajyaKarmayogiSaptha = "Rajya Karmayogi Saptah";
+}

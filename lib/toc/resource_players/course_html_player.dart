@@ -4,16 +4,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/constants/toc_constants.dart';
+import 'package:toc_module/toc/helper/toc_helper.dart';
+import 'package:toc_module/toc/model/course_hierarchy_model.dart';
+import 'package:toc_module/toc/model/navigation_model.dart';
+import 'package:toc_module/toc/view_model/toc_player_view_model.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
-import '../../../../models/index.dart';
-import '../../../../util/telemetry_repository.dart';
-import '../../../pages/_pages/toc/model/navigation_model.dart';
-import '../../../pages/_pages/toc/util/toc_constants.dart';
-import '../../../pages/_pages/toc/util/toc_helper.dart';
-import '../../../pages/_pages/toc/view_model/toc_player_view_model.dart';
-import './../../../../constants/index.dart';
-import './../../../../services/index.dart';
 
 class CourseHtmlPlayer extends StatefulWidget {
   final CourseHierarchyModel course;

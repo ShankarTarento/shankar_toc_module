@@ -3,36 +3,31 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:karmayogi_mobile/home_screen_components/hubs_strip/widgets/new_widget_animation.dart';
-import 'package:karmayogi_mobile/igot_app.dart';
-import 'package:karmayogi_mobile/services/_services/smartech_service.dart';
-import 'package:karmayogi_mobile/models/_models/reference_nodes.dart';
-import 'package:karmayogi_mobile/respositories/_respositories/profile_repository.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/blended_program_content/blended_program_content.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/player/toc_offline_player.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/teachers_notes/teachers_notes.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/transcript/transcript.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/screen/toc_open_resource.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/util/toc_helper.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/view_model/course_toc_view_model.dart';
-import 'package:karmayogi_mobile/ui/widgets/base_scaffold.dart';
-import 'package:karmayogi_mobile/ui/widgets/igot_ai/igot_ai_tutor/widgets/ai_tutor_button.dart';
-import 'package:karmayogi_mobile/util/app_config.dart';
+
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
-import '../../../../../constants/index.dart';
-import '../../../../../models/_arguments/index.dart';
-import '../../../../../models/_models/course_structure_model.dart';
-import '../../../../../models/index.dart';
-import '../../../../../respositories/_respositories/learn_repository.dart';
-import '../../../../skeleton/index.dart';
-import '../../../../widgets/index.dart';
-import '../../../index.dart';
-import '../../learn/course_sharing/course_sharing_page.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/constants/toc_constants.dart';
+import 'package:toc_module/toc/helper/toc_helper.dart';
+import 'package:toc_module/toc/model/course_hierarchy_model.dart';
+import 'package:toc_module/toc/model/course_model.dart';
+import 'package:toc_module/toc/model/reference_node.dart';
+import 'package:toc_module/toc/model/toc_player_model.dart';
+import 'package:toc_module/toc/pages/about_tab/widgets/blended_program/blended_program_content/blended_program_content.dart';
+import 'package:toc_module/toc/pages/player/toc_content_player.dart';
+import 'package:toc_module/toc/pages/player/toc_offline_player.dart';
+import 'package:toc_module/toc/pages/teachers_notes/teachers_notes.dart';
+import 'package:toc_module/toc/pages/toc_content_page.dart';
+import 'package:toc_module/toc/pages/transcript/transcript.dart';
+import 'package:toc_module/toc/screen/toc_open_resource.dart';
+import 'package:toc_module/toc/util/no_data_widget.dart';
+import 'package:toc_module/toc/view_model/course_toc_view_model.dart';
+import 'package:toc_module/toc/widgets/toc_appbar_widget.dart';
+import 'package:toc_module/toc/widgets/toc_player_button.dart';
+
 import '../model/navigation_model.dart';
 import '../pages/about_tab/about_tab.dart';
 import '../pages/course_comments.dart';
-import '../widgets/overall_progress.dart';
 
 class TocPlayerScreen extends StatefulWidget {
   final TocPlayerModel arguments;
@@ -801,7 +796,7 @@ class _TocPlayerScreenState extends State<TocPlayerScreen>
 
   Future<dynamic> generateNavigation() async {
     try {
-      Map response = await TocHelper().generateNavigationItem(
+      Map response = await TocHelper.generateNavigationItem(
           course: course!,
           courseHierarchyData: courseHierarchyData!,
           enrolledCourse: enrolledCourse,
@@ -813,7 +808,7 @@ class _TocPlayerScreenState extends State<TocPlayerScreen>
       navigationItems = response['navItems'];
       resourceNavigateItems = response['resourceNavItems'];
       double totalProgress = 0;
-      totalProgress = TocHelper().getCourseOverallProgress(
+      totalProgress = TocHelper.getCourseOverallProgress(
           totalProgress, response['resourceNavItems']);
       if (totalProgress / resourceNavigateItems.length == 1) {
         isCourseCompleted.value = true;

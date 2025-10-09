@@ -3,33 +3,24 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:karmayogi_mobile/constants/_constants/app_constants.dart';
-import 'package:karmayogi_mobile/constants/_constants/color_constants.dart';
-import 'package:karmayogi_mobile/models/_arguments/toc_player_model.dart';
-import 'package:karmayogi_mobile/models/_models/course_hierarchy_model.dart';
-import 'package:karmayogi_mobile/models/_models/course_model.dart';
-import 'package:karmayogi_mobile/models/_models/course_structure_model.dart';
-import 'package:karmayogi_mobile/respositories/_respositories/learn_repository.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/learn/course_sharing/course_sharing_page.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/my_learnings/no_data_widget.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/model/navigation_model.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/about_tab/about_tab.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/player/toc_content_player.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/player/toc_offline_player.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/services/toc_services.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/toc_content_page.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/screen/toc_open_resource.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/util/toc_helper.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/widgets/course_progress_widget.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/widgets/toc_appbar_widget.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/widgets/toc_player_button.dart';
-import 'package:karmayogi_mobile/ui/skeleton/pages/toc_player_skeleton.dart';
-import 'package:karmayogi_mobile/ui/widgets/_learn/learn_tab.dart';
-import 'package:karmayogi_mobile/ui/widgets/base_scaffold.dart';
-import 'package:karmayogi_mobile/ui/widgets/title_regular_grey60.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/constants/toc_constants.dart';
+import 'package:toc_module/toc/helper/toc_helper.dart';
+import 'package:toc_module/toc/model/course_hierarchy_model.dart';
+import 'package:toc_module/toc/model/course_model.dart';
+import 'package:toc_module/toc/model/navigation_model.dart';
+import 'package:toc_module/toc/model/toc_player_model.dart';
+import 'package:toc_module/toc/pages/about_tab/about_tab.dart';
+import 'package:toc_module/toc/pages/player/toc_content_player.dart';
+import 'package:toc_module/toc/pages/player/toc_offline_player.dart';
+import 'package:toc_module/toc/pages/toc_content_page.dart';
+import 'package:toc_module/toc/screen/toc_open_resource.dart';
+import 'package:toc_module/toc/util/no_data_widget.dart';
+import 'package:toc_module/toc/widgets/course_progress_widget.dart';
+import 'package:toc_module/toc/widgets/toc_appbar_widget.dart';
+import 'package:toc_module/toc/widgets/toc_player_button.dart';
 
 class PreTocPlayerScreen extends StatefulWidget {
   final TocPlayerModel arguments;
@@ -426,8 +417,8 @@ class _PreTocPlayerScreenState extends State<PreTocPlayerScreen>
             resourceNavigateItems[i].status = 2;
           }
           double totalProgress = 0;
-          totalProgress = TocHelper()
-              .getCourseOverallProgress(totalProgress, resourceNavigateItems);
+          totalProgress = TocHelper.getCourseOverallProgress(
+              totalProgress, resourceNavigateItems);
           if ((totalProgress / resourceNavigateItems.length) >
                   courseOverallProgress &&
               (totalProgress / resourceNavigateItems.length) -
@@ -441,8 +432,8 @@ class _PreTocPlayerScreenState extends State<PreTocPlayerScreen>
                   courseCategory: course!.courseCategory,
                   contextLockingType: course!.contextLockingType,
                   compatibilityLevel: course!.compatibilityLevel)) {
-            TocHelper()
-                .updateLock(resourceNavigateItems, widget.arguments.courseId);
+            TocHelper.updateLock(
+                resourceNavigateItems, widget.arguments.courseId);
           }
 
           Provider.of<TocServices>(context, listen: false).setCourseProgress(
@@ -468,8 +459,8 @@ class _PreTocPlayerScreenState extends State<PreTocPlayerScreen>
       getCurrentResourceIndex();
     }
     double totalProgress = 0;
-    totalProgress = TocHelper()
-        .getCourseOverallProgress(totalProgress, resourceNavigateItems);
+    totalProgress = TocHelper.getCourseOverallProgress(
+        totalProgress, resourceNavigateItems);
 
     courseOverallProgress = totalProgress / resourceNavigateItems.length;
     prevCourseOverallProgress = courseOverallProgress;
@@ -582,11 +573,14 @@ class _PreTocPlayerScreenState extends State<PreTocPlayerScreen>
                                 children: [
                                   Expanded(
                                     child: Container(
-                                      child: TitleRegularGrey60(
+                                      child: Text(
                                         TocLocalizations.of(context)!
                                             .mContentSharePageSuccessMessage,
-                                        fontSize: 14.sp,
-                                        color: TocModuleColors.appBarBackground,
+                                        style: TextStyle(
+                                          fontSize: 14.sp,
+                                          color:
+                                              TocModuleColors.appBarBackground,
+                                        ),
                                         maxLines: 3,
                                       ),
                                     ),
@@ -628,7 +622,7 @@ class _PreTocPlayerScreenState extends State<PreTocPlayerScreen>
   }
 
   Future<dynamic> generateNavigation() async {
-    Map response = await TocHelper().generatePreEnrollNavigationItem(
+    Map response = await TocHelper.generatePreEnrollNavigationItem(
         course: course!,
         courseHierarchyData: courseHierarchyData!,
         isPlayer: true,
@@ -638,8 +632,8 @@ class _PreTocPlayerScreenState extends State<PreTocPlayerScreen>
     navigationItems = response['navItems'];
     resourceNavigateItems = response['resourceNavItems'];
     double totalProgress = 0;
-    totalProgress = TocHelper()
-        .getCourseOverallProgress(totalProgress, response['resourceNavItems']);
+    totalProgress = TocHelper.getCourseOverallProgress(
+        totalProgress, response['resourceNavItems']);
     if (totalProgress / resourceNavigateItems.length == 1) {
       isCourseCompleted.value = true;
     }

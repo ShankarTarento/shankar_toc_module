@@ -3,14 +3,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
-import 'package:karmayogi_mobile/constants/_constants/learn_compatibility_constants.dart';
-import 'package:karmayogi_mobile/models/index.dart';
-
-import '../../../../../constants/index.dart';
-import '../../../../../feedback/pages/_pages/_cbpSurvey/content_feedback.dart';
-import '../../../../widgets/index.dart';
-import '../../../index.dart';
-import '../../../../widgets/_learn/_contentPlayers/course_youtube_player.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/constants/learn_compatability_constants.dart';
+import 'package:toc_module/toc/constants/toc_constants.dart';
+import 'package:toc_module/toc/model/course_hierarchy_model.dart';
+import 'package:toc_module/toc/resource_players/course_assessment_player.dart';
+import 'package:toc_module/toc/resource_players/course_html_player.dart';
+import 'package:toc_module/toc/resource_players/pdf_player/course_pdf_player.dart';
+import 'package:toc_module/toc/resource_players/youtube_player/course_youtube_player.dart';
+import 'package:toc_module/toc/widgets/toc_pdfplayer_structure.dart';
 import '../pages/update_message.dart';
 
 class OpenResource extends StatelessWidget {

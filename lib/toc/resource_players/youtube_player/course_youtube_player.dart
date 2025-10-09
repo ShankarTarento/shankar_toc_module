@@ -1,14 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-
-import '../../../../constants/index.dart';
-import '../../../../services/index.dart';
-import '../../../../util/index.dart';
-import '../../../pages/_pages/toc/view_model/toc_player_view_model.dart';
-import '../../_events/widgets/custom_youtube_player.dart';
-import '../../../pages/_pages/toc/model/navigation_model.dart';
-import '../../../pages/_pages/toc/util/toc_helper.dart';
+import 'package:toc_module/toc/model/navigation_model.dart';
+import 'package:toc_module/toc/resource_players/youtube_player/custom_youtube_player.dart';
+import 'package:toc_module/toc/view_model/toc_player_view_model.dart';
 
 class CourseYoutubePlayer extends StatefulWidget {
   final String identifier;

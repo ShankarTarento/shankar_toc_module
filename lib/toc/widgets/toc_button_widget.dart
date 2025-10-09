@@ -3,9 +3,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/constants/english_lang.dart';
 import 'package:toc_module/toc/constants/toc_constants.dart';
+import 'package:toc_module/toc/helper/toc_helper.dart';
 import 'package:toc_module/toc/model/batch_model.dart';
 import 'package:toc_module/toc/model/course_model.dart';
+import 'package:toc_module/toc/model/toc_player_model.dart';
+import 'package:toc_module/toc/screen/toc_player_screen.dart';
+import 'package:toc_module/toc/util/button_with_border.dart';
+import 'package:toc_module/toc/util/fade_route.dart';
+import 'package:toc_module/toc/widgets/rate_now_pop_up.dart';
 import '../enroll_moderated_program.dart';
 import 'PreEnrollLanguageSelector.dart';
 
@@ -263,18 +270,18 @@ class _TocButtonWidgetState extends State<TocButtonWidget> {
   }
 
   bool hasDateNotReached() {
-    DateTime today = Helper.trimDate(DateTime.now());
+    DateTime today = TocHelper.trimDate(DateTime.now());
     DateTime start =
-        Helper.trimDate(DateTime.parse(enrolledCourse!.batch!.startDate));
+        TocHelper.trimDate(DateTime.parse(enrolledCourse!.batch!.startDate));
     return start.isAfter(today);
   }
 
   bool isDateInRangeInclusive() {
-    DateTime today = Helper.trimDate(DateTime.now());
+    DateTime today = TocHelper.trimDate(DateTime.now());
     DateTime start =
-        Helper.trimDate(DateTime.parse(enrolledCourse!.batch!.startDate));
+        TocHelper.trimDate(DateTime.parse(enrolledCourse!.batch!.startDate));
     DateTime end =
-        Helper.trimDate(DateTime.parse(enrolledCourse!.batch!.endDate));
+        TocHelper.trimDate(DateTime.parse(enrolledCourse!.batch!.endDate));
     return (today.isAtSameMomentAs(start) || today.isAfter(start)) &&
         (today.isAtSameMomentAs(end) || today.isBefore(end));
   }
@@ -305,7 +312,7 @@ class _TocButtonWidgetState extends State<TocButtonWidget> {
         PrimaryCategory.comprehensiveAssessmentProgram) {
       await enrollCuratedWithoutModerated(context);
     } else if (widget.isModerated &&
-        (widget.courseDetails.courseCategory == EnglishLang.program ||
+        (widget.courseDetails.courseCategory == PrimaryCategory.program ||
             widget.courseDetails.courseCategory ==
                 PrimaryCategory.moderatedProgram) &&
         enrolledCourse == null) {
@@ -318,7 +325,7 @@ class _TocButtonWidgetState extends State<TocButtonWidget> {
   Future<void> autoEnroll(BuildContext context) async {
     String courseId = widget.courseDetails.id;
     widget.courseDetails.languageMap.languages[baseLanguage];
-    courseId = Helper.getBaseCourseId(widget.courseDetails) ?? courseId;
+    courseId = TocHelper.getBaseCourseId(widget.courseDetails) ?? courseId;
 
     var response = await learnRepository.autoEnrollBatch(
         courseId: courseId,
@@ -326,14 +333,20 @@ class _TocButtonWidgetState extends State<TocButtonWidget> {
             widget.courseDetails.languageMap.languages[baseLanguage]?.name);
 // navigatorKey.currentState!.context is used to handle context issue from dialog widgets
     if (response.runtimeType == String) {
-      Helper.showToastMessage(navigatorKey.currentState!.context,
-          message: response);
+      TocHelper.showSnackBarMessage(
+          bgColor: TocModuleColors.darkBlue,
+          textColor: Colors.white,
+          context: navigatorKey.currentState!.context,
+          text: response);
     } else {
       await fetchEnrolInfo(courseId);
 
       trackCourseEnrolled();
-      Helper.showToastMessage(navigatorKey.currentState!.context,
-          message: TocLocalizations.of(navigatorKey.currentState!.context)!
+      TocHelper.showSnackBarMessage(
+          bgColor: TocModuleColors.darkBlue,
+          textColor: Colors.white,
+          context: navigatorKey.currentState!.context,
+          text: TocLocalizations.of(navigatorKey.currentState!.context)!
               .mStaticEnrolledSuccessfully);
     }
   }
@@ -353,11 +366,11 @@ class _TocButtonWidgetState extends State<TocButtonWidget> {
     if (response.toLowerCase() == EnglishLang.success.toLowerCase()) {
       await fetchEnrolInfo(widget.courseDetails.id);
       trackCourseEnrolled();
-      Helper.showToastMessage(navigatorKey.currentState!.context,
+      TocHelper.showToastMessage(navigatorKey.currentState!.context,
           message: TocLocalizations.of(navigatorKey.currentState!.context)!
               .mStaticEnrolledSuccessfully);
     } else {
-      Helper.showToastMessage(navigatorKey.currentState!.context,
+      TocHelper.showToastMessage(navigatorKey.currentState!.context,
           message:
               '${TocLocalizations.of(navigatorKey.currentState!.context)!.mStaticEnrollmentFailed}, ${response}');
     }
@@ -370,11 +383,11 @@ class _TocButtonWidgetState extends State<TocButtonWidget> {
     if (message.toLowerCase() == EnglishLang.success.toLowerCase()) {
       await fetchEnrolInfo(widget.courseDetails.id);
       trackCourseEnrolled();
-      Helper.showToastMessage(navigatorKey.currentState!.context,
+      TocHelper.showToastMessage(navigatorKey.currentState!.context,
           message: TocLocalizations.of(navigatorKey.currentState!.context)!
               .mStaticEnrolledSuccessfully);
     } else {
-      Helper.showToastMessage(navigatorKey.currentState!.context,
+      TocHelper.showToastMessage(navigatorKey.currentState!.context,
           message: message.isNotEmpty
               ? message
               : TocLocalizations.of(navigatorKey.currentState!.context)!
@@ -408,19 +421,20 @@ class _TocButtonWidgetState extends State<TocButtonWidget> {
 
   navigateToContent({required String batchId, List? navigationItems}) async {
     // navigatorKey.currentState!.context is used to handle context issue from dialog widgets
-    var result = await Navigator.pushNamed(
-      navigatorKey.currentState!.context,
-      AppUrl.tocPlayer,
-      arguments: TocPlayerModel(
-          enrolledCourse: enrolledCourse,
-          navigationItems: navigationItems,
-          isCuratedProgram: widget.isCuratedProgram,
-          batchId: batchId,
-          lastAccessContentId: widget.lastAccessContentId,
-          courseId: widget.courseId,
-          isFeatured: widget.isFeatured,
-          enrollmentList: enrollmentList),
-    );
+    var result = await Navigator.push(
+        navigatorKey.currentState!.context,
+        FadeRoute(
+            page: TocPlayerScreen(
+          arguments: TocPlayerModel(
+              enrolledCourse: enrolledCourse,
+              navigationItems: navigationItems,
+              isCuratedProgram: widget.isCuratedProgram,
+              batchId: batchId,
+              lastAccessContentId: widget.lastAccessContentId,
+              courseId: widget.courseId,
+              isFeatured: widget.isFeatured,
+              enrollmentList: enrollmentList),
+        )));
     if (result != null && result is Map<String, bool>) {
       Map<String, dynamic> response = result;
       if (response['isFinished']) {

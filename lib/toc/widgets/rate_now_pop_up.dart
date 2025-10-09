@@ -10,6 +10,7 @@ import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/model/course_model.dart';
+import 'package:toc_module/toc/util/fade_route.dart';
 
 class RateNowPopUp extends StatelessWidget {
   final Course courseDetails;
