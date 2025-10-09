@@ -3,10 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:just_the_tooltip/just_the_tooltip.dart';
-import 'package:karmayogi_mobile/ui/widgets/index.dart';
-import './../../../../feedback/constants.dart';
-import './../../../../constants/index.dart';
+
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/toc/assessment_module/widget/fill_in_the_blank_question.dart';
+import 'package:toc_module/toc/assessment_module/widget/match_case_question.dart';
+import 'package:toc_module/toc/assessment_module/widget/multi_select_question.dart';
+import 'package:toc_module/toc/assessment_module/widget/radio_question.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/constants/toc_constants.dart';
+import 'package:toc_module/toc/util/error_page.dart';
+import 'package:toc_module/toc/util/page_loader.dart';
 
 class NewAssessmentQuestions extends StatefulWidget {
   final course;
@@ -360,7 +366,7 @@ class _NewAssessmentQuestionsState extends State<NewAssessmentQuestions> {
       leading: IconButton(
         icon: Icon(
             widget.assessmentSectionLength > 1 ? Icons.arrow_back : Icons.clear,
-            color: FeedbackColors.black60),
+            color: TocModuleColors.black60),
         onPressed: () {
           if (widget.assessmentSectionLength == 1) {
             if (widget.isFullAnswered()) {
@@ -391,7 +397,7 @@ class _NewAssessmentQuestionsState extends State<NewAssessmentQuestions> {
               widget.title,
               overflow: TextOverflow.fade,
               style: GoogleFonts.montserrat(
-                  color: FeedbackColors.black87,
+                  color: TocModuleColors.black87,
                   fontSize: 14.0.sp,
                   fontWeight: FontWeight.w700,
                   letterSpacing: 0.25),
@@ -463,7 +469,7 @@ class _NewAssessmentQuestionsState extends State<NewAssessmentQuestions> {
         color: bgColor,
         borderRadius: BorderRadius.all(const Radius.circular(4.0)).r,
         border: bgColor == TocModuleColors.appBarBackground
-            ? Border.all(color: FeedbackColors.black40)
+            ? Border.all(color: TocModuleColors.black40)
             : Border.all(color: bgColor),
       ),
       child: Text(
@@ -592,7 +598,7 @@ class _NewAssessmentQuestionsState extends State<NewAssessmentQuestions> {
             child: Text(
               label,
               style: GoogleFonts.lato(
-                color: FeedbackColors.black60,
+                color: TocModuleColors.black60,
                 fontWeight: FontWeight.w400,
                 fontSize: 12.0.sp,
               ),
@@ -867,7 +873,7 @@ class _NewAssessmentQuestionsState extends State<NewAssessmentQuestions> {
                               color:
                                   _questionIndex == _microSurvey.indexOf(item)
                                       ? TocModuleColors.darkBlue
-                                      : FeedbackColors.black60,
+                                      : TocModuleColors.black60,
                               fontWeight:
                                   _questionIndex == _microSurvey.indexOf(item)
                                       ? FontWeight.w700
@@ -1255,11 +1261,14 @@ class _NewAssessmentQuestionsState extends State<NewAssessmentQuestions> {
                                 children: [
                                   Expanded(
                                     child: Container(
-                                      child: TitleRegularGrey60(
+                                      child: Text(
                                         TocLocalizations.of(context)!
                                             .mGiveYourAnswerBeforeShowingAnswer,
-                                        fontSize: 14.sp,
-                                        color: TocModuleColors.appBarBackground,
+                                        style: TextStyle(
+                                          fontSize: 14.sp,
+                                          color:
+                                              TocModuleColors.appBarBackground,
+                                        ),
                                         maxLines: 3,
                                       ),
                                     ),

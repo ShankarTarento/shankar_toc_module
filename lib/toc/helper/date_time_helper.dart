@@ -76,4 +76,28 @@ class DateTimeHelper {
     DateTime dateTime = dateFormat.parse(dateString);
     return DateFormat("yyyy-MM-dd").format(dateTime);
   }
+
+  static int getMilliSecondsFromTimeFormat(String duration) {
+    List data = duration.split(' ');
+    int totalDuration = 0;
+    RegExp regex = RegExp(
+        r'^\s*\d+\s*(h|hr|hour|hrs|m|min|minute|mins|s|sec|second|secs)\s*$',
+        caseSensitive: false);
+    data.removeWhere((element) => !(regex.hasMatch(element)));
+    if (data.isEmpty) {
+      return int.parse(duration);
+    }
+    for (var i = 0; i < data.length; i++) {
+      int value =
+          int.parse(data[i].toString().substring(0, data[i].length - 1));
+      if (data[i].contains('h')) {
+        totalDuration = totalDuration + (value * 60 * 60);
+      } else if (data[i].contains('m')) {
+        totalDuration = totalDuration + (value * 60);
+      } else if (data[i].contains('s')) {
+        totalDuration = totalDuration + value;
+      }
+    }
+    return totalDuration;
+  }
 }

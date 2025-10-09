@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
-import 'package:karmayogi_mobile/util/helper.dart';
-import './../../../../constants/index.dart';
-import './../../../../feedback/constants.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
 
 import 'package:html/parser.dart' as html_parser;
 import 'package:html/dom.dart' as dom;
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/helper/toc_helper.dart';
 
 class FillInTheBlankQuestion extends StatefulWidget {
   final question;
@@ -47,9 +46,9 @@ class _FillInTheBlankQuestionState extends State<FillInTheBlankQuestion> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (Helper.isHtml(_questionWithBlank)) {
+    if (TocHelper.isHtml(_questionWithBlank)) {
       contentWidgets =
-          renderHtmlContent(Helper.decodeHtmlEntities(_questionWithBlank));
+          renderHtmlContent(TocHelper.decodeHtmlEntities(_questionWithBlank));
       if (widget.answerGiven.isEmpty) {
         _answer = [];
       }
@@ -61,9 +60,9 @@ class _FillInTheBlankQuestionState extends State<FillInTheBlankQuestion> {
 
   getData() async {
     await _setText();
-    if (Helper.isHtml(_questionWithBlank)) {
+    if (TocHelper.isHtml(_questionWithBlank)) {
       contentWidgets =
-          renderHtmlContent(Helper.decodeHtmlEntities(_questionWithBlank));
+          renderHtmlContent(TocHelper.decodeHtmlEntities(_questionWithBlank));
       for (var i = 0; i < _answer.length; i++) {
         _optionController[i].text = _answer[i];
       }
@@ -105,7 +104,7 @@ class _FillInTheBlankQuestionState extends State<FillInTheBlankQuestion> {
     if (widget.answerGiven != '') {
       _answer = List.from(widget.answerGiven.sublist(0));
     }
-    if (!Helper.isHtml(_questionWithBlank)) {
+    if (!TocHelper.isHtml(_questionWithBlank)) {
       for (var i = 0;
           i <
               ((_question != null && _question['options'] != null)
@@ -154,12 +153,12 @@ class _FillInTheBlankQuestionState extends State<FillInTheBlankQuestion> {
                 )),
             Container(
               padding: const EdgeInsets.only(bottom: 15).r,
-              child: Helper.isHtml(_questionWithBlank)
+              child: TocHelper.isHtml(_questionWithBlank)
                   ? Wrap(
                       children: contentWidgets!,
                     )
                   : HtmlWidget(
-                      Helper.decodeHtmlEntities(_questionWithBlank),
+                      TocHelper.decodeHtmlEntities(_questionWithBlank),
                       textStyle: Theme.of(context)
                           .textTheme
                           .titleLarge!
@@ -169,7 +168,7 @@ class _FillInTheBlankQuestionState extends State<FillInTheBlankQuestion> {
             SizedBox(
               height: 16.w,
             ),
-            !Helper.isHtml(_questionWithBlank)
+            !TocHelper.isHtml(_questionWithBlank)
                 ? Column(
                     children: [
                       for (var i = 0;
@@ -249,11 +248,11 @@ class _FillInTheBlankQuestionState extends State<FillInTheBlankQuestion> {
                                                               ['value']['body']
                                                           .toString() ==
                                                       _answer[i].toString()
-                                                  ? FeedbackColors
+                                                  ? TocModuleColors
                                                       .positiveLightBg
-                                                  : FeedbackColors
+                                                  : TocModuleColors
                                                       .negativeLightBg)
-                                              : FeedbackColors.negativeLightBg,
+                                              : TocModuleColors.negativeLightBg,
                                       contentPadding: EdgeInsets.fromLTRB(
                                               10.0, 0.0, 10.0, 0.0)
                                           .r,
@@ -279,11 +278,11 @@ class _FillInTheBlankQuestionState extends State<FillInTheBlankQuestion> {
                                                                 .toString() ==
                                                             _answer[i]
                                                                 .toString()
-                                                        ? FeedbackColors
+                                                        ? TocModuleColors
                                                             .positiveLight
-                                                        : FeedbackColors
+                                                        : TocModuleColors
                                                             .negativeLight)
-                                                    : FeedbackColors
+                                                    : TocModuleColors
                                                         .negativeLight
                                                 : TocModuleColors.grey16),
                                       ),
@@ -460,9 +459,9 @@ class _FillInTheBlankQuestionState extends State<FillInTheBlankQuestion> {
                 ? (_question['options'][currentIndex]['value']['body']
                             .toString() ==
                         _answer[currentIndex].toString()
-                    ? FeedbackColors.positiveLightBg
-                    : FeedbackColors.negativeLightBg)
-                : FeedbackColors.negativeLightBg,
+                    ? TocModuleColors.positiveLightBg
+                    : TocModuleColors.negativeLightBg)
+                : TocModuleColors.negativeLightBg,
         contentPadding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
         border: OutlineInputBorder(
             borderSide: BorderSide(color: TocModuleColors.grey16)),
@@ -480,9 +479,9 @@ class _FillInTheBlankQuestionState extends State<FillInTheBlankQuestion> {
                       ? (_question['options'][currentIndex]['value']['body']
                                   .toString() ==
                               _answer[currentIndex].toString()
-                          ? FeedbackColors.positiveLight
-                          : FeedbackColors.negativeLight)
-                      : FeedbackColors.negativeLight
+                          ? TocModuleColors.positiveLight
+                          : TocModuleColors.negativeLight)
+                      : TocModuleColors.negativeLight
                   : TocModuleColors.grey16),
         ),
         helperText: '',

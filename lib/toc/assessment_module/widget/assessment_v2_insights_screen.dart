@@ -2,15 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:karmayogi_mobile/constants/_constants/learn_compatibility_constants.dart';
-import 'package:karmayogi_mobile/constants/index.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
 
-import '../../../../models/index.dart';
-import '../../../../util/faderoute.dart';
-import '../../../../util/telemetry_repository.dart';
-import '../../../pages/_pages/toc/model/navigation_model.dart';
-import '../../index.dart';
+import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/toc/assessment_module/widget/assessment_v2_overall_performance_summary.dart';
+import 'package:toc_module/toc/assessment_module/widget/assessment_v2_question_status_summary.dart';
+import 'package:toc_module/toc/constants/learn_compatability_constants.dart';
+import 'package:toc_module/toc/constants/toc_constants.dart';
+import 'package:toc_module/toc/model/course_hierarchy_model.dart';
+import 'package:toc_module/toc/model/navigation_model.dart';
+import 'package:toc_module/toc/resource_players/course_assessment_player.dart';
+import 'package:toc_module/toc/util/fade_route.dart';
+
+import '../../constants/color_constants.dart';
 
 class AssessmentV2Insights extends StatelessWidget {
   final String timeSpent;

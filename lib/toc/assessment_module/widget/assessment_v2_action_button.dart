@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
-
-import '../../../../constants/index.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/constants/toc_constants.dart';
 
 class AssessmentV2ActionButton extends StatelessWidget {
   final StringCallback onButtonPressed;
@@ -34,7 +34,7 @@ class AssessmentV2ActionButton extends StatelessWidget {
                   children: [
                     ElevatedButton(
                       onPressed: () => onButtonPressed(
-                          AssessmentQuestionStatus.MarkForReviewAndNext),
+                          AssessmentQuestionStatus.markForReviewAndNext),
                       style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.symmetric(horizontal: 16),
                           backgroundColor: TocModuleColors.whiteGradientOne,

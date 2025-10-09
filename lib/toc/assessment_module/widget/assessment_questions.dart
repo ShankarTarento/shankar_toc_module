@@ -4,10 +4,19 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:just_the_tooltip/just_the_tooltip.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/toc/assessment_module/widget/assessment_v2_completed.dart';
+import 'package:toc_module/toc/assessment_module/widget/match_case_question.dart';
+import 'package:toc_module/toc/assessment_module/widget/multi_select_question.dart';
+import 'package:toc_module/toc/assessment_module/widget/radio_question.dart';
+import 'package:toc_module/toc/assessment_module/widget/single_fill_in_the_blank.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/constants/toc_constants.dart';
+import 'package:toc_module/toc/helper/date_time_helper.dart';
 import 'package:toc_module/toc/model/course_hierarchy_model.dart';
 import 'package:toc_module/toc/services/assessment_service.dart';
+import 'package:toc_module/toc/util/button_with_border.dart';
+import 'package:toc_module/toc/util/page_loader.dart';
+import 'package:toc_module/toc/view_model/toc_player_view_model.dart';
 
 class AssessmentQuestions extends StatefulWidget {
   final CourseHierarchyModel course;
@@ -365,7 +374,7 @@ class _AssessmentQuestionsState extends State<AssessmentQuestions> {
       titleSpacing: 0,
       elevation: 0,
       leading: IconButton(
-        icon: Icon(Icons.arrow_back, color: FeedbackColors.black60),
+        icon: Icon(Icons.arrow_back, color: TocModuleColors.greys60),
         onPressed: () => Navigator.of(context).pop(),
       ),
       title: Container(
@@ -523,7 +532,7 @@ class _AssessmentQuestionsState extends State<AssessmentQuestions> {
                         child: roundedButton(
                             TocLocalizations.of(context)!.mStaticNoSubmit,
                             TocModuleColors.appBarBackground,
-                            FeedbackColors.primaryBlue),
+                            TocModuleColors.primaryBlue),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 12).r,
@@ -532,7 +541,7 @@ class _AssessmentQuestionsState extends State<AssessmentQuestions> {
                           child: roundedButton(
                               TocLocalizations.of(context)!
                                   .mStaticYesTakeMeBack,
-                              FeedbackColors.primaryBlue,
+                              TocModuleColors.primaryBlue,
                               TocModuleColors.appBarBackground),
                         ),
                       )
@@ -552,7 +561,7 @@ class _AssessmentQuestionsState extends State<AssessmentQuestions> {
         color: bgColor,
         borderRadius: BorderRadius.all(const Radius.circular(4.0)).r,
         border: bgColor == TocModuleColors.appBarBackground
-            ? Border.all(color: FeedbackColors.black40)
+            ? Border.all(color: TocModuleColors.black40)
             : Border.all(color: bgColor),
       ),
       child: Text(
@@ -998,7 +1007,7 @@ class _AssessmentQuestionsState extends State<AssessmentQuestions> {
                                 color:
                                     _questionIndex == _microSurvey.indexOf(item)
                                         ? TocModuleColors.darkBlue
-                                        : FeedbackColors.black60,
+                                        : TocModuleColors.greys60,
                                 fontWeight:
                                     _questionIndex == _microSurvey.indexOf(item)
                                         ? FontWeight.w700
@@ -1283,14 +1292,14 @@ class _AssessmentQuestionsState extends State<AssessmentQuestions> {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Expanded(
-                                    child: Container(
-                                      child: TitleRegularGrey60(
-                                        TocLocalizations.of(context)!
-                                            .mGiveYourAnswerBeforeShowingAnswer,
+                                    child: Text(
+                                      TocLocalizations.of(context)!
+                                          .mGiveYourAnswerBeforeShowingAnswer,
+                                      style: TextStyle(
                                         fontSize: 14.sp,
                                         color: TocModuleColors.appBarBackground,
-                                        maxLines: 3,
                                       ),
+                                      maxLines: 3,
                                     ),
                                   ),
                                 ],

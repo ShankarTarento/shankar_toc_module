@@ -2,18 +2,21 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:karmayogi_mobile/ui/pages/index.dart';
-import 'package:karmayogi_mobile/ui/widgets/_learn/_assessment/html_webview_widget.dart';
-import 'package:karmayogi_mobile/ui/widgets/index.dart';
+import 'package:igot_ui_components/ui/widgets/alert_dialog/alert_dialog.dart';
 import 'package:provider/provider.dart';
-import '../../../../models/_models/assessment_info_model.dart';
-import '../../../../models/_models/assessment_save_point_model.dart';
-import '../../../../services/_services/assessment_service.dart';
-import '../../../../util/helper.dart';
-import '../../../pages/_pages/toc/model/navigation_model.dart';
-import '../../_common/alert_dialog.dart';
-import './../../../../constants/index.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/toc/assessment_module/widget/assessment_v2_appbar.dart';
+import 'package:toc_module/toc/assessment_module/widget/assessment_widget.dart';
+import 'package:toc_module/toc/assessment_module/widget/html_webview_widget.dart';
+import 'package:toc_module/toc/assessment_module/widget/question_count_summary_widget.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/constants/toc_constants.dart';
+import 'package:toc_module/toc/helper/toc_helper.dart';
+import 'package:toc_module/toc/model/assessment_info.dart';
+import 'package:toc_module/toc/model/navigation_model.dart';
+import 'package:toc_module/toc/model/save_ponit_model.dart';
+import 'package:toc_module/toc/services/assessment_service.dart';
+import 'package:toc_module/toc/util/no_data_widget.dart';
 
 import 'assessment_v2_section_selection_widget.dart';
 
@@ -221,7 +224,7 @@ class _NewAssessmentV2QuestionsState extends State<NewAssessmentV2Questions> {
         int qstnIndex = widget.microSurvey
             .indexWhere((item) => item['identifier'] == element['index']);
         switch (element['status']) {
-          case AssessmentQuestionStatus.MarkForReviewAndNext:
+          case AssessmentQuestionStatus.markForReviewAndNext:
             _flaggedQuestions.add(qstnIndex);
             break;
           case AssessmentQuestionStatus.saveAndNext:
@@ -482,7 +485,7 @@ class _NewAssessmentV2QuestionsState extends State<NewAssessmentV2Questions> {
                 ? Row(
                     children: [
                       Text(
-                        Helper.handleNumber(
+                        TocHelper.handleNumber(
                                 widget.assessmentInfo.sectionLevelDefinition![
                                     widget.microSurvey[_questionIndex]
                                         ['questionLevel']]['marksForQuestion'])
@@ -493,7 +496,7 @@ class _NewAssessmentV2QuestionsState extends State<NewAssessmentV2Questions> {
                         ),
                       ),
                       Text(
-                        Helper.handleNumber(widget.assessmentInfo
+                        TocHelper.handleNumber(widget.assessmentInfo
                                     .sectionLevelDefinition![widget
                                         .microSurvey[_questionIndex]
                                     ['questionLevel']]['marksForQuestion']) >
@@ -603,7 +606,7 @@ class _NewAssessmentV2QuestionsState extends State<NewAssessmentV2Questions> {
     } else if (_answerGiven(_microSurvey[_questionIndex]['identifier']) ||
         value != AssessmentQuestionStatus.saveAndNext) {
       switch (value) {
-        case AssessmentQuestionStatus.MarkForReviewAndNext:
+        case AssessmentQuestionStatus.markForReviewAndNext:
           _flaggedQuestions =
               await updateCategorizedList(value, _flaggedQuestions);
           break;
@@ -647,6 +650,12 @@ class _NewAssessmentV2QuestionsState extends State<NewAssessmentV2Questions> {
                     .mAssessmentPleaseAttemptAndMoveNext,
                 primaryButtonText: TocLocalizations.of(context)!.mStaticBack,
                 onPrimaryButtonPressed: () => Navigator.of(cxt).pop(),
+                primaryButtonTextStyle: GoogleFonts.lato(
+                  color: TocModuleColors.appBarBackground,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 14.0.sp,
+                  height: 1.5.w,
+                ),
               );
             });
       } else {
@@ -1118,7 +1127,7 @@ class _NewAssessmentV2QuestionsState extends State<NewAssessmentV2Questions> {
         widget.assessmentDetails[sectionNo].childStatus != null) {
       widget.assessmentDetails[sectionNo].childStatus.forEach((element) {
         switch (element['status']) {
-          case AssessmentQuestionStatus.MarkForReviewAndNext:
+          case AssessmentQuestionStatus.markForReviewAndNext:
             markForReview++;
             break;
           case AssessmentQuestionStatus.saveAndNext:

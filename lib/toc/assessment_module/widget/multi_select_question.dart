@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../constants/index.dart';
-import './../../../../feedback/constants.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+
 import 'package:webview_flutter/webview_flutter.dart' as Webview;
 
 import 'html_webview_widget.dart';
@@ -120,21 +120,21 @@ class _MultiSelectQuestionQuestionState extends State<MultiSelectQuestion> {
                       color: isChecked[index + 1]! &&
                               _correctAnswer.contains(index) &&
                               widget.showAnswer
-                          ? FeedbackColors.positiveLightBg
+                          ? TocModuleColors.positiveLightBg
                           : isChecked[index + 1]! &&
                                   !_correctAnswer.contains(index) &&
                                   widget.showAnswer
-                              ? FeedbackColors.negativeLightBg
+                              ? TocModuleColors.negativeLightBg
                               : _correctAnswer.contains(index) &&
                                       widget.showAnswer
-                                  ? FeedbackColors.positiveLightBg
+                                  ? TocModuleColors.positiveLightBg
                                   : _correctAnswer.contains(index) &&
                                           widget.showAnswer
-                                      ? FeedbackColors.negativeLightBg
+                                      ? TocModuleColors.negativeLightBg
                                       : isChecked[index + 1]! &&
                                               _correctAnswer.contains(index) &&
                                               widget.showAnswer
-                                          ? FeedbackColors.positiveLightBg
+                                          ? TocModuleColors.positiveLightBg
                                           : isChecked[index + 1]!
                                               ? TocModuleColors.darkBlue
                                                   .withValues(alpha: 0.16)
@@ -146,22 +146,22 @@ class _MultiSelectQuestionQuestionState extends State<MultiSelectQuestion> {
                         color: isChecked[index + 1]! &&
                                 _correctAnswer.contains(index) &&
                                 widget.showAnswer
-                            ? FeedbackColors.positiveLight
+                            ? TocModuleColors.positiveLight
                             : isChecked[index + 1]! &&
                                     !_correctAnswer.contains(index) &&
                                     widget.showAnswer
-                                ? FeedbackColors.negativeLight
+                                ? TocModuleColors.negativeLight
                                 : _correctAnswer.contains(index) &&
                                         widget.showAnswer
-                                    ? FeedbackColors.positiveLight
+                                    ? TocModuleColors.positiveLight
                                     : _correctAnswer.contains(index) &&
                                             widget.showAnswer
-                                        ? FeedbackColors.negativeLight
+                                        ? TocModuleColors.negativeLight
                                         : isChecked[index + 1]! &&
                                                 _correctAnswer
                                                     .contains(index) &&
                                                 widget.showAnswer
-                                            ? FeedbackColors.positiveLight
+                                            ? TocModuleColors.positiveLight
                                             : isChecked[index + 1]!
                                                 ? TocModuleColors.darkBlue
                                                 : TocModuleColors.greys
@@ -173,10 +173,10 @@ class _MultiSelectQuestionQuestionState extends State<MultiSelectQuestion> {
                         side: BorderSide(width: 0.8.w),
                         activeColor:
                             _correctAnswer.contains(index) && widget.showAnswer
-                                ? FeedbackColors.positiveLight
+                                ? TocModuleColors.positiveLight
                                 : !_correctAnswer.contains(index) &&
                                         widget.showAnswer
-                                    ? FeedbackColors.negativeLight
+                                    ? TocModuleColors.negativeLight
                                     : TocModuleColors.darkBlue,
                         dense: true,
                         //font change

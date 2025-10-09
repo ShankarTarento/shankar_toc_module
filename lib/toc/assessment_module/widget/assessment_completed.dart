@@ -99,8 +99,8 @@ class _AssessmentCompletedState extends State<AssessmentCompleted> {
                           valueColor: AlwaysStoppedAnimation<Color>(
                               widget.apiResponse['result'] >=
                                       widget.apiResponse['passPercent']
-                                  ? FeedbackColors.positiveLight
-                                  : FeedbackColors.negativeLight),
+                                  ? TocModuleColors.positiveLight
+                                  : TocModuleColors.negativeLight),
                         ),
                       ),
                       Center(
@@ -120,8 +120,8 @@ class _AssessmentCompletedState extends State<AssessmentCompleted> {
                             style: GoogleFonts.lato(
                                 color: (widget.apiResponse['result'] >=
                                         widget.apiResponse['passPercent'])
-                                    ? FeedbackColors.positiveLight
-                                    : FeedbackColors.negativeLight,
+                                    ? TocModuleColors.positiveLight
+                                    : TocModuleColors.negativeLight,
                                 fontWeight: FontWeight.w600,
                                 fontSize: 20.0.sp,
                                 letterSpacing: 0.25.r),
@@ -194,6 +194,7 @@ class _AssessmentCompletedState extends State<AssessmentCompleted> {
                   Container(
                     margin: EdgeInsets.only(top: 16).r,
                     padding: EdgeInsets.all(16.0).r,
+                    decoration: boxDecoration,
                     child: Row(
                       children: [
                         Row(
@@ -230,7 +231,6 @@ class _AssessmentCompletedState extends State<AssessmentCompleted> {
                         )
                       ],
                     ),
-                    decoration: boxDecoration,
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: 24, left: 16, bottom: 16).r,

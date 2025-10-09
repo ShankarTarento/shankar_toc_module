@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
-
-import 'package:karmayogi_mobile/util/date_time_helper.dart';
-import '../../../../constants/index.dart';
-import '../../../../feedback/constants.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/helper/date_time_helper.dart';
 
 class AssessmentAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -38,7 +36,7 @@ class AssessmentAppBar extends StatelessWidget implements PreferredSizeWidget {
                   title,
                   maxLines: 2,
                   style: GoogleFonts.inter(
-                      color: FeedbackColors.black87,
+                      color: TocModuleColors.black87,
                       fontSize: 16.0.sp,
                       fontWeight: FontWeight.w400,
                       letterSpacing: 0.25),
@@ -63,7 +61,7 @@ class AssessmentAppBar extends StatelessWidget implements PreferredSizeWidget {
                             : '${totalQuestionCount.toString()} ${TocLocalizations.of(context)!.mStaticQuestions}',
                         overflow: TextOverflow.fade,
                         style: GoogleFonts.lato(
-                            color: FeedbackColors.black87,
+                            color: TocModuleColors.black87,
                             fontSize: 12.0,
                             fontWeight: FontWeight.w700,
                             letterSpacing: 0.25),
@@ -87,7 +85,7 @@ class AssessmentAppBar extends StatelessWidget implements PreferredSizeWidget {
                                 timelyDurationFlag: true),
                             overflow: TextOverflow.fade,
                             style: GoogleFonts.lato(
-                                color: FeedbackColors.black87,
+                                color: TocModuleColors.black87,
                                 fontSize: 12.0,
                                 fontWeight: FontWeight.w700,
                                 letterSpacing: 0.25),

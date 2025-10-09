@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
-import '../../../../feedback/constants.dart';
-import '../../../../util/helper.dart';
-import './../../../../constants/index.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/constants/toc_constants.dart';
+import 'package:toc_module/toc/helper/toc_helper.dart';
 
 class SingleFillInTheBlankQuestion extends StatefulWidget {
   final question;
@@ -54,7 +54,7 @@ class _SingleFillInTheBlankQuestionState
           children: [
             Container(
               padding: const EdgeInsets.only(bottom: 15),
-              child: HtmlWidget(Helper.decodeHtmlEntities(_questionText[0]),
+              child: HtmlWidget(TocHelper.decodeHtmlEntities(_questionText[0]),
                   textStyle: getTextStyle(_questionText[0])),
             ),
             Container(
@@ -101,7 +101,7 @@ class _SingleFillInTheBlankQuestionState
                 )),
             Container(
               padding: const EdgeInsets.only(bottom: 15),
-              child: HtmlWidget(Helper.decodeHtmlEntities(_questionText[1]),
+              child: HtmlWidget(TocHelper.decodeHtmlEntities(_questionText[1]),
                   textStyle: getTextStyle(_questionText[1])),
             ),
             widget.showAnswer
@@ -123,7 +123,7 @@ class _SingleFillInTheBlankQuestionState
     return htmlText.contains('<strong>')
         ? null
         : GoogleFonts.lato(
-            color: FeedbackColors.black87,
+            color: TocModuleColors.black87,
             fontWeight: FontWeight.w600,
             fontSize: 14.sp,
           );

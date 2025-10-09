@@ -5,16 +5,18 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
 
 import 'package:igot_ui_components/ui/widgets/alert_dialog/alert_dialog.dart';
-import 'package:karmayogi_mobile/constants/_constants/learn_compatibility_constants.dart';
-import 'package:karmayogi_mobile/ui/widgets/_learn/_assessment/_models/guest_data_model.dart';
+import 'package:toc_module/toc/assessment_module/widget/assessment_questions.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/constants/english_lang.dart';
+import 'package:toc_module/toc/constants/learn_compatability_constants.dart';
+import 'package:toc_module/toc/constants/toc_constants.dart';
+import 'package:toc_module/toc/model/assessment_info.dart';
+import 'package:toc_module/toc/model/course_hierarchy_model.dart';
+import 'package:toc_module/toc/model/gust_data_model.dart';
+import 'package:toc_module/toc/model/navigation_model.dart';
+import 'package:toc_module/toc/model/save_ponit_model.dart';
+import 'package:toc_module/toc/util/error_page.dart';
 
-import '../../../../constants/index.dart';
-import '../../../../localization/index.dart';
-import '../../../../models/_models/assessment_info_model.dart';
-import '../../../../models/_models/assessment_save_point_model.dart';
-import '../../../../models/index.dart';
-import '../../../pages/_pages/toc/model/navigation_model.dart';
-import '../../index.dart';
 import 'assessment_sections.dart';
 import 'assessment_v2_sections.dart';
 

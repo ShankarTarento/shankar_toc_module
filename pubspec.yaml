@@ -32,6 +32,11 @@ dependencies:
   igot_ui_components: ^0.1.0
   dropdown_button2: ^2.3.9
   circular_countdown_timer: ^0.2.3
+  autocomplete_textfield: ^2.0.1
+  clippy_flutter: ^2.0.0-nullsafety.1
+  reorderables: ^0.6.0
+
+
 
 
 

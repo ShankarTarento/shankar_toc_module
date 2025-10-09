@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:karmayogi_mobile/constants/_constants/app_constants.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:karmayogi_mobile/constants/_constants/color_constants.dart';
-import 'package:karmayogi_mobile/respositories/index.dart';
-import 'package:karmayogi_mobile/ui/screens/_screens/profile/ui/widgets/field_name_widget.dart';
-import 'package:karmayogi_mobile/ui/screens/_screens/profile/ui/widgets/text_input_field.dart';
-import 'package:karmayogi_mobile/ui/widgets/_common/button_widget_v2.dart';
-import 'package:karmayogi_mobile/ui/widgets/_learn/_assessment/_models/guest_data_model.dart';
-import 'package:karmayogi_mobile/util/helper.dart';
-import 'package:karmayogi_mobile/util/validations.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/constants/toc_constants.dart';
+import 'package:toc_module/toc/helper/toc_helper.dart';
+import 'package:toc_module/toc/model/gust_data_model.dart';
+import 'package:toc_module/toc/util/button_widget_v2.dart';
+import 'package:toc_module/toc/util/field_name_widget.dart';
+import 'package:toc_module/toc/util/text_input_field.dart';
+import 'package:toc_module/toc/util/validations.dart';
 
 class GuestDetailForm extends StatefulWidget {
   final Function(GuestDataModel) submitCallback;
@@ -24,7 +23,6 @@ class GuestDetailForm extends StatefulWidget {
 }
 
 class _GuestDetailFormState extends State<GuestDetailForm> {
-  final ProfileRepository profileRepository = ProfileRepository();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -272,7 +270,8 @@ class _GuestDetailFormState extends State<GuestDetailForm> {
         print(e);
       }
     } else {
-      Helper.showSnackBarMessage(
+      TocHelper.showSnackBarMessage(
+          textColor: Colors.white,
           context: context,
           text: _errorMessage,
           bgColor: TocModuleColors.greys87);

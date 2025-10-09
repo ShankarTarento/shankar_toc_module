@@ -13,6 +13,7 @@ import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
 
 import 'package:html/parser.dart' as html_parser;
 import 'package:html/dom.dart' as dom;
+import 'package:toc_module/toc/helper/toc_helper.dart';
 
 class AssessmentCompletedScreenItem extends StatefulWidget {
   const AssessmentCompletedScreenItem({
@@ -160,11 +161,11 @@ class _QuestionItemState extends State<QuestionItem> {
               children: [
                 Container(
                   padding: const EdgeInsets.only(bottom: 15),
-                  child: RegExpressions.inputTagRegExp
-                          .hasMatch(Helper.decodeHtmlEntities(widget.question))
+                  child: RegExpressions.inputTagRegExp.hasMatch(
+                          TocHelper.decodeHtmlEntities(widget.question))
                       ? Wrap(
                           children: renderHtmlContent(
-                              Helper.decodeHtmlEntities(widget.question)),
+                              TocHelper.decodeHtmlEntities(widget.question)),
                         )
                       : HtmlWebviewWidget(
                           htmlText: widget.question,

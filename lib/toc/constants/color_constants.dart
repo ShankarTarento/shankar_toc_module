@@ -160,6 +160,7 @@ class TocModuleColors {
   static const blackLegend = Color.fromRGBO(33, 37, 41, 1);
   static const btnSecondaryColor = Color.fromRGBO(51, 61, 76, 1);
   static const black87 = Colors.black87;
+  static const Color black60 = Color.fromRGBO(0, 0, 0, 0.60);
 
   // yellow
   static const yellowShade = Color.fromRGBO(255, 234, 158, 1);
@@ -180,4 +181,19 @@ class TocModuleColors {
   static const disabledTextGrey = Color.fromRGBO(102, 102, 102, 1);
   static const disabledTextGrey0 = Color.fromRGBO(102, 102, 102, 0);
   static const redBgShade = Color.fromRGBO(246, 13, 13, 1);
+
+  static const Color negativeLightBg = Color.fromRGBO(209, 57, 36, 0.1);
+  static const Color positiveLightBg = Color.fromRGBO(29, 137, 35, 0.1);
+  static const Color background = Colors.white;
+
+  static const Color black16 = Color.fromRGBO(0, 0, 0, 0.16);
+  static const Color black08 = Color.fromRGBO(0, 0, 0, 0.08);
+  static const Color black04 = Color.fromRGBO(0, 0, 0, 0.04);
+  static const Color textFieldHint = Color.fromRGBO(0, 0, 0, 0.40);
+  static const Color textFieldBorder = Color.fromRGBO(0, 0, 0, 0.16);
+  static const Color textFieldDescText = Color.fromRGBO(0, 0, 0, 0.60);
+  static const Color ratedColor = Color.fromRGBO(246, 153, 83, 1);
+  static const Color unRatedColor = Color.fromRGBO(0, 0, 0, 0.1);
+
+  static const Color primaryBlueBg = Color.fromRGBO(39, 117, 184, 0.1);
 }

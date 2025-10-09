@@ -219,3 +219,26 @@ class AssessmentQuestionStatus {
   static const String retakeNotAllowed = "Retake Not Allowed";
   static const String previous = "Previous";
 }
+
+class AssessmentQuestionType {
+  static const String radioType = 'mcq-sca';
+  static const String radioWeightageType = 'mcq-sca-tf';
+  static const String checkBoxType = 'mcq-mca';
+  static const String checkBoxWeightageType = 'mcq-mca-w';
+  static const String matchCase = 'mtf';
+  static const String fitb = 'fitb';
+  static const String ftb = 'ftb';
+}
+
+class AssessmentType {
+  static const questionWeightage = 'questionWeightage';
+  static const optionalWeightage = 'optionalWeightage';
+}
+
+class AssessmentSectionType {
+  static const String paragraph = 'paragraph';
+  static const String section = 'section';
+}
+
+const String ASSESSMENT_FITB_QUESTION_INPUT =
+    '<input style=\"border-style:none none solid none\" />';

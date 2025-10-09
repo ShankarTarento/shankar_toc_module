@@ -6,13 +6,11 @@ import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
 
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../../../../constants/index.dart';
-import '../../../../util/helper.dart';
 import 'package:html/parser.dart' as html_parser;
 import 'package:html/dom.dart' as dom;
-
-import '../../index.dart';
+import 'package:toc_module/toc/assessment_module/widget/dropdown_list_widget.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/helper/toc_helper.dart';
 
 class FTBDropdown extends StatefulWidget {
   final question;
@@ -54,18 +52,18 @@ class _FTBDropdownState extends State<FTBDropdown> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (Helper.isHtml(_questionWithBlank)) {
+    if (TocHelper.isHtml(_questionWithBlank)) {
       contentWidgets =
-          renderHtmlContent(Helper.decodeHtmlEntities(_questionWithBlank));
+          renderHtmlContent(TocHelper.decodeHtmlEntities(_questionWithBlank));
     }
   }
 
   getData() async {
     dropdownCount = -1;
     await _setText();
-    if (Helper.isHtml(widget.questionText)) {
+    if (TocHelper.isHtml(widget.questionText)) {
       contentWidgets =
-          renderHtmlContent(Helper.decodeHtmlEntities(widget.questionText));
+          renderHtmlContent(TocHelper.decodeHtmlEntities(widget.questionText));
     }
   }
 
@@ -96,7 +94,7 @@ class _FTBDropdownState extends State<FTBDropdown> {
     if (widget.answerGiven != '') {
       _answer = List.from(widget.answerGiven.sublist(0));
     }
-    if (!Helper.isHtml(_questionWithBlank)) {
+    if (!TocHelper.isHtml(_questionWithBlank)) {
       selectedDropdownValue.clear();
       for (var i = 0;
           i <
@@ -128,7 +126,7 @@ class _FTBDropdownState extends State<FTBDropdown> {
           children: [
             Container(
               padding: const EdgeInsets.only(bottom: 15).r,
-              child: Helper.isHtml(_questionWithBlank)
+              child: TocHelper.isHtml(_questionWithBlank)
                   ? Wrap(
                       runSpacing: 16,
                       spacing: 4.0,
@@ -136,7 +134,7 @@ class _FTBDropdownState extends State<FTBDropdown> {
                       children: contentWidgets!,
                     )
                   : HtmlWidget(
-                      Helper.decodeHtmlEntities(_questionWithBlank),
+                      TocHelper.decodeHtmlEntities(_questionWithBlank),
                       textStyle: Theme.of(context)
                           .textTheme
                           .titleLarge!
@@ -146,7 +144,7 @@ class _FTBDropdownState extends State<FTBDropdown> {
             SizedBox(
               height: 16.w,
             ),
-            !Helper.isHtml(_questionWithBlank)
+            !TocHelper.isHtml(_questionWithBlank)
                 ? Column(
                     children: [
                       for (var i = 0;

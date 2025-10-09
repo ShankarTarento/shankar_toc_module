@@ -4,14 +4,18 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:igot_ui_components/ui/widgets/alert_dialog/alert_dialog.dart';
-import 'package:karmayogi_mobile/constants/index.dart';
-import 'package:karmayogi_mobile/models/index.dart';
-import 'package:karmayogi_mobile/util/faderoute.dart';
-import '../../../../util/helper.dart';
-import '../../../../util/telemetry_repository.dart';
-import '../../../pages/_pages/toc/model/navigation_model.dart';
-import '../../index.dart';
+import 'package:toc_module/toc/assessment_module/widget/assessment_v2_insights_screen.dart';
+import 'package:toc_module/toc/assessment_module/widget/assessment_v2_overall_performance_summary.dart';
+import 'package:toc_module/toc/assessment_module/widget/assessment_v2_sectionwise_summary_widget.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/helper/toc_helper.dart';
+
+import 'package:toc_module/toc/model/course_hierarchy_model.dart';
+
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/toc/model/navigation_model.dart';
+import 'package:toc_module/toc/resource_players/course_assessment_player.dart';
+import 'package:toc_module/toc/util/fade_route.dart';
 
 class AssessmentV2CompletedScreen extends StatefulWidget {
   final String timeSpent;
@@ -286,7 +290,7 @@ class _AssessmentV2CompletedScreenState
         sectionSummary.add({
           'sectionName': section['name'],
           'score':
-              '${Helper.handleNumber(section['sectionMarks'])}/${section['totalMarks']}'
+              '${TocHelper.handleNumber(section['sectionMarks'])}/${section['totalMarks']}'
         });
       });
     }

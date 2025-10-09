@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:karmayogi_mobile/ui/widgets/_learn/_assessment/audio_video_webView.dart';
 import 'package:html/parser.dart' as html_parser;
 import 'package:html/dom.dart' as dom;
-
-import '../../../../feedback/constants.dart';
-import '../../../../util/index.dart';
+import 'package:toc_module/toc/assessment_module/widget/audio_video_webView.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/helper/toc_helper.dart';
 
 class HtmlWebviewWidget extends StatefulWidget {
   final String htmlText;
@@ -27,7 +26,8 @@ class _HtmlWebviewWidgetState extends State<HtmlWebviewWidget> {
   @override
   void initState() {
     super.initState();
-    isAudioOrVideo = Helper.isHtml(widget.htmlText) && iSAudioOrVideoContent();
+    isAudioOrVideo =
+        TocHelper.isHtml(widget.htmlText) && iSAudioOrVideoContent();
   }
 
   @override
@@ -42,7 +42,7 @@ class _HtmlWebviewWidgetState extends State<HtmlWebviewWidget> {
       setState(() {
         isAudioOrVideo = false;
         isAudioOrVideo =
-            Helper.isHtml(widget.htmlText) && iSAudioOrVideoContent();
+            TocHelper.isHtml(widget.htmlText) && iSAudioOrVideoContent();
       });
     }
   }
@@ -51,15 +51,12 @@ class _HtmlWebviewWidgetState extends State<HtmlWebviewWidget> {
   Widget build(BuildContext context) {
     return isAudioOrVideo
         ? AudioVideoWebView(
-            htmlText: widget.htmlText,
-            isAudio: isAudio,
-            isVideo: isVideo
-          )
+            htmlText: widget.htmlText, isAudio: isAudio, isVideo: isVideo)
         : HtmlWidget(
-            Helper.decodeHtmlEntities(widget.htmlText),
+            TocHelper.decodeHtmlEntities(widget.htmlText),
             textStyle: widget.textStyle ??
                 GoogleFonts.lato(
-                    color: FeedbackColors.black87,
+                    color: TocModuleColors.black87,
                     fontWeight: FontWeight.w400,
                     fontSize: 14.0.sp,
                     height: 1.5),

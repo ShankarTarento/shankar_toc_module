@@ -204,4 +204,34 @@ class TocHelper {
     } else
       return s;
   }
+
+  static String decodeHtmlEntities(String? htmlString) {
+    if (htmlString == null || htmlString == '') {
+      return '';
+    } else {
+      return htmlString
+          .replaceAll('&lt;', '<')
+          .replaceAll('&gt;', '>')
+          .replaceAll('&quot;', '"')
+          .replaceAll('&apos;', "'")
+          .replaceAll('&amp;', '&')
+          .replaceAll('&nbsp;', ' ');
+    }
+  }
+
+  static dynamic handleNumber(dynamic number) {
+    if (number is double && number == number.toInt()) {
+      return number.toInt();
+    }
+    return number;
+  }
+
+  static String capitalizeFirstCharacter(String word) {
+    if (word.isEmpty) return word;
+    return "${word[0].toUpperCase()}${word.substring(1).toLowerCase()}";
+  }
+
+  static bool isHtml(String text) {
+    return RegExpressions.htmlValidator.hasMatch(text);
+  }
 }

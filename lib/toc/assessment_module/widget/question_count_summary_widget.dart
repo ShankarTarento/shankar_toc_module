@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:karmayogi_mobile/ui/widgets/index.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
-
-import '../../../../constants/index.dart';
+import 'package:toc_module/toc/assessment_module/widget/assessment_v2_answered_widget.dart';
+import 'package:toc_module/toc/assessment_module/widget/assessment_v2_info_tooltip.dart';
+import 'package:toc_module/toc/assessment_module/widget/assessment_v2_question_summary.dart';
+import 'package:toc_module/toc/assessment_module/widget/assessment_v2_section_selection_widget.dart';
+import 'package:toc_module/toc/assessment_module/widget/assessment_v2_timer_widget.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
 
 class QuestionCountSummaryWidget extends StatelessWidget {
   final List microSurvey;

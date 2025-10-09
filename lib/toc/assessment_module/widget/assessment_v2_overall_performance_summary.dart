@@ -5,9 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
 
 import 'package:intl/intl.dart';
-
-import '../../../../constants/index.dart';
-import '../../../../util/helper.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/constants/toc_constants.dart';
+import 'package:toc_module/toc/helper/toc_helper.dart';
 
 class AssessmentV2OverallPerformanceSummary extends StatefulWidget {
   final String timeSpent;
@@ -47,7 +47,7 @@ class _AssessmentV2OverallPerformanceSummaryState
               bgColor: TocModuleColors.blueBgShade,
               imagePath: 'assets/img/speed.svg',
               summaryText:
-                  '${Helper.handleNumber(widget.apiResponse['totalSectionMarks'])}/${widget.apiResponse['totalMarks']}',
+                  '${TocHelper.handleNumber(widget.apiResponse['totalSectionMarks'])}/${widget.apiResponse['totalMarks']}',
               description: TocLocalizations.of(context)!.mAssessmentScore)
           : null,
       widget.primaryCategory != PrimaryCategory.practiceAssessment &&

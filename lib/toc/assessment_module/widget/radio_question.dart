@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:karmayogi_mobile/feedback/constants.dart';
-import 'package:karmayogi_mobile/ui/widgets/_learn/_assessment/html_webview_widget.dart';
-
-import '../../../../constants/index.dart';
+import 'package:toc_module/toc/assessment_module/widget/html_webview_widget.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
 
 class RadioQuestion extends StatefulWidget {
   final question;
@@ -64,7 +62,7 @@ class _RadioQuestionState extends State<RadioQuestion> {
                         ? widget.questionText
                         : widget.question['question'],
                     textStyle: GoogleFonts.lato(
-                        color: FeedbackColors.black87,
+                        color: TocModuleColors.black87,
                         fontWeight: FontWeight.w400,
                         fontSize: 14.0.sp,
                         height: 1.5),
@@ -87,7 +85,7 @@ class _RadioQuestionState extends State<RadioQuestion> {
                                             ['value']) &&
                                 _correctAnswer == index &&
                                 widget.showAnswer
-                            ? FeedbackColors.positiveLightBg
+                            ? TocModuleColors.positiveLightBg
                             : _radioValue ==
                                         (widget.isNewAssessment
                                             ? widget.question['options'][index]
@@ -97,7 +95,7 @@ class _RadioQuestionState extends State<RadioQuestion> {
                                                 ['text']) &&
                                     _correctAnswer != index &&
                                     widget.showAnswer
-                                ? FeedbackColors.negativeLightBg
+                                ? TocModuleColors.negativeLightBg
                                 : _radioValue ==
                                         (widget.isNewAssessment
                                             ? widget.question['options'][index]['value'] != null
@@ -106,7 +104,7 @@ class _RadioQuestionState extends State<RadioQuestion> {
                                             : widget.question['options'][index]['text'])
                                     ? TocModuleColors.darkBlue.withValues(alpha: 0.16)
                                     : _correctAnswer == index && widget.showAnswer
-                                        ? FeedbackColors.positiveLightBg
+                                        ? TocModuleColors.positiveLightBg
                                         : TocModuleColors.greys.withValues(alpha: 0.04),
                         borderRadius:
                             BorderRadius.all(const Radius.circular(10.0)).r,
@@ -120,7 +118,7 @@ class _RadioQuestionState extends State<RadioQuestion> {
                                               ['text']) &&
                                   _correctAnswer == index &&
                                   widget.showAnswer
-                              ? FeedbackColors.positiveLight
+                              ? TocModuleColors.positiveLight
                               : _radioValue ==
                                           (widget.isNewAssessment
                                               ? widget.question['options']
@@ -130,14 +128,14 @@ class _RadioQuestionState extends State<RadioQuestion> {
                                                   [index]['text']) &&
                                       _correctAnswer != index &&
                                       widget.showAnswer
-                                  ? FeedbackColors.negativeLight
+                                  ? TocModuleColors.negativeLight
                                   : _radioValue ==
                                           (widget.isNewAssessment
                                               ? widget.question['options'][index]['value']['body'].toString()
                                               : widget.question['options'][index]['text'])
                                       ? TocModuleColors.darkBlue
                                       : _correctAnswer == index && widget.showAnswer
-                                          ? FeedbackColors.positiveLight
+                                          ? TocModuleColors.positiveLight
                                           : TocModuleColors.greys.withValues(alpha: 0.04),
                         ),
                       ),
@@ -150,7 +148,7 @@ class _RadioQuestionState extends State<RadioQuestion> {
                                             ['text']) &&
                                 _correctAnswer == index &&
                                 widget.showAnswer
-                            ? FeedbackColors.positiveLight
+                            ? TocModuleColors.positiveLight
                             : _radioValue ==
                                         (widget.isNewAssessment
                                             ? widget.question['options'][index]
@@ -160,7 +158,7 @@ class _RadioQuestionState extends State<RadioQuestion> {
                                                 ['text']) &&
                                     _correctAnswer != index &&
                                     widget.showAnswer
-                                ? FeedbackColors.negativeLight
+                                ? TocModuleColors.negativeLight
                                 : _radioValue ==
                                         (widget.isNewAssessment
                                             ? widget.question['options'][index]
@@ -169,8 +167,8 @@ class _RadioQuestionState extends State<RadioQuestion> {
                                             : widget.question['options'][index]['text'])
                                     ? TocModuleColors.darkBlue
                                     : _correctAnswer == index && widget.showAnswer
-                                        ? FeedbackColors.positiveLight
-                                        : FeedbackColors.black16,
+                                        ? TocModuleColors.positiveLight
+                                        : TocModuleColors.black16,
                         groupValue: _radioValue,
                         title: HtmlWebviewWidget(
                             htmlText: widget.isNewAssessment
@@ -222,7 +220,7 @@ class _RadioQuestionState extends State<RadioQuestion> {
     return htmlText.contains('<strong>')
         ? null
         : GoogleFonts.lato(
-            color: FeedbackColors.black87,
+            color: TocModuleColors.black87,
             fontWeight: fontWeight,
             fontSize: 14.sp,
           );

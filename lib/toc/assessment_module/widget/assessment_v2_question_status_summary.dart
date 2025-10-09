@@ -5,13 +5,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:karmayogi_mobile/ui/widgets/_learn/_assessment/display_question_widget.dart';
-import '../../../../constants/index.dart';
-import '../../../../feedback/constants.dart';
-import '../../../../util/helper.dart';
-import '../../../pages/index.dart';
+
 import 'package:html/parser.dart' as html_parser;
 import 'package:html/dom.dart' as dom;
+import 'package:toc_module/toc/assessment_module/widget/display_question_widget.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/constants/toc_constants.dart';
+import 'package:toc_module/toc/helper/toc_helper.dart';
+import 'package:toc_module/toc/util/no_data_widget.dart';
 
 class QuestionStatusSummaryV2 extends StatefulWidget {
   final Map apiResponse;
@@ -243,19 +244,20 @@ class _QuestionStatusSummaryV2State extends State<QuestionStatusSummaryV2> {
                                       child: Container(
                                         padding: EdgeInsets.all(16.0),
                                         child: RegExpressions.inputTagRegExp
-                                                .hasMatch(
-                                                    Helper.decodeHtmlEntities(
+                                                .hasMatch(TocHelper
+                                                    .decodeHtmlEntities(
                                                         row['question']))
                                             ? Wrap(
                                                 children: renderHtmlContent(
-                                                    Helper.decodeHtmlEntities(
-                                                        row['question'])),
+                                                    TocHelper
+                                                        .decodeHtmlEntities(
+                                                            row['question'])),
                                               )
                                             : DisplayQuestionWidget(
                                                 htmlText: row['question'],
                                                 textStyle: GoogleFonts.lato(
                                                     color:
-                                                        FeedbackColors.black87,
+                                                        TocModuleColors.black87,
                                                     fontWeight: FontWeight.w400,
                                                     fontSize: 14.0.sp,
                                                     height: 1.5),
@@ -273,7 +275,7 @@ class _QuestionStatusSummaryV2State extends State<QuestionStatusSummaryV2> {
                                                         AssessmentQuestionStatus
                                                             .correct
                                                             .toLowerCase()
-                                                    ? Helper.capitalizeFirstLetter(
+                                                    ? TocHelper.capitalizeFirstLetter(
                                                         row['status'])
                                                     : row['status']
                                                                     .toString()
@@ -287,10 +289,10 @@ class _QuestionStatusSummaryV2State extends State<QuestionStatusSummaryV2> {
                                                                 AssessmentQuestionStatus
                                                                     .incorrect
                                                                     .toLowerCase()
-                                                        ? Helper.capitalizeFirstLetter(
+                                                        ? TocHelper.capitalizeFirstLetter(
                                                             AssessmentQuestionStatus
                                                                 .wrong)
-                                                        : Helper.capitalizeFirstLetter(
+                                                        : TocHelper.capitalizeFirstLetter(
                                                             AssessmentQuestionStatus
                                                                 .unattempted)
                                                 : '',
@@ -312,7 +314,7 @@ class _QuestionStatusSummaryV2State extends State<QuestionStatusSummaryV2> {
                                         child: Text(
                                             row['tagging'] != null &&
                                                     row['tagging'] != ''
-                                                ? Helper()
+                                                ? TocHelper
                                                     .capitalizeFirstCharacter(
                                                         row['tagging'])
                                                 : 'N/A',

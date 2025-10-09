@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../../../../constants/index.dart';
-import '../../../../feedback/constants.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
 
 class AssessmentV2AnsweredStatusWidget extends StatelessWidget {
   final String value;
@@ -32,7 +30,7 @@ class AssessmentV2AnsweredStatusWidget extends StatelessWidget {
             child: Text(
               label,
               style: GoogleFonts.lato(
-                color: FeedbackColors.black60,
+                color: TocModuleColors.black60,
                 fontWeight: FontWeight.w400,
                 fontSize: 12.0,
               ),

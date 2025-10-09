@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import './../../../../constants/index.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
 
 class HomepageAssessmentCompleted extends StatefulWidget {
   HomepageAssessmentCompleted();

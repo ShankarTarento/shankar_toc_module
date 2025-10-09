@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import './../../../../models/_models/assessment_question_model.dart';
-import './../../../../constants/index.dart';
+
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/model/assessment_question.dart';
 
 class SingleAnswerQuestion extends StatefulWidget {
   final AssessmentQuestion question;

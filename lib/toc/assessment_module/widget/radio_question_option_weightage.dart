@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:karmayogi_mobile/feedback/constants.dart';
-import 'package:karmayogi_mobile/ui/widgets/_learn/_assessment/html_webview_widget.dart';
-
-import '../../../../constants/index.dart';
+import 'package:toc_module/toc/assessment_module/widget/html_webview_widget.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
 
 class RadioQuestionOptionWeightage extends StatefulWidget {
   final question;
@@ -67,7 +65,7 @@ class _RadioQuestionOptionWeightageState
                           ? widget.questionText
                           : widget.question['question'],
                       textStyle: GoogleFonts.lato(
-                          color: FeedbackColors.black87,
+                          color: TocModuleColors.black87,
                           fontWeight: FontWeight.w400,
                           fontSize: 14.0.sp,
                           height: 1.5))),
@@ -94,7 +92,7 @@ class _RadioQuestionOptionWeightageState
                       child: RadioListTile(
                         activeColor: _radioValue == index
                             ? TocModuleColors.darkBlue
-                            : FeedbackColors.black16,
+                            : TocModuleColors.black16,
                         groupValue: _radioValue,
                         title: HtmlWebviewWidget(
                             htmlText: widget.isNewAssessment
@@ -144,7 +142,7 @@ class _RadioQuestionOptionWeightageState
     return htmlText.contains('<strong>')
         ? null
         : GoogleFonts.lato(
-            color: FeedbackColors.black87,
+            color: TocModuleColors.black87,
             fontWeight: fontWeight,
             fontSize: 14,
           );

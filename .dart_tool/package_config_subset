@@ -14,6 +14,10 @@ audio_session
 3.4
 file:///home/shankarganeshi/.pub-cache/hosted/pub.dev/audio_session-0.1.25/
 file:///home/shankarganeshi/.pub-cache/hosted/pub.dev/audio_session-0.1.25/lib/
+autocomplete_textfield
+2.12
+file:///home/shankarganeshi/.pub-cache/hosted/pub.dev/autocomplete_textfield-2.0.1/
+file:///home/shankarganeshi/.pub-cache/hosted/pub.dev/autocomplete_textfield-2.0.1/lib/
 boolean_selector
 2.17
 file:///home/shankarganeshi/.pub-cache/hosted/pub.dev/boolean_selector-2.1.1/
@@ -42,6 +46,10 @@ circular_countdown_timer
 3.4
 file:///home/shankarganeshi/.pub-cache/hosted/pub.dev/circular_countdown_timer-0.2.4/
 file:///home/shankarganeshi/.pub-cache/hosted/pub.dev/circular_countdown_timer-0.2.4/lib/
+clippy_flutter
+2.12
+file:///home/shankarganeshi/.pub-cache/hosted/pub.dev/clippy_flutter-2.0.0-nullsafety.1/
+file:///home/shankarganeshi/.pub-cache/hosted/pub.dev/clippy_flutter-2.0.0-nullsafety.1/lib/
 clock
 2.12
 file:///home/shankarganeshi/.pub-cache/hosted/pub.dev/clock-1.1.1/
@@ -366,6 +374,10 @@ provider
 2.12
 file:///home/shankarganeshi/.pub-cache/hosted/pub.dev/provider-6.1.5+1/
 file:///home/shankarganeshi/.pub-cache/hosted/pub.dev/provider-6.1.5+1/lib/
+reorderables
+2.12
+file:///home/shankarganeshi/.pub-cache/hosted/pub.dev/reorderables-0.6.0/
+file:///home/shankarganeshi/.pub-cache/hosted/pub.dev/reorderables-0.6.0/lib/
 rxdart
 2.12
 file:///home/shankarganeshi/.pub-cache/hosted/pub.dev/rxdart-0.28.0/

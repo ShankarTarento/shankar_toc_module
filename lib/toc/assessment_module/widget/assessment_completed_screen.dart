@@ -6,10 +6,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:igot_ui_components/ui/widgets/alert_dialog/alert_dialog.dart';
 
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:igot_ui_components/utils/fade_route.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/constants/english_lang.dart';
 import 'package:toc_module/toc/constants/toc_constants.dart';
 import 'package:toc_module/toc/model/course_hierarchy_model.dart';
 import 'package:toc_module/toc/model/navigation_model.dart';
+import 'package:toc_module/toc/resource_players/course_assessment_player.dart';
 
 import 'assessment_completed_screen_item.dart';
 
@@ -225,9 +228,9 @@ class _AssessmentCompletedScreenState extends State<AssessmentCompletedScreen> {
                                 valueColor: AlwaysStoppedAnimation<Color>(
                                     widget.apiResponse['pass'] != null
                                         ? (widget.apiResponse['pass']
-                                            ? FeedbackColors.positiveLight
-                                            : FeedbackColors.negativeLight)
-                                        : FeedbackColors.positiveLight),
+                                            ? TocModuleColors.positiveLight
+                                            : TocModuleColors.negativeLight)
+                                        : TocModuleColors.positiveLight),
                               ),
                             ),
                             Center(
@@ -258,9 +261,9 @@ class _AssessmentCompletedScreenState extends State<AssessmentCompletedScreen> {
                                   style: GoogleFonts.lato(
                                       color: widget.apiResponse['pass'] != null
                                           ? (widget.apiResponse['pass']
-                                              ? FeedbackColors.positiveLight
-                                              : FeedbackColors.negativeLight)
-                                          : FeedbackColors.positiveLight,
+                                              ? TocModuleColors.positiveLight
+                                              : TocModuleColors.negativeLight)
+                                          : TocModuleColors.positiveLight,
                                       fontWeight: FontWeight.w600,
                                       fontSize: 20.0.sp,
                                       letterSpacing: 0.25.r),
@@ -397,7 +400,7 @@ class _AssessmentCompletedScreenState extends State<AssessmentCompletedScreen> {
                               TocLocalizations.of(context)!
                                   .mYourPerformanceSummary,
                               style: GoogleFonts.lato(
-                                  color: FeedbackColors.black87,
+                                  color: TocModuleColors.black87,
                                   fontSize: 12.0.sp,
                                   fontWeight: FontWeight.w700,
                                   letterSpacing: 0.25),

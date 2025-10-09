@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:karmayogi_mobile/ui/widgets/_learn/_assessment/radio_question_option_weightage.dart';
-
-import '../../../../constants/index.dart';
-import '../../index.dart';
+import 'package:toc_module/toc/assessment_module/widget/fill_in_the_blank_question.dart';
+import 'package:toc_module/toc/assessment_module/widget/ftb_dropdown.dart';
+import 'package:toc_module/toc/assessment_module/widget/match_case_question.dart';
+import 'package:toc_module/toc/assessment_module/widget/multi_select_question.dart';
+import 'package:toc_module/toc/assessment_module/widget/radio_question.dart';
+import 'package:toc_module/toc/assessment_module/widget/radio_question_option_weightage.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/constants/toc_constants.dart';
+import 'package:toc_module/toc/util/page_loader.dart';
 
 class AssessmentWidget extends StatefulWidget {
   final int questionIndex;

@@ -3,8 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../../../../constants/index.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
 
 class AssessmentV2TimerWidget extends StatefulWidget {
   final List microSurvey;

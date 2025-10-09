@@ -1,14 +1,15 @@
 import 'package:clippy_flutter/clippy_flutter.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:karmayogi_mobile/ui/widgets/_learn/_assessment/html_webview_widget.dart';
 import 'package:reorderables/reorderables.dart';
-import '../../../../util/helper.dart';
-import '../../_common/page_loader.dart';
-import './../../../../constants/_constants/color_constants.dart';
-import './../../../../feedback/constants.dart';
+
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/toc/assessment_module/widget/html_webview_widget.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/helper/toc_helper.dart';
+import 'package:toc_module/toc/util/page_loader.dart';
 
 class MatchCaseQuestion extends StatefulWidget {
   final question;
@@ -119,7 +120,8 @@ class _MatchCaseQuestionQuestionState extends State<MatchCaseQuestion> {
         widget.options.length,
         (int index) => InkWell(
               onTap: () {
-                Helper.showSnackBarMessage(
+                TocHelper.showSnackBarMessage(
+                    textColor: Colors.white,
                     context: context,
                     text: TocLocalizations.of(context)!
                         .mMatchCaseHoldANdDragItems,
@@ -163,7 +165,7 @@ class _MatchCaseQuestionQuestionState extends State<MatchCaseQuestion> {
                                             : widget.question['options'][index]
                                                 ['match']) !=
                                         _options[index]
-                                ? FeedbackColors.negativeLightBg
+                                ? TocModuleColors.negativeLightBg
                                 : widget.showAnswer &&
                                         (widget.isNewAssessment
                                                 ? widget.question['options']
@@ -171,8 +173,8 @@ class _MatchCaseQuestionQuestionState extends State<MatchCaseQuestion> {
                                                 : widget.question['options']
                                                     [index]['match']) ==
                                             _options[index]
-                                    ? FeedbackColors.positiveLightBg
-                                    : FeedbackColors.background,
+                                    ? TocModuleColors.positiveLightBg
+                                    : TocModuleColors.background,
                             boxShadow: [
                               BoxShadow(
                                 color: TocModuleColors.grey08,
@@ -192,7 +194,7 @@ class _MatchCaseQuestionQuestionState extends State<MatchCaseQuestion> {
                                                 : widget.question['options']
                                                     [index]['match']) !=
                                             _options[index]
-                                    ? FeedbackColors.negativeLight
+                                    ? TocModuleColors.negativeLight
                                     : widget.showAnswer &&
                                             (widget.isNewAssessment
                                                     ? widget.question['options']
@@ -200,7 +202,7 @@ class _MatchCaseQuestionQuestionState extends State<MatchCaseQuestion> {
                                                     : widget.question['options']
                                                         [index]['match']) ==
                                                 _options[index]
-                                        ? FeedbackColors.positiveLight
+                                        ? TocModuleColors.positiveLight
                                         : TocModuleColors.grey08),
                             borderRadius: BorderRadius.circular(4),
                           ),
@@ -226,8 +228,8 @@ class _MatchCaseQuestionQuestionState extends State<MatchCaseQuestion> {
                                                   [index]['match']))
                                           : _options[index],
                                       color: _selectedIndex == index
-                                          ? FeedbackColors.positiveLight
-                                          : FeedbackColors.black87)))),
+                                          ? TocModuleColors.positiveLight
+                                          : TocModuleColors.black87)))),
                     ),
                     Container(
                       width: 40.w,
@@ -405,7 +407,7 @@ class _MatchCaseQuestionQuestionState extends State<MatchCaseQuestion> {
   }
 
   TextStyle? getTextStyle(String htmlText,
-      {Color color = FeedbackColors.black87}) {
+      {Color color = TocModuleColors.black87}) {
     return htmlText.contains('<strong>')
         ? null
         : GoogleFonts.lato(

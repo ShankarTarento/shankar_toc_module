@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:karmayogi_mobile/constants/index.dart';
-import './../../../../feedback/constants.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
 
 class AssessmentV2Completed extends StatefulWidget {
@@ -100,8 +99,8 @@ class _AssessmentV2CompletedState extends State<AssessmentV2Completed> {
                           valueColor: AlwaysStoppedAnimation<Color>(
                               widget.apiResponse['result'] >=
                                       widget.apiResponse['passPercent']
-                                  ? FeedbackColors.positiveLight
-                                  : FeedbackColors.negativeLight),
+                                  ? TocModuleColors.positiveLight
+                                  : TocModuleColors.negativeLight),
                         ),
                       ),
                       Center(
@@ -121,8 +120,8 @@ class _AssessmentV2CompletedState extends State<AssessmentV2Completed> {
                             style: GoogleFonts.lato(
                                 color: (widget.apiResponse['result'] >=
                                         widget.apiResponse['passPercent'])
-                                    ? FeedbackColors.positiveLight
-                                    : FeedbackColors.negativeLight,
+                                    ? TocModuleColors.positiveLight
+                                    : TocModuleColors.negativeLight,
                                 fontWeight: FontWeight.w600,
                                 fontSize: 20.0.sp,
                                 letterSpacing: 0.25),
@@ -190,6 +189,7 @@ class _AssessmentV2CompletedState extends State<AssessmentV2Completed> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
+                    decoration: boxDecoration,
                     margin: EdgeInsets.only(top: 16).r,
                     padding: EdgeInsets.all(16.0).r,
                     child: Row(
@@ -227,14 +227,13 @@ class _AssessmentV2CompletedState extends State<AssessmentV2Completed> {
                         )
                       ],
                     ),
-                    decoration: boxDecoration,
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: 24, left: 16, bottom: 16).r,
                     child: Text(
                       TocLocalizations.of(context)!.mYourPerformanceSummary,
                       style: GoogleFonts.lato(
-                          color: FeedbackColors.black87,
+                          color: TocModuleColors.black87,
                           fontSize: 12.0.sp,
                           fontWeight: FontWeight.w700,
                           letterSpacing: 0.25),
@@ -321,7 +320,7 @@ class _AssessmentV2CompletedState extends State<AssessmentV2Completed> {
             child: Text(
               title,
               style: GoogleFonts.lato(
-                color: FeedbackColors.black87,
+                color: TocModuleColors.black87,
                 fontSize: 14.0.sp,
                 fontWeight: FontWeight.w400,
               ),

@@ -5,23 +5,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:igot_ui_components/ui/widgets/alert_dialog/alert_dialog.dart';
-import 'package:karmayogi_mobile/constants/_constants/learn_compatibility_constants.dart';
-import 'package:karmayogi_mobile/feedback/constants.dart';
-import 'package:karmayogi_mobile/models/index.dart';
-import 'package:karmayogi_mobile/services/_services/learn_service.dart';
-import 'package:karmayogi_mobile/ui/widgets/_learn/_assessment/_models/guest_data_model.dart';
-import 'package:karmayogi_mobile/ui/widgets/_learn/_assessment/assessment_verification_screen.dart';
-import 'package:karmayogi_mobile/ui/widgets/_learn/_assessment/new_assessment_v2_questions.dart';
-import 'package:karmayogi_mobile/ui/widgets/index.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
 
-import '../../../../constants/index.dart';
-import '../../../../models/_models/assessment_save_point_model.dart';
-import '../../../../services/_services/assessment_service.dart';
-import '../../../../util/faderoute.dart';
-import '../../../../util/telemetry_repository.dart';
-import '../../../pages/_pages/toc/model/navigation_model.dart';
-import '../../../pages/_pages/toc/view_model/toc_player_view_model.dart';
+import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/toc/assessment_module/widget/new_assessment_v2_questions.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/constants/learn_compatability_constants.dart';
+import 'package:toc_module/toc/constants/toc_constants.dart';
+import 'package:toc_module/toc/model/course_hierarchy_model.dart';
+import 'package:toc_module/toc/model/gust_data_model.dart';
+import 'package:toc_module/toc/model/navigation_model.dart';
+import 'package:toc_module/toc/model/save_ponit_model.dart';
+import 'package:toc_module/toc/util/error_page.dart';
+import 'package:toc_module/toc/view_model/toc_player_view_model.dart';
 
 class AssessmentV2Section extends StatefulWidget {
   final CourseHierarchyModel course;
@@ -653,7 +648,7 @@ class _AssessmentV2SectionState extends State<AssessmentV2Section> {
         color: bgColor,
         borderRadius: BorderRadius.all(const Radius.circular(4.0).r),
         border: bgColor == TocModuleColors.appBarBackground
-            ? Border.all(color: FeedbackColors.black40)
+            ? Border.all(color: TocModuleColors.black40)
             : Border.all(color: bgColor),
       ),
       child: Text(

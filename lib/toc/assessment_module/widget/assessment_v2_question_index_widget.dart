@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../../../../constants/index.dart';
+import 'package:toc_module/toc/assessment_module/widget/assessment_v2_section_selection_widget.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
 
 class AssessmentV2QuestionIndexWidget extends StatelessWidget {
   final List microSurvey;

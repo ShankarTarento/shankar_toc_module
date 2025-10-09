@@ -3,9 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
 
-import 'package:karmayogi_mobile/ui/widgets/tooltip_widget.dart';
-
-import '../../../../constants/index.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/widgets/tool_tips_widget.dart';
 
 class AssessmentV2InfoToolTip extends StatelessWidget {
   final String? sectionInstruction;

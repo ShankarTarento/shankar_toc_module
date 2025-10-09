@@ -1,15 +1,15 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:karmayogi_mobile/constants/_constants/learn_compatibility_constants.dart';
-import 'package:karmayogi_mobile/models/index.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/model/navigation_model.dart';
-import '../../../../constants/index.dart';
-import '../../../../feedback/constants.dart';
-import '../../../../services/_services/assessment_service.dart';
-import '../../../../services/_services/learn_service.dart';
-import '../../../../util/faderoute.dart';
-import '../../index.dart';
+import 'package:toc_module/toc/assessment_module/widget/assessment_v2_insights_screen.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/constants/learn_compatability_constants.dart';
+import 'package:toc_module/toc/constants/toc_constants.dart';
+import 'package:toc_module/toc/model/course_hierarchy_model.dart';
+import 'package:toc_module/toc/model/navigation_model.dart';
+import 'package:toc_module/toc/services/assessment_service.dart';
+import 'package:toc_module/toc/util/error_page.dart';
+import 'package:toc_module/toc/util/fade_route.dart';
 import 'assessment_completed_screen.dart';
 import 'assessment_v2_completed_screen.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
@@ -77,7 +77,7 @@ class _AssessmentVerificationScreenState
                   titleSpacing: 0,
                   elevation: 0,
                   leading: IconButton(
-                    icon: Icon(Icons.clear, color: FeedbackColors.black60),
+                    icon: Icon(Icons.clear, color: TocModuleColors.black60),
                     onPressed: () {
                       Navigator.of(context).pop(true);
                     },

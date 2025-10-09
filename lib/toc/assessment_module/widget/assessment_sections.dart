@@ -4,24 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:karmayogi_mobile/constants/_constants/app_constants.dart';
-import 'package:karmayogi_mobile/constants/_constants/color_constants.dart';
-import 'package:karmayogi_mobile/constants/_constants/telemetry_constants.dart';
-import 'package:karmayogi_mobile/feedback/constants.dart';
-import 'package:karmayogi_mobile/models/index.dart';
-import 'package:karmayogi_mobile/services/_services/learn_service.dart';
-import 'package:karmayogi_mobile/ui/widgets/_learn/_assessment/_models/guest_data_model.dart';
-import 'package:karmayogi_mobile/ui/widgets/_learn/_assessment/assessment_completed_screen.dart';
-import 'package:karmayogi_mobile/ui/widgets/_learn/_assessment/assessment_verification_screen.dart';
-import 'package:karmayogi_mobile/ui/widgets/_learn/_assessment/new_assessment_questions.dart';
-import 'package:karmayogi_mobile/ui/widgets/index.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
 
-import '../../../../services/_services/assessment_service.dart';
-import '../../../../util/helper.dart';
-import '../../../../util/telemetry_repository.dart';
-import '../../../pages/_pages/toc/model/navigation_model.dart';
-import '../../../pages/_pages/toc/view_model/toc_player_view_model.dart';
+import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/toc/assessment_module/widget/assessment_completed_screen.dart';
+import 'package:toc_module/toc/assessment_module/widget/assessment_verification_screen.dart';
+import 'package:toc_module/toc/assessment_module/widget/new_assessment_questions.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/constants/toc_constants.dart';
+import 'package:toc_module/toc/helper/toc_helper.dart';
+import 'package:toc_module/toc/model/course_hierarchy_model.dart';
+import 'package:toc_module/toc/model/gust_data_model.dart';
+import 'package:toc_module/toc/model/navigation_model.dart';
+import 'package:toc_module/toc/services/assessment_service.dart';
+import 'package:toc_module/toc/util/error_page.dart';
+import 'package:toc_module/toc/view_model/toc_player_view_model.dart';
 
 class AssessmentSection extends StatefulWidget {
   final CourseHierarchyModel course;
@@ -562,7 +558,7 @@ class _AssessmentSectionState extends State<AssessmentSection> {
                 child: roundedButton(
                     TocLocalizations.of(context)!.mStaticNoSubmit,
                     TocModuleColors.appBarBackground,
-                    FeedbackColors.primaryBlue),
+                    TocModuleColors.primaryBlue),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 12).r,
@@ -573,7 +569,7 @@ class _AssessmentSectionState extends State<AssessmentSection> {
                   },
                   child: roundedButton(
                       TocLocalizations.of(context)!.mStaticYesTakeMeBack,
-                      FeedbackColors.primaryBlue,
+                      TocModuleColors.primaryBlue,
                       TocModuleColors.appBarBackground),
                 ),
               )
@@ -593,7 +589,7 @@ class _AssessmentSectionState extends State<AssessmentSection> {
         color: bgColor,
         borderRadius: BorderRadius.all(const Radius.circular(4.0)).r,
         border: bgColor == TocModuleColors.appBarBackground
-            ? Border.all(color: FeedbackColors.black40)
+            ? Border.all(color: TocModuleColors.black40)
             : Border.all(color: bgColor),
       ),
       child: Text(
@@ -613,7 +609,7 @@ class _AssessmentSectionState extends State<AssessmentSection> {
       titleSpacing: 0,
       elevation: 0,
       leading: IconButton(
-        icon: Icon(Icons.clear, color: FeedbackColors.black60),
+        icon: Icon(Icons.clear, color: TocModuleColors.black60),
         onPressed: () {
           if (_isFullAnswered()) {
             _submitSurvey();
@@ -664,7 +660,7 @@ class _AssessmentSectionState extends State<AssessmentSection> {
                               padding: const EdgeInsets.only(right: 2).r,
                               child: Icon(
                                 Icons.timer_outlined,
-                                color: FeedbackColors.primaryBlue,
+                                color: TocModuleColors.primaryBlue,
                                 size: 16.sp,
                               ),
                             ),
@@ -851,20 +847,20 @@ class _AssessmentSectionState extends State<AssessmentSection> {
           child: Row(
             children: [
               _getSectionStatusIndicators(
-                  FeedbackColors.positiveLight,
-                  FeedbackColors.positiveLightBg,
+                  TocModuleColors.positiveLight,
+                  TocModuleColors.positiveLightBg,
                   TocLocalizations.of(context)!.mCommoncompleted),
               _getSectionStatusIndicators(
-                  FeedbackColors.negativeLight,
-                  FeedbackColors.negativeLightBg,
+                  TocModuleColors.negativeLight,
+                  TocModuleColors.negativeLightBg,
                   TocLocalizations.of(context)!.mStaticIncomplete),
               _getSectionStatusIndicators(
-                  FeedbackColors.black40,
-                  FeedbackColors.background,
+                  TocModuleColors.black40,
+                  TocModuleColors.background,
                   TocLocalizations.of(context)!.mCommonnotStarted),
               _getSectionStatusIndicators(
-                  FeedbackColors.primaryBlue,
-                  FeedbackColors.primaryBlueBg,
+                  TocModuleColors.primaryBlue,
+                  TocModuleColors.primaryBlueBg,
                   TocLocalizations.of(context)!.mStaticSelected),
             ],
           ),
@@ -894,6 +890,62 @@ class _AssessmentSectionState extends State<AssessmentSection> {
                   child: Container(
                     width: 1.sw,
                     margin: EdgeInsets.fromLTRB(16, 8, 16, 8).r,
+                    decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: TocModuleColors.grey08,
+                            blurRadius: 6.0.r,
+                            spreadRadius: 0.r,
+                            offset: Offset(
+                              3,
+                              3,
+                            ),
+                          ),
+                        ],
+                        borderRadius: BorderRadius.circular(16).r,
+                        color: _selected.indexWhere(
+                                    (element) => element['index'] == i) !=
+                                -1
+                            ? (_selected[_selected.indexWhere((element) => element['index'] == i)]
+                                            ['selectedAnswers']
+                                        .length ==
+                                    widget.questionSets[i].length
+                                ? TocModuleColors.positiveLightBg
+                                : (_selected[_selected.indexWhere((element) => element['index'] == i)]
+                                                    ['selectedAnswers']
+                                                .length >
+                                            0 &&
+                                        _selected[_selected.indexWhere((element) =>
+                                                        element['index'] == i)]
+                                                    ['selectedAnswers']
+                                                .length <
+                                            widget.questionSets[i].length)
+                                    ? TocModuleColors.negativeLightBg
+                                    : TocModuleColors.background)
+                            : TocModuleColors.background,
+                        border: Border.all(
+                          color: _selected.indexWhere(
+                                      (element) => element['index'] == i) !=
+                                  -1
+                              ? (_selected[_selected.indexWhere((element) => element['index'] == i)]
+                                              ['selectedAnswers']
+                                          .length ==
+                                      widget.questionSets[i].length
+                                  ? TocModuleColors.positiveLight
+                                  : (_selected[_selected.indexWhere((element) => element['index'] == i)]
+                                                      ['selectedAnswers']
+                                                  .length >
+                                              0 &&
+                                          _selected[_selected.indexWhere((element) =>
+                                                          element['index'] == i)]
+                                                      ['selectedAnswers']
+                                                  .length <
+                                              widget.questionSets[i].length)
+                                      ? TocModuleColors.negativeLight
+                                      : TocModuleColors.black04)
+                              : TocModuleColors.black40,
+                          width: 1,
+                        )),
                     child: Padding(
                       padding: const EdgeInsets.all(16.0).r,
                       child: Column(
@@ -923,67 +975,11 @@ class _AssessmentSectionState extends State<AssessmentSection> {
                               style: GoogleFonts.lato(),
                             ),
                           ),
-                          HtmlWidget(Helper.decodeHtmlEntities(widget
+                          HtmlWidget(TocHelper.decodeHtmlEntities(widget
                               .assessmentsInfo[i].additionalInstructions)),
                         ],
                       ),
                     ),
-                    decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: TocModuleColors.grey08,
-                            blurRadius: 6.0.r,
-                            spreadRadius: 0.r,
-                            offset: Offset(
-                              3,
-                              3,
-                            ),
-                          ),
-                        ],
-                        borderRadius: BorderRadius.circular(16).r,
-                        color: _selected.indexWhere(
-                                    (element) => element['index'] == i) !=
-                                -1
-                            ? (_selected[_selected.indexWhere((element) => element['index'] == i)]
-                                            ['selectedAnswers']
-                                        .length ==
-                                    widget.questionSets[i].length
-                                ? FeedbackColors.positiveLightBg
-                                : (_selected[_selected.indexWhere((element) => element['index'] == i)]
-                                                    ['selectedAnswers']
-                                                .length >
-                                            0 &&
-                                        _selected[_selected.indexWhere((element) =>
-                                                        element['index'] == i)]
-                                                    ['selectedAnswers']
-                                                .length <
-                                            widget.questionSets[i].length)
-                                    ? FeedbackColors.negativeLightBg
-                                    : FeedbackColors.background)
-                            : FeedbackColors.background,
-                        border: Border.all(
-                          color: _selected.indexWhere(
-                                      (element) => element['index'] == i) !=
-                                  -1
-                              ? (_selected[_selected.indexWhere((element) => element['index'] == i)]
-                                              ['selectedAnswers']
-                                          .length ==
-                                      widget.questionSets[i].length
-                                  ? FeedbackColors.positiveLight
-                                  : (_selected[_selected.indexWhere((element) => element['index'] == i)]
-                                                      ['selectedAnswers']
-                                                  .length >
-                                              0 &&
-                                          _selected[_selected.indexWhere((element) =>
-                                                          element['index'] == i)]
-                                                      ['selectedAnswers']
-                                                  .length <
-                                              widget.questionSets[i].length)
-                                      ? FeedbackColors.negativeLight
-                                      : FeedbackColors.black04)
-                              : FeedbackColors.black40,
-                          width: 1,
-                        )),
                   ),
                 ),
             ],
