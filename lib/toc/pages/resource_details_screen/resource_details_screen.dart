@@ -3,6 +3,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:igot_ui_components/utils/module_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/toc/model/resource_details.dart';
+import 'package:toc_module/toc/pages/resource_details_screen/widgets/resource_details_header.dart';
+import 'package:toc_module/toc/pages/resource_details_screen/widgets/resource_details_skeleton.dart';
+import 'package:toc_module/toc/pages/resource_details_screen/widgets/resource_players.dart';
+import 'package:toc_module/toc/pages/resource_details_screen/widgets/sector_subsector_view.dart';
 
 class ResourceDetailsScreen extends StatefulWidget {
   final String resourceId;
@@ -157,7 +163,7 @@ class _ResourceDetailsScreenState extends State<ResourceDetailsScreen> {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ResourceDetailsScreenHeaderV2(
+                      ResourceDetailsScreenHeader(
                           resourceDetails: resourceDetails),
                       Padding(
                         padding: const EdgeInsets.all(16).r,

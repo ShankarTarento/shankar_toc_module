@@ -64,7 +64,7 @@ class TocButtonWidget extends StatefulWidget {
 }
 
 class _TocButtonWidgetState extends State<TocButtonWidget> {
-  final LearnRepository learnRepository = LearnRepository();
+  final TocRepository TocRepository = TocRepository();
   double progress = 0;
   ValueNotifier<bool> isEnabled = ValueNotifier<bool>(false);
   bool isModeratedMultiBatchCourse = false;
@@ -327,7 +327,7 @@ class _TocButtonWidgetState extends State<TocButtonWidget> {
     widget.courseDetails.languageMap.languages[baseLanguage];
     courseId = TocHelper.getBaseCourseId(widget.courseDetails) ?? courseId;
 
-    var response = await learnRepository.autoEnrollBatch(
+    var response = await TocRepository.autoEnrollBatch(
         courseId: courseId,
         language:
             widget.courseDetails.languageMap.languages[baseLanguage]?.name);
@@ -358,7 +358,7 @@ class _TocButtonWidgetState extends State<TocButtonWidget> {
     } else {
       selectedBatchId = widget.courseDetails.batches!.first.batchId;
     }
-    String response = await learnRepository.enrollProgram(
+    String response = await TocRepository.enrollProgram(
         courseId: widget.courseDetails.id,
         programId: widget.courseDetails.id,
         batchId: selectedBatchId);
@@ -377,7 +377,7 @@ class _TocButtonWidgetState extends State<TocButtonWidget> {
   }
 
   Future<void> enrollCuratedWithoutModerated(BuildContext context) async {
-    String message = await learnRepository.enrollToCuratedProgram(
+    String message = await TocRepository.enrollToCuratedProgram(
         widget.courseDetails.id, widget.courseDetails.batches![0].batchId);
 // navigatorKey.currentState!.context is used to handle context issue from dialog widgets
     if (message.toLowerCase() == EnglishLang.success.toLowerCase()) {
@@ -398,7 +398,7 @@ class _TocButtonWidgetState extends State<TocButtonWidget> {
   Future<void> fetchEnrolInfo(String id) async {
     await generateInteractTelemetryData();
     List<Course> response =
-        await learnRepository.getCourseEnrollDetailsByIds(courseIds: [id]);
+        await TocRepository.getCourseEnrollDetailsByIds(courseIds: [id]);
     if (response.isNotEmpty) {
       widget.updateEnrolmentList();
       widget.readCourseProgress();
@@ -469,7 +469,7 @@ class _TocButtonWidgetState extends State<TocButtonWidget> {
 
   void trackCourseEnrolled() async {
     try {
-      bool _isContentEnrolmentEnabled = await Provider.of<LearnRepository>(
+      bool _isContentEnrolmentEnabled = await Provider.of<TocRepository>(
               navigatorKey.currentState!.context,
               listen: false)
           .isSmartechEventEnabled(eventName: SMTTrackEvents.contentEnrolment);

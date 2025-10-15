@@ -181,7 +181,7 @@ class _NewAssessmentV2QuestionsState extends State<NewAssessmentV2Questions> {
                   !widget
                       .assessmentDetails[widget.sectionIndex + 1].submitted) {
                 setState(() {
-                  Provider.of<TocServices>(context, listen: false)
+                  Provider.of<TocRepository>(context, listen: false)
                       .destroyWebView();
                   updateTimeToAssessmentDetails();
                   updateSectionWiseTimeToAssessmentDetails();
@@ -358,7 +358,7 @@ class _NewAssessmentV2QuestionsState extends State<NewAssessmentV2Questions> {
                                                                 .sectionIndex,
                                                             changeSection:
                                                                 (value) {
-                                                              Provider.of<TocServices>(
+                                                              Provider.of<TocRepository>(
                                                                       context,
                                                                       listen:
                                                                           false)
@@ -575,7 +575,7 @@ class _NewAssessmentV2QuestionsState extends State<NewAssessmentV2Questions> {
                       ],
                     ))
                 : Center(),
-            Consumer<TocServices>(builder: (context, tocServices, child) {
+            Consumer<TocRepository>(builder: (context, tocServices, child) {
               return AssessmentWidget(
                   answeredQuestion: _answeredQuestion,
                   getAnsweredQuestions: widget.getAnsweredQuestions,
@@ -787,7 +787,7 @@ class _NewAssessmentV2QuestionsState extends State<NewAssessmentV2Questions> {
                                   .add(updateSectionSummaryList(index));
                             }
                           } else {
-                            Provider.of<TocServices>(context, listen: false)
+                            Provider.of<TocRepository>(context, listen: false)
                                 .destroyWebView();
                             sectionSummaryList.add(
                                 updateSectionSummaryList(sectionNo.value - 1));
@@ -992,7 +992,7 @@ class _NewAssessmentV2QuestionsState extends State<NewAssessmentV2Questions> {
                                                       .assessmentSection.length
                                           ? ElevatedButton(
                                               onPressed: () {
-                                                Provider.of<TocServices>(
+                                                Provider.of<TocRepository>(
                                                         context,
                                                         listen: false)
                                                     .destroyWebView();

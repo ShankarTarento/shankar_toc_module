@@ -36,7 +36,7 @@ class _CourseTocPageState extends State<CourseTocPage>
     if (!_isInitialized) {
       viewModel = Provider.of<CourseTocViewModel>(context, listen: false);
       viewModel.clearCourse(context);
-      Provider.of<TocServices>(context, listen: false).clearCourseProgress();
+      Provider.of<TocRepository>(context, listen: false).clearCourseProgress();
       viewModel.initialize(widget.arguments, context).then((_) {
         if (!mounted) return;
         setState(() {
@@ -371,7 +371,7 @@ class _CourseTocPageState extends State<CourseTocPage>
 
   Widget _buildContentTab(CourseTocViewModel viewModel) {
     if (viewModel.isBlendedProgram) {
-      return Consumer<TocServices>(
+      return Consumer<TocRepository>(
         builder: (context, tocServices, _) {
           return ValueListenableBuilder<List>(
             valueListenable: viewModel.navigationItems,
@@ -456,7 +456,7 @@ class _CourseTocPageState extends State<CourseTocPage>
   }
 
   Widget _buildBlendedProgramButton(CourseTocViewModel viewModel) {
-    return Consumer<TocServices>(
+    return Consumer<TocRepository>(
       builder: (context, tocServices, _) {
         return EnrollBlendedProgramButton(
           batches: viewModel.batches,

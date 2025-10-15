@@ -11,9 +11,9 @@ import 'package:toc_module/toc/pages/player/toc_player_pdf_screen.dart';
 import 'package:toc_module/toc/resource_players/course_assessment_player.dart';
 import 'package:toc_module/toc/resource_players/course_audio_player.dart';
 import 'package:toc_module/toc/resource_players/course_html_player.dart';
-import 'package:toc_module/toc/resource_players/course_pdf_player.dart';
+import 'package:toc_module/toc/resource_players/pdf_player/course_pdf_player.dart';
 import 'package:toc_module/toc/resource_players/course_video_player.dart';
-import 'package:toc_module/toc/resource_players/course_youtube_player.dart';
+import 'package:toc_module/toc/resource_players/youtube_player/course_youtube_player.dart';
 
 import '../update_message.dart';
 

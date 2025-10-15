@@ -131,7 +131,7 @@ class TocHelper {
       required bool isFeatured,
       required NavigationModel resourceNavigateItems}) async {
     final courseInfo = {"": ""};
-    // await Provider.of<LearnRepository>(context,
+    // await Provider.of<TocRepository>(context,
     //         listen: false)
     //     .getCourseData(resourceId, isFeatured: isFeatured, isResource: true);
 
@@ -410,7 +410,7 @@ class TocHelper {
             course.preEnrolmentResources?.children ?? []);
         parentContentList.clear();
         parentContentList =
-            await LearnRepository().readPreRequisiteContentProgress(contentIds);
+            await TocRepository().readPreRequisiteContentProgress(contentIds);
         getOverallProgress(parentContentList, course, context);
       }
     }
@@ -608,7 +608,7 @@ class TocHelper {
                 enrolledCourse.languageMap.languages.length > 1) {
           parentContentList.clear();
           parentContentList =
-              await Provider.of<LearnRepository>(context, listen: false)
+              await Provider.of<TocRepository>(context, listen: false)
                   .readContentProgress(
                       enrolledCourse.id, enrolledCourse.batch!.batchId,
                       contentIds: course.leafNodes,
@@ -617,15 +617,14 @@ class TocHelper {
           if (course.languageMap.languages.isNotEmpty &&
               enrolledCourse.completionPercentage ==
                   TocConstants.COURSE_COMPLETION_PERCENTAGE) {
-            Provider.of<TocServices>(context, listen: false)
+            Provider.of<TocRepository>(context, listen: false)
                 .setCourseProgress(1.0);
           } else {
             getOverallProgress(parentContentList, course, context);
           }
 
-          languageProgress =
-              Provider.of<LearnRepository>(context, listen: false)
-                  .languageProgress;
+          languageProgress = Provider.of<TocRepository>(context, listen: false)
+              .languageProgress;
           if (languageProgress.isNotEmpty &&
               languageProgress[course.language.toLowerCase()] != null) {
             currentLangProgress =
@@ -673,7 +672,7 @@ class TocHelper {
             try {
               parentBatchId = enrolledSubCourse.batch!.batchId;
               parentCourseId = enrolledSubCourse.id;
-              Map<String, dynamic>? _course = await LearnRepository()
+              Map<String, dynamic>? _course = await TocRepository()
                   .getCourseData(
                       courseHierarchyData.children![index].identifier,
                       isFeatured: isFeatured);
@@ -694,7 +693,7 @@ class TocHelper {
                           TocConstants.COURSE_COMPLETION_PERCENTAGE);
               if (!isCompleted && language != null) {
                 contentList.clear();
-                contentList = await LearnRepository().readContentProgress(
+                contentList = await TocRepository().readContentProgress(
                     enrolledSubCourse.id, enrolledSubCourse.batch!.batchId,
                     contentIds: course.leafNodes, language: language);
               }
@@ -704,7 +703,7 @@ class TocHelper {
               enrolledCourse != null) {
             try {
               contentList.clear();
-              contentList = await LearnRepository().readContentProgress(
+              contentList = await TocRepository().readContentProgress(
                   enrolledCourse.id, enrolledCourse.batch!.batchId,
                   contentIds: course.leafNodes,
                   language: language ?? course.language);

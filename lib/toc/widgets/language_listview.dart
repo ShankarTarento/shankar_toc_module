@@ -4,6 +4,8 @@ import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/model/course_model.dart';
+import 'package:toc_module/toc/repository/toc_repository.dart';
+import 'package:toc_module/toc/services/toc_services.dart';
 import 'package:toc_module/toc/view_model/course_toc_view_model.dart';
 import '../model/language_map_model.dart';
 import 'PostEnrollLanguageChange.dart';
@@ -118,7 +120,7 @@ class _LanguageListViewState extends State<LanguageListView> {
       {VoidCallback? doPop}) async {
     await showLanguageSwitchingBtmSheet(language,
         changeSelectionCallback: () async {
-      Provider.of<TocServices>(context, listen: false).clearCourseProgress();
+      Provider.of<TocRepository>(context, listen: false).clearCourseProgress();
       await Provider.of<CourseTocViewModel>(context, listen: false)
           .setOverallCourseLanguage(language, context);
       doPop?.call();
@@ -207,12 +209,12 @@ class _LanguageListViewState extends State<LanguageListView> {
   Future<void> showLanguageSwitchingBtmSheet(String language,
       {required VoidCallback changeSelectionCallback}) async {
     Map<String, dynamic> languageProgress =
-        Provider.of<LearnRepository>(context, listen: false).languageProgress;
+        Provider.of<TocRepository>(context, listen: false).languageProgress;
     String? selectedLanguage = LanguageMapV1.getValueFromDisplayName(language);
     ValueNotifier<Course?> enrolledCourse =
         Provider.of<CourseTocViewModel>(context, listen: false).enrolledCourse;
     double? courseProgress =
-        Provider.of<TocServices>(context, listen: false).courseProgress;
+        Provider.of<TocRepository>(context, listen: false).courseProgress;
     if (selectedLanguage != null &&
         enrolledCourse.value != null &&
         courseProgress != 1.0) {

@@ -102,11 +102,11 @@ class _AudioVideoWebViewState extends State<AudioVideoWebView> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<TocServices>(builder: (context, tocServices, _) {
+    return Consumer<TocRepository>(builder: (context, tocServices, _) {
       if (!tocServices.isWebWiewPersist) {
         stopAllMedia();
         webViewController!.clearCache();
-        Provider.of<TocServices>(context).setWebView();
+        Provider.of<TocRepository>(context).setWebView();
         initializeController();
       }
       final Set<Factory<OneSequenceGestureRecognizer>> gestureRecognizers = {

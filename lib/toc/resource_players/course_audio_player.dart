@@ -301,7 +301,7 @@ class _CourseAudioPlayerState extends State<CourseAudioPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<TocServices>(builder: (context, tocServices, _) {
+    return Consumer<TocRepository>(builder: (context, tocServices, _) {
       return Column(children: <Widget>[
         Expanded(
           child: Center(

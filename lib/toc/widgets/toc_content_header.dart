@@ -72,8 +72,8 @@ class TocContentHeader extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
               SizedBox(height: 8.w),
-              Consumer<LearnRepository>(builder: (context, learnRepository, _) {
-                var courseRatingInfo = learnRepository.courseRating;
+              Consumer<TocRepository>(builder: (context, TocRepository, _) {
+                var courseRatingInfo = TocRepository.courseRating;
                 if (courseRatingInfo != null) {
                   if (courseRatingInfo.runtimeType != String) {
                     double totalRating = getTotalRating(courseRatingInfo);

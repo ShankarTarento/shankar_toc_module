@@ -76,7 +76,7 @@ class _SelectBatchBottomSheetState extends State<SelectBatchBottomSheet> {
                                 onTap: () {
                                   selectedBatch = widget.batches[index];
                                   setState(() {});
-                                  Provider.of<TocServices>(context,
+                                  Provider.of<TocRepository>(context,
                                           listen: false)
                                       .setBatchDetails(
                                           selectedBatch: selectedBatch!);

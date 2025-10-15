@@ -82,8 +82,8 @@ class TocAppbarWidget extends StatelessWidget {
 
   void clearCourse(BuildContext context) {
     //Clear content read, hierarchy, rating and review
-    Provider.of<LearnRepository>(context, listen: false).clearCourseDetails();
+    Provider.of<TocRepository>(context, listen: false).clearCourseDetails();
     //Clear course progress
-    Provider.of<TocServices>(context, listen: false).clearCourseProgress();
+    Provider.of<TocRepository>(context, listen: false).clearCourseProgress();
   }
 }

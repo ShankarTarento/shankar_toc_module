@@ -140,7 +140,7 @@ class RateNowPopUp extends StatelessWidget {
           primaryCategory: courseDetails.primaryCategory,
         )),
       );
-      Provider.of<TocServices>(context, listen: false)
+      Provider.of<TocRepository>(context, listen: false)
           .getCourseRating(courseDetails: courseDetails);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(

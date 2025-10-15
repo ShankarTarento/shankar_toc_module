@@ -89,7 +89,7 @@ class _EnrollBlendedProgramButtonState
   bool enableStartButton = false;
 
   Future<Map?> getForm(id) async {
-    var surveyForm = await Provider.of<LearnRepository>(context, listen: false)
+    var surveyForm = await Provider.of<TocRepository>(context, listen: false)
         .getSurveyForm(id);
     return surveyForm;
   }
@@ -156,7 +156,7 @@ class _EnrollBlendedProgramButtonState
                     workflowStates.last['currentStatus'] ==
                         WFBlendedProgramStatus.SEND_FOR_PC_APPROVAL.name)) {
               enrolledBatchDetails = batch;
-              Provider.of<TocServices>(context, listen: false)
+              Provider.of<TocRepository>(context, listen: false)
                   .setBatchDetails(selectedBatch: enrolledBatchDetails!);
             }
           });
@@ -415,7 +415,7 @@ class _EnrollBlendedProgramButtonState
   void trackCourseEnrolled() async {
     try {
       bool _isContentEnrolmentEnabled =
-          await Provider.of<LearnRepository>(context, listen: false)
+          await Provider.of<TocRepository>(context, listen: false)
               .isSmartechEventEnabled(
                   eventName: SMTTrackEvents.contentEnrolment);
       if (_isContentEnrolmentEnabled) {
@@ -569,7 +569,7 @@ class _EnrollBlendedProgramButtonState
       if (mandatoryIds.isEmpty) return false;
 
       final contentProgress =
-          await Provider.of<LearnRepository>(context, listen: false)
+          await Provider.of<TocRepository>(context, listen: false)
               .readPreRequisiteContentProgress(contentIds);
 
       final isCompleted = await isPreEnrollmentRequisiteCompleted(
@@ -620,7 +620,7 @@ class _EnrollBlendedProgramButtonState
           await unEnrollBlendedCourse();
           showWithdrawBtnForEnrolled = false;
 
-          Provider.of<TocServices>(context, listen: false).setInitialBatch(
+          Provider.of<TocRepository>(context, listen: false).setInitialBatch(
             batches: widget.batches,
             courseId: widget.courseId,
           );
@@ -816,7 +816,7 @@ class _EnrollBlendedProgramButtonState
                               ),
                             ),
                             builder: (BuildContext context) {
-                              return Consumer<TocServices>(
+                              return Consumer<TocRepository>(
                                   builder: (context, tocServices, _) {
                                 return SelectBatchBottomSheet(
                                   batches: widget.batches,

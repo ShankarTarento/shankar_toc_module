@@ -72,7 +72,7 @@ class _AboutTabState extends State<AboutTab>
             courseInfo: widget.enrolledCourse ?? widget.courseRead,
           ),
           // widget.isBlendedProgram
-          //     ? Consumer<TocServices>(
+          //     ? Consumer<TocRepository>(
           //         builder: (context, tocServices, _) {
           //           return tocServices.batch != null
           //               ? Column(

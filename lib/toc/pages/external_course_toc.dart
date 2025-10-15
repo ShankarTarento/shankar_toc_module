@@ -63,7 +63,7 @@ class _ExternalCourseTOCState extends State<ExternalCourseTOC>
   void initState() {
     super.initState();
     _tocDataFuture =
-        LearnRepository().getExternalCourseContents(extId: widget.contentId);
+        TocRepository().getExternalCourseContents(extId: widget.contentId);
     _enrollCourseFuture = _checkEnrolled();
     _generateTelemetryData();
     setIsLearningPathContent();
@@ -421,7 +421,7 @@ class _ExternalCourseTOCState extends State<ExternalCourseTOC>
   void trackCourseEnrolled(Course? course) async {
     try {
       bool _isContentEnrolmentEnabled =
-          await Provider.of<LearnRepository>(context, listen: false)
+          await Provider.of<TocRepository>(context, listen: false)
               .isSmartechEventEnabled(
                   eventName: SMTTrackEvents.contentEnrolment);
       if (_isContentEnrolmentEnabled) {
@@ -444,7 +444,7 @@ class _ExternalCourseTOCState extends State<ExternalCourseTOC>
   void trackCourseView(Course? course) async {
     try {
       bool _isContentViewEnabled =
-          await Provider.of<LearnRepository>(context, listen: false)
+          await Provider.of<TocRepository>(context, listen: false)
               .isSmartechEventEnabled(eventName: SMTTrackEvents.contentView);
       if (_isContentViewEnabled) {
         SmartechService.trackCourseView(

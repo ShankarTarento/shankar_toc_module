@@ -34,7 +34,7 @@ class _CountdownState extends State<Countdown> {
         _remainingTime =
             DateTime.parse(widget.batch.startDate.replaceAll('Z', ''))
                 .difference(DateTime.now());
-        //  Provider.of<TocServices>(context, listen: false)
+        //  Provider.of<TocRepository>(context, listen: false)
         //     .getBatchStartTime()
         //     .difference(DateTime.now());
         if (_remainingTime!.inSeconds <= 0) {

@@ -72,7 +72,7 @@ class _TocPlayerScreenState extends State<TocPlayerScreen>
         : false;
     courseId = widget.arguments.courseId;
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      Provider.of<TocServices>(context, listen: false).clearCourseProgress();
+      Provider.of<TocRepository>(context, listen: false).clearCourseProgress();
     });
     setIsLearningPathContent();
   }
@@ -136,12 +136,12 @@ class _TocPlayerScreenState extends State<TocPlayerScreen>
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<LearnRepository>(context);
-    if (Provider.of<LearnRepository>(context).courseRating != null) {
+    Provider.of<TocRepository>(context);
+    if (Provider.of<TocRepository>(context).courseRating != null) {
       _numberOfCourseRating = TocHelper.getTotalNumberOfRatings(
-          Provider.of<LearnRepository>(context).courseRating);
-      _courseRating = TocHelper.getRating(
-          Provider.of<LearnRepository>(context).courseRating);
+          Provider.of<TocRepository>(context).courseRating);
+      _courseRating =
+          TocHelper.getRating(Provider.of<TocRepository>(context).courseRating);
     }
     return PopScope(
       canPop: false,
@@ -158,7 +158,7 @@ class _TocPlayerScreenState extends State<TocPlayerScreen>
       child: Scaffold(
           body: DefaultTabController(
             length: tabItems.length,
-            child: Selector<LearnRepository, CourseStructure>(
+            child: Selector<TocRepository, CourseStructure>(
                 selector: (_, repo) =>
                     CourseStructure(repo.contentRead, repo.courseHierarchyInfo),
                 builder: (context, value, child) {
@@ -268,7 +268,7 @@ class _TocPlayerScreenState extends State<TocPlayerScreen>
                                                 updatePlayerProgress: value,
                                                 courseCategory:
                                                     course!.courseCategory)
-                                            : Consumer<TocServices>(
+                                            : Consumer<TocRepository>(
                                                 builder:
                                                     (context, tocServices, _) {
                                                   return TocOfflinePlayer(
@@ -395,7 +395,7 @@ class _TocPlayerScreenState extends State<TocPlayerScreen>
                                                 ((course!.courseCategory ==
                                                         PrimaryCategory
                                                             .blendedProgram))
-                                                    ? Consumer<TocServices>(
+                                                    ? Consumer<TocRepository>(
                                                         builder: (context,
                                                             tocServices, _) {
                                                           return BlendedProgramContent(
@@ -600,19 +600,19 @@ class _TocPlayerScreenState extends State<TocPlayerScreen>
                 .updateLock(resourceNavigateItems, widget.arguments.courseId);
           }
           final context = navigatorKey.currentContext!;
-          Provider.of<TocServices>(context, listen: false).setCourseProgress(
+          Provider.of<TocRepository>(context, listen: false).setCourseProgress(
               (totalProgress / resourceNavigateItems.length));
           isCourseCompleted.value =
               totalProgress / resourceNavigateItems.length == 1;
           await updateNavigationItems(navigationItems, data);
 
           Map<String, dynamic> languageProgress =
-              Provider.of<LearnRepository>(context, listen: false)
+              Provider.of<TocRepository>(context, listen: false)
                   .languageProgress;
           if (languageProgress.isNotEmpty &&
               languageProgress[course!.language.toLowerCase()] < 50 &&
               totalProgress / resourceNavigateItems.length >= 0.5) {
-            Provider.of<LearnRepository>(context, listen: false)
+            Provider.of<TocRepository>(context, listen: false)
                 .readContentProgress(
                     enrolledCourse!.id, enrolledCourse!.batch!.batchId,
                     contentIds: course!.leafNodes,
@@ -815,7 +815,7 @@ class _TocPlayerScreenState extends State<TocPlayerScreen>
       }
       Future.delayed(
           Duration(milliseconds: 500),
-          () => Provider.of<TocServices>(context, listen: false)
+          () => Provider.of<TocRepository>(context, listen: false)
               .setCourseProgress(
                   (totalProgress / resourceNavigateItems.length)));
     } catch (e) {
@@ -830,34 +830,34 @@ class _TocPlayerScreenState extends State<TocPlayerScreen>
 
   // Content read api - To get all course details including batch info
   Future<void> getCourseInfo() async {
-    await Provider.of<LearnRepository>(context, listen: false)
+    await Provider.of<TocRepository>(context, listen: false)
         .getCourseData(courseId);
   }
 
   Future<void> getCourseHierarchyDetails() async {
-    await Provider.of<LearnRepository>(context, listen: false)
+    await Provider.of<TocRepository>(context, listen: false)
         .getCourseDetails(courseId, isFeatured: isFeatured);
   }
 
   void clearCourse(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       //Clear content read, hierarchy, rating and review
-      Provider.of<LearnRepository>(context, listen: false).clearCourseDetails();
+      Provider.of<TocRepository>(context, listen: false).clearCourseDetails();
       //Clear course progress
-      Provider.of<TocServices>(context, listen: false).clearCourseProgress();
+      Provider.of<TocRepository>(context, listen: false).clearCourseProgress();
     });
   }
 
   Future<void> getReviews() async {
     if (isFeatured) return;
-    await Provider.of<LearnRepository>(context, listen: false)
+    await Provider.of<TocRepository>(context, listen: false)
         .getCourseReviewSummery(
             courseId: courseId!, primaryCategory: course!.primaryCategory);
   }
 
   Future<void> getYourRatingAndReview() async {
     if (!isFeatured)
-      await Provider.of<LearnRepository>(context, listen: false).getYourReview(
+      await Provider.of<TocRepository>(context, listen: false).getYourReview(
           id: course!.id, primaryCategory: course!.primaryCategory);
   }
 
@@ -866,7 +866,7 @@ class _TocPlayerScreenState extends State<TocPlayerScreen>
         (courseOverallProgress >= 0.98)) {
       try {
         bool _isContentCompletionEnabled =
-            await Provider.of<LearnRepository>(context, listen: false)
+            await Provider.of<TocRepository>(context, listen: false)
                 .isSmartechEventEnabled(
                     eventName: SMTTrackEvents.contentCompletion);
         if (_isContentCompletionEnabled) {

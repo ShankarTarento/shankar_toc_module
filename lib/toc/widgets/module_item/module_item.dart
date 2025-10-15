@@ -146,16 +146,16 @@ class _ModuleItemState extends State<ModuleItem> {
 
   void _generateInteractTelemetryData(
       String contentId, String primaryType) async {
-    var telemetryRepository = TelemetryRepository();
-    Map eventData = telemetryRepository.getInteractTelemetryEvent(
-      pageIdentifier: TelemetryPageIdentifier.courseDetailsPageId,
-      contentId: contentId,
-      subType: TelemetrySubType.contentCard,
-      env: TelemetryEnv.learn,
-      objectType: primaryType,
-      isPublic: widget.isFeatured,
-    );
-    await telemetryRepository.insertEvent(eventData: eventData);
+    // var telemetryRepository = TelemetryRepository();
+    // Map eventData = telemetryRepository.getInteractTelemetryEvent(
+    //   pageIdentifier: TelemetryPageIdentifier.courseDetailsPageId,
+    //   contentId: contentId,
+    //   subType: TelemetrySubType.contentCard,
+    //   env: TelemetryEnv.learn,
+    //   objectType: primaryType,
+    //   isPublic: widget.isFeatured,
+    // );
+    // await telemetryRepository.insertEvent(eventData: eventData);
   }
 
   void isLastAccessedContentExist() {

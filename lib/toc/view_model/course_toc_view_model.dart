@@ -3,17 +3,23 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/constants/toc_constants.dart';
+import 'package:toc_module/toc/helper/toc_helper.dart';
 import 'package:toc_module/toc/model/batch_model.dart';
 import 'package:toc_module/toc/model/course_hierarchy_model.dart';
 import 'package:toc_module/toc/model/course_model.dart';
+import 'package:toc_module/toc/model/learn_tab_model.dart';
 import 'package:toc_module/toc/model/reference_node.dart';
+import 'package:toc_module/toc/model/toc_model.dart';
+import 'package:toc_module/toc/repository/toc_repository.dart';
+import 'package:toc_module/toc/services/toc_services.dart';
+import 'package:toc_module/toc/util/button_with_border.dart';
 import '../model/language_map_model.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
 import '../widgets/compatibility_dialog.dart';
 
 class CourseTocViewModel extends ChangeNotifier {
   // Dependencies
-  final LearnRepository _learnRepository = LearnRepository();
+  final TocRepository _TocRepository = TocRepository();
 
   // Controllers
   TabController? _learnTabController;
@@ -104,8 +110,11 @@ class CourseTocViewModel extends ChangeNotifier {
     _arguments = arguments;
     _navigationItems.value = [];
     _courseId = arguments.courseId;
-    _isFeaturedCourse = arguments.isFeaturedCourse ?? false;
+    _isFeaturedCourse = arguments.isFeaturedCourse;
     _isFeedbackPending = arguments.isFeedbackPending;
+    if (arguments.initialTabIndex != null) {
+      _tabInitialIndex = arguments.initialTabIndex!;
+    }
 
     await _setIsLearningPathContent();
     await fetchData(context);
@@ -119,7 +128,7 @@ class CourseTocViewModel extends ChangeNotifier {
     _setLoading(true);
 
     try {
-      Provider.of<LearnRepository>(context, listen: false)
+      Provider.of<TocRepository>(context, listen: false)
           .resetLanguageProgress();
       await getCourseInfo(context);
       if (!_isCourseCategoryNotCompatible) {
@@ -156,11 +165,10 @@ class CourseTocViewModel extends ChangeNotifier {
 
   // Content read api - To get all course details including batch info
   Future<void> getCourseInfo(BuildContext context) async {
-    final courseInfo =
-        await Provider.of<LearnRepository>(context, listen: false)
-            .getCourseData(_courseId,
-                isFeatured: _isFeaturedCourse,
-                pointToProd: _arguments?.pointToProd ?? false);
+    final courseInfo = await Provider.of<TocRepository>(context, listen: false)
+        .getCourseData(_courseId,
+            isFeatured: _isFeaturedCourse,
+            pointToProd: _arguments?.pointToProd ?? false);
 
     if (courseInfo != null) {
       _course = Course.fromJson(courseInfo);
@@ -206,8 +214,8 @@ class CourseTocViewModel extends ChangeNotifier {
 
   // Get enrolment info
   Future<void> getEnrolmentInfo(BuildContext context) async {
-    List<Course> response = await _learnRepository
-        .getCourseEnrollDetailsByIds(courseIds: [_baseCourseId!]);
+    List<Course> response = await _TocRepository.getCourseEnrollDetailsByIds(
+        courseIds: [_baseCourseId!]);
 
     if (response.isNotEmpty) {
       _enrollmentList = response;
@@ -364,7 +372,7 @@ class CourseTocViewModel extends ChangeNotifier {
   }
 
   Future<void> getCourseHierarchyDetails(BuildContext context) async {
-    final response = await Provider.of<LearnRepository>(context, listen: false)
+    final response = await Provider.of<TocRepository>(context, listen: false)
         .getCourseDetails(_courseId,
             isFeatured: _isFeaturedCourse,
             pointToProd: _arguments?.pointToProd ?? false);
@@ -377,11 +385,11 @@ class CourseTocViewModel extends ChangeNotifier {
   }
 
   Future<void> getBatchDetails(BuildContext context) async {
-    _batches = await Provider.of<LearnRepository>(context, listen: false)
+    _batches = await Provider.of<TocRepository>(context, listen: false)
         .getBatchList(_courseId);
 
     if (_course != null) {
-      Provider.of<TocServices>(context, listen: false).setInitialBatch(
+      Provider.of<TocRepository>(context, listen: false).setInitialBatch(
           batches: _batches,
           courseId: _course!.id,
           enrolledCourse: _enrolledCourse.value);
@@ -454,7 +462,7 @@ class CourseTocViewModel extends ChangeNotifier {
     _isCourseCompleted.value =
         totalProgress / _resourceNavigateItems.length == 1;
 
-    Provider.of<TocServices>(context, listen: false)
+    Provider.of<TocRepository>(context, listen: false)
         .setCourseProgress((totalProgress / _resourceNavigateItems.length));
 
     notifyListeners();
@@ -463,7 +471,7 @@ class CourseTocViewModel extends ChangeNotifier {
   Future<void> getReviews(BuildContext context) async {
     if (_isFeaturedCourse) return;
 
-    await Provider.of<LearnRepository>(context, listen: false)
+    await Provider.of<TocRepository>(context, listen: false)
         .getCourseReviewSummery(
             courseId: _courseId!, primaryCategory: _course!.primaryCategory);
   }
@@ -472,7 +480,7 @@ class CourseTocViewModel extends ChangeNotifier {
       Course? course, BuildContext context) async {
     if (_isFeaturedCourse) return;
 
-    await Provider.of<LearnRepository>(context, listen: false)
+    await Provider.of<TocRepository>(context, listen: false)
         .getYourReview(id: course!.id, primaryCategory: course.primaryCategory);
   }
 
@@ -508,9 +516,9 @@ class CourseTocViewModel extends ChangeNotifier {
     await getEnrolmentInfo(context);
   }
 
-  void clearCourse(BuildContext context) {
-    Provider.of<LearnRepository>(context, listen: false).clearCourseDetails();
-    Provider.of<TocServices>(context, listen: false).clearCourseProgress();
+  Future<void> clearCourse(BuildContext context) async {
+    Provider.of<TocRepository>(context, listen: false).clearCourseDetails();
+    Provider.of<TocRepository>(context, listen: false).clearCourseProgress();
   }
 
   // Navigation and sharing
@@ -530,7 +538,7 @@ class CourseTocViewModel extends ChangeNotifier {
 
   Future<bool> isLearningPathContentHelper(String courseId) async {
     try {
-      CbPlanModel? cbpList = await LearnRepository().getCbplan();
+      CbPlanModel? cbpList = await TocRepository().getCbplan();
 
       if (cbpList == null) return false;
 
@@ -549,8 +557,8 @@ class CourseTocViewModel extends ChangeNotifier {
   Future<void> _smtTrackCourseView() async {
     if (_smtTrackCourseViewEnabled) {
       try {
-        bool isContentViewEnabled = await _learnRepository
-            .isSmartechEventEnabled(eventName: SMTTrackEvents.contentView);
+        bool isContentViewEnabled = await _TocRepository.isSmartechEventEnabled(
+            eventName: SMTTrackEvents.contentView);
 
         if (isContentViewEnabled) {
           Future.delayed(Duration(seconds: 1), () {

@@ -59,7 +59,7 @@ class _PreTocPlayerScreenState extends State<PreTocPlayerScreen>
         : false;
     courseId = widget.arguments.courseId;
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      Provider.of<TocServices>(context, listen: false).clearCourseProgress();
+      Provider.of<TocRepository>(context, listen: false).clearCourseProgress();
     });
   }
 
@@ -104,7 +104,7 @@ class _PreTocPlayerScreenState extends State<PreTocPlayerScreen>
   Widget buildBody() {
     return DefaultTabController(
       length: tabItems.length,
-      child: Selector<LearnRepository, CourseStructure>(
+      child: Selector<TocRepository, CourseStructure>(
           selector: (_, repo) =>
               CourseStructure(repo.contentRead, repo.courseHierarchyInfo),
           builder: (context, value, child) {
@@ -214,7 +214,7 @@ class _PreTocPlayerScreenState extends State<PreTocPlayerScreen>
                               updatePlayerProgress: value,
                               courseCategory: course!.courseCategory,
                               isPreRequisite: true)
-                          : Consumer<TocServices>(
+                          : Consumer<TocRepository>(
                               builder: (context, tocServices, _) {
                                 return TocOfflinePlayer(
                                   batch: tocServices.batch,
@@ -332,7 +332,7 @@ class _PreTocPlayerScreenState extends State<PreTocPlayerScreen>
 
   Widget progressView() {
     double progress = 0;
-    return Consumer<TocServices>(builder: (context, tocServices, _) {
+    return Consumer<TocRepository>(builder: (context, tocServices, _) {
       var courseProgress = tocServices.courseProgress;
       if (courseProgress != null) {
         progress = courseProgress;
@@ -436,7 +436,7 @@ class _PreTocPlayerScreenState extends State<PreTocPlayerScreen>
                 resourceNavigateItems, widget.arguments.courseId);
           }
 
-          Provider.of<TocServices>(context, listen: false).setCourseProgress(
+          Provider.of<TocRepository>(context, listen: false).setCourseProgress(
               (totalProgress / resourceNavigateItems.length));
           isCourseCompleted.value =
               totalProgress / resourceNavigateItems.length == 1;
@@ -639,7 +639,7 @@ class _PreTocPlayerScreenState extends State<PreTocPlayerScreen>
     }
     Future.delayed(
         Duration(milliseconds: 500),
-        () => Provider.of<TocServices>(context, listen: false)
+        () => Provider.of<TocRepository>(context, listen: false)
             .setCourseProgress((totalProgress / resourceNavigateItems.length)));
   }
 
@@ -650,21 +650,21 @@ class _PreTocPlayerScreenState extends State<PreTocPlayerScreen>
 
   // Content read api - To get all course details including batch info
   Future<void> getCourseInfo() async {
-    await Provider.of<LearnRepository>(context, listen: false)
+    await Provider.of<TocRepository>(context, listen: false)
         .getCourseData(courseId);
   }
 
   Future<void> getCourseHierarchyDetails() async {
-    await Provider.of<LearnRepository>(context, listen: false)
+    await Provider.of<TocRepository>(context, listen: false)
         .getCourseDetails(courseId, isFeatured: isFeatured);
   }
 
   void clearCourse(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       //Clear content read, hierarchy, rating and review
-      Provider.of<LearnRepository>(context, listen: false).clearCourseDetails();
+      Provider.of<TocRepository>(context, listen: false).clearCourseDetails();
       //Clear course progress
-      Provider.of<TocServices>(context, listen: false).clearCourseProgress();
+      Provider.of<TocRepository>(context, listen: false).clearCourseProgress();
     });
   }
 }

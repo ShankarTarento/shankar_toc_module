@@ -88,7 +88,7 @@ class EnrollModeratedProgram extends StatelessWidget {
                                   ),
                                 ),
                                 builder: (BuildContext context) {
-                                  return Consumer<TocServices>(
+                                  return Consumer<TocRepository>(
                                       builder: (context, tocServices, _) {
                                     return SelectBatchBottomSheet(
                                       batches: batches,
