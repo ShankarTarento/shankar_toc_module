@@ -6,11 +6,13 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/new_animation_widget.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/constants/toc_constants.dart';
 import 'package:toc_module/toc/helper/toc_helper.dart';
 import 'package:toc_module/toc/model/course_hierarchy_model.dart';
 import 'package:toc_module/toc/model/course_model.dart';
+import 'package:toc_module/toc/model/learn_tab_model.dart';
 import 'package:toc_module/toc/model/reference_node.dart';
 import 'package:toc_module/toc/model/toc_player_model.dart';
 import 'package:toc_module/toc/pages/about_tab/widgets/blended_program/blended_program_content/blended_program_content.dart';
@@ -19,12 +21,13 @@ import 'package:toc_module/toc/pages/player/toc_offline_player.dart';
 import 'package:toc_module/toc/pages/teachers_notes/teachers_notes.dart';
 import 'package:toc_module/toc/pages/toc_content_page.dart';
 import 'package:toc_module/toc/pages/transcript/transcript.dart';
+import 'package:toc_module/toc/repository/toc_repository.dart';
 import 'package:toc_module/toc/screen/toc_open_resource.dart';
 import 'package:toc_module/toc/util/no_data_widget.dart';
 import 'package:toc_module/toc/view_model/course_toc_view_model.dart';
+import 'package:toc_module/toc/widgets/course_sharing_page/course_sharing_page.dart';
 import 'package:toc_module/toc/widgets/toc_appbar_widget.dart';
 import 'package:toc_module/toc/widgets/toc_player_button.dart';
-
 import '../model/navigation_model.dart';
 import '../pages/about_tab/about_tab.dart';
 import '../pages/course_comments.dart';
@@ -282,7 +285,7 @@ class _TocPlayerScreenState extends State<TocPlayerScreen>
                                   !fullScreen
                                       ? Column(children: [
                                           if (!isFeatured)
-                                            OverallProgress(
+                                            TocOverallProgress(
                                                 course: course!,
                                                 enrolledCourse:
                                                     enrolledCourse!),
@@ -707,8 +710,13 @@ class _TocPlayerScreenState extends State<TocPlayerScreen>
       backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
         return Container(
-            child: CourseSharingPage(course!.id, course!.name, course!.appIcon,
-                course!.source, course!.courseCategory, receiveShareResponse));
+            child: CourseSharingPage(
+                courseId: course!.id,
+                courseName: course!.name,
+                coursePosterImageUrl: course!.appIcon,
+                courseProvider: course!.source ?? "",
+                primaryCategory: course!.courseCategory,
+                callback: receiveShareResponse));
       },
     );
   }
@@ -749,11 +757,14 @@ class _TocPlayerScreenState extends State<TocPlayerScreen>
                                 children: [
                                   Expanded(
                                     child: Container(
-                                      child: TitleRegularGrey60(
+                                      child: Text(
                                         TocLocalizations.of(context)!
                                             .mContentSharePageSuccessMessage,
-                                        fontSize: 14.sp,
-                                        color: TocModuleColors.appBarBackground,
+                                        style: GoogleFonts.lato(
+                                          fontSize: 14.sp,
+                                          color:
+                                              TocModuleColors.appBarBackground,
+                                        ),
                                         maxLines: 3,
                                       ),
                                     ),
@@ -862,31 +873,31 @@ class _TocPlayerScreenState extends State<TocPlayerScreen>
   }
 
   Future<void> trackCourseCompleted() async {
-    if ((prevCourseOverallProgress != courseOverallProgress) &&
-        (courseOverallProgress >= 0.98)) {
-      try {
-        bool _isContentCompletionEnabled =
-            await Provider.of<TocRepository>(context, listen: false)
-                .isSmartechEventEnabled(
-                    eventName: SMTTrackEvents.contentCompletion);
-        if (_isContentCompletionEnabled) {
-          await SmartechService.trackCourseCompleted(
-            courseCategory: course?.courseCategory ?? '',
-            courseName: course?.name ?? '',
-            image: course?.appIcon ?? '',
-            contentUrl: "${ApiUrl.baseUrl}/app/toc/${course?.id ?? ''}",
-            doId: course?.id ?? '',
-            courseDuration: int.parse(course?.duration?.toString() ?? ''),
-            learningPathContent: isLearningPathContent ? 1 : 0,
-            provider: course?.source ?? '',
-            courseRating: _courseRating,
-            numberOfCourseRating: _numberOfCourseRating,
-          );
-        }
-      } catch (e) {
-        print(e);
-      }
-    }
+    // if ((prevCourseOverallProgress != courseOverallProgress) &&
+    //     (courseOverallProgress >= 0.98)) {
+    //   try {
+    //     bool _isContentCompletionEnabled =
+    //         await Provider.of<TocRepository>(context, listen: false)
+    //             .isSmartechEventEnabled(
+    //                 eventName: SMTTrackEvents.contentCompletion);
+    //     if (_isContentCompletionEnabled) {
+    //       await SmartechService.trackCourseCompleted(
+    //         courseCategory: course?.courseCategory ?? '',
+    //         courseName: course?.name ?? '',
+    //         image: course?.appIcon ?? '',
+    //         contentUrl: "${ApiUrl.baseUrl}/app/toc/${course?.id ?? ''}",
+    //         doId: course?.id ?? '',
+    //         courseDuration: int.parse(course?.duration?.toString() ?? ''),
+    //         learningPathContent: isLearningPathContent ? 1 : 0,
+    //         provider: course?.source ?? '',
+    //         courseRating: _courseRating,
+    //         numberOfCourseRating: _numberOfCourseRating,
+    //       );
+    //     }
+    //   } catch (e) {
+    //     print(e);
+    //   }
+    // }
   }
 
   List<Widget> getTabItems() {

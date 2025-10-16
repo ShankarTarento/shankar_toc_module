@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
-
-import 'package:karmayogi_mobile/constants/index.dart';
-import 'package:karmayogi_mobile/models/_models/batch_model.dart';
-import 'package:karmayogi_mobile/ui/screens/_screens/profile/model/profile_model.dart';
-import 'package:karmayogi_mobile/respositories/_respositories/profile_repository.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/about_tab/widgets/blended_program_survey_form/blended_program_survey_form.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/about_tab/widgets/blended_program_user_form/blended_program_user_form.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/about_tab/widgets/enrollment_confirmation_form.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/about_tab/widgets/enrollment_details.dart';
-
 import 'package:provider/provider.dart';
+import 'package:toc_module/toc/model/batch_model.dart';
+import 'package:toc_module/toc/pages/about_tab/widgets/blended_program/blended_program_survey_form/blended_program_survey_form.dart';
+import 'package:toc_module/toc/pages/about_tab/widgets/blended_program/blended_program_user_form/blended_program_user_form.dart';
+import 'package:toc_module/toc/pages/about_tab/widgets/blended_program/enrollment_confirmation_form.dart';
+import 'package:toc_module/toc/pages/about_tab/widgets/blended_program/enrollment_details.dart';
 
 class SurveyFormBottomSheet extends StatefulWidget {
   final bool isCadreProgram;

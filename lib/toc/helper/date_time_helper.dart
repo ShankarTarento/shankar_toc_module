@@ -100,4 +100,24 @@ class DateTimeHelper {
     }
     return totalDuration;
   }
+
+  static String getTimeFormatInHrs(int durationInMinutes) {
+    if (durationInMinutes < 60) {
+      return '${durationInMinutes}m';
+    } else {
+      int hours = durationInMinutes ~/ 60;
+      int minutes = durationInMinutes % 60;
+      if (minutes > 0) {
+        return '${hours}h ${minutes}m';
+      } else {
+        return '${hours}h';
+      }
+    }
+  }
+
+  static String convertDateFormat(String date,
+      {required String inputFormat, required String desiredFormat}) {
+    DateTime parsedDate = DateFormat(inputFormat).parse(date.toString());
+    return DateFormat(desiredFormat).format(parsedDate);
+  }
 }

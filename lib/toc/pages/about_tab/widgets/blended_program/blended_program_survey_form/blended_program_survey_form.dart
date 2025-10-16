@@ -2,25 +2,23 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:karmayogi_mobile/constants/_constants/app_constants.dart';
-import 'package:karmayogi_mobile/constants/_constants/color_constants.dart';
-import 'package:karmayogi_mobile/feedback/constants.dart';
-import 'package:karmayogi_mobile/localization/_langs/english_lang.dart';
-import 'package:karmayogi_mobile/models/_models/batch_model.dart';
-import 'package:karmayogi_mobile/models/_models/gyaan_karmayogi_category_model.dart';
-import 'package:karmayogi_mobile/models/_models/survey_form_model.dart';
-import 'package:karmayogi_mobile/services/index.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/about_tab/widgets/blended_program_survey_form/services/blended_program_survey_services.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/about_tab/widgets/blended_program_survey_form/skeleton/form_skeleton.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/about_tab/widgets/blended_program_survey_form/widgets/custom_date_picker.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/about_tab/widgets/blended_program_survey_form/widgets/custom_dropdown.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/about_tab/widgets/blended_program_survey_form/widgets/custom_filter_box.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/about_tab/widgets/blended_program_survey_form/widgets/custom_radio_button.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/about_tab/widgets/blended_program_survey_form/widgets/custom_rating.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/about_tab/widgets/blended_program_survey_form/widgets/custom_text_field.dart';
-import 'package:karmayogi_mobile/util/date_time_helper.dart';
 import 'package:http/http.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/constants/english_lang.dart';
+import 'package:toc_module/toc/constants/toc_constants.dart';
+import 'package:toc_module/toc/helper/date_time_helper.dart';
+import 'package:toc_module/toc/model/batch_model.dart';
+import 'package:toc_module/toc/model/filter_model.dart';
+import 'package:toc_module/toc/model/form_data_model.dart';
+import 'package:toc_module/toc/pages/about_tab/widgets/blended_program/blended_program_survey_form/services/blended_program_survey_services.dart';
+import 'package:toc_module/toc/pages/about_tab/widgets/blended_program/blended_program_survey_form/skeleton/form_skeleton.dart';
+import 'package:toc_module/toc/pages/about_tab/widgets/blended_program/blended_program_survey_form/widgets/custom_date_picker.dart';
+import 'package:toc_module/toc/pages/about_tab/widgets/blended_program/blended_program_survey_form/widgets/custom_dropdown.dart';
+import 'package:toc_module/toc/pages/about_tab/widgets/blended_program/blended_program_survey_form/widgets/custom_filter_box.dart';
+import 'package:toc_module/toc/pages/about_tab/widgets/blended_program/blended_program_survey_form/widgets/custom_radio_button.dart';
+import 'package:toc_module/toc/pages/about_tab/widgets/blended_program/blended_program_survey_form/widgets/custom_rating.dart';
+import 'package:toc_module/toc/pages/about_tab/widgets/blended_program/blended_program_survey_form/widgets/custom_text_field.dart';
 
 class BlendedProgramSurveyForm extends StatefulWidget {
   final Batch batch;
@@ -249,7 +247,7 @@ class _BlendedProgramSurveyFormState extends State<BlendedProgramSurveyForm> {
                                 TocModuleColors.darkBlue),
                           ),
                           child: Text(
-                            EnglishLang.confirm,
+                            "Confirm",
                             style: Theme.of(context)
                                 .textTheme
                                 .displaySmall!

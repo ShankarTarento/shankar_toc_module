@@ -4,32 +4,25 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
-import 'package:karmayogi_mobile/constants/_constants/api_endpoints.dart';
-import 'package:karmayogi_mobile/constants/_constants/app_constants.dart';
-import 'package:karmayogi_mobile/constants/_constants/telemetry_constants.dart';
-import 'package:karmayogi_mobile/models/_models/competency_passbook_model.dart';
-import 'package:karmayogi_mobile/models/_models/course_status_model.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/about_tab/widgets/tags.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/player/external_course_player.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/view_model/course_toc_view_model.dart';
-import 'package:karmayogi_mobile/ui/skeleton/pages/external_course_toc_skeleton.dart';
-import 'package:karmayogi_mobile/ui/widgets/_common/button_widget_v2.dart';
-import 'package:karmayogi_mobile/util/date_time_helper.dart';
-import 'package:karmayogi_mobile/util/telemetry_repository.dart';
 import 'package:provider/provider.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/constants/toc_constants.dart';
-import '../../../../../constants/_constants/color_constants.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
-import '../../../../../models/_api/user_action_model.dart';
-import '../../../../../models/_models/course_model.dart';
-import '../../../../../respositories/_respositories/learn_repository.dart';
-import '../../../../../services/_services/learn_service.dart';
-import '../../../../../services/_services/smartech_service.dart';
-import '../../../../../util/helper.dart';
-import '../../../../widgets/_learn/learn_tab.dart';
-import 'about_tab/widgets/competencies.dart';
-import 'about_tab/widgets/course_complete_certificate.dart';
+import 'package:toc_module/toc/helper/date_time_helper.dart';
+import 'package:toc_module/toc/helper/toc_helper.dart';
+import 'package:toc_module/toc/model/competency_passbook.dart';
+import 'package:toc_module/toc/model/course_model.dart';
+import 'package:toc_module/toc/model/course_status_moedl.dart';
+import 'package:toc_module/toc/model/learn_tab_model.dart';
+import 'package:toc_module/toc/model/user_action_model.dart';
+import 'package:toc_module/toc/pages/about_tab/widgets/tags.dart';
+import 'package:toc_module/toc/pages/player/external_course_player.dart';
+import 'package:toc_module/toc/pages/toc_skeleton/external_course_toc_skeleton.dart';
+import 'package:toc_module/toc/repository/toc_repository.dart';
+import 'package:toc_module/toc/util/button_widget_v2.dart';
+import 'package:toc_module/toc/view_model/course_toc_view_model.dart';
+import 'about_tab/widgets/competency_strip/competency_strip.dart';
 import 'course_comments.dart';
+import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
 
 class ExternalCourseTOC extends StatefulWidget {
   final String contentId;
@@ -49,7 +42,6 @@ class ExternalCourseTOC extends StatefulWidget {
 class _ExternalCourseTOCState extends State<ExternalCourseTOC>
     with SingleTickerProviderStateMixin, WidgetsBindingObserver {
   Future<Course>? _tocDataFuture;
-  LearnService learnService = LearnService();
   ValueNotifier<bool?> _isEnrolled = ValueNotifier(null);
   Future<void>? _enrollCourseFuture;
   // CourseStatus
@@ -208,11 +200,11 @@ class _ExternalCourseTOCState extends State<ExternalCourseTOC>
                                             fontSize: 10.sp,
                                             fontWeight: FontWeight.w400),
                                     onTap: (value) {
-                                      _generateInteractTelemetryData(
-                                          clickId: learnTabController!.index ==
-                                                  0
-                                              ? TelemetryIdentifier.aboutTab
-                                              : TelemetryIdentifier.contentTab);
+                                      // _generateInteractTelemetryData(
+                                      //     clickId: learnTabController!.index ==
+                                      //             0
+                                      //         ? TelemetryIdentifier.aboutTab
+                                      //         : TelemetryIdentifier.contentTab);
                                     },
                                     tabs: [
                                       for (var tabItem
@@ -285,10 +277,10 @@ class _ExternalCourseTOCState extends State<ExternalCourseTOC>
                                                   _navigateToExtCoursePlayer(
                                                       redirectUrl: tocData
                                                           .data!.redirectUrl!);
-                                                  await _generateInteractTelemetryData(
-                                                      clickId:
-                                                          TelemetryIdentifier
-                                                              .redirect);
+                                                  // await _generateInteractTelemetryData(
+                                                  //     clickId:
+                                                  //         TelemetryIdentifier
+                                                  //             .redirect);
                                                 } else {
                                                   await _enroll(
                                                       partnerId: tocData
@@ -299,10 +291,10 @@ class _ExternalCourseTOCState extends State<ExternalCourseTOC>
                                                       redirectUrl: tocData
                                                           .data!.redirectUrl!,
                                                       course: tocData.data);
-                                                  await _generateInteractTelemetryData(
-                                                      clickId:
-                                                          TelemetryIdentifier
-                                                              .enroll);
+                                                  // await _generateInteractTelemetryData(
+                                                  //     clickId:
+                                                  //         TelemetryIdentifier
+                                                  //             .enroll);
                                                 }
                                               }
                                             : null,
@@ -358,7 +350,7 @@ class _ExternalCourseTOCState extends State<ExternalCourseTOC>
           SizedBox(height: 8.w),
           courseData.lastUpdatedOn != null
               ? Text(
-                  '(${TocLocalizations.of(context)!.mCourseLastUpdatedOn} ${DateTimeHelper.getDateTimeInFormat(courseData.lastUpdatedOn!, desiredDateFormat: DateFormatString.MMMddyyyy)})',
+                  '(${TocLocalizations.of(context)!.mCourseLastUpdatedOn} ${DateTimeHelper.getDateTimeInFormat(courseData.lastUpdatedOn!, desiredDateFormat: IntentType.MMMddyyyy)})',
                   style: GoogleFonts.lato(
                       color: TocModuleColors.white70,
                       fontSize: 12.sp,
@@ -385,7 +377,8 @@ class _ExternalCourseTOCState extends State<ExternalCourseTOC>
         _isEnrolled.value = false;
       }
     } else {
-      Helper.showSnackBarMessage(
+      TocHelper.showSnackBarMessage(
+          textColor: Colors.white,
           context: context,
           text: TocLocalizations.of(context)!.mStaticSomethingWrongTryLater,
           bgColor: TocModuleColors.negativeLight);
@@ -419,48 +412,48 @@ class _ExternalCourseTOCState extends State<ExternalCourseTOC>
   }
 
   void trackCourseEnrolled(Course? course) async {
-    try {
-      bool _isContentEnrolmentEnabled =
-          await Provider.of<TocRepository>(context, listen: false)
-              .isSmartechEventEnabled(
-                  eventName: SMTTrackEvents.contentEnrolment);
-      if (_isContentEnrolmentEnabled) {
-        SmartechService.trackCourseEnrolled(
-          courseCategory: course?.courseCategory ?? '',
-          courseName: course?.name ?? '',
-          image: course?.appIcon ?? '',
-          contentUrl: "${ApiUrl.baseUrl}/app/toc/ext/${course?.id ?? ''}",
-          doId: course?.id ?? '',
-          courseDuration: int.parse(course?.duration?.toString() ?? ''),
-          learningPathContent: isLearningPathContent ? 1 : 0,
-          provider: course?.source ?? '',
-        );
-      }
-    } catch (e) {
-      print(e);
-    }
+    // try {
+    //   bool _isContentEnrolmentEnabled =
+    //       await Provider.of<TocRepository>(context, listen: false)
+    //           .isSmartechEventEnabled(
+    //               eventName: SMTTrackEvents.contentEnrolment);
+    //   if (_isContentEnrolmentEnabled) {
+    //     SmartechService.trackCourseEnrolled(
+    //       courseCategory: course?.courseCategory ?? '',
+    //       courseName: course?.name ?? '',
+    //       image: course?.appIcon ?? '',
+    //       contentUrl: "${ApiUrl.baseUrl}/app/toc/ext/${course?.id ?? ''}",
+    //       doId: course?.id ?? '',
+    //       courseDuration: int.parse(course?.duration?.toString() ?? ''),
+    //       learningPathContent: isLearningPathContent ? 1 : 0,
+    //       provider: course?.source ?? '',
+    //     );
+    //   }
+    // } catch (e) {
+    //   print(e);
+    // }
   }
 
   void trackCourseView(Course? course) async {
-    try {
-      bool _isContentViewEnabled =
-          await Provider.of<TocRepository>(context, listen: false)
-              .isSmartechEventEnabled(eventName: SMTTrackEvents.contentView);
-      if (_isContentViewEnabled) {
-        SmartechService.trackCourseView(
-          courseCategory: course?.courseCategory ?? '',
-          courseName: course?.name ?? '',
-          image: course?.appIcon ?? '',
-          contentUrl: "${ApiUrl.baseUrl}/app/toc/ext/${course?.id ?? ''}",
-          doId: course?.id ?? '',
-          courseDuration: int.parse(course?.duration?.toString() ?? ''),
-          learningPathContent: isLearningPathContent ? 1 : 0,
-          provider: course?.source ?? '',
-        );
-      }
-    } catch (e) {
-      print(e);
-    }
+    // try {
+    //   bool _isContentViewEnabled =
+    //       await Provider.of<TocRepository>(context, listen: false)
+    //           .isSmartechEventEnabled(eventName: SMTTrackEvents.contentView);
+    //   if (_isContentViewEnabled) {
+    //     SmartechService.trackCourseView(
+    //       courseCategory: course?.courseCategory ?? '',
+    //       courseName: course?.name ?? '',
+    //       image: course?.appIcon ?? '',
+    //       contentUrl: "${ApiUrl.baseUrl}/app/toc/ext/${course?.id ?? ''}",
+    //       doId: course?.id ?? '',
+    //       courseDuration: int.parse(course?.duration?.toString() ?? ''),
+    //       learningPathContent: isLearningPathContent ? 1 : 0,
+    //       provider: course?.source ?? '',
+    //     );
+    //   }
+    // } catch (e) {
+    //   print(e);
+    // }
   }
 
   _navigateToExtCoursePlayer({required String redirectUrl}) {
@@ -472,28 +465,28 @@ class _ExternalCourseTOCState extends State<ExternalCourseTOC>
   }
 
   void _generateTelemetryData() async {
-    var telemetryRepository = TelemetryRepository();
-    Map eventData = telemetryRepository.getImpressionTelemetryEvent(
-        pageIdentifier: TelemetryPageIdentifier.courseDetailsPageId,
-        telemetryType: TelemetryType.page,
-        pageUri: TelemetryPageIdentifier.courseDetailsPageUri
-            .replaceAll(':do_ID', widget.contentId),
-        env: TelemetryEnv.learn,
-        objectId: widget.contentId,
-        objectType: widget.contentType!);
-    await telemetryRepository.insertEvent(eventData: eventData);
+    // var telemetryRepository = TelemetryRepository();
+    // Map eventData = telemetryRepository.getImpressionTelemetryEvent(
+    //     pageIdentifier: TelemetryPageIdentifier.courseDetailsPageId,
+    //     telemetryType: TelemetryType.page,
+    //     pageUri: TelemetryPageIdentifier.courseDetailsPageUri
+    //         .replaceAll(':do_ID', widget.contentId),
+    //     env: TelemetryEnv.learn,
+    //     objectId: widget.contentId,
+    //     objectType: widget.contentType!);
+    // await telemetryRepository.insertEvent(eventData: eventData);
   }
 
   Future<void> _generateInteractTelemetryData({required String clickId}) async {
-    var telemetryRepository = TelemetryRepository();
-    Map eventData = telemetryRepository.getInteractTelemetryEvent(
-        pageIdentifier: TelemetryPageIdentifier.courseDetailsPageId +
-            '_' +
-            widget.contentId,
-        contentId: clickId,
-        subType: TelemetrySubType.externalCourse,
-        env: TelemetryEnv.learn);
-    await telemetryRepository.insertEvent(eventData: eventData);
+    // var telemetryRepository = TelemetryRepository();
+    // Map eventData = telemetryRepository.getInteractTelemetryEvent(
+    //     pageIdentifier: TelemetryPageIdentifier.courseDetailsPageId +
+    //         '_' +
+    //         widget.contentId,
+    //     contentId: clickId,
+    //     subType: TelemetrySubType.externalCourse,
+    //     env: TelemetryEnv.learn);
+    // await telemetryRepository.insertEvent(eventData: eventData);
   }
 
   Widget _aboutTab(AsyncSnapshot<Course> tocData) {
@@ -542,42 +535,43 @@ class _ExternalCourseTOCState extends State<ExternalCourseTOC>
                     : Center(),
 
                 /// Certificate
-                (_courseStatus != null &&
-                        _courseStatus!.completionPercentage ==
-                            TocConstants.COURSE_COMPLETION_PERCENTAGE)
-                    ? CourseCompleteCertificate(
-                        courseStatus: _courseStatus,
-                        courseInfo: tocData.data!,
-                        isCertificateProvided:
-                            (_courseStatus!.issuedCertificates != null &&
-                                _courseStatus!.issuedCertificates!.isNotEmpty))
-                    : Container(
-                        margin: EdgeInsets.only(bottom: 16).r,
-                        padding: EdgeInsets.all(16).r,
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                              color: TocModuleColors.orangeTourText,
-                            ),
-                            color: TocModuleColors.orangeTourText
-                                .withValues(alpha: 0.24),
-                            borderRadius: BorderRadius.circular(8.r)),
-                        child: Text(
-                          TocLocalizations.of(context)!.mExternalCourseMessage(
-                              tocData.data?.contentPartner
-                                      ?.contentPartnerName ??
-                                  ''),
-                          style: GoogleFonts.lato(
-                            fontSize: 14.sp,
-                            height: 1.3.w,
-                            fontWeight: FontWeight.w500,
-                            color: TocModuleColors.greys,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
+                // (_courseStatus != null &&
+                //         _courseStatus!.completionPercentage ==
+                //             TocConstants.COURSE_COMPLETION_PERCENTAGE)
+                //     ? CourseCompleteCertificate(
+                //         courseStatus: _courseStatus,
+                //         courseInfo: tocData.data!,
+                //         isCertificateProvided:
+                //             (_courseStatus!.issuedCertificates != null &&
+                //                 _courseStatus!.issuedCertificates!.isNotEmpty))
+                //     : Container(
+                //         margin: EdgeInsets.only(bottom: 16).r,
+                //         padding: EdgeInsets.all(16).r,
+                //         decoration: BoxDecoration(
+                //             border: Border.all(
+                //               color: TocModuleColors.orangeTourText,
+                //             ),
+                //             color: TocModuleColors.orangeTourText
+                //                 .withValues(alpha: 0.24),
+                //             borderRadius: BorderRadius.circular(8.r)),
+                //         child: Text(
+                //           TocLocalizations.of(context)!.mExternalCourseMessage(
+                //               tocData.data?.contentPartner
+                //                       ?.contentPartnerName ??
+                //                   ''),
+                //           style: GoogleFonts.lato(
+                //             fontSize: 14.sp,
+                //             height: 1.3.w,
+                //             fontWeight: FontWeight.w500,
+                //             color: TocModuleColors.greys,
+                //           ),
+                //           textAlign: TextAlign.center,
+                //         ),
+                //       ),
 
                 ///Description
-                (tocData.data!.description.isNotEmpty)
+                (tocData.data!.description != null &&
+                        tocData.data!.description!.isNotEmpty)
                     ? Padding(
                         padding: const EdgeInsets.only(bottom: 32).w,
                         child: Column(
@@ -592,7 +586,7 @@ class _ExternalCourseTOCState extends State<ExternalCourseTOC>
                             ),
                             SizedBox(height: 8.w),
                             Text(
-                              tocData.data!.description,
+                              tocData.data!.description ?? "",
                               style: GoogleFonts.lato(
                                 fontSize: 16.sp,
                                 height: 1.5.w,
@@ -632,25 +626,22 @@ class _ExternalCourseTOCState extends State<ExternalCourseTOC>
             ),
 
             ///Competency strips
-            tocData.data != null &&
-                    (tocData.data!.raw["competencies_v6"] != null ||
-                        tocData.data!.raw["competencies_v5"] != null)
+            tocData.data?.competencies != null &&
+                    tocData.data!.competencies!.isNotEmpty
                 ? Padding(
-                    padding: const EdgeInsets.only(top: 32, bottom: 16).r,
-                    child: Competency(
-                        competencies: getCompetencies(
-                          tocData.data!.raw["competencies_v6"] ??
-                              tocData.data!.raw["competencies_v5"],
-                        ),
-                        courseId: tocData.data!.id.toString()),
+                    padding:
+                        const EdgeInsets.only(left: 16.0, bottom: 8, top: 8).r,
+                    child: CompetencyStrip(
+                      competencies: tocData.data!.competencies!,
+                    ),
                   )
-                : SizedBox(),
+                : SizedBox.shrink(),
 
             ///Tags
             _filteredTags.isNotEmpty
                 ? Padding(
                     padding: const EdgeInsets.all(16.0).r,
-                    child: Tags(
+                    child: TocTags(
                       keywords: _filteredTags,
                       title: TocLocalizations.of(context)!.mStaticTags,
                     ),

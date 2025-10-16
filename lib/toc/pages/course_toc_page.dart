@@ -3,6 +3,25 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/constants/toc_constants.dart';
+import 'package:toc_module/toc/helper/toc_helper.dart';
+import 'package:toc_module/toc/model/batch_model.dart';
+import 'package:toc_module/toc/model/course_model.dart';
+import 'package:toc_module/toc/model/toc_model.dart';
+import 'package:toc_module/toc/model/toc_player_model.dart';
+import 'package:toc_module/toc/pages/about_tab/about_tab.dart';
+import 'package:toc_module/toc/pages/about_tab/widgets/igot_tutor_atrip.dart';
+import 'package:toc_module/toc/pages/teachers_notes/teachers_notes.dart';
+import 'package:toc_module/toc/pages/toc_content_page.dart';
+import 'package:toc_module/toc/pages/toc_skeleton/toc_sekeleton.dart';
+import 'package:toc_module/toc/repository/toc_repository.dart';
+import 'package:toc_module/toc/screen/toc_player_screen.dart';
+import 'package:toc_module/toc/services/toc_services.dart';
+import 'package:toc_module/toc/util/fade_route.dart';
+import 'package:toc_module/toc/widgets/course_sharing_page/course_sharing_page.dart';
+import 'package:toc_module/toc/widgets/toc_appbar_widget.dart';
+import 'package:toc_module/toc/widgets/toc_content_header.dart';
 import '../view_model/course_toc_view_model.dart';
 import '../widgets/rate_now_pop_up.dart';
 import '../widgets/toc_button_widget.dart';
@@ -54,22 +73,23 @@ class _CourseTocPageState extends State<CourseTocPage>
         viewModel.enrolledCourse.value != null &&
         (viewModel.course != null &&
             viewModel.course!.languageMap.languages.isNotEmpty &&
-            viewModel.enrolledCourse.value!.recent_language?.toLowerCase() ==
+            viewModel.enrolledCourse.value!.recentLanguage?.toLowerCase() ==
                 viewModel.course!.language.toLowerCase()) &&
         viewModel.lastAccessContentId != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        Navigator.pushNamed(
-          context,
-          AppUrl.tocPlayer,
-          arguments: TocPlayerModel(
-            enrolledCourse: viewModel.enrolledCourse.value!,
-            batchId: viewModel.enrolledCourse.value!.batchId ?? '',
-            lastAccessContentId: viewModel.lastAccessContentId!,
-            courseId: viewModel.course!.id,
-            isFeatured: viewModel.isFeaturedCourse,
-            enrollmentList: viewModel.enrollmentList,
-          ),
-        ).then((result) {
+        Navigator.push(
+            context,
+            FadeRoute(
+                page: TocPlayerScreen(
+              arguments: TocPlayerModel(
+                enrolledCourse: viewModel.enrolledCourse.value!,
+                batchId: viewModel.enrolledCourse.value!.batchId ?? '',
+                lastAccessContentId: viewModel.lastAccessContentId!,
+                courseId: viewModel.course!.id,
+                isFeatured: viewModel.isFeaturedCourse,
+                enrollmentList: viewModel.enrollmentList,
+              ),
+            ))).then((result) {
           // Handle post-player result if needed
           if (result is Map<String, bool> && result['isFinished'] == true) {
             showModalBottomSheet(
@@ -139,7 +159,7 @@ class _CourseTocPageState extends State<CourseTocPage>
               body: _buildBody(viewModel),
             ),
           ),
-        ).withChatbotButton();
+        );
       },
     );
   }
@@ -487,7 +507,7 @@ class _CourseTocPageState extends State<CourseTocPage>
 
         return TocButtonWidget(
             isStandAloneAssesment: viewModel.course!.courseCategory ==
-                EnglishLang.standaloneAssessment,
+                PrimaryCategory.standaloneAssessment,
             isModerated: viewModel.isModeratedContent,
             courseDetails: viewModel.course!,
             enrolledCourse: viewModel.enrolledCourse.value,
@@ -529,12 +549,12 @@ class _CourseTocPageState extends State<CourseTocPage>
       builder: (BuildContext context) {
         return Container(
           child: CourseSharingPage(
-            viewModel.course!.id,
-            viewModel.course!.name,
-            viewModel.course!.appIcon,
-            viewModel.course!.source,
-            viewModel.course!.courseCategory,
-            _receiveShareResponse,
+            courseId: viewModel.course!.id,
+            courseName: viewModel.course!.name,
+            coursePosterImageUrl: viewModel.course!.appIcon,
+            courseProvider: viewModel.course!.source ?? "",
+            primaryCategory: viewModel.course!.courseCategory,
+            callback: _receiveShareResponse,
           ),
         );
       },
@@ -577,11 +597,13 @@ class _CourseTocPageState extends State<CourseTocPage>
                       children: [
                         Expanded(
                           child: Container(
-                            child: TitleRegularGrey60(
+                            child: Text(
                               TocLocalizations.of(context)!
                                   .mContentSharePageSuccessMessage,
-                              fontSize: 14.sp,
-                              color: TocModuleColors.appBarBackground,
+                              style: GoogleFonts.lato(
+                                fontSize: 14.sp,
+                                color: TocModuleColors.appBarBackground,
+                              ),
                               maxLines: 3,
                             ),
                           ),

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:karmayogi_mobile/constants/_constants/color_constants.dart';
-import 'package:karmayogi_mobile/feedback/constants.dart';
-import 'package:karmayogi_mobile/ui/screens/_screens/profile/ui/widgets/field_name_widget.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/util/field_name_widget.dart';
 
 class CustomStarRating extends StatelessWidget {
   final String title;
@@ -37,7 +36,7 @@ class CustomStarRating extends StatelessWidget {
           itemPadding: EdgeInsets.symmetric(horizontal: 0.0).r,
           itemBuilder: (context, _) => Icon(
             Icons.star_rounded,
-            color: FeedbackColors.ratedColor,
+            color: TocModuleColors.ratedColor,
           ),
           onRatingUpdate: (rate) {
             onRatingUpdate(rate);

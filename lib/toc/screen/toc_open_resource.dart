@@ -7,6 +7,7 @@ import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/constants/learn_compatability_constants.dart';
 import 'package:toc_module/toc/constants/toc_constants.dart';
 import 'package:toc_module/toc/model/course_hierarchy_model.dart';
+import 'package:toc_module/toc/pages/player/content_feedback.dart';
 import 'package:toc_module/toc/resource_players/course_assessment_player.dart';
 import 'package:toc_module/toc/resource_players/course_html_player.dart';
 import 'package:toc_module/toc/resource_players/pdf_player/course_pdf_player.dart';

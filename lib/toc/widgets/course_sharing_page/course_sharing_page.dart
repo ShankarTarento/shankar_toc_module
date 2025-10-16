@@ -21,9 +21,14 @@ class CourseSharingPage extends StatefulWidget {
   final Function(String) callback;
   final bool isCourse;
 
-  CourseSharingPage(this.courseId, this.courseName, this.coursePosterImageUrl,
-      this.courseProvider, this.primaryCategory, this.callback,
-      {this.isCourse = true});
+  CourseSharingPage(
+      {required this.courseId,
+      required this.courseName,
+      required this.coursePosterImageUrl,
+      required this.courseProvider,
+      required this.primaryCategory,
+      required this.callback,
+      this.isCourse = true});
   @override
   _CourseSharingPageState createState() => _CourseSharingPageState();
 }

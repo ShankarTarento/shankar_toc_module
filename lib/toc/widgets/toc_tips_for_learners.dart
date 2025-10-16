@@ -27,14 +27,14 @@ class TocTipsForLearner extends StatelessWidget {
             Spacer(),
             TextButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    FadeRoute(
-                      page: ViewAllTips(
-                        tips: TipsRepository.getTips(),
-                      ),
-                    ),
-                  );
+                  // Navigator.push(
+                  //   context,
+                  //   FadeRoute(
+                  //     page: ViewAllTips(
+                  //       tips: TipsRepository.getTips(),
+                  //     ),
+                  //   ),
+                  // );
                 },
                 child: Row(
                   children: [
@@ -55,9 +55,9 @@ class TocTipsForLearner extends StatelessWidget {
           ],
         ),
       ),
-      TipsDisplayCard(
-        tips: TipsRepository.getTips(),
-      )
+      // TipsDisplayCard(
+      //   tips: TipsRepository.getTips(),
+      // )
     ]);
   }
 }

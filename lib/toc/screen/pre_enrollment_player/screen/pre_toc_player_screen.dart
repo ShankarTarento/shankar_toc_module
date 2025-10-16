@@ -10,6 +10,7 @@ import 'package:toc_module/toc/constants/toc_constants.dart';
 import 'package:toc_module/toc/helper/toc_helper.dart';
 import 'package:toc_module/toc/model/course_hierarchy_model.dart';
 import 'package:toc_module/toc/model/course_model.dart';
+import 'package:toc_module/toc/model/course_structure_model.dart';
 import 'package:toc_module/toc/model/learn_tab_model.dart';
 import 'package:toc_module/toc/model/navigation_model.dart';
 import 'package:toc_module/toc/model/toc_player_model.dart';
@@ -100,7 +101,7 @@ class _PreTocPlayerScreenState extends State<PreTocPlayerScreen>
       },
       child: Scaffold(
           body: buildBody(), bottomNavigationBar: bottomNavigationView()),
-    ).withChatbotButton();
+    );
   }
 
   Widget buildBody() {

@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:karmayogi_mobile/localization/_langs/english_lang.dart';
-import 'package:karmayogi_mobile/ui/screens/_screens/profile/model/profile_model.dart';
-import 'package:karmayogi_mobile/respositories/_respositories/profile_repository.dart';
-import 'package:karmayogi_mobile/ui/screens/_screens/profile/ui/widgets/field_name_widget.dart';
-import 'package:karmayogi_mobile/ui/screens/_screens/profile/ui/widgets/select_from_bottomsheet.dart';
-import 'package:karmayogi_mobile/util/validations.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/toc/constants/english_lang.dart';
+import 'package:toc_module/toc/util/field_name_widget.dart';
+import 'package:toc_module/toc/util/validations.dart';
 
 class EditGroupDetails extends StatefulWidget {
   final ValueChanged<String> groupDetails;
@@ -47,7 +44,7 @@ class _EditGroupDetailsState extends State<EditGroupDetails> {
           fieldName: TocLocalizations.of(context)!.mStaticGroup,
         ),
         SelectFromBottomSheet(
-          fieldName: EnglishLang.group,
+          fieldName: "Group",
           controller: _groupController,
           callBack: () {
             widget.groupDetails(_groupController.text);

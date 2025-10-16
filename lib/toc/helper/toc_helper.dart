@@ -835,4 +835,18 @@ class TocHelper {
       };
     }
   }
+
+  static bool containsLastAccessedContent(
+      dynamic content, String? lastAccessContentId) {
+    if (content is List) {
+      for (var item in content) {
+        if (containsLastAccessedContent(item, lastAccessContentId)) {
+          return true;
+        }
+      }
+    } else if (content != null && content.contentId == lastAccessContentId) {
+      return true;
+    }
+    return false;
+  }
 }

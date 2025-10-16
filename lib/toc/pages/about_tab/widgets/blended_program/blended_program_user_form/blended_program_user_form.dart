@@ -1,38 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:karmayogi_mobile/common_components/constants/widget_constants.dart';
-import 'package:karmayogi_mobile/constants/_constants/app_constants.dart';
-import 'package:karmayogi_mobile/constants/_constants/color_constants.dart';
-import 'package:karmayogi_mobile/localization/_langs/english_lang.dart';
-import 'package:karmayogi_mobile/models/_models/batch_model.dart';
-import 'package:karmayogi_mobile/ui/screens/_screens/profile/model/profile_model.dart';
-import 'package:karmayogi_mobile/ui/screens/_screens/profile/model/profile_other_primary_details.dart';
-import 'package:karmayogi_mobile/models/_models/verifiable_details_model.dart';
-import 'package:karmayogi_mobile/respositories/_respositories/profile_repository.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/about_tab/widgets/blended_program_user_form/constants/survey_form_constants.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/about_tab/widgets/blended_program_user_form/services/blended_program_form_services.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/about_tab/widgets/blended_program_user_form/widgets/edit_designation_details.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/about_tab/widgets/blended_program_user_form/widgets/edit_group_details.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/about_tab/widgets/blended_program_user_form/widgets/form_drop_down.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/about_tab/widgets/blended_program_user_form/widgets/verify_email_field.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/about_tab/widgets/blended_program_user_form/widgets/verify_phone_field.dart';
-import 'package:karmayogi_mobile/ui/screens/_screens/profile/model/cadre_details_data_model.dart';
-import 'package:karmayogi_mobile/ui/screens/_screens/profile/model/cadre_request_data_model.dart';
-import 'package:karmayogi_mobile/ui/screens/_screens/profile/ui/widgets/cadre_details_section.dart';
-import 'package:karmayogi_mobile/ui/screens/_screens/profile/ui/widgets/field_name_widget.dart';
-import 'package:karmayogi_mobile/ui/screens/_screens/profile/ui/widgets/select_from_bottomsheet.dart';
-import 'package:karmayogi_mobile/ui/screens/_screens/profile/ui/widgets/text_input_field.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
-import 'package:karmayogi_mobile/util/app_config.dart';
-import 'package:karmayogi_mobile/util/date_time_helper.dart';
-import 'package:karmayogi_mobile/util/edit_profile_mandatory_helper.dart';
-import 'package:karmayogi_mobile/util/helper.dart';
-import 'package:karmayogi_mobile/util/validations.dart';
-import 'package:provider/provider.dart';
 
-import '../../../../../../../../../services/index.dart';
-import '../../../../../../../../screens/_screens/profile/view_model/profile_other_details_view_model.dart';
+import 'package:provider/provider.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/model/batch_model.dart';
 
 class BlendedProgramUserForm extends StatefulWidget {
   final bool isCadreProgram;
@@ -171,7 +144,7 @@ class _BlendedProgramUserFormState extends State<BlendedProgramUserForm> {
                                   TocModuleColors.appBarBackground),
                             ),
                             child: Text(
-                              EnglishLang.cancel,
+                              "Cancel",
                               style: Theme.of(context)
                                   .textTheme
                                   .titleSmall!
@@ -213,7 +186,7 @@ class _BlendedProgramUserFormState extends State<BlendedProgramUserForm> {
                                     strokeWidth: 2,
                                   )
                                 : Text(
-                                    EnglishLang.next,
+                                    "Next",
                                     style: Theme.of(context)
                                         .textTheme
                                         .displaySmall!

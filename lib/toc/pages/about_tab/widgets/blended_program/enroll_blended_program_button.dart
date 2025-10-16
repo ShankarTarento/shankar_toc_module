@@ -2,31 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:karmayogi_mobile/constants/index.dart';
-import 'package:karmayogi_mobile/localization/_langs/english_lang.dart';
-import 'package:karmayogi_mobile/models/_arguments/toc_player_model.dart';
-import 'package:karmayogi_mobile/models/_models/batch_model.dart';
-import 'package:karmayogi_mobile/models/_models/blended_program_enroll_response_model.dart';
-import 'package:karmayogi_mobile/models/_models/course_hierarchy_model.dart';
-import 'package:karmayogi_mobile/models/_models/course_model.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/model/content_state_model.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/screen/pre_enrollment_player/screen/pre_toc_player_screen.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/util/toc_helper.dart';
-import 'package:karmayogi_mobile/ui/screens/_screens/profile/model/profile_model.dart';
-import 'package:karmayogi_mobile/respositories/_respositories/learn_repository.dart';
-import 'package:karmayogi_mobile/respositories/_respositories/profile_repository.dart';
-import 'package:karmayogi_mobile/services/_services/learn_service.dart';
-import 'package:karmayogi_mobile/services/_services/smartech_service.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/about_tab/widgets/blended_program_user_form/survey_form_bottom_sheet.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/about_tab/widgets/select_batch_bottom_sheer.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/about_tab/widgets/withdraw_request_button.dart';
-import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/services/toc_services.dart';
-import 'package:karmayogi_mobile/util/date_time_helper.dart';
-import 'package:karmayogi_mobile/util/faderoute.dart';
-import 'package:karmayogi_mobile/util/helper.dart';
+
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
-import '../../../../../../../../respositories/_respositories/in_app_review_repository.dart';
 import '../../../../widgets/rate_now_pop_up.dart';
 
 class EnrollBlendedProgramButton extends StatefulWidget {

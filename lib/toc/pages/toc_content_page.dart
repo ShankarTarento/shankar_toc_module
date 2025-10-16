@@ -10,6 +10,8 @@ import 'package:toc_module/toc/model/course_model.dart';
 import 'package:toc_module/toc/widgets/course_level_module_item.dart';
 import 'package:toc_module/toc/widgets/toc_content_object_widget.dart';
 
+import '../widgets/module_item/module_item.dart';
+
 class TocContentPage extends StatefulWidget {
   const TocContentPage(
       {Key? key,

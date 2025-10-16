@@ -107,6 +107,7 @@ class IntentType {
   static const String timeFormat = 'HH:mm:ss';
   static const String dateTimeFormat = 'yyyy-MM-dd HH:mm:ssZ';
   static const String achievementDateFormat = 'MMM yyyy';
+  static const String MMMddyyyy = 'MMM dd, yyyy';
 }
 
 class CompetencyAreas {
@@ -253,4 +254,31 @@ class EventType {
 class QuestionTypes {
   static const String singleAnswer = 'singleAnswer';
   static const String multipleAnswer = 'multipleAnswer';
+}
+
+enum WFBlendedProgramStatus {
+  INITIATE,
+  SEND_FOR_MDO_APPROVAL,
+  SEND_FOR_PC_APPROVAL,
+  APPROVED,
+  REJECTED,
+  WITHDRAWN,
+  WITHDRAW,
+  REMOVED
+}
+
+class QuestionType {
+  static const String radio = 'radio';
+  static const String checkbox = 'checkbox';
+  static const String rating = 'rating';
+  static const String text = 'text';
+  static const String email = 'email';
+  static const String textarea = 'textarea';
+  static const String numeric = 'numeric';
+  static const String date = 'date';
+  static const String boolean = 'boolean';
+  static const String heading = 'heading';
+  static const String separator = 'separator';
+  static const String dropdown = 'dropdown';
+  static const String phoneNumber = 'phonenumber';
 }

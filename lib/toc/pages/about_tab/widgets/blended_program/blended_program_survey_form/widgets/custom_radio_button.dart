@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:igot_ui_components/utils/module_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:karmayogi_mobile/models/_models/gyaan_karmayogi_category_model.dart';
-import 'package:karmayogi_mobile/ui/screens/_screens/profile/ui/widgets/field_name_widget.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
-import 'package:toc_module/toc_module/constants/color_constants.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/model/filter_model.dart';
+import 'package:toc_module/toc/util/field_name_widget.dart';
 
 // ignore: must_be_immutable
 class CustomRadioButton extends StatefulWidget {

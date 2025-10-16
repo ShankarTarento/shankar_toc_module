@@ -2,10 +2,10 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:karmayogi_mobile/constants/_constants/color_constants.dart';
-import 'package:karmayogi_mobile/ui/screens/_screens/profile/ui/widgets/field_name_widget.dart';
-import 'package:karmayogi_mobile/util/helper.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/helper/toc_helper.dart';
+import 'package:toc_module/toc/util/field_name_widget.dart';
 
 // ignore: must_be_immutable
 class CustomDropDown extends StatefulWidget {
@@ -64,7 +64,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
                 .map((item) => DropdownMenuItem<String>(
                       value: item,
                       child: Text(
-                        Helper.capitalize(item),
+                        TocHelper.capitalize(item),
                         style: Theme.of(context)
                             .textTheme
                             .bodyMedium!
@@ -79,7 +79,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
                     .map((item) => DropdownMenuItem(
                           value: item,
                           child: Text(
-                            Helper.capitalize(item),
+                            TocHelper.capitalize(item),
                             style: GoogleFonts.lato(
                               color: widget.value == item
                                   ? TocModuleColors.darkBlue

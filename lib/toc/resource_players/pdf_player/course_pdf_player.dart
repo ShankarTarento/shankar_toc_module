@@ -11,7 +11,6 @@ import 'package:toc_module/toc/model/navigation_model.dart';
 import 'package:toc_module/toc/repository/toc_repository.dart';
 import 'package:toc_module/toc/resource_players/pdf_player/course_pdf_player_skeleton.dart';
 import 'package:toc_module/toc/util/error_page.dart';
-
 import '../../view_model/toc_player_view_model.dart';
 
 class CoursePdfPlayer extends StatefulWidget {

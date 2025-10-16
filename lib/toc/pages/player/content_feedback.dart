@@ -7,7 +7,6 @@ import 'package:toc_module/toc/model/navigation_model.dart';
 import 'package:toc_module/toc/util/page_loader.dart';
 
 class ContentFeedback extends StatefulWidget {
-  static const route = FeedbackPageRoute.surveyDetails;
   final String surveyUrl;
   final String surveyName;
   final CourseHierarchyModel course;

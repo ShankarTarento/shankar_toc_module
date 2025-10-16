@@ -7,6 +7,9 @@ import 'package:toc_module/toc/helper/toc_helper.dart';
 import 'package:toc_module/toc/model/course_hierarchy_model.dart';
 import 'package:toc_module/toc/model/course_model.dart';
 import 'package:toc_module/toc/widgets/course_at_glance_widget.dart';
+import 'package:toc_module/toc/widgets/module_item/module_item.dart';
+import 'package:toc_module/toc/widgets/module_item/widgets/linear_progress_indicator_widget.dart';
+import 'package:toc_module/toc/widgets/module_item/widgets/toc_download_certificate_widget.dart';
 import 'package:toc_module/toc/widgets/toc_content_object_widget.dart';
 
 class CourseLevelModuleItem extends StatefulWidget {

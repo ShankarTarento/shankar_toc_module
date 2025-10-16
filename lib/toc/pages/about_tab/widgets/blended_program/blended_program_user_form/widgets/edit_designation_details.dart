@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:karmayogi_mobile/localization/_langs/english_lang.dart';
-import 'package:karmayogi_mobile/ui/screens/_screens/profile/model/profile_model.dart';
-import 'package:karmayogi_mobile/respositories/_respositories/profile_repository.dart';
-import 'package:karmayogi_mobile/ui/screens/_screens/profile/ui/widgets/field_name_widget.dart';
-import 'package:karmayogi_mobile/ui/screens/_screens/profile/ui/widgets/text_input_field.dart';
-import 'package:karmayogi_mobile/util/validations.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
-
-import '../../../../../../../../../../constants/index.dart';
-import '../../../../../../../../../screens/_screens/profile/ui/widgets/dropdown_with_search.dart';
-import '../../../../../../../../../screens/_screens/profile/view_model/profile_primary_details_view_model.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/constants/english_lang.dart';
+import 'package:toc_module/toc/util/field_name_widget.dart';
+import 'package:toc_module/toc/util/text_input_field.dart';
+import 'package:toc_module/toc/util/validations.dart';
 
 class EditDesignationDetails extends StatefulWidget {
   final bool isCadreProgram;
@@ -74,9 +69,7 @@ class _EditDesignationDetailsState extends State<EditDesignationDetails> {
                   selectedOption: _designation,
                   borderRadius: 4,
                   borderColor: TocModuleColors.grey16,
-                  defaultItem: widget.isCadreProgram
-                      ? EnglishLang.others.toUpperCase()
-                      : null,
+                  defaultItem: widget.isCadreProgram ? "OTHERS" : null,
                   callback: (String designation) {
                     _designation = designation;
                     widget.designationDetails(_designation);
@@ -107,7 +100,7 @@ class _EditDesignationDetailsState extends State<EditDesignationDetails> {
                 ),
               )
             : SizedBox(),
-        _designation == EnglishLang.others.toUpperCase()
+        _designation == "OTHERS"
             ? Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 FieldNameWidget(
                     isMandatory: true,
