@@ -44,4 +44,10 @@ class ApiUrls {
       '/api/user/assessment/v5/retake/';
   static const String getStandaloneAssessmentInfo =
       '/api/player/questionset/v5/hierarchy/';
+  static const String updatePreRequisiteContentProgress =
+      '/api/content/v2/state/update';
+  static const String readPreRequisiteContentProgress =
+      '/api/content/v2/state/read';
+  static const String updateContentProgress =
+      '/api/course/v1/content/state/update';
 }

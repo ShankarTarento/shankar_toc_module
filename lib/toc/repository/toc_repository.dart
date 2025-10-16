@@ -4,6 +4,7 @@ import 'package:http/http.dart';
 import 'package:toc_module/toc/model/cbp_plan_model.dart';
 import 'package:toc_module/toc/model/course_hierarchy_model.dart';
 import 'package:toc_module/toc/model/course_model.dart';
+import 'package:toc_module/toc/model/resource_details.dart';
 import 'package:toc_module/toc/services/toc_services.dart';
 
 class TocRepository extends ChangeNotifier {
@@ -200,5 +201,50 @@ class TocRepository extends ChangeNotifier {
       }
     } catch (_) {}
     return "error";
+  }
+
+  Future<ResourceDetails?> getResourceDetails(
+      {required String courseId}) async {
+    try {
+      final response =
+          await TocServices().getCourseReadData(courseId: courseId);
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(utf8.decode(response.bodyBytes));
+        return ResourceDetails.fromJson(data);
+      }
+    } catch (e) {
+      debugPrint("Error fetching course read data: $e");
+    }
+    return null;
+  }
+
+  updateContentProgress(
+      {required String courseId,
+      required String batchId,
+      required String contentId,
+      required int status,
+      required String contentType,
+      required List current,
+      var maxSize,
+      required double completionPercentage,
+      bool isAssessment = false,
+      bool? isPreRequisite = false,
+      int spentTime = 0,
+      required String language}) {
+    TocServices().updateContentProgress(
+      courseId: courseId,
+      batchId: batchId,
+      contentId: contentId,
+      status: status,
+      contentType: contentType,
+      current: current,
+      maxSize: maxSize,
+      completionPercentage: completionPercentage,
+      isAssessment: isAssessment,
+      isPreRequisite: isPreRequisite,
+      spentTime: spentTime,
+      language: language,
+    );
   }
 }

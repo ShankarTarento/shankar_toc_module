@@ -58,7 +58,6 @@ class _CustomYoutubePlayerState extends State<CustomYoutubePlayer> {
   bool _isPlayerReady = false;
   bool _hasSought = false;
 
-  final EventService eventService = EventService();
   late String identifier;
   double _currentProgressInSeconds = 0;
   double _currentProgressPercentage = 0;

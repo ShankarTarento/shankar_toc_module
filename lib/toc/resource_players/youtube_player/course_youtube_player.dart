@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:toc_module/toc/helper/toc_helper.dart';
 import 'package:toc_module/toc/model/navigation_model.dart';
+import 'package:toc_module/toc/repository/toc_repository.dart';
 import 'package:toc_module/toc/resource_players/youtube_player/custom_youtube_player.dart';
 import 'package:toc_module/toc/view_model/toc_player_view_model.dart';
 
@@ -32,8 +34,8 @@ class CourseYoutubePlayer extends StatefulWidget {
 
 class _CourseYoutubePlayerState extends State<CourseYoutubePlayer> {
   Future<NavigationModel>? updatedResourseData;
-  TelemetryRepository telemetryRepository = TelemetryRepository();
-  LearnService learnService = LearnService();
+  // TelemetryRepository telemetryRepository = TelemetryRepository();
+  // LearnService learnService = LearnService();
   int _start = 0;
   late String pageIdentifier;
   late String telemetryType;
@@ -69,34 +71,34 @@ class _CourseYoutubePlayerState extends State<CourseYoutubePlayer> {
   }
 
   void _generateTelemetryData() async {
-    pageIdentifier = TelemetryPageIdentifier.youtubePlayerPageId;
-    telemetryType = TelemetryType.player;
-    var batchId = widget.batchId ?? '';
-    pageUri =
-        'viewer/youtube/${widget.identifier}?primaryCategory=Learning%20Resource&collectionId=${widget.identifier}&collectionType=Course&batchId=$batchId';
+    // pageIdentifier = TelemetryPageIdentifier.youtubePlayerPageId;
+    // telemetryType = TelemetryType.player;
+    // var batchId = widget.batchId ?? '';
+    // pageUri =
+    //     'viewer/youtube/${widget.identifier}?primaryCategory=Learning%20Resource&collectionId=${widget.identifier}&collectionType=Course&batchId=$batchId';
 
-    Map eventData1 = telemetryRepository.getStartTelemetryEvent(
-        pageIdentifier: pageIdentifier,
-        telemetryType: telemetryType,
-        pageUri: pageUri,
-        objectId: widget.contentId,
-        objectType: resourse!.primaryCategory,
-        env: TelemetryEnv.learn,
-        isPublic: widget.isFeaturedCourse,
-        l1: widget.identifier);
-    await telemetryRepository.insertEvent(
-        eventData: eventData1, isPublic: widget.isFeaturedCourse);
+    // Map eventData1 = telemetryRepository.getStartTelemetryEvent(
+    //     pageIdentifier: pageIdentifier,
+    //     telemetryType: telemetryType,
+    //     pageUri: pageUri,
+    //     objectId: widget.contentId,
+    //     objectType: resourse!.primaryCategory,
+    //     env: TelemetryEnv.learn,
+    //     isPublic: widget.isFeaturedCourse,
+    //     l1: widget.identifier);
+    // await telemetryRepository.insertEvent(
+    //     eventData: eventData1, isPublic: widget.isFeaturedCourse);
 
-    Map eventData2 = telemetryRepository.getImpressionTelemetryEvent(
-        pageIdentifier: pageIdentifier,
-        telemetryType: telemetryType,
-        pageUri: pageUri,
-        env: TelemetryEnv.learn,
-        objectId: widget.contentId,
-        objectType: resourse!.primaryCategory,
-        isPublic: widget.isFeaturedCourse);
-    await telemetryRepository.insertEvent(
-        eventData: eventData2, isPublic: widget.isFeaturedCourse);
+    // Map eventData2 = telemetryRepository.getImpressionTelemetryEvent(
+    //     pageIdentifier: pageIdentifier,
+    //     telemetryType: telemetryType,
+    //     pageUri: pageUri,
+    //     env: TelemetryEnv.learn,
+    //     objectId: widget.contentId,
+    //     objectType: resourse!.primaryCategory,
+    //     isPublic: widget.isFeaturedCourse);
+    // await telemetryRepository.insertEvent(
+    //     eventData: eventData2, isPublic: widget.isFeaturedCourse);
   }
 
   Future<void> _updateContentProgress(Map value) async {
@@ -106,15 +108,16 @@ class _CourseYoutubePlayerState extends State<CourseYoutubePlayer> {
         widget.resourceNavigateItems != null &&
         (widget.resourceNavigateItems!.completionPercentage * 100) <
             value['completionPercentage']) {
-      await learnService.updateContentProgress(
-          courseId,
-          widget.batchId!,
-          widget.contentId,
-          value['status'],
-          value['contentType'],
-          value['current'],
-          value['maxSize'],
-          double.parse(value['completionPercentage'].toString()),
+      await TocRepository().updateContentProgress(
+          courseId: courseId,
+          batchId: widget.batchId!,
+          contentId: widget.contentId,
+          status: value['status'],
+          contentType: value['contentType'],
+          current: value['current'],
+          maxSize: value['maxSize'],
+          completionPercentage:
+              double.parse(value['completionPercentage'].toString()),
           isPreRequisite: widget.isPreRequisite,
           language: widget.language);
 
@@ -156,22 +159,22 @@ class _CourseYoutubePlayerState extends State<CourseYoutubePlayer> {
 
   Future<void> doPop(BuildContext context) async {
     if (resourse != null) {
-      Map eventData = telemetryRepository.getEndTelemetryEvent(
-          pageIdentifier: pageIdentifier,
-          duration: _start,
-          telemetryType: telemetryType,
-          pageUri: pageUri,
-          rollup: {},
-          objectId: widget.contentId,
-          objectType: resourse!.primaryCategory,
-          env: TelemetryEnv.learn,
-          isPublic: widget.isFeaturedCourse,
-          l1: widget.identifier);
-      await telemetryRepository
-          .insertEvent(eventData: eventData, isPublic: widget.isFeaturedCourse)
-          .then((_) {
-        Navigator.of(context).pop();
-      });
+      // Map eventData = telemetryRepository.getEndTelemetryEvent(
+      //     pageIdentifier: pageIdentifier,
+      //     duration: _start,
+      //     telemetryType: telemetryType,
+      //     pageUri: pageUri,
+      //     rollup: {},
+      //     objectId: widget.contentId,
+      //     objectType: resourse!.primaryCategory,
+      //     env: TelemetryEnv.learn,
+      //     isPublic: widget.isFeaturedCourse,
+      //     l1: widget.identifier);
+      // await telemetryRepository
+      //     .insertEvent(eventData: eventData, isPublic: widget.isFeaturedCourse)
+      //     .then((_) {
+      Navigator.of(context).pop();
+      // });
     } else {
       Navigator.of(context).pop();
     }

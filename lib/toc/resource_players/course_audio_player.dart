@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:toc_module/toc/constants/toc_constants.dart';
 import 'package:toc_module/toc/helper/toc_helper.dart';
 import 'package:toc_module/toc/model/navigation_model.dart';
+import 'package:toc_module/toc/repository/toc_repository.dart';
+import 'package:toc_module/toc/resource_players/course_video_assessment.dart';
 import 'package:toc_module/toc/util/page_loader.dart';
 import 'package:toc_module/toc/view_model/toc_player_view_model.dart';
 import 'package:video_player/video_player.dart';
@@ -39,7 +41,6 @@ class CourseAudioPlayer extends StatefulWidget {
 
 class _CourseAudioPlayerState extends State<CourseAudioPlayer> {
   VideoPlayerController? _videoPlayerController1;
-  final LearnService learnService = LearnService();
   ChewieController? _chewieController;
   int? _progressStatus;
 
@@ -66,15 +67,15 @@ class _CourseAudioPlayerState extends State<CourseAudioPlayer> {
   }
 
   _triggerTelemetryEvent() {
-    if ((_start == 0 && widget.batchId != null)) {
-      pageIdentifier = TelemetryPageIdentifier.audioPlayerPageId;
-      telemetryType = TelemetryType.player;
-      String assetFile = 'audio';
-      pageUri =
-          'viewer/$assetFile/${widget.parentCourseId}?primaryCategory=Learning%20Resource&collectionId=${widget.parentCourseId}&collectionType=Course&batchId=${widget.batchId}';
-      _generateTelemetryData();
-    }
-    _startTimer();
+    // if ((_start == 0 && widget.batchId != null)) {
+    //   pageIdentifier = TelemetryPageIdentifier.audioPlayerPageId;
+    //   telemetryType = TelemetryType.player;
+    //   String assetFile = 'audio';
+    //   pageUri =
+    //       'viewer/$assetFile/${widget.parentCourseId}?primaryCategory=Learning%20Resource&collectionId=${widget.parentCourseId}&collectionType=Course&batchId=${widget.batchId}';
+    //   _generateTelemetryData();
+    // }
+    // _startTimer();
   }
 
   void _startTimer() {
@@ -88,63 +89,63 @@ class _CourseAudioPlayerState extends State<CourseAudioPlayer> {
   }
 
   void _generateTelemetryData() async {
-    var telemetryRepository = TelemetryRepository();
-    Map eventData1 = telemetryRepository.getStartTelemetryEvent(
-        pageIdentifier: pageIdentifier ?? "",
-        telemetryType: telemetryType ?? "",
-        pageUri: pageUri ?? "",
-        objectId: widget.parentCourseId,
-        objectType: resourceInfo!.primaryCategory,
-        env: TelemetryEnv.learn,
-        isPublic: widget.isFeaturedCourse,
-        l1: widget.parentCourseId);
-    await telemetryRepository.insertEvent(
-        eventData: eventData1, isPublic: widget.isFeaturedCourse);
+    // var telemetryRepository = TelemetryRepository();
+    // Map eventData1 = telemetryRepository.getStartTelemetryEvent(
+    //     pageIdentifier: pageIdentifier ?? "",
+    //     telemetryType: telemetryType ?? "",
+    //     pageUri: pageUri ?? "",
+    //     objectId: widget.parentCourseId,
+    //     objectType: resourceInfo!.primaryCategory,
+    //     env: TelemetryEnv.learn,
+    //     isPublic: widget.isFeaturedCourse,
+    //     l1: widget.parentCourseId);
+    // await telemetryRepository.insertEvent(
+    //     eventData: eventData1, isPublic: widget.isFeaturedCourse);
 
-    Map eventData2 = telemetryRepository.getImpressionTelemetryEvent(
-        pageIdentifier: pageIdentifier ?? "",
-        telemetryType: telemetryType ?? "",
-        pageUri: pageUri ?? "",
-        env: TelemetryEnv.learn,
-        objectId: widget.parentCourseId,
-        objectType: resourceInfo!.primaryCategory,
-        isPublic: widget.isFeaturedCourse);
-    await telemetryRepository.insertEvent(
-        eventData: eventData2, isPublic: widget.isFeaturedCourse);
+    // Map eventData2 = telemetryRepository.getImpressionTelemetryEvent(
+    //     pageIdentifier: pageIdentifier ?? "",
+    //     telemetryType: telemetryType ?? "",
+    //     pageUri: pageUri ?? "",
+    //     env: TelemetryEnv.learn,
+    //     objectId: widget.parentCourseId,
+    //     objectType: resourceInfo!.primaryCategory,
+    //     isPublic: widget.isFeaturedCourse);
+    // await telemetryRepository.insertEvent(
+    //     eventData: eventData2, isPublic: widget.isFeaturedCourse);
   }
 
   void _generateInteractTelemetryData(String contentId,
       {String subType = ''}) async {
-    var telemetryRepository = TelemetryRepository();
-    Map eventData = telemetryRepository.getInteractTelemetryEvent(
-        pageIdentifier: pageIdentifier ?? "",
-        contentId: contentId,
-        subType: subType,
-        env: TelemetryEnv.learn,
-        objectType: resourceInfo!.primaryCategory,
-        isPublic: widget.isFeaturedCourse);
-    await telemetryRepository.insertEvent(
-        eventData: eventData, isPublic: widget.isFeaturedCourse);
+    // var telemetryRepository = TelemetryRepository();
+    // Map eventData = telemetryRepository.getInteractTelemetryEvent(
+    //     pageIdentifier: pageIdentifier ?? "",
+    //     contentId: contentId,
+    //     subType: subType,
+    //     env: TelemetryEnv.learn,
+    //     objectType: resourceInfo!.primaryCategory,
+    //     isPublic: widget.isFeaturedCourse);
+    // await telemetryRepository.insertEvent(
+    //     eventData: eventData, isPublic: widget.isFeaturedCourse);
   }
 
   _triggerEndTelemetryEvent(String identifier) async {
-    if (widget.parentCourseId != '' && widget.batchId != null) {
-      var telemetryRepository = TelemetryRepository();
-      Map eventData = telemetryRepository.getEndTelemetryEvent(
-          pageIdentifier: pageIdentifier ?? "",
-          duration: _start,
-          telemetryType: telemetryType ?? "",
-          pageUri: pageUri ?? "",
-          rollup: {},
-          env: TelemetryEnv.learn,
-          objectId: identifier,
-          objectType: resourceInfo!.primaryCategory,
-          isPublic: widget.isFeaturedCourse,
-          l1: widget.parentCourseId);
-      await telemetryRepository.insertEvent(
-          eventData: eventData, isPublic: widget.isFeaturedCourse);
-      _timer?.cancel();
-    }
+    // if (widget.parentCourseId != '' && widget.batchId != null) {
+    //   var telemetryRepository = TelemetryRepository();
+    //   Map eventData = telemetryRepository.getEndTelemetryEvent(
+    //       pageIdentifier: pageIdentifier ?? "",
+    //       duration: _start,
+    //       telemetryType: telemetryType ?? "",
+    //       pageUri: pageUri ?? "",
+    //       rollup: {},
+    //       env: TelemetryEnv.learn,
+    //       objectId: identifier,
+    //       objectType: resourceInfo!.primaryCategory,
+    //       isPublic: widget.isFeaturedCourse,
+    //       l1: widget.parentCourseId);
+    //   await telemetryRepository.insertEvent(
+    //       eventData: eventData, isPublic: widget.isFeaturedCourse);
+    //   _timer?.cancel();
+    // }
   }
 
   @override
@@ -231,11 +232,11 @@ class _CourseAudioPlayerState extends State<CourseAudioPlayer> {
       } else {
         if (_playerStatus != _videoPlayerController1!.value.isPlaying) {
           if (_videoPlayerController1!.value.isPlaying) {
-            _generateInteractTelemetryData(widget.parentCourseId,
-                subType: TelemetrySubType.playButton);
+            // _generateInteractTelemetryData(widget.parentCourseId,
+            //     subType: TelemetrySubType.playButton);
           } else {
-            _generateInteractTelemetryData(widget.parentCourseId,
-                subType: TelemetrySubType.pauseButton);
+            // _generateInteractTelemetryData(widget.parentCourseId,
+            //     subType: TelemetrySubType.pauseButton);
           }
         }
         _playerStatus = _videoPlayerController1!.value.isPlaying;
@@ -285,9 +286,17 @@ class _CourseAudioPlayerState extends State<CourseAudioPlayer> {
           completionPercentage = 100;
           status = 2;
         }
-        await learnService.updateContentProgress(courseId, batchId!, contentId,
-            status, contentType, current, maxSize, completionPercentage,
-            isPreRequisite: widget.isPreRequisite, language: language);
+        await TocRepository().updateContentProgress(
+            courseId: courseId,
+            batchId: batchId!,
+            contentId: contentId,
+            status: status,
+            contentType: contentType,
+            current: current,
+            maxSize: maxSize,
+            completionPercentage: completionPercentage,
+            isPreRequisite: widget.isPreRequisite,
+            language: language);
         Map data = {
           'identifier': contentId,
           'mimeType': EMimeTypes.mp3,
@@ -301,19 +310,17 @@ class _CourseAudioPlayerState extends State<CourseAudioPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<TocRepository>(builder: (context, tocServices, _) {
-      return Column(children: <Widget>[
-        Expanded(
-          child: Center(
-            child: _chewieController != null
-                ? Chewie(
-                    controller: _chewieController!,
-                  )
-                : PageLoader(),
-          ),
+    return Column(children: <Widget>[
+      Expanded(
+        child: Center(
+          child: _chewieController != null
+              ? Chewie(
+                  controller: _chewieController!,
+                )
+              : PageLoader(),
         ),
-      ]);
-    });
+      ),
+    ]);
   }
 
   Future<void> fetchData() async {

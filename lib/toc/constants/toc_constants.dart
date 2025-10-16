@@ -249,3 +249,8 @@ class EventType {
   static const karmayogiSaptah = "Karmayogi Saptah";
   static const rajyaKarmayogiSaptha = "Rajya Karmayogi Saptah";
 }
+
+class QuestionTypes {
+  static const String singleAnswer = 'singleAnswer';
+  static const String multipleAnswer = 'multipleAnswer';
+}

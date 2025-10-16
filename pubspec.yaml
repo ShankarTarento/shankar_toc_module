@@ -36,6 +36,13 @@ dependencies:
   clippy_flutter: ^2.0.0-nullsafety.1
   reorderables: ^0.6.0
   youtube_player_flutter: ^9.1.2
+  flutter_inappwebview: 6.1.5
+  share_plus: ^11.0.0
+  pdfx: 2.8.0
+
+
+
+
 
 
 

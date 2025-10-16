@@ -9,6 +9,8 @@ import 'package:toc_module/toc/pages/resource_details_screen/widgets/resource_de
 import 'package:toc_module/toc/pages/resource_details_screen/widgets/resource_details_skeleton.dart';
 import 'package:toc_module/toc/pages/resource_details_screen/widgets/resource_players.dart';
 import 'package:toc_module/toc/pages/resource_details_screen/widgets/sector_subsector_view.dart';
+import 'package:toc_module/toc/repository/toc_repository.dart';
+import 'package:toc_module/toc/widgets/course_sharing_page/course_sharing_page.dart';
 
 class ResourceDetailsScreen extends StatefulWidget {
   final String resourceId;
@@ -215,6 +217,6 @@ class _ResourceDetailsScreenState extends State<ResourceDetailsScreen> {
 
   getResourceDetails() async {
     resourceDetailsFuture =
-        GyaanKarmayogiServicesV2.getResourceDetails(id: widget.resourceId);
+        TocRepository().getResourceDetails(courseId: widget.resourceId);
   }
 }

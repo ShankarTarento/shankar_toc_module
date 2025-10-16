@@ -110,9 +110,9 @@ class _IgotTutorAtripState extends State<IgotTutorAtrip> {
         ),
         child: Row(
           children: [
-            AiBotIcon(
-              size: 50.w,
-            ),
+            // AiBotIcon(
+            //   size: 50.w,
+            // ),
             SizedBox(
               width: 6.w,
             ),
@@ -205,9 +205,9 @@ class _IgotTutorAtripState extends State<IgotTutorAtrip> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                AiBotIcon(
-                  size: 60.w,
-                ),
+                // AiBotIcon(
+                //   size: 60.w,
+                // ),
                 SizedBox(
                   height: 16.w,
                 ),

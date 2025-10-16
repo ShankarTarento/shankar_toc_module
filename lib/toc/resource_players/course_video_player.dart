@@ -14,6 +14,7 @@ import 'package:toc_module/toc/model/navigation_model.dart';
 import 'package:toc_module/toc/model/transcription_response.dart';
 import 'package:toc_module/toc/pages/transcript/model/transcript_model.dart';
 import 'package:toc_module/toc/pages/transcript/repository/transcript_repository.dart';
+import 'package:toc_module/toc/repository/toc_repository.dart';
 import 'package:toc_module/toc/resource_players/course_video_player_widget/custom_video_controller.dart';
 import 'package:toc_module/toc/util/page_loader.dart';
 import 'package:toc_module/toc/view_model/toc_player_view_model.dart';
@@ -57,7 +58,6 @@ class CourseVideoPlayer extends StatefulWidget {
 
 class _CourseVideoPlayerState extends State<CourseVideoPlayer>
     with AutomaticKeepAliveClientMixin {
-  final LearnService learnService = LearnService();
   String? pageIdentifier;
   String? pageUri;
   bool showLoader = true;
@@ -108,8 +108,8 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer>
   void initState() {
     super.initState();
     setUpSubtitles();
-    isTablet =
-        Provider.of<SettingsRepository>(context, listen: false).itsTablet;
+    // isTablet =
+    //     Provider.of<SettingsRepository>(context, listen: false).itsTablet;
 
     courseId = TocPlayerViewModel()
         .getEnrolledCourseId(context, widget.parentCourseId);
@@ -118,7 +118,7 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer>
   }
 
   void setUpSubtitles() async {
-    if (AppConfiguration.iGOTAiConfig.transcription) {
+    if (false) {
       subtitlesUrlFuture = getSubtitles();
 
       await getVttCaptions();
@@ -330,11 +330,11 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer>
         if (_playerStatus.value != _videoPlayerController1!.value.isPlaying) {
           replayVideo = false;
           if (_videoPlayerController1!.value.isPlaying) {
-            _generateInteractTelemetryData(widget.identifier,
-                subType: TelemetrySubType.playButton);
+            // _generateInteractTelemetryData(widget.identifier,
+            //     subType: TelemetrySubType.playButton);
           } else {
-            _generateInteractTelemetryData(widget.identifier,
-                subType: TelemetrySubType.pauseButton);
+            // _generateInteractTelemetryData(widget.identifier,
+            //     subType: TelemetrySubType.pauseButton);
           }
         }
         _playerStatus.value = _videoPlayerController1!.value.isPlaying;
@@ -374,20 +374,20 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer>
   }
 
   _triggerTelemetryData() {
-    if ((_start == 0 && widget.batchId != null)) {
-      pageIdentifier = TelemetryPageIdentifier.videoPlayerPageId;
-      telemetryType = TelemetryType.player;
-      String assetFile = widget.isPlayer
-          ? 'video'
-          : widget.fileUrl!.contains(EMimeTypes.mp4)
-              ? 'video'
-              : 'audio';
-      var batchId = widget.batchId;
-      pageUri =
-          'viewer/$assetFile/${widget.identifier}?primaryCategory=Learning%20Resource&collectionId=${widget.parentCourseId}&collectionType=Course&batchId=$batchId';
-      _generateTelemetryData();
-    }
-    _startTimer();
+    // if ((_start == 0 && widget.batchId != null)) {
+    //   pageIdentifier = TelemetryPageIdentifier.videoPlayerPageId;
+    //   telemetryType = TelemetryType.player;
+    //   String assetFile = widget.isPlayer
+    //       ? 'video'
+    //       : widget.fileUrl!.contains(EMimeTypes.mp4)
+    //           ? 'video'
+    //           : 'audio';
+    //   var batchId = widget.batchId;
+    //   pageUri =
+    //       'viewer/$assetFile/${widget.identifier}?primaryCategory=Learning%20Resource&collectionId=${widget.parentCourseId}&collectionType=Course&batchId=$batchId';
+    //   _generateTelemetryData();
+    // }
+    // _startTimer();
   }
 
   void _startTimer() {
@@ -401,64 +401,64 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer>
   }
 
   void _generateTelemetryData() async {
-    var telemetryRepository = TelemetryRepository();
-    Map eventData1 = telemetryRepository.getStartTelemetryEvent(
-        pageIdentifier: pageIdentifier ?? "",
-        telemetryType: telemetryType ?? "",
-        pageUri: pageUri ?? "",
-        objectId: widget.identifier,
-        objectType: resourceInfo != null ? resourceInfo!.primaryCategory : null,
-        env: TelemetryEnv.learn,
-        isPublic: widget.isFeatured,
-        l1: widget.parentCourseId);
-    await telemetryRepository.insertEvent(
-        eventData: eventData1, isPublic: widget.isFeatured);
+    // var telemetryRepository = TelemetryRepository();
+    // Map eventData1 = telemetryRepository.getStartTelemetryEvent(
+    //     pageIdentifier: pageIdentifier ?? "",
+    //     telemetryType: telemetryType ?? "",
+    //     pageUri: pageUri ?? "",
+    //     objectId: widget.identifier,
+    //     objectType: resourceInfo != null ? resourceInfo!.primaryCategory : null,
+    //     env: TelemetryEnv.learn,
+    //     isPublic: widget.isFeatured,
+    //     l1: widget.parentCourseId);
+    // await telemetryRepository.insertEvent(
+    //     eventData: eventData1, isPublic: widget.isFeatured);
 
-    Map eventData2 = telemetryRepository.getImpressionTelemetryEvent(
-        pageIdentifier: pageIdentifier ?? "",
-        telemetryType: telemetryType ?? "",
-        pageUri: pageUri ?? "",
-        objectId: widget.identifier,
-        objectType: resourceInfo != null ? resourceInfo!.primaryCategory : null,
-        env: TelemetryEnv.learn,
-        isPublic: widget.isFeatured);
-    await telemetryRepository.insertEvent(
-        eventData: eventData2, isPublic: widget.isFeatured);
+    // Map eventData2 = telemetryRepository.getImpressionTelemetryEvent(
+    //     pageIdentifier: pageIdentifier ?? "",
+    //     telemetryType: telemetryType ?? "",
+    //     pageUri: pageUri ?? "",
+    //     objectId: widget.identifier,
+    //     objectType: resourceInfo != null ? resourceInfo!.primaryCategory : null,
+    //     env: TelemetryEnv.learn,
+    //     isPublic: widget.isFeatured);
+    // await telemetryRepository.insertEvent(
+    //     eventData: eventData2, isPublic: widget.isFeatured);
   }
 
   void _generateInteractTelemetryData(String contentId,
       {String subType = ''}) async {
-    var telemetryRepository = TelemetryRepository();
-    Map eventData = telemetryRepository.getInteractTelemetryEvent(
-        pageIdentifier: pageIdentifier ?? "",
-        contentId: contentId,
-        subType: subType,
-        objectType: resourceInfo != null ? resourceInfo!.primaryCategory : null,
-        env: TelemetryEnv.learn,
-        isPublic: widget.isFeatured);
-    await telemetryRepository.insertEvent(
-        eventData: eventData, isPublic: widget.isFeatured);
+    // var telemetryRepository = TelemetryRepository();
+    // Map eventData = telemetryRepository.getInteractTelemetryEvent(
+    //     pageIdentifier: pageIdentifier ?? "",
+    //     contentId: contentId,
+    //     subType: subType,
+    //     objectType: resourceInfo != null ? resourceInfo!.primaryCategory : null,
+    //     env: TelemetryEnv.learn,
+    //     isPublic: widget.isFeatured);
+    // await telemetryRepository.insertEvent(
+    //     eventData: eventData, isPublic: widget.isFeatured);
   }
 
   _triggerEndTelemetryData(String identifier) async {
-    if (widget.identifier != '' && widget.batchId != null) {
-      var telemetryRepository = TelemetryRepository();
-      Map eventData = telemetryRepository.getEndTelemetryEvent(
-          pageIdentifier: pageIdentifier ?? "",
-          duration: _start,
-          telemetryType: telemetryType ?? "",
-          pageUri: pageUri ?? "",
-          rollup: {},
-          objectId: identifier,
-          objectType:
-              resourceInfo != null ? resourceInfo!.primaryCategory : null,
-          env: TelemetryEnv.learn,
-          isPublic: widget.isFeatured,
-          l1: widget.parentCourseId);
-      await telemetryRepository.insertEvent(
-          eventData: eventData, isPublic: widget.isFeatured);
-      _timer.cancel();
-    }
+    // if (widget.identifier != '' && widget.batchId != null) {
+    //   var telemetryRepository = TelemetryRepository();
+    //   Map eventData = telemetryRepository.getEndTelemetryEvent(
+    //       pageIdentifier: pageIdentifier ?? "",
+    //       duration: _start,
+    //       telemetryType: telemetryType ?? "",
+    //       pageUri: pageUri ?? "",
+    //       rollup: {},
+    //       objectId: identifier,
+    //       objectType:
+    //           resourceInfo != null ? resourceInfo!.primaryCategory : null,
+    //       env: TelemetryEnv.learn,
+    //       isPublic: widget.isFeatured,
+    //       l1: widget.parentCourseId);
+    //   await telemetryRepository.insertEvent(
+    //       eventData: eventData, isPublic: widget.isFeatured);
+    //   _timer.cancel();
+    // }
   }
 
   Future<void> _updateContentProgress(
@@ -494,9 +494,17 @@ class _CourseVideoPlayerState extends State<CourseVideoPlayer>
       }
       if (batchId != null &&
           (resourceInfo!.completionPercentage * 100) < completionPercentage) {
-        await learnService.updateContentProgress(courseId, batchId!, contentId,
-            status, EMimeTypes.mp4, current, maxSize, completionPercentage,
-            isPreRequisite: widget.isPreRequisite, language: language);
+        await TocRepository().updateContentProgress(
+            courseId: courseId,
+            batchId: batchId!,
+            contentId: contentId,
+            status: status,
+            contentType: EMimeTypes.mp4,
+            current: current,
+            maxSize: maxSize,
+            completionPercentage: completionPercentage,
+            isPreRequisite: widget.isPreRequisite,
+            language: language);
       }
       Map data = {
         'identifier': contentId,

@@ -4,6 +4,7 @@ import 'package:http/http.dart';
 import 'package:toc_module/toc/model/assessment_info.dart';
 import 'package:toc_module/toc/model/gust_data_model.dart';
 import 'package:toc_module/toc/services/assessment_service.dart';
+import 'package:toc_module/toc/services/toc_services.dart';
 
 class AssessmentRepository {
   AssessmentService assessmentService = AssessmentService();
@@ -193,10 +194,12 @@ class AssessmentRepository {
   Future<AssessmentInfo?> getPreEnrollAssessmentInfo(
       String id, bool isFeatured) async {
     try {
-      var response =
-          await learnService.getCourseDetails(id, isFeatured: isFeatured);
-      if (response != null) {
-        return AssessmentInfo.fromJson(response);
+      var response = await TocServices().getCourseHierarchyData(courseId: id);
+      if (response.statusCode == 200) {
+        var courseDetails = jsonDecode(response.body);
+        var data = courseDetails['result']['content'];
+
+        return AssessmentInfo.fromJson(data);
       }
       return null;
     } catch (e) {

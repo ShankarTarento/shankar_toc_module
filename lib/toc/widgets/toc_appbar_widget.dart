@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/repository/toc_repository.dart';
 
 class TocAppbarWidget extends StatelessWidget {
   final bool isOverview;

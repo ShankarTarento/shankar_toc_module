@@ -9,6 +9,7 @@ import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:igot_ui_components/ui/widgets/alert_dialog/alert_dialog.dart';
 import 'package:toc_module/toc/assessment_module/widget/assessment_start_button_widget.dart';
+import 'package:toc_module/toc/assessment_module/widget/guest_detail_form.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/constants/learn_compatability_constants.dart';
 import 'package:toc_module/toc/constants/toc_constants.dart';
@@ -22,6 +23,7 @@ import 'package:toc_module/toc/model/navigation_model.dart';
 import 'package:toc_module/toc/model/save_ponit_model.dart';
 import 'package:toc_module/toc/repository/assessment_repository.dart';
 import 'package:toc_module/toc/util/assessment_view_model.dart';
+import 'package:toc_module/toc/util/page_loader.dart';
 
 class CourseAssessmentPlayer extends StatefulWidget {
   final CourseHierarchyModel course;

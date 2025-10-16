@@ -2,13 +2,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pdfx/pdfx.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/constants/toc_constants.dart';
 import 'package:toc_module/toc/helper/toc_helper.dart';
 import 'package:toc_module/toc/model/navigation_model.dart';
+import 'package:toc_module/toc/repository/toc_repository.dart';
 import 'package:toc_module/toc/resource_players/pdf_player/course_pdf_player_skeleton.dart';
 import 'package:toc_module/toc/util/error_page.dart';
 
@@ -45,7 +45,6 @@ class CoursePdfPlayer extends StatefulWidget {
 }
 
 class _CoursePdfPlayerState extends State<CoursePdfPlayer> {
-  final LearnService learnService = LearnService();
   bool _isLoading = true;
   PdfController? _pdfController;
   int? _currentProgress;
@@ -90,8 +89,8 @@ class _CoursePdfPlayerState extends State<CoursePdfPlayer> {
 
   _triggerTelemetryData() {
     if (_start == 0) {
-      pageIdentifier = TelemetryPageIdentifier.pdfPlayerPageId;
-      telemetryType = TelemetryType.player;
+      // pageIdentifier = TelemetryPageIdentifier.pdfPlayerPageId;
+      // telemetryType = TelemetryType.player;
       var batchId = widget.batchId ?? '';
       pageUri =
           'viewer/pdf/${widget.identifier}?primaryCategory=Learning%20Resource&collectionId=${widget.parentCourseId}&collectionType=Course&batchId=$batchId';
@@ -111,43 +110,43 @@ class _CoursePdfPlayerState extends State<CoursePdfPlayer> {
   }
 
   void _generateTelemetryData() async {
-    var telemetryRepository = TelemetryRepository();
-    Map eventData1 = telemetryRepository.getStartTelemetryEvent(
-        pageIdentifier: pageIdentifier ?? "",
-        telemetryType: telemetryType ?? "",
-        pageUri: pageUri ?? "",
-        objectId: widget.identifier,
-        objectType: widget.primaryCategory,
-        env: TelemetryEnv.learn,
-        isPublic: widget.isFeaturedCourse,
-        l1: widget.parentCourseId);
-    await telemetryRepository.insertEvent(
-        eventData: eventData1, isPublic: widget.isFeaturedCourse);
+    // var telemetryRepository = TelemetryRepository();
+    // Map eventData1 = telemetryRepository.getStartTelemetryEvent(
+    //     pageIdentifier: pageIdentifier ?? "",
+    //     telemetryType: telemetryType ?? "",
+    //     pageUri: pageUri ?? "",
+    //     objectId: widget.identifier,
+    //     objectType: widget.primaryCategory,
+    //     env: TelemetryEnv.learn,
+    //     isPublic: widget.isFeaturedCourse,
+    //     l1: widget.parentCourseId);
+    // await telemetryRepository.insertEvent(
+    //     eventData: eventData1, isPublic: widget.isFeaturedCourse);
 
-    Map eventData2 = telemetryRepository.getImpressionTelemetryEvent(
-        pageIdentifier: pageIdentifier ?? "",
-        telemetryType: telemetryType ?? "",
-        pageUri: pageUri ?? "",
-        objectId: widget.identifier,
-        objectType: widget.primaryCategory,
-        env: TelemetryEnv.learn,
-        isPublic: widget.isFeaturedCourse);
-    await telemetryRepository.insertEvent(
-        eventData: eventData2, isPublic: widget.isFeaturedCourse);
+    // Map eventData2 = telemetryRepository.getImpressionTelemetryEvent(
+    //     pageIdentifier: pageIdentifier ?? "",
+    //     telemetryType: telemetryType ?? "",
+    //     pageUri: pageUri ?? "",
+    //     objectId: widget.identifier,
+    //     objectType: widget.primaryCategory,
+    //     env: TelemetryEnv.learn,
+    //     isPublic: widget.isFeaturedCourse);
+    // await telemetryRepository.insertEvent(
+    //     eventData: eventData2, isPublic: widget.isFeaturedCourse);
   }
 
   void _generateInteractTelemetryData(String contentId,
       {String subType = ''}) async {
-    var telemetryRepository = TelemetryRepository();
-    Map eventData = telemetryRepository.getInteractTelemetryEvent(
-        pageIdentifier: pageIdentifier ?? "",
-        contentId: contentId,
-        subType: subType,
-        env: TelemetryEnv.learn,
-        objectType: widget.primaryCategory,
-        isPublic: widget.isFeaturedCourse);
-    await telemetryRepository.insertEvent(
-        eventData: eventData, isPublic: widget.isFeaturedCourse);
+    // var telemetryRepository = TelemetryRepository();
+    // Map eventData = telemetryRepository.getInteractTelemetryEvent(
+    //     pageIdentifier: pageIdentifier ?? "",
+    //     contentId: contentId,
+    //     subType: subType,
+    //     env: TelemetryEnv.learn,
+    //     objectType: widget.primaryCategory,
+    //     isPublic: widget.isFeaturedCourse);
+    // await telemetryRepository.insertEvent(
+    //     eventData: eventData, isPublic: widget.isFeaturedCourse);
   }
 
   Future<void> loadDocument() async {
@@ -195,15 +194,15 @@ class _CoursePdfPlayerState extends State<CoursePdfPlayer> {
           : 2;
       int maxSize = totalPages;
       double completionPercentage = currentPage / totalPages * 100;
-      await learnService.updateContentProgress(
-          courseId,
-          widget.batchId!,
-          widget.identifier,
-          status,
-          EMimeTypes.pdf,
-          current,
-          maxSize,
-          completionPercentage,
+      await TocRepository().updateContentProgress(
+          courseId: courseId,
+          batchId: widget.batchId!,
+          contentId: widget.identifier,
+          status: status,
+          contentType: EMimeTypes.pdf,
+          current: current,
+          maxSize: maxSize,
+          completionPercentage: completionPercentage,
           isPreRequisite: widget.isPreRequisite,
           language: widget.language);
 
@@ -217,20 +216,20 @@ class _CoursePdfPlayerState extends State<CoursePdfPlayer> {
   }
 
   _triggerEndTelemetryData(String identifier) async {
-    var telemetryRepository = TelemetryRepository();
-    Map eventData = telemetryRepository.getEndTelemetryEvent(
-        pageIdentifier: pageIdentifier ?? "",
-        duration: _start,
-        telemetryType: telemetryType ?? "",
-        pageUri: pageUri ?? "",
-        rollup: {},
-        objectId: identifier,
-        objectType: widget.primaryCategory,
-        env: TelemetryEnv.learn,
-        isPublic: widget.isFeaturedCourse,
-        l1: widget.parentCourseId);
-    await telemetryRepository.insertEvent(
-        eventData: eventData, isPublic: widget.isFeaturedCourse);
+    // var telemetryRepository = TelemetryRepository();
+    // Map eventData = telemetryRepository.getEndTelemetryEvent(
+    //     pageIdentifier: pageIdentifier ?? "",
+    //     duration: _start,
+    //     telemetryType: telemetryType ?? "",
+    //     pageUri: pageUri ?? "",
+    //     rollup: {},
+    //     objectId: identifier,
+    //     objectType: widget.primaryCategory,
+    //     env: TelemetryEnv.learn,
+    //     isPublic: widget.isFeaturedCourse,
+    //     l1: widget.parentCourseId);
+    // await telemetryRepository.insertEvent(
+    //     eventData: eventData, isPublic: widget.isFeaturedCourse);
   }
 
   @override
@@ -308,10 +307,10 @@ class _CoursePdfPlayerState extends State<CoursePdfPlayer> {
                                                 // jumpToPage(page: page - 2);
                                                 _pdfController!.jumpToPage(
                                                     _currentPage.value - 1);
-                                                _generateInteractTelemetryData(
-                                                    widget.identifier,
-                                                    subType: TelemetrySubType
-                                                        .previousPageButton);
+                                                // _generateInteractTelemetryData(
+                                                //     widget.identifier,
+                                                //     subType: TelemetrySubType
+                                                //         .previousPageButton);
                                               },
                                               child: Padding(
                                                 padding: EdgeInsets.symmetric(
@@ -361,10 +360,10 @@ class _CoursePdfPlayerState extends State<CoursePdfPlayer> {
                                         : Center(
                                             child: InkWell(
                                                 onTap: () async {
-                                                  _generateInteractTelemetryData(
-                                                      widget.identifier,
-                                                      subType: TelemetrySubType
-                                                          .markAsCompletePageButton);
+                                                  // _generateInteractTelemetryData(
+                                                  //     widget.identifier,
+                                                  //     subType: TelemetrySubType
+                                                  //         .markAsCompletePageButton);
                                                   if (!widget
                                                       .isFeaturedCourse) {
                                                     await _updateContentProgress(
@@ -416,10 +415,10 @@ class _CoursePdfPlayerState extends State<CoursePdfPlayer> {
                                                   onTap: () async {
                                                     _pdfController!.jumpToPage(
                                                         _currentPage.value + 1);
-                                                    _generateInteractTelemetryData(
-                                                        widget.identifier,
-                                                        subType: TelemetrySubType
-                                                            .nextPageButton);
+                                                    // _generateInteractTelemetryData(
+                                                    //     widget.identifier,
+                                                    //     subType: TelemetrySubType
+                                                    //         .nextPageButton);
                                                     if (!widget
                                                         .isFeaturedCourse) {
                                                       await _updateContentProgress(

@@ -58,6 +58,10 @@ collection
 3.4
 file:///home/shankarganeshi/.pub-cache/hosted/pub.dev/collection-1.19.0/
 file:///home/shankarganeshi/.pub-cache/hosted/pub.dev/collection-1.19.0/lib/
+cross_file
+3.3
+file:///home/shankarganeshi/.pub-cache/hosted/pub.dev/cross_file-0.3.4+2/
+file:///home/shankarganeshi/.pub-cache/hosted/pub.dev/cross_file-0.3.4+2/lib/
 crypto
 3.4
 file:///home/shankarganeshi/.pub-cache/hosted/pub.dev/crypto-3.0.6/
@@ -306,6 +310,10 @@ meta
 2.12
 file:///home/shankarganeshi/.pub-cache/hosted/pub.dev/meta-1.15.0/
 file:///home/shankarganeshi/.pub-cache/hosted/pub.dev/meta-1.15.0/lib/
+mime
+3.2
+file:///home/shankarganeshi/.pub-cache/hosted/pub.dev/mime-2.0.0/
+file:///home/shankarganeshi/.pub-cache/hosted/pub.dev/mime-2.0.0/lib/
 nested
 2.12
 file:///home/shankarganeshi/.pub-cache/hosted/pub.dev/nested-1.0.0/
@@ -414,6 +422,14 @@ rxdart
 2.12
 file:///home/shankarganeshi/.pub-cache/hosted/pub.dev/rxdart-0.28.0/
 file:///home/shankarganeshi/.pub-cache/hosted/pub.dev/rxdart-0.28.0/lib/
+share_plus
+3.4
+file:///home/shankarganeshi/.pub-cache/hosted/pub.dev/share_plus-11.1.0/
+file:///home/shankarganeshi/.pub-cache/hosted/pub.dev/share_plus-11.1.0/lib/
+share_plus_platform_interface
+2.18
+file:///home/shankarganeshi/.pub-cache/hosted/pub.dev/share_plus_platform_interface-6.1.0/
+file:///home/shankarganeshi/.pub-cache/hosted/pub.dev/share_plus_platform_interface-6.1.0/lib/
 smooth_page_indicator
 2.12
 file:///home/shankarganeshi/.pub-cache/hosted/pub.dev/smooth_page_indicator-1.2.1/

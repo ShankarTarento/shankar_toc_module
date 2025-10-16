@@ -28,6 +28,11 @@ class TocServices {
       config.baseUrl + ApiUrls.getCourseEnrollDetailsByIds;
   String get getYourRatingUrl => config.baseUrl + ApiUrls.getYourRating;
   String get postReviewUrl => config.baseUrl + ApiUrls.postReview;
+  String get updatePreRequisiteContentProgress =>
+      config.baseUrl + ApiUrls.updatePreRequisiteContentProgress;
+
+  String get updateContentProgressUrl =>
+      config.baseUrl + ApiUrls.updateContentProgress;
 
   Future<Response> getCbplan() async {
     Response response = await get(
@@ -276,6 +281,118 @@ class TocServices {
             ),
             body: body);
 
+    return res;
+  }
+
+  Future<Response> updateContentProgress(
+      {required String courseId,
+      required String batchId,
+      required String contentId,
+      required int status,
+      required String contentType,
+      required List current,
+      var maxSize,
+      required double completionPercentage,
+      bool isAssessment = false,
+      bool? isPreRequisite = false,
+      int spentTime = 0,
+      required String language}) async {
+    List dateTime = DateTime.now().toUtc().toString().split('.');
+
+    Map data;
+
+    if (isPreRequisite ?? false) {
+      if (isAssessment) {
+        data = {
+          "request": {
+            "contents": [
+              {
+                "contentId": contentId,
+                "status": status,
+                "lastAccessTime": '${dateTime[0]}:00+0000',
+                "progressdetails": {"mimeType": contentType},
+                "completionPercentage": completionPercentage,
+                "language": language.toLowerCase()
+              }
+            ]
+          }
+        };
+      } else {
+        data = {
+          "request": {
+            "contents": [
+              {
+                "contentId": contentId,
+                "status": status,
+                "lastAccessTime": '${dateTime[0]}:00+0000',
+                "progressdetails": {
+                  "max_size": maxSize,
+                  "current": current,
+                  "mimeType": contentType
+                },
+                "completionPercentage": completionPercentage,
+                "language": language.toLowerCase()
+              }
+            ]
+          }
+        };
+      }
+    } else {
+      if (isAssessment) {
+        data = {
+          "request": {
+            "userId": config.wid,
+            "contents": [
+              {
+                "contentId": contentId,
+                "batchId": batchId,
+                "status": status,
+                "courseId": courseId,
+                "lastAccessTime": '${dateTime[0]}:00+0000',
+                "language": language.toLowerCase()
+              }
+            ]
+          }
+        };
+      } else {
+        data = {
+          "request": {
+            "userId": config.wid,
+            "contents": [
+              {
+                "contentId": contentId,
+                "batchId": batchId,
+                "status": status,
+                "courseId": courseId,
+                "lastAccessTime": '${dateTime[0]}:00+0000',
+                "progressdetails": {
+                  "max_size": maxSize,
+                  "current": current,
+                  "mimeType": contentType,
+                  "spentTime": spentTime
+                },
+                "completionPercentage": completionPercentage,
+                "language": language.toLowerCase()
+              }
+            ]
+          }
+        };
+      }
+    }
+
+    var body = json.encode(data);
+    String url = (isPreRequisite ?? false)
+        ? updatePreRequisiteContentProgress
+        : updateContentProgressUrl;
+    Response res = await patch(Uri.parse(url),
+        headers: NetworkHeaders.postHeaders(
+          token: config.token,
+          wid: config.wid,
+          rootOrgId: config.orgId,
+          apiKey: config.apiKey,
+          baseUrl: config.baseUrl,
+        ),
+        body: body);
     return res;
   }
 }

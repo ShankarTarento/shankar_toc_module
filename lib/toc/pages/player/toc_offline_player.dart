@@ -8,6 +8,7 @@ import 'package:igot_ui_components/ui/widgets/microsite_icon_button/microsite_ic
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/model/batch_model.dart';
+import 'package:toc_module/toc/widgets/toc_inapp_web_view.dart';
 
 class TocOfflinePlayer extends StatefulWidget {
   final List<Batch> batches;
