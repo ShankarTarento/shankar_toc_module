@@ -2,10 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
-import '../../../../widgets/rate_now_pop_up.dart';
+import 'package:toc_module/toc/constants/color_constants.dart';
+import 'package:toc_module/toc/constants/toc_constants.dart';
+import 'package:toc_module/toc/helper/date_time_helper.dart';
+import 'package:toc_module/toc/helper/toc_helper.dart';
+import 'package:toc_module/toc/model/batch_model.dart';
+import 'package:toc_module/toc/model/content_state_model.dart';
+import 'package:toc_module/toc/model/course_hierarchy_model.dart';
+import 'package:toc_module/toc/model/course_model.dart';
+import 'package:toc_module/toc/model/toc_player_model.dart';
+import 'package:toc_module/toc/pages/about_tab/widgets/blended_program/blended_program_user_form/survey_form_bottom_sheet.dart';
+import 'package:toc_module/toc/pages/about_tab/widgets/blended_program/select_batch_bottom_sheer.dart';
+import 'package:toc_module/toc/pages/about_tab/widgets/withdraw_request_button.dart';
+import 'package:toc_module/toc/repository/toc_repository.dart';
+import 'package:toc_module/toc/screen/pre_enrollment_player/screen/pre_toc_player_screen.dart';
+import 'package:toc_module/toc/util/fade_route.dart';
+import '../../../../../../rate_now_pop_up.dart';
 
 class EnrollBlendedProgramButton extends StatefulWidget {
   final List<Batch> batches;
@@ -286,7 +300,7 @@ class _EnrollBlendedProgramButtonState
                         ),
                         // padding: EdgeInsets.all(15.0),
                         child: Text(
-                          EnglishLang.cancel,
+                          "Cancel",
                           style: GoogleFonts.lato(
                             color: TocModuleColors.darkBlue,
                             fontSize: 14.0.sp,
@@ -310,7 +324,7 @@ class _EnrollBlendedProgramButtonState
                               TocModuleColors.darkBlue),
                         ),
                         child: Text(
-                          EnglishLang.withdraw,
+                          "Withdraw",
                           style: GoogleFonts.lato(
                             color: TocModuleColors.appBarBackground,
                             fontSize: 14.0.sp,
@@ -334,13 +348,19 @@ class _EnrollBlendedProgramButtonState
           action: WFBlendedProgramStatus.INITIATE.name);
       if (batchDetails is String) {
         await userSearch();
-        Helper.showToastMessage(context, message: batchDetails.toString());
+        TocHelper.showSnackBarMessage(
+            bgColor: TocModuleColors.darkBlue,
+            textColor: Colors.white,
+            context: context,
+            text: batchDetails.toString());
         return;
       }
       if (batchDetails is BlendedProgramEnrollResponseModel) {
-        Helper.showToastMessage(context,
-            message:
-                TocLocalizations.of(context)!.mStaticEnrollmentSentForReview);
+        TocHelper.showSnackBarMessage(
+            bgColor: TocModuleColors.darkBlue,
+            context: context,
+            textColor: Colors.white,
+            text: TocLocalizations.of(context)!.mStaticEnrollmentSentForReview);
         showWithdrawBtnForEnrolled = true;
         await userSearch();
         /** SMT track course enroll **/
@@ -391,28 +411,28 @@ class _EnrollBlendedProgramButtonState
   }
 
   void trackCourseEnrolled() async {
-    try {
-      bool _isContentEnrolmentEnabled =
-          await Provider.of<TocRepository>(context, listen: false)
-              .isSmartechEventEnabled(
-                  eventName: SMTTrackEvents.contentEnrolment);
-      if (_isContentEnrolmentEnabled) {
-        SmartechService.trackCourseEnrolled(
-          courseCategory: widget.courseDetails.courseCategory,
-          courseName: widget.courseDetails.name,
-          image: widget.courseDetails.appIcon,
-          contentUrl: "${ApiUrl.baseUrl}/app/toc/${widget.courseDetails.id}",
-          doId: widget.courseId.toString(),
-          courseDuration: int.parse(widget.courseDetails.duration.toString()),
-          learningPathContent: widget.isLearningPathContent ? 1 : 0,
-          provider: widget.courseDetails.source,
-          courseRating: widget.courseRating,
-          numberOfCourseRating: widget.numberOfCourseRating,
-        );
-      }
-    } catch (e) {
-      debugPrint(e.toString());
-    }
+    // try {
+    //   bool _isContentEnrolmentEnabled =
+    //       await Provider.of<TocRepository>(context, listen: false)
+    //           .isSmartechEventEnabled(
+    //               eventName: SMTTrackEvents.contentEnrolment);
+    //   if (_isContentEnrolmentEnabled) {
+    //     SmartechService.trackCourseEnrolled(
+    //       courseCategory: widget.courseDetails.courseCategory,
+    //       courseName: widget.courseDetails.name,
+    //       image: widget.courseDetails.appIcon,
+    //       contentUrl: "${TocConfigModel.baseUrl}/app/toc/${widget.courseDetails.id}",
+    //       doId: widget.courseId.toString(),
+    //       courseDuration: int.parse(widget.courseDetails.duration.toString()),
+    //       learningPathContent: widget.isLearningPathContent ? 1 : 0,
+    //       provider: widget.courseDetails.source,
+    //       courseRating: widget.courseRating,
+    //       numberOfCourseRating: widget.numberOfCourseRating,
+    //     );
+    //   }
+    // } catch (e) {
+    //   debugPrint(e.toString());
+    // }
   }
 
   void showBottomSheet({Map? response, required bool isCadreProgram}) async {
@@ -474,8 +494,9 @@ class _EnrollBlendedProgramButtonState
           if (cadreServiceListId.contains(userCadreServiceId)) {
             return true;
           } else {
-            Helper.showSnackBarMessage(
+            TocHelper.showSnackBarMessage(
                 durationInSec: 4,
+                textColor: Colors.white,
                 context: context,
                 text: TocLocalizations.of(context)!
                         .mDoptBlendedProgramEligibilityMessage1 +
@@ -488,16 +509,18 @@ class _EnrollBlendedProgramButtonState
             return false;
           }
         } else {
-          Helper.showSnackBarMessage(
+          TocHelper.showSnackBarMessage(
               context: context,
+              textColor: Colors.white,
               text: TocLocalizations.of(context)!
                   .mNonEligibleServiceMessageForDoptBlendedProgram,
               bgColor: TocModuleColors.darkBlue);
           return false;
         }
       } else {
-        Helper.showSnackBarMessage(
+        TocHelper.showSnackBarMessage(
             context: context,
+            textColor: Colors.white,
             text: TocLocalizations.of(context)!
                 .mNonEligibleServiceMessageForDoptBlendedProgram,
             bgColor: TocModuleColors.darkBlue);
@@ -505,8 +528,9 @@ class _EnrollBlendedProgramButtonState
       }
     } catch (e) {
       print('Error: $e');
-      Helper.showSnackBarMessage(
+      TocHelper.showSnackBarMessage(
           context: context,
+          textColor: Colors.white,
           text: TocLocalizations.of(context)!.mStaticSomethingWrong,
           bgColor: TocModuleColors.darkBlue);
       return false;

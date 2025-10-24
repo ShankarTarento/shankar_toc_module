@@ -142,12 +142,12 @@ class _ResourceDetailsScreenState extends State<ResourceDetailsScreen> {
                         builder: (BuildContext context) {
                           return Container(
                               child: CourseSharingPage(
-                            resourceDetails.identifier!,
-                            resourceDetails.name!,
-                            resourceDetails.posterImage!,
-                            resourceDetails.source!,
-                            resourceDetails.primaryCategory!,
-                            receiveShareResponse,
+                            courseId: resourceDetails.identifier!,
+                            courseName: resourceDetails.name!,
+                            coursePosterImageUrl: resourceDetails.posterImage!,
+                            courseProvider: resourceDetails.source!,
+                            primaryCategory: resourceDetails.primaryCategory!,
+                            callback: receiveShareResponse,
                           ));
                         },
                       );

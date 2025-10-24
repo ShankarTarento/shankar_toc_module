@@ -10,9 +10,10 @@ import 'package:toc_module/toc/model/batch_model.dart';
 import 'package:toc_module/toc/model/course_model.dart';
 import 'package:toc_module/toc/model/toc_player_model.dart';
 import 'package:toc_module/toc/screen/toc_player_screen.dart';
+import 'package:toc_module/toc/services/toc_module_service.dart';
 import 'package:toc_module/toc/util/button_with_border.dart';
 import 'package:toc_module/toc/util/fade_route.dart';
-import 'package:toc_module/toc/widgets/rate_now_pop_up.dart';
+import '../../../rate_now_pop_up.dart';
 import '../enroll_moderated_program.dart';
 import 'PreEnrollLanguageSelector.dart';
 
@@ -478,7 +479,8 @@ class _TocButtonWidgetState extends State<TocButtonWidget> {
           courseCategory: widget.courseDetails.courseCategory,
           courseName: widget.courseDetails.name,
           image: widget.courseDetails.appIcon,
-          contentUrl: "${ApiUrl.baseUrl}/app/toc/${widget.courseDetails.id}",
+          contentUrl:
+              "${TocModuleService.config.baseUrl}/app/toc/${widget.courseDetails.id}",
           doId: widget.courseId.toString(),
           courseDuration: int.parse(widget.courseDetails.duration.toString()),
           learningPathContent: widget.isLearningPathContent ? 1 : 0,

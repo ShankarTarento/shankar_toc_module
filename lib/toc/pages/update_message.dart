@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:toc_module/toc/constants/api_urls.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io' show Platform;
@@ -41,7 +42,7 @@ class UpdateMessage extends StatelessWidget {
           ElevatedButton(
               onPressed: () {
                 launchURL(
-                  url: Platform.isAndroid ? ApiUrl.androidUrl : ApiUrl.iOSUrl,
+                  url: Platform.isAndroid ? ApiUrls.androidUrl : ApiUrls.iOSUrl,
                 );
               },
               style: ElevatedButton.styleFrom(

@@ -15,7 +15,6 @@ import 'package:toc_module/toc/widgets/course_at_glance_widget.dart';
 import 'package:toc_module/toc/widgets/glance_item_3.dart';
 import 'package:toc_module/toc/widgets/module_item/widgets/linear_progress_indicator_widget.dart';
 import 'package:toc_module/toc/widgets/module_item/widgets/toc_download_certificate_widget.dart';
-import 'package:toc_module/toc/widgets/rate_now_pop_up.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
 
 class ModuleItem extends StatefulWidget {
@@ -370,19 +369,7 @@ class _ModuleItemState extends State<ModuleItem> {
                               ),
                             );
                           }
-                          if (result != null && result is Map<String, bool>) {
-                            Map<String, dynamic> response = result;
-                            if (response['isFinished']) {
-                              showModalBottomSheet(
-                                isScrollControlled: true,
-                                context: context,
-                                backgroundColor: TocModuleColors.greys60,
-                                builder: (ctx) =>
-                                    RateNowPopUp(courseDetails: widget.course),
-                              ).whenComplete(() => InAppReviewRespository()
-                                  .triggerInAppReviewPopup(context));
-                            }
-                          }
+
                           widget.readCourseProgress?.call();
                         }
                       },

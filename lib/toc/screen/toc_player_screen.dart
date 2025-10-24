@@ -6,7 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
-import 'package:toc_module/new_animation_widget.dart';
+import 'package:toc_module/toc/pages/toc_skeleton/toc_player_skeleton.dart';
+import 'package:toc_module/toc/widgets/new_animation_widget.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/constants/toc_constants.dart';
 import 'package:toc_module/toc/helper/toc_helper.dart';
@@ -541,7 +542,7 @@ class _TocPlayerScreenState extends State<TocPlayerScreen>
               }
             },
           ))),
-    ).withChatbotButton();
+    );
   }
 
   void _playNextResource(BuildContext context) {
@@ -582,8 +583,8 @@ class _TocPlayerScreenState extends State<TocPlayerScreen>
             resourceNavigateItems[i].status = 2;
           }
           double totalProgress = 0;
-          totalProgress = TocHelper()
-              .getCourseOverallProgress(totalProgress, resourceNavigateItems);
+          totalProgress = TocHelper.getCourseOverallProgress(
+              totalProgress, resourceNavigateItems);
           if ((totalProgress / resourceNavigateItems.length) >
                   courseOverallProgress &&
               (totalProgress / resourceNavigateItems.length) -
@@ -599,8 +600,8 @@ class _TocPlayerScreenState extends State<TocPlayerScreen>
                   courseCategory: course!.courseCategory,
                   contextLockingType: course!.contextLockingType,
                   compatibilityLevel: course!.compatibilityLevel)) {
-            TocHelper()
-                .updateLock(resourceNavigateItems, widget.arguments.courseId);
+            TocHelper.updateLock(
+                resourceNavigateItems, widget.arguments.courseId);
           }
           final context = navigatorKey.currentContext!;
           Provider.of<TocRepository>(context, listen: false).setCourseProgress(
@@ -885,7 +886,7 @@ class _TocPlayerScreenState extends State<TocPlayerScreen>
     //         courseCategory: course?.courseCategory ?? '',
     //         courseName: course?.name ?? '',
     //         image: course?.appIcon ?? '',
-    //         contentUrl: "${ApiUrl.baseUrl}/app/toc/${course?.id ?? ''}",
+    //         contentUrl: "${TocConfigModel.baseUrl}/app/toc/${course?.id ?? ''}",
     //         doId: course?.id ?? '',
     //         courseDuration: int.parse(course?.duration?.toString() ?? ''),
     //         learningPathContent: isLearningPathContent ? 1 : 0,

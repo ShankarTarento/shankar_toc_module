@@ -50,4 +50,8 @@ class ApiUrls {
       '/api/content/v2/state/read';
   static const String updateContentProgress =
       '/api/course/v1/content/state/update';
+  static const androidUrl =
+      'https://play.google.com/store/apps/details?id=com.igot.karmayogibharat';
+  static const iOSUrl =
+      'https://apps.apple.com/in/app/igot-karmayogi/id6443949491';
 }

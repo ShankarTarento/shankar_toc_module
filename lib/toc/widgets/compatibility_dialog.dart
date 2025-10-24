@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:toc_module/toc/constants/api_urls.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
 
 import 'package:url_launcher/url_launcher.dart';
@@ -89,8 +90,8 @@ class _CompatibilityDialogState extends State<CompatibilityDialog> {
                     onPressed: () {
                       launchURL(
                         url: Platform.isAndroid
-                            ? ApiUrl.androidUrl
-                            : ApiUrl.iOSUrl,
+                            ? ApiUrls.androidUrl
+                            : ApiUrls.iOSUrl,
                       );
                     },
                     style: ElevatedButton.styleFrom(

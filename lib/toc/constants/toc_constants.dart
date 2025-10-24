@@ -1,3 +1,8 @@
+import 'package:flutter/material.dart';
+import 'package:igot_ui_components/utils/module_colors.dart';
+import 'package:toc_module/toc/model/information_card_model.dart';
+import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+
 class PrimaryCategory {
   static const String practiceAssessment = "Practice Question Set";
   static const String finalAssessment = "Course Assessment";
@@ -135,6 +140,8 @@ const int FIRST_ENROLMENT_POINT = 5;
 const int KARMPOINT_AWARD_LIMIT_TO_COURSE = 4;
 const String APP_DOWNLOAD_FOLDER = '/storage/emulated/0/Download';
 const String supportEmail = "mission[dot]karmayogi[at]gov[dot]in";
+const int COURSE_COMPLETION_PERCENTAGE = 100;
+const int RATING_DEFAULT_PERCENTAGE = 50;
 
 class EContextLockingType {
   static const courseAssessmentOnly = 'Course Assessment Only';
@@ -282,3 +289,216 @@ class QuestionType {
   static const String dropdown = 'dropdown';
   static const String phoneNumber = 'phonenumber';
 }
+
+List<InformationCardModel> scenario1summary(context) => [
+      InformationCardModel(
+          scenarioNumber: 1,
+          icon: Icons.list,
+          information: '3 ${TocLocalizations.of(context)!.mCommonQuestions}',
+          iconColor: ModuleColors.primaryThree),
+      InformationCardModel(
+          scenarioNumber: 2,
+          icon: Icons.replay,
+          information: TocLocalizations.of(context)!.mStaticUnlimitedRetakes,
+          iconColor: ModuleColors.primaryThree),
+      InformationCardModel(
+          scenarioNumber: 3,
+          icon: Icons.timer,
+          information:
+              '${TocLocalizations.of(context)!.mCommonTotal} 5 ${TocLocalizations.of(context)!.mStaticMinutes}',
+          iconColor: ModuleColors.primaryThree),
+    ];
+List<InformationCardModel> practiceScenario1summary(context) => [
+      InformationCardModel(
+          scenarioNumber: 1,
+          icon: Icons.list,
+          information: '3 ${TocLocalizations.of(context)!.mCommonQuestions}',
+          iconColor: ModuleColors.primaryThree),
+      InformationCardModel(
+          scenarioNumber: 2,
+          icon: Icons.replay,
+          information: TocLocalizations.of(context)!.mStaticUnlimitedRetakes,
+          iconColor: ModuleColors.primaryThree),
+      // InformationCardModel(
+      //     scenarioNumber: 3,
+      //     icon: Icons.timer,
+      //     information: 'Total 5 mins',
+      //     iconColor: ModuleColors.primaryThree),
+    ];
+List<InformationCardModel> scenario2summary(context) => const [
+      InformationCardModel(
+          scenarioNumber: 2,
+          icon: Icons.timer,
+          information: '60 seconds per question',
+          iconColor: ModuleColors.primaryThree),
+      InformationCardModel(
+          scenarioNumber: 2,
+          icon: Icons.list,
+          information: '3 questions',
+          iconColor: ModuleColors.primaryThree),
+      InformationCardModel(
+          scenarioNumber: 2,
+          icon: Icons.replay,
+          information: 'Retake available after 1 month',
+          iconColor: ModuleColors.primaryThree)
+    ];
+
+List<InformationCardModel> scenario3summary(context) => const [
+      InformationCardModel(
+          scenarioNumber: 3,
+          icon: Icons.timer,
+          information: 'No time limit',
+          iconColor: ModuleColors.primaryThree),
+      InformationCardModel(
+          scenarioNumber: 3,
+          icon: Icons.list,
+          information: '3 questions',
+          iconColor: ModuleColors.primaryThree),
+      InformationCardModel(
+          scenarioNumber: 3,
+          icon: Icons.timer,
+          information: 'Unlimited takes allowed',
+          iconColor: ModuleColors.primaryThree)
+    ];
+List<InformationCardModel> scenario1info(context) => [
+      InformationCardModel(
+          scenarioNumber: 1,
+          icon: Icons.info,
+          information: TocLocalizations.of(context)!.mNoNegativeMarking,
+          iconColor: ModuleColors.greys60),
+      InformationCardModel(
+          scenarioNumber: 1,
+          icon: Icons.info,
+          information: 'If time runs out answers will be autosubmitted',
+          iconColor: ModuleColors.greys60),
+      InformationCardModel(
+          scenarioNumber: 1,
+          icon: Icons.info,
+          information:
+              'Skipped questions can be attempted again before submitting',
+          iconColor: ModuleColors.greys60)
+    ];
+List<InformationCardModel> practiceScenario1info(context) => [
+      InformationCardModel(
+          scenarioNumber: 1,
+          icon: Icons.info,
+          information: TocLocalizations.of(context)!.mNoNegativeMarking,
+          iconColor: ModuleColors.greys60),
+      // InformationCardModel(
+      //     scenarioNumber: 1,
+      //     icon: Icons.info,
+      //     information: 'If time runs out answers will be autosubmitted',
+      //     iconColor: ModuleColors.greys60),
+      InformationCardModel(
+          scenarioNumber: 1,
+          icon: Icons.info,
+          information: TocLocalizations.of(context)!
+              .mSkippedQuestionsAttemptedBeforeSubmiting,
+          iconColor: ModuleColors.greys60)
+    ];
+
+List<InformationCardModel> scenario2info(context) => [
+      InformationCardModel(
+          scenarioNumber: 2,
+          icon: Icons.info,
+          information: TocLocalizations.of(context)!.mNoNegativeMarking,
+          iconColor: ModuleColors.greys60),
+      InformationCardModel(
+          scenarioNumber: 2,
+          icon: Icons.info,
+          information: TocLocalizations.of(context)!.mTimeRunsOut,
+          iconColor: ModuleColors.greys60),
+      InformationCardModel(
+          scenarioNumber: 2,
+          icon: Icons.info,
+          information:
+              TocLocalizations.of(context)!.mUnansweredConsideredIncorrect,
+          iconColor: ModuleColors.greys60)
+    ];
+
+List<InformationCardModel> scenario3info(context) => [
+      InformationCardModel(
+          scenarioNumber: 3,
+          icon: Icons.info,
+          information: TocLocalizations.of(context)!.mScoresWillNotBeStored,
+          iconColor: ModuleColors.greys60)
+    ];
+List<InformationCardModel> scenario4summary(context) => const [
+      InformationCardModel(
+          scenarioNumber: 1,
+          icon: Icons.list,
+          information: '3 questions',
+          iconColor: ModuleColors.darkBlue),
+      InformationCardModel(
+          scenarioNumber: 3,
+          icon: Icons.timer_outlined,
+          information: 'Total 5 mins',
+          iconColor: ModuleColors.darkBlue),
+    ];
+List<InformationCardModel> practiceScenario4summary(context) => const [
+      InformationCardModel(
+          scenarioNumber: 1,
+          icon: Icons.list,
+          information: '3 questions',
+          iconColor: ModuleColors.darkBlue),
+    ];
+
+List<InformationCardModel> practiceScenario4Info(context) => [
+      InformationCardModel(
+          scenarioNumber: 1,
+          icon: Icons.info,
+          information: TocLocalizations.of(context)!.mStaticUnlimitedRetakes,
+          iconColor: ModuleColors.primaryThree),
+      InformationCardModel(
+          scenarioNumber: 2,
+          icon: Icons.info,
+          information: TocLocalizations.of(context)!
+              .mSkippedQuestionsAttemptedBeforeSubmiting,
+          iconColor: ModuleColors.greys60),
+      InformationCardModel(
+          scenarioNumber: 3,
+          icon: Icons.info,
+          information: TocLocalizations.of(context)!.mNoNegativeMarking,
+          iconColor: ModuleColors.greys60),
+    ];
+List<InformationCardModel> scenarioV2Info(context) => [
+      InformationCardModel(
+          scenarioNumber: 1,
+          icon: Icons.info,
+          information: TocLocalizations.of(context)!.mStaticUnlimitedRetakes,
+          iconColor: ModuleColors.primaryThree),
+      InformationCardModel(
+          scenarioNumber: 2,
+          icon: Icons.info,
+          information: TocLocalizations.of(context)!.mTimeRunsOut,
+          iconColor: ModuleColors.greys60),
+      InformationCardModel(
+          scenarioNumber: 3,
+          icon: Icons.info,
+          information: TocLocalizations.of(context)!
+              .mSkippedQuestionsAttemptedBeforeSubmiting,
+          iconColor: ModuleColors.greys60),
+      InformationCardModel(
+          scenarioNumber: 4,
+          icon: Icons.info,
+          information: TocLocalizations.of(context)!.mNoNegativeMarking,
+          iconColor: ModuleColors.greys60),
+    ];
+List<InformationCardModel> scenario4Info(context) => [
+      InformationCardModel(
+          scenarioNumber: 1,
+          icon: Icons.info,
+          information: TocLocalizations.of(context)!.mTimeRunsOut,
+          iconColor: ModuleColors.greys60),
+      InformationCardModel(
+          scenarioNumber: 2,
+          icon: Icons.info,
+          information: TocLocalizations.of(context)!
+              .mSkippedQuestionsAttemptedBeforeSubmiting,
+          iconColor: ModuleColors.greys60),
+      InformationCardModel(
+          scenarioNumber: 3,
+          icon: Icons.info,
+          information: TocLocalizations.of(context)!.mNoNegativeMarking,
+          iconColor: ModuleColors.greys60),
+    ];

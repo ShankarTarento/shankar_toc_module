@@ -11,6 +11,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:toc_module/toc/constants/english_lang.dart';
 import 'package:toc_module/toc/helper/toc_helper.dart';
+import 'package:toc_module/toc/services/toc_module_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart';
 import 'package:device_info_plus/device_info_plus.dart';
@@ -395,14 +396,14 @@ class _WebViewPageState extends State<InAppWebViewPage> {
 
   Future<void> _setLocalStorageItems() async {
     await _appWebViewController?.evaluateJavascript(source: '''
-      localStorage.setItem('API-KEY','${ApiUrl.apiKey}');
+      localStorage.setItem('API-KEY','${TocModuleService.config.apiKey}');
       localStorage.setItem('USER-TOKEN','$_authToken');
       const headerObj = {
-        'Authorization': 'bearer ${ApiUrl.apiKey}',
+        'Authorization': 'bearer ${TocModuleService.config.apiKey}',
         'x-authenticated-user-token': '$_authToken'
       };
       localStorage.setItem('headers', JSON.stringify(headerObj));
-      localStorage.setItem('baseUrl','${ApiUrl.baseUrl}/api');
+      localStorage.setItem('baseUrl','${TocModuleService.config.baseUrl}/api');
     ''');
     setLocalStorage = true;
   }
@@ -424,7 +425,7 @@ class _WebViewPageState extends State<InAppWebViewPage> {
 
   _getHeadersToLoadLink() {
     Map<String, String> headers = {
-      'Authorization': 'bearer ${ApiUrl.apiKey}',
+      'Authorization': 'bearer ${TocModuleService.config.apiKey}',
       'x-authenticated-user-token': '$_authToken'
     };
     return headers;
@@ -528,13 +529,13 @@ class _WebViewPageState extends State<InAppWebViewPage> {
   }
 
   void _generateImpressionTelemetryData() async {
-    var telemetryRepository = TelemetryRepository();
-    Map eventData = telemetryRepository.getImpressionTelemetryEvent(
-        pageIdentifier: TelemetryPageIdentifier.surveyPageId,
-        telemetryType: TelemetryType.viewer,
-        pageUri: TelemetryPageIdentifier.surveyPageUri
-            .replaceAll(':surveyId', widget.url.split('/').last.toString()),
-        env: TelemetryEnv.kbSurvey);
-    await telemetryRepository.insertEvent(eventData: eventData);
+    // var telemetryRepository = TelemetryRepository();
+    // Map eventData = telemetryRepository.getImpressionTelemetryEvent(
+    //     pageIdentifier: TelemetryPageIdentifier.surveyPageId,
+    //     telemetryType: TelemetryType.viewer,
+    //     pageUri: TelemetryPageIdentifier.surveyPageUri
+    //         .replaceAll(':surveyId', widget.url.split('/').last.toString()),
+    //     env: TelemetryEnv.kbSurvey);
+    // await telemetryRepository.insertEvent(eventData: eventData);
   }
 }

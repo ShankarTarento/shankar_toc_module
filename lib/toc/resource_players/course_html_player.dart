@@ -10,6 +10,7 @@ import 'package:toc_module/toc/helper/toc_helper.dart';
 import 'package:toc_module/toc/model/course_hierarchy_model.dart';
 import 'package:toc_module/toc/model/navigation_model.dart';
 import 'package:toc_module/toc/repository/toc_repository.dart';
+import 'package:toc_module/toc/services/toc_module_service.dart';
 import 'package:toc_module/toc/view_model/toc_player_view_model.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
@@ -335,7 +336,7 @@ class _CourseHtmlPlayerState extends State<CourseHtmlPlayer> {
       ''');
         }))
         ..loadRequest(Uri.parse(
-            '${ApiUrl.baseUrl}/viewer/mobile/html/${widget.identifier}?primaryCategory=Learning Resource&collectionId=${widget.parentCourseId}&collectionType=Course&batchId=${widget.batchId}&courseName=${widget.course.name}&embed=true${'&preview=true'}'));
+            '${TocModuleService.config.baseUrl}/viewer/mobile/html/${widget.identifier}?primaryCategory=Learning Resource&collectionId=${widget.parentCourseId}&collectionType=Course&batchId=${widget.batchId}&courseName=${widget.course.name}&embed=true${'&preview=true'}'));
 
       if (kIsWeb || !Platform.isMacOS) {
         controller.setBackgroundColor(TocModuleColors.greys60);

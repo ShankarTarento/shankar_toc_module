@@ -8,6 +8,7 @@ import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
 import 'package:toc_module/toc/constants/toc_constants.dart';
 import 'package:toc_module/toc/helper/toc_helper.dart';
 import 'package:toc_module/toc/model/course_sharing_model.dart';
+import 'package:toc_module/toc/services/toc_module_service.dart';
 import 'package:toc_module/toc/util/page_loader.dart';
 import 'package:toc_module/toc/widgets/course_sharing_page/widgets/button_click_effect.dart';
 import 'package:toc_module/toc/widgets/course_sharing_page/widgets/chips_input.dart';
@@ -398,8 +399,8 @@ class _CourseSharingPageState extends State<CourseSharingPage>
                               onTap: () async {
                                 await Clipboard.setData(ClipboardData(
                                     text: widget.isCourse
-                                        ? "${ApiUrl.baseUrl}/app/toc/${widget.courseId}"
-                                        : "${ApiUrl.baseUrl}/app/event-hub/home/${widget.courseId}"));
+                                        ? "${TocModuleService.config.baseUrl}/app/toc/${widget.courseId}"
+                                        : "${TocModuleService.config.baseUrl}/app/event-hub/home/${widget.courseId}"));
                                 setState(() {
                                   showDialogWidget = true;
                                   dialogType = "success";

@@ -21,6 +21,7 @@ import 'package:toc_module/toc/model/course_hierarchy_model.dart';
 import 'package:toc_module/toc/model/gust_data_model.dart';
 import 'package:toc_module/toc/model/navigation_model.dart';
 import 'package:toc_module/toc/model/save_ponit_model.dart';
+import 'package:toc_module/toc/pages/toc_skeleton/assessment_instruction_skeleton.dart';
 import 'package:toc_module/toc/repository/assessment_repository.dart';
 import 'package:toc_module/toc/util/assessment_view_model.dart';
 import 'package:toc_module/toc/util/page_loader.dart';

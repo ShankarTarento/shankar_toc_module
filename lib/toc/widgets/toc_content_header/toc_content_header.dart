@@ -7,8 +7,14 @@ import 'package:provider/provider.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/helper/date_time_helper.dart';
 import 'package:toc_module/toc/model/course_model.dart';
+import 'package:toc_module/toc/repository/toc_repository.dart';
+import 'package:toc_module/toc/services/toc_module_service.dart';
 import 'package:toc_module/toc/widgets/primary_category_widget.dart';
-import 'language_listview.dart';
+import 'package:toc_module/toc/widgets/toc_content_header/widgets/feedback_overlay_card.dart';
+import 'package:toc_module/toc/widgets/toc_content_header/widgets/overall_progress.dart';
+import 'package:toc_module/toc/widgets/toc_content_header/widgets/relevance_choice_buttons.dart';
+import 'package:toc_module/toc/widgets/toc_content_header/widgets/total_rating_widget.dart';
+import '../language_listview.dart';
 
 class TocContentHeader extends StatelessWidget {
   const TocContentHeader(
@@ -131,7 +137,7 @@ class TocContentHeader extends StatelessWidget {
                   child: Row(
                     children: [
                       SvgPicture.network(
-                          ApiUrl.baseUrl +
+                          TocModuleService.config.baseUrl +
                               '/assets/images/sakshamAI/lady-greet.svg',
                           height: 70.w,
                           placeholderBuilder: (context) => SizedBox.shrink()),
@@ -217,19 +223,19 @@ class TocContentHeader extends StatelessWidget {
                                                             (feedback) async {
                                                           if (recommendationId !=
                                                               null) {
-                                                            await IgotAIRepository()
-                                                                .saveFeedback(
-                                                                    courseId:
-                                                                        course
-                                                                            .id,
-                                                                    recommendationId:
-                                                                        recommendationId!,
-                                                                    feedback:
-                                                                        feedback,
-                                                                    rating: 0);
-                                                            submitFeedback();
-                                                            Navigator.pop(
-                                                                contextx);
+                                                            // await IgotAIRepository()
+                                                            //     .saveFeedback(
+                                                            //         courseId:
+                                                            //             course
+                                                            //                 .id,
+                                                            //         recommendationId:
+                                                            //             recommendationId!,
+                                                            //         feedback:
+                                                            //             feedback,
+                                                            //         rating: 0);
+                                                            // submitFeedback();
+                                                            // Navigator.pop(
+                                                            //     contextx);
                                                           }
                                                         },
                                                         cancelPressed: () {
@@ -243,21 +249,21 @@ class TocContentHeader extends StatelessWidget {
                                           });
                                     });
                               }, onReleventBtnPressed: () async {
-                                if (recommendationId != null) {
-                                  String response = await IgotAIRepository()
-                                      .saveFeedback(
-                                          courseId: course.id,
-                                          recommendationId: recommendationId!,
-                                          feedback: EnglishLang.good,
-                                          rating: 1);
-                                  if (response == EnglishLang.success) {
-                                    Helper.showSnackbarWithCloseIcon(
-                                        context,
-                                        TocLocalizations.of(context)!
-                                            .mIgotAIThanksForFeedback);
-                                    submitFeedback();
-                                  }
-                                }
+                                // if (recommendationId != null) {
+                                //   String response = await IgotAIRepository()
+                                //       .saveFeedback(
+                                //           courseId: course.id,
+                                //           recommendationId: recommendationId!,
+                                //           feedback: EnglishLang.good,
+                                //           rating: 1);
+                                //   if (response == EnglishLang.success) {
+                                //     Helper.showSnackbarWithCloseIcon(
+                                //         context,
+                                //         TocLocalizations.of(context)!
+                                //             .mIgotAIThanksForFeedback);
+                                //     submitFeedback();
+                                //   }
+                                //  }
                               }),
                             )
                           ],

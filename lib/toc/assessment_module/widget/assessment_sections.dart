@@ -15,6 +15,7 @@ import 'package:toc_module/toc/helper/toc_helper.dart';
 import 'package:toc_module/toc/model/course_hierarchy_model.dart';
 import 'package:toc_module/toc/model/gust_data_model.dart';
 import 'package:toc_module/toc/model/navigation_model.dart';
+import 'package:toc_module/toc/repository/toc_repository.dart';
 import 'package:toc_module/toc/services/assessment_service.dart';
 import 'package:toc_module/toc/util/error_page.dart';
 import 'package:toc_module/toc/view_model/toc_player_view_model.dart';
@@ -65,7 +66,6 @@ class AssessmentSection extends StatefulWidget {
 }
 
 class _AssessmentSectionState extends State<AssessmentSection> {
-  final LearnService learnService = LearnService();
   final AssessmentService assessmentService = AssessmentService();
 
   String? _timeFormat;
@@ -87,8 +87,8 @@ class _AssessmentSectionState extends State<AssessmentSection> {
         .getEnrolledCourseId(context, widget.parentCourseId);
 
     if (_start == widget.duration) {
-      telemetryType = TelemetryType.player;
-      pageIdentifier = TelemetryPageIdentifier.assessmentPlayerPageId;
+      // telemetryType = TelemetryType.player;
+      // pageIdentifier = TelemetryPageIdentifier.assessmentPlayerPageId;
       pageUri =
           "viewer/quiz/${widget.identifier}?primaryCategory=Learning%20Resource&collectionId=${widget.parentCourseId}&collectionType=Course&batchId=${widget.course.batches != null ? widget.course.batches!.last.batchId : widget.batchId}";
       _generateTelemetryData();
@@ -100,38 +100,38 @@ class _AssessmentSectionState extends State<AssessmentSection> {
   }
 
   void _generateTelemetryData() async {
-    var telemetryRepository = TelemetryRepository();
-    Map eventData1 = telemetryRepository.getStartTelemetryEvent(
-        pageIdentifier: pageIdentifier ?? "",
-        telemetryType: telemetryType ?? "",
-        pageUri: pageUri ?? "",
-        objectId: widget.identifier,
-        objectType: widget.primaryCategory,
-        env: TelemetryEnv.learn,
-        l1: widget.parentCourseId);
-    await telemetryRepository.insertEvent(eventData: eventData1);
+    // var telemetryRepository = TelemetryRepository();
+    // Map eventData1 = telemetryRepository.getStartTelemetryEvent(
+    //     pageIdentifier: pageIdentifier ?? "",
+    //     telemetryType: telemetryType ?? "",
+    //     pageUri: pageUri ?? "",
+    //     objectId: widget.identifier,
+    //     objectType: widget.primaryCategory,
+    //     env: TelemetryEnv.learn,
+    //     l1: widget.parentCourseId);
+    // await telemetryRepository.insertEvent(eventData: eventData1);
 
-    Map eventData2 = telemetryRepository.getImpressionTelemetryEvent(
-        pageIdentifier: pageIdentifier ?? "",
-        telemetryType: telemetryType ?? "",
-        pageUri: pageUri ?? "",
-        env: TelemetryEnv.learn,
-        objectId: widget.identifier,
-        objectType: widget.primaryCategory);
-    await telemetryRepository.insertEvent(eventData: eventData2);
+    // Map eventData2 = telemetryRepository.getImpressionTelemetryEvent(
+    //     pageIdentifier: pageIdentifier ?? "",
+    //     telemetryType: telemetryType ?? "",
+    //     pageUri: pageUri ?? "",
+    //     env: TelemetryEnv.learn,
+    //     objectId: widget.identifier,
+    //     objectType: widget.primaryCategory);
+    // await telemetryRepository.insertEvent(eventData: eventData2);
   }
 
   void _generateInteractTelemetryData(String contentId, String subtype) async {
-    try {
-      var telemetryRepository = TelemetryRepository();
-      Map eventData = telemetryRepository.getInteractTelemetryEvent(
-          pageIdentifier: pageIdentifier ?? "",
-          contentId: contentId,
-          subType: subtype,
-          env: TelemetryEnv.learn,
-          objectType: widget.primaryCategory);
-      await telemetryRepository.insertEvent(eventData: eventData);
-    } catch (_) {}
+    // try {
+    //   var telemetryRepository = TelemetryRepository();
+    //   Map eventData = telemetryRepository.getInteractTelemetryEvent(
+    //       pageIdentifier: pageIdentifier ?? "",
+    //       contentId: contentId,
+    //       subType: subtype,
+    //       env: TelemetryEnv.learn,
+    //       objectType: widget.primaryCategory);
+    //   await telemetryRepository.insertEvent(eventData: eventData);
+    // } catch (_) {}
   }
 
   String formatHHMMSS(int seconds) {
@@ -194,7 +194,7 @@ class _AssessmentSectionState extends State<AssessmentSection> {
   }
 
   Future<void> _submitSurvey() async {
-    _generateInteractTelemetryData(widget.identifier, TelemetrySubType.submit);
+    // _generateInteractTelemetryData(widget.identifier, TelemetrySubType.submit);
     var questionAnswers = [];
     var courseAssessmentData = [];
 
@@ -208,14 +208,12 @@ class _AssessmentSectionState extends State<AssessmentSection> {
 
       for (int i = 0; i < widget.questionSets[q].length; i++) {
         var userSelected;
-        widget.questionSets[q][i]['editorState'] =
-            widget.questionSets[q][i]['editorState'] != null
-                ? widget.questionSets[q][i]['editorState']
-                : widget.questionSets[q][i]['choices'];
-        assessmentQuestions[i]['editorState'] =
-            assessmentQuestions[i]['editorState'] != null
-                ? assessmentQuestions[i]['editorState']
-                : assessmentQuestions[i]['choices'];
+        widget.questionSets[q][i]['editorState'] = widget.questionSets[q][i]
+                ['editorState'] ??
+            widget.questionSets[q][i]['choices'];
+        assessmentQuestions[i]['editorState'] = assessmentQuestions[i]
+                ['editorState'] ??
+            assessmentQuestions[i]['choices'];
         for (int j = 0; j < questionAnswers.length; j++) {
           if (questionAnswers[j]['index'] ==
               widget.questionSets[q][i]['identifier']) {
@@ -503,8 +501,15 @@ class _AssessmentSectionState extends State<AssessmentSection> {
       // double completionPercentage =
       //     status == 2 ? 100.0 : (_start / maxSize) * 100;
       double completionPercentage = 100.0;
-      await learnService.updateContentProgress(courseId, batchId, contentId,
-          status, contentType, current, maxSize, completionPercentage,
+      await TocRepository().updateContentProgress(
+          courseId: courseId,
+          batchId: batchId,
+          contentId: contentId,
+          status: status,
+          contentType: contentType,
+          current: current,
+          maxSize: maxSize,
+          completionPercentage: completionPercentage,
           isAssessment: true,
           isPreRequisite: widget.isPreRequisite,
           language: widget.resourceInfo.language);
@@ -762,18 +767,18 @@ class _AssessmentSectionState extends State<AssessmentSection> {
   }
 
   _triggerEndTelemetryEvent() async {
-    var telemetryRepository = TelemetryRepository();
-    Map eventData = telemetryRepository.getEndTelemetryEvent(
-        pageIdentifier: pageIdentifier ?? "",
-        duration: _start,
-        telemetryType: telemetryType ?? "",
-        pageUri: pageUri ?? "",
-        rollup: {},
-        objectId: widget.identifier,
-        objectType: widget.primaryCategory,
-        env: TelemetryEnv.learn,
-        l1: widget.parentCourseId);
-    await telemetryRepository.insertEvent(eventData: eventData);
+    // var telemetryRepository = TelemetryRepository();
+    // Map eventData = telemetryRepository.getEndTelemetryEvent(
+    //     pageIdentifier: pageIdentifier ?? "",
+    //     duration: _start,
+    //     telemetryType: telemetryType ?? "",
+    //     pageUri: pageUri ?? "",
+    //     rollup: {},
+    //     objectId: widget.identifier,
+    //     objectType: widget.primaryCategory,
+    //     env: TelemetryEnv.learn,
+    //     l1: widget.parentCourseId);
+    // await telemetryRepository.insertEvent(eventData: eventData);
   }
 
   @override

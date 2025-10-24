@@ -250,14 +250,14 @@ class AssessmentV2Insights extends StatelessWidget {
   }
 
   void _generateInteractTelemetryData({required BuildContext context}) async {
-    var telemetryRepository = TelemetryRepository();
-    Map eventData = telemetryRepository.getInteractTelemetryEvent(
-        pageIdentifier: TelemetryPageIdentifier.assessmentReattemptPageUri,
-        contentId: identifier,
-        subType: AssessmentType.questionWeightage,
-        env: TelemetryEnv.learn,
-        objectType: primaryCategory,
-        clickId: TelemetryIdentifier.reattemptTest);
-    await telemetryRepository.insertEvent(eventData: eventData);
+    // var telemetryRepository = TelemetryRepository();
+    // Map eventData = telemetryRepository.getInteractTelemetryEvent(
+    //     pageIdentifier: TelemetryPageIdentifier.assessmentReattemptPageUri,
+    //     contentId: identifier,
+    //     subType: AssessmentType.questionWeightage,
+    //     env: TelemetryEnv.learn,
+    //     objectType: primaryCategory,
+    //     clickId: TelemetryIdentifier.reattemptTest);
+    // await telemetryRepository.insertEvent(eventData: eventData);
   }
 }

@@ -11,6 +11,7 @@ import 'package:toc_module/toc/model/course_model.dart';
 import 'package:toc_module/toc/model/navigation_model.dart';
 import 'package:toc_module/toc/model/progress_model.dart';
 import 'package:toc_module/toc/repository/toc_repository.dart';
+import 'package:toc_module/toc/services/toc_module_service.dart';
 import 'package:toc_module/toc/view_model/toc_player_view_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -325,7 +326,7 @@ class TocHelper {
   static upgradeGoogleAPI(String uri) {
     String updatedUri = uri.replaceFirst(
         'https://storage.googleapis.com/igotprod',
-        '${ApiUrl.baseUrl}${Env.cdnBucket}');
+        '${TocModuleService.config.baseUrl}${Env.cdnBucket}');
     return updatedUri;
   }
 

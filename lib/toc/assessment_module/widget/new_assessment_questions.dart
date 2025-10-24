@@ -623,6 +623,7 @@ class _NewAssessmentQuestionsState extends State<NewAssessmentQuestions> {
                 ),
               ),
               Container(
+                padding: EdgeInsets.fromLTRB(8, 4, 8, 4).r,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -640,15 +641,6 @@ class _NewAssessmentQuestionsState extends State<NewAssessmentQuestions> {
                       backgroundColor:
                           TocModuleColors.black.withValues(alpha: 0.96),
                       borderRadius: BorderRadius.all(Radius.circular(24)).r,
-                      child: Material(
-                        color: Colors.transparent,
-                        shape: const CircleBorder(),
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 4).r,
-                          child: Icon(Icons.info_outline,
-                              color: TocModuleColors.greys60, size: 14.sp),
-                        ),
-                      ),
                       content: Container(
                         height: 180.w,
                         width: 260.w,
@@ -811,10 +803,18 @@ class _NewAssessmentQuestionsState extends State<NewAssessmentQuestions> {
                         ),
                       ),
                       margin: EdgeInsets.all(40).r,
+                      child: Material(
+                        color: Colors.transparent,
+                        shape: const CircleBorder(),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 4).r,
+                          child: Icon(Icons.info_outline,
+                              color: TocModuleColors.greys60, size: 14.sp),
+                        ),
+                      ),
                     ),
                   ],
                 ),
-                padding: EdgeInsets.fromLTRB(8, 4, 8, 4).r,
               ),
               Expanded(
                 child: Divider(
@@ -858,30 +858,6 @@ class _NewAssessmentQuestionsState extends State<NewAssessmentQuestions> {
                   height: 28.w,
                   width: 44.w,
                   margin: const EdgeInsets.all(6).r,
-                  child: Center(
-                    child: (_answerGiven(
-                                _microSurvey[_microSurvey.indexOf(item)]
-                                    ['identifier']) &&
-                            _questionIndex != _microSurvey.indexOf(item))
-                        ? Icon(
-                            Icons.check,
-                            color: TocModuleColors.darkBlue,
-                          )
-                        : Text(
-                            '${_microSurvey.indexOf(item) + 1}',
-                            style: GoogleFonts.lato(
-                              color:
-                                  _questionIndex == _microSurvey.indexOf(item)
-                                      ? TocModuleColors.darkBlue
-                                      : TocModuleColors.black60,
-                              fontWeight:
-                                  _questionIndex == _microSurvey.indexOf(item)
-                                      ? FontWeight.w700
-                                      : FontWeight.w400,
-                              fontSize: 14.sp,
-                            ),
-                          ),
-                  ),
                   decoration: BoxDecoration(
                     color:
                         (_flaggedQuestions.contains(_microSurvey.indexOf(item)))
@@ -910,6 +886,30 @@ class _NewAssessmentQuestionsState extends State<NewAssessmentQuestions> {
                                     ? TocModuleColors.darkBlue
                                     : TocModuleColors.black
                                         .withValues(alpha: 0.4)),
+                  ),
+                  child: Center(
+                    child: (_answerGiven(
+                                _microSurvey[_microSurvey.indexOf(item)]
+                                    ['identifier']) &&
+                            _questionIndex != _microSurvey.indexOf(item))
+                        ? Icon(
+                            Icons.check,
+                            color: TocModuleColors.darkBlue,
+                          )
+                        : Text(
+                            '${_microSurvey.indexOf(item) + 1}',
+                            style: GoogleFonts.lato(
+                              color:
+                                  _questionIndex == _microSurvey.indexOf(item)
+                                      ? TocModuleColors.darkBlue
+                                      : TocModuleColors.black60,
+                              fontWeight:
+                                  _questionIndex == _microSurvey.indexOf(item)
+                                      ? FontWeight.w700
+                                      : FontWeight.w400,
+                              fontSize: 14.sp,
+                            ),
+                          ),
                   ),
                 ));
           }).toList(),

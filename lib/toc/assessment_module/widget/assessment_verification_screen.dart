@@ -54,7 +54,6 @@ class AssessmentVerificationScreen extends StatefulWidget {
 
 class _AssessmentVerificationScreenState
     extends State<AssessmentVerificationScreen> {
-  late LearnService learnService;
   late int _start;
   static const int counterLimit = 4;
   static const int apiCounterLimit = 3;
@@ -63,7 +62,6 @@ class _AssessmentVerificationScreenState
   @override
   void initState() {
     super.initState();
-    learnService = LearnService();
     _start = counterLimit;
     startTimer();
   }

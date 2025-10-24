@@ -7,8 +7,10 @@ import 'package:toc_module/toc/constants/toc_constants.dart';
 import 'package:toc_module/toc/helper/toc_helper.dart';
 import 'package:toc_module/toc/model/course_model.dart';
 import 'package:toc_module/toc/model/toc_player_model.dart';
+import 'package:toc_module/toc/screen/toc_player_screen.dart';
+import 'package:toc_module/toc/util/fade_route.dart';
 import 'package:toc_module/toc/widgets/glance_item_3.dart';
-import 'package:toc_module/toc/widgets/rate_now_pop_up.dart';
+import '../../../rate_now_pop_up.dart';
 
 class TocContentObjectWidget extends StatelessWidget {
   const TocContentObjectWidget(
@@ -74,40 +76,42 @@ class TocContentObjectWidget extends StatelessWidget {
                           PrimaryCategory.inviteOnlyAssessment ||
                       course.courseCategory ==
                           PrimaryCategory.blendedProgram) &&
-                  TocHelper().isProgramLive(enrolledCourse) &&
+                  TocHelper.isProgramLive(enrolledCourse) &&
                   batchId != null) {
-                result = await Navigator.pushNamed(
-                  context,
-                  AppUrl.tocPlayer,
-                  arguments: TocPlayerModel(
-                      enrolledCourse: enrolledCourse,
-                      navigationItems: navigationItems,
-                      isCuratedProgram: isCuratedProgram,
-                      batchId: batchId,
-                      lastAccessContentId: content.contentId,
-                      courseId: courseId,
-                      isFeatured: isFeatured,
-                      enrollmentList: enrollmentList),
-                );
+                result = await Navigator.push(
+                    context,
+                    FadeRoute(
+                        page: TocPlayerScreen(
+                      arguments: TocPlayerModel(
+                          enrolledCourse: enrolledCourse,
+                          navigationItems: navigationItems,
+                          isCuratedProgram: isCuratedProgram,
+                          batchId: batchId,
+                          lastAccessContentId: content.contentId,
+                          courseId: courseId,
+                          isFeatured: isFeatured,
+                          enrollmentList: enrollmentList),
+                    )));
               } else if (course.courseCategory !=
                       PrimaryCategory.moderatedProgram &&
                   course.courseCategory != PrimaryCategory.blendedProgram &&
                   course.courseCategory !=
                       PrimaryCategory.inviteOnlyAssessment &&
                   batchId != null) {
-                result = await Navigator.pushNamed(
-                  context,
-                  AppUrl.tocPlayer,
-                  arguments: TocPlayerModel(
-                      enrolledCourse: enrolledCourse,
-                      navigationItems: navigationItems,
-                      isCuratedProgram: isCuratedProgram,
-                      batchId: batchId,
-                      lastAccessContentId: content.contentId,
-                      courseId: courseId,
-                      isFeatured: isFeatured,
-                      enrollmentList: enrollmentList),
-                );
+                result = await Navigator.push(
+                    context,
+                    FadeRoute(
+                        page: TocPlayerScreen(
+                      arguments: TocPlayerModel(
+                          enrolledCourse: enrolledCourse,
+                          navigationItems: navigationItems,
+                          isCuratedProgram: isCuratedProgram,
+                          batchId: batchId,
+                          lastAccessContentId: content.contentId,
+                          courseId: courseId,
+                          isFeatured: isFeatured,
+                          enrollmentList: enrollmentList),
+                    )));
               }
               if (result != null && result is Map<String, bool>) {
                 Map<String, dynamic> response = result;

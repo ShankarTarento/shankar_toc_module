@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:igot_ui_components/ui/widgets/alert_dialog/alert_dialog.dart';
 
 import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/toc/assessment_module/widget/assessment_verification_screen.dart';
 import 'package:toc_module/toc/assessment_module/widget/new_assessment_v2_questions.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/constants/learn_compatability_constants.dart';
@@ -15,7 +16,10 @@ import 'package:toc_module/toc/model/course_hierarchy_model.dart';
 import 'package:toc_module/toc/model/gust_data_model.dart';
 import 'package:toc_module/toc/model/navigation_model.dart';
 import 'package:toc_module/toc/model/save_ponit_model.dart';
+import 'package:toc_module/toc/repository/toc_repository.dart';
+import 'package:toc_module/toc/resource_players/course_assessment_player.dart';
 import 'package:toc_module/toc/util/error_page.dart';
+import 'package:toc_module/toc/util/fade_route.dart';
 import 'package:toc_module/toc/view_model/toc_player_view_model.dart';
 
 class AssessmentV2Section extends StatefulWidget {
@@ -72,7 +76,6 @@ class AssessmentV2Section extends StatefulWidget {
 }
 
 class _AssessmentV2SectionState extends State<AssessmentV2Section> {
-  final LearnService learnService = LearnService();
   final AssessmentService assessmentService = AssessmentService();
 
   // String _timeFormat;
@@ -100,8 +103,8 @@ class _AssessmentV2SectionState extends State<AssessmentV2Section> {
     courseId = TocPlayerViewModel()
         .getEnrolledCourseId(context, widget.parentCourseId);
     if (_start == widget.duration) {
-      telemetryType = TelemetryType.player;
-      pageIdentifier = TelemetryPageIdentifier.assessmentPlayerPageId;
+      // telemetryType = TelemetryType.player;
+      // pageIdentifier = TelemetryPageIdentifier.assessmentPlayerPageId;
       pageUri =
           "viewer/quiz/${widget.identifier}?primaryCategory=Learning%20Resource&collectionId=${widget.parentCourseId}&collectionType=Course&batchId=${widget.course.batches != null ? widget.course.batches!.last.batchId : widget.batchId}";
       _generateTelemetryData();
@@ -113,36 +116,36 @@ class _AssessmentV2SectionState extends State<AssessmentV2Section> {
   }
 
   void _generateTelemetryData() async {
-    var telemetryRepository = TelemetryRepository();
-    Map eventData1 = telemetryRepository.getStartTelemetryEvent(
-        pageIdentifier: TelemetryPageIdentifier.assessmentPlayerPageId,
-        telemetryType: telemetryType!,
-        pageUri: pageUri!,
-        objectId: widget.identifier,
-        objectType: widget.primaryCategory,
-        env: TelemetryEnv.learn,
-        l1: widget.parentCourseId);
-    await telemetryRepository.insertEvent(eventData: eventData1);
+    // var telemetryRepository = TelemetryRepository();
+    // Map eventData1 = telemetryRepository.getStartTelemetryEvent(
+    //     pageIdentifier: TelemetryPageIdentifier.assessmentPlayerPageId,
+    //     telemetryType: telemetryType!,
+    //     pageUri: pageUri!,
+    //     objectId: widget.identifier,
+    //     objectType: widget.primaryCategory,
+    //     env: TelemetryEnv.learn,
+    //     l1: widget.parentCourseId);
+    // await telemetryRepository.insertEvent(eventData: eventData1);
 
-    Map eventData2 = telemetryRepository.getImpressionTelemetryEvent(
-        pageIdentifier: TelemetryPageIdentifier.assessmentPlayerPageId,
-        telemetryType: telemetryType!,
-        pageUri: pageUri!,
-        env: TelemetryEnv.learn,
-        objectId: widget.identifier,
-        objectType: widget.primaryCategory);
-    await telemetryRepository.insertEvent(eventData: eventData2);
+    // Map eventData2 = telemetryRepository.getImpressionTelemetryEvent(
+    //     pageIdentifier: TelemetryPageIdentifier.assessmentPlayerPageId,
+    //     telemetryType: telemetryType!,
+    //     pageUri: pageUri!,
+    //     env: TelemetryEnv.learn,
+    //     objectId: widget.identifier,
+    //     objectType: widget.primaryCategory);
+    // await telemetryRepository.insertEvent(eventData: eventData2);
   }
 
   void _generateInteractTelemetryData(String contentId, String subtype) async {
-    var telemetryRepository = TelemetryRepository();
-    Map eventData = telemetryRepository.getInteractTelemetryEvent(
-        pageIdentifier: TelemetryPageIdentifier.assessmentPlayerPageId,
-        contentId: contentId,
-        subType: subtype,
-        env: TelemetryEnv.learn,
-        objectType: widget.primaryCategory);
-    await telemetryRepository.insertEvent(eventData: eventData);
+    // var telemetryRepository = TelemetryRepository();
+    // Map eventData = telemetryRepository.getInteractTelemetryEvent(
+    //     pageIdentifier: TelemetryPageIdentifier.assessmentPlayerPageId,
+    //     contentId: contentId,
+    //     subType: subtype,
+    //     env: TelemetryEnv.learn,
+    //     objectType: widget.primaryCategory);
+    // await telemetryRepository.insertEvent(eventData: eventData);
   }
 
   String formatHHMMSS(int seconds, {bool insertPadding = true}) {
@@ -219,7 +222,7 @@ class _AssessmentV2SectionState extends State<AssessmentV2Section> {
   }
 
   Future<void> _submitSurvey() async {
-    _generateInteractTelemetryData(widget.identifier, TelemetrySubType.submit);
+    //  _generateInteractTelemetryData(widget.identifier, TelemetrySubType.submit);
     var questionAnswers = [];
     var courseAssessmentData = [];
 
@@ -632,8 +635,15 @@ class _AssessmentV2SectionState extends State<AssessmentV2Section> {
     // double completionPercentage =
     //     status == 2 ? 100.0 : (_start / maxSize) * 100;
     double completionPercentage = 100.0;
-    await learnService.updateContentProgress(courseId, batchId, contentId,
-        status, contentType, current, maxSize, completionPercentage,
+    await TocRepository().updateContentProgress(
+        courseId: courseId,
+        batchId: batchId,
+        contentId: contentId,
+        status: status,
+        contentType: contentType,
+        current: current,
+        maxSize: maxSize,
+        completionPercentage: completionPercentage,
         isAssessment: true,
         isPreRequisite: widget.isPreRequisite,
         language: widget.resourceInfo.language);
@@ -737,18 +747,18 @@ class _AssessmentV2SectionState extends State<AssessmentV2Section> {
   }
 
   void _triggerEndTelemetryEvent() async {
-    var telemetryRepository = TelemetryRepository();
-    Map eventData = telemetryRepository.getEndTelemetryEvent(
-        pageIdentifier: pageIdentifier!,
-        duration: _start!,
-        telemetryType: telemetryType!,
-        pageUri: pageUri!,
-        rollup: {},
-        objectId: widget.identifier,
-        objectType: widget.primaryCategory,
-        env: TelemetryEnv.learn,
-        l1: widget.parentCourseId);
-    await telemetryRepository.insertEvent(eventData: eventData);
+    // var telemetryRepository = TelemetryRepository();
+    // Map eventData = telemetryRepository.getEndTelemetryEvent(
+    //     pageIdentifier: pageIdentifier!,
+    //     duration: _start!,
+    //     telemetryType: telemetryType!,
+    //     pageUri: pageUri!,
+    //     rollup: {},
+    //     objectId: widget.identifier,
+    //     objectType: widget.primaryCategory,
+    //     env: TelemetryEnv.learn,
+    //     l1: widget.parentCourseId);
+    // await telemetryRepository.insertEvent(eventData: eventData);
   }
 
   @override

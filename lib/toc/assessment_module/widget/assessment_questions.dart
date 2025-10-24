@@ -13,6 +13,7 @@ import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/constants/toc_constants.dart';
 import 'package:toc_module/toc/helper/date_time_helper.dart';
 import 'package:toc_module/toc/model/course_hierarchy_model.dart';
+import 'package:toc_module/toc/repository/toc_repository.dart';
 import 'package:toc_module/toc/services/assessment_service.dart';
 import 'package:toc_module/toc/util/button_with_border.dart';
 import 'package:toc_module/toc/util/page_loader.dart';
@@ -47,7 +48,6 @@ class AssessmentQuestions extends StatefulWidget {
 
 class _AssessmentQuestionsState extends State<AssessmentQuestions> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final LearnService learnService = LearnService();
   final AssessmentService assessmentService = AssessmentService();
 
   List _microSurvey = [];
@@ -95,8 +95,8 @@ class _AssessmentQuestionsState extends State<AssessmentQuestions> {
         .getEnrolledCourseId(context, widget.parentCourseId);
     _microSurvey = widget.microSurvey['questions'];
     if (_start == timeLimit) {
-      telemetryType = TelemetryType.player;
-      pageIdentifier = TelemetryPageIdentifier.assessmentPlayerPageId;
+      // telemetryType = TelemetryType.player;
+      // pageIdentifier = TelemetryPageIdentifier.assessmentPlayerPageId;
       pageUri =
           "viewer/quiz/${widget.identifier}?primaryCategory=Learning%20Resource&collectionId=${widget.parentCourseId}&collectionType=Course&batchId=${widget.course.batches != null ? widget.course.batches!.last.batchId : ''}";
       _generateTelemetryData();
@@ -105,51 +105,51 @@ class _AssessmentQuestionsState extends State<AssessmentQuestions> {
   }
 
   void _generateTelemetryData() async {
-    var telemetryRepository = TelemetryRepository();
-    Map eventData1 = telemetryRepository.getStartTelemetryEvent(
-        pageIdentifier: pageIdentifier,
-        telemetryType: telemetryType,
-        pageUri: pageUri,
-        objectId: widget.identifier,
-        objectType: widget.primaryCategory,
-        env: TelemetryEnv.learn,
-        l1: widget.course.identifier);
-    await telemetryRepository.insertEvent(eventData: eventData1);
+    // var telemetryRepository = TelemetryRepository();
+    // Map eventData1 = telemetryRepository.getStartTelemetryEvent(
+    //     pageIdentifier: pageIdentifier,
+    //     telemetryType: telemetryType,
+    //     pageUri: pageUri,
+    //     objectId: widget.identifier,
+    //     objectType: widget.primaryCategory,
+    //     env: TelemetryEnv.learn,
+    //     l1: widget.course.identifier);
+    // await telemetryRepository.insertEvent(eventData: eventData1);
 
-    Map eventData2 = telemetryRepository.getImpressionTelemetryEvent(
-        pageIdentifier: pageIdentifier,
-        telemetryType: telemetryType,
-        pageUri: pageUri,
-        env: TelemetryEnv.learn,
-        objectId: widget.identifier,
-        objectType: widget.primaryCategory);
-    await telemetryRepository.insertEvent(eventData: eventData2);
+    // Map eventData2 = telemetryRepository.getImpressionTelemetryEvent(
+    //     pageIdentifier: pageIdentifier,
+    //     telemetryType: telemetryType,
+    //     pageUri: pageUri,
+    //     env: TelemetryEnv.learn,
+    //     objectId: widget.identifier,
+    //     objectType: widget.primaryCategory);
+    // await telemetryRepository.insertEvent(eventData: eventData2);
   }
 
   void _generateInteractTelemetryData(String contentId, String subtype) async {
-    var telemetryRepository = TelemetryRepository();
-    Map eventData = telemetryRepository.getInteractTelemetryEvent(
-        pageIdentifier: pageIdentifier,
-        contentId: contentId,
-        subType: subtype,
-        env: TelemetryEnv.learn,
-        objectType: widget.primaryCategory);
-    await telemetryRepository.insertEvent(eventData: eventData);
+    // var telemetryRepository = TelemetryRepository();
+    // Map eventData = telemetryRepository.getInteractTelemetryEvent(
+    //     pageIdentifier: pageIdentifier,
+    //     contentId: contentId,
+    //     subType: subtype,
+    //     env: TelemetryEnv.learn,
+    //     objectType: widget.primaryCategory);
+    // await telemetryRepository.insertEvent(eventData: eventData);
   }
 
   void _triggerEndTelemetryEvent() async {
-    var telemetryRepository = TelemetryRepository();
-    Map eventData = telemetryRepository.getEndTelemetryEvent(
-        pageIdentifier: pageIdentifier,
-        duration: _start,
-        telemetryType: telemetryType,
-        pageUri: pageUri,
-        rollup: {},
-        objectId: widget.identifier,
-        objectType: widget.primaryCategory,
-        env: TelemetryEnv.learn,
-        l1: widget.course.identifier);
-    await telemetryRepository.insertEvent(eventData: eventData);
+    // var telemetryRepository = TelemetryRepository();
+    // Map eventData = telemetryRepository.getEndTelemetryEvent(
+    //     pageIdentifier: pageIdentifier,
+    //     duration: _start,
+    //     telemetryType: telemetryType,
+    //     pageUri: pageUri,
+    //     rollup: {},
+    //     objectId: widget.identifier,
+    //     objectType: widget.primaryCategory,
+    //     env: TelemetryEnv.learn,
+    //     l1: widget.course.identifier);
+    // await telemetryRepository.insertEvent(eventData: eventData);
   }
 
   @override
@@ -170,8 +170,15 @@ class _AssessmentQuestionsState extends State<AssessmentQuestions> {
     String contentType = EMimeTypes.assessment;
     var maxSize = widget.course.duration;
     double completionPercentage = 100.0;
-    await learnService.updateContentProgress(courseId, batchId, contentId,
-        status, contentType, current, maxSize, completionPercentage,
+    await TocRepository().updateContentProgress(
+        courseId: courseId,
+        batchId: batchId,
+        contentId: contentId,
+        status: status,
+        contentType: contentType,
+        current: current,
+        maxSize: maxSize,
+        completionPercentage: completionPercentage,
         isAssessment: true,
         isPreRequisite: widget.isPreRequisite,
         language: widget.language);
@@ -945,9 +952,9 @@ class _AssessmentQuestionsState extends State<AssessmentQuestions> {
             children: _microSurvey.map((item) {
               return InkWell(
                   onTap: () {
-                    _generateInteractTelemetryData(
-                        _microSurvey[_microSurvey.indexOf(item)]['questionId'],
-                        TelemetrySubType.click);
+                    // _generateInteractTelemetryData(
+                    //     _microSurvey[_microSurvey.indexOf(item)]['questionId'],
+                    //     TelemetrySubType.click);
                     _questionIndex = _microSurvey.indexOf(item);
                     setState(() {
                       if (_answerGiven(_microSurvey[_microSurvey.indexOf(item)]
@@ -1209,8 +1216,8 @@ class _AssessmentQuestionsState extends State<AssessmentQuestions> {
             width: _questionIndex != 0 ? 0.44.sw : 1.sw - 24.w,
             child: TextButton(
               onPressed: () {
-                _generateInteractTelemetryData(
-                    widget.identifier, TelemetrySubType.submit);
+                // _generateInteractTelemetryData(
+                //     widget.identifier, TelemetrySubType.submit);
                 if (_questionIndex == _microSurvey.length - 1 &&
                     _questionAnswers.length < _microSurvey.length) {
                   _onSubmitPressed(context);

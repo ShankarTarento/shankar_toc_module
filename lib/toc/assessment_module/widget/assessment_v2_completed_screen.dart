@@ -332,14 +332,14 @@ class _AssessmentV2CompletedScreenState
   }
 
   void _generateInteractTelemetryData() async {
-    var telemetryRepository = TelemetryRepository();
-    Map eventData = telemetryRepository.getInteractTelemetryEvent(
-        pageIdentifier: TelemetryPageIdentifier.assessmentReattemptPageUri,
-        contentId: widget.identifier,
-        subType: AssessmentType.questionWeightage,
-        env: TelemetryEnv.learn,
-        objectType: widget.primaryCategory,
-        clickId: TelemetryIdentifier.reattemptTest);
-    await telemetryRepository.insertEvent(eventData: eventData);
+    // var telemetryRepository = TelemetryRepository();
+    // Map eventData = telemetryRepository.getInteractTelemetryEvent(
+    //     pageIdentifier: TelemetryPageIdentifier.assessmentReattemptPageUri,
+    //     contentId: widget.identifier,
+    //     subType: AssessmentType.questionWeightage,
+    //     env: TelemetryEnv.learn,
+    //     objectType: widget.primaryCategory,
+    //     clickId: TelemetryIdentifier.reattemptTest);
+    // await telemetryRepository.insertEvent(eventData: eventData);
   }
 }

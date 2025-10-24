@@ -11,6 +11,7 @@ import 'package:toc_module/toc/model/learn_tab_model.dart';
 import 'package:toc_module/toc/model/reference_node.dart';
 import 'package:toc_module/toc/model/toc_model.dart';
 import 'package:toc_module/toc/repository/toc_repository.dart';
+import 'package:toc_module/toc/services/toc_module_service.dart';
 import 'package:toc_module/toc/services/toc_services.dart';
 import 'package:toc_module/toc/util/button_with_border.dart';
 import '../model/language_map_model.dart';
@@ -444,7 +445,7 @@ class CourseTocViewModel extends ChangeNotifier {
   }
 
   Future<dynamic> _generateNavigation(BuildContext context) async {
-    Map response = await TocHelper().generateNavigationItem(
+    Map response = await TocHelper.generateNavigationItem(
         courseHierarchyData: _courseHierarchyData!,
         course: _course!,
         enrolledCourse: _enrolledCourse.value,
@@ -457,8 +458,8 @@ class CourseTocViewModel extends ChangeNotifier {
     _isProgressRead = true;
 
     double totalProgress = 0;
-    totalProgress = TocHelper()
-        .getCourseOverallProgress(totalProgress, response['resourceNavItems']);
+    totalProgress = TocHelper.getCourseOverallProgress(
+        totalProgress, response['resourceNavItems']);
     _isCourseCompleted.value =
         totalProgress / _resourceNavigateItems.length == 1;
 
@@ -566,7 +567,8 @@ class CourseTocViewModel extends ChangeNotifier {
               courseCategory: _course?.courseCategory ?? '',
               courseName: _course?.name ?? '',
               image: _course?.appIcon ?? '',
-              contentUrl: "${ApiUrl.baseUrl}/app/toc/${_course?.id ?? ''}",
+              contentUrl:
+                  "${TocModuleService.config.baseUrl}/app/toc/${_course?.id ?? ''}",
               doId: _course?.id ?? '',
               courseDuration: int.tryParse(_course?.duration?.toString() ?? ''),
               learningPathContent: _isLearningPathContent ? 1 : 0,

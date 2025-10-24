@@ -18,6 +18,7 @@ import 'package:toc_module/toc/pages/about_tab/about_tab.dart';
 import 'package:toc_module/toc/pages/player/toc_content_player.dart';
 import 'package:toc_module/toc/pages/player/toc_offline_player.dart';
 import 'package:toc_module/toc/pages/toc_content_page.dart';
+import 'package:toc_module/toc/pages/toc_skeleton/toc_player_skeleton.dart';
 import 'package:toc_module/toc/repository/toc_repository.dart';
 import 'package:toc_module/toc/screen/toc_open_resource.dart';
 import 'package:toc_module/toc/util/no_data_widget.dart';
