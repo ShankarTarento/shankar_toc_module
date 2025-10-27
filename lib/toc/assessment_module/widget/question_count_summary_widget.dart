@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 import 'package:toc_module/toc/assessment_module/widget/assessment_v2_answered_widget.dart';
 import 'package:toc_module/toc/assessment_module/widget/assessment_v2_info_tooltip.dart';
 import 'package:toc_module/toc/assessment_module/widget/assessment_v2_question_summary.dart';
@@ -24,22 +25,23 @@ class QuestionCountSummaryWidget extends StatelessWidget {
   final IntCallback changeQuestion;
   final sectionalDuration;
 
-  QuestionCountSummaryWidget(
-      {required this.microSurvey,
-      this.start,
-      required this.assessmentSectionLength,
-      this.selectedSection,
-      this.answeredQuestions = 0,
-      required this.primaryCategory,
-      required this.questionIndex,
-      required this.flaggedQuestions,
-      required this.savedQuestions,
-      required this.notAnsweredQuestions,
-      this.submitSurvey,
-      this.generateInteractTelemetryData,
-      this.sectionInstruction,
-      required this.changeQuestion,
-      this.sectionalDuration});
+  QuestionCountSummaryWidget({
+    required this.microSurvey,
+    this.start,
+    required this.assessmentSectionLength,
+    this.selectedSection,
+    this.answeredQuestions = 0,
+    required this.primaryCategory,
+    required this.questionIndex,
+    required this.flaggedQuestions,
+    required this.savedQuestions,
+    required this.notAnsweredQuestions,
+    this.submitSurvey,
+    this.generateInteractTelemetryData,
+    this.sectionInstruction,
+    required this.changeQuestion,
+    this.sectionalDuration,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +60,8 @@ class QuestionCountSummaryWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       AssessmentV2InfoToolTip(
-                          sectionInstruction: sectionInstruction),
+                        sectionInstruction: sectionInstruction,
+                      ),
                       start != null
                           ? AssessmentV2TimerWidget(
                               microSurvey: microSurvey,
@@ -66,8 +69,9 @@ class QuestionCountSummaryWidget extends StatelessWidget {
                               assessmentSectionLength: assessmentSectionLength,
                               selectedSection: selectedSection ?? 0,
                               submitSurvey: submitSurvey,
-                              sectionalDuration: sectionalDuration)
-                          : Center()
+                              sectionalDuration: sectionalDuration,
+                            )
+                          : Center(),
                     ],
                   ),
                 ),
@@ -77,17 +81,16 @@ class QuestionCountSummaryWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       AssessmentV2AnsweredStatusWidget(
-                          value:
-                              '${microSurvey.length - (flaggedQuestions.length + savedQuestions.length)}',
-                          label:
-                              TocLocalizations.of(context)!.mStaticNotAnswered),
-                      SizedBox(
-                        width: 32.0,
+                        value:
+                            '${microSurvey.length - (flaggedQuestions.length + savedQuestions.length)}',
+                        label: TocLocalizations.of(context)!.mStaticNotAnswered,
                       ),
+                      SizedBox(width: 32.0),
                       AssessmentV2AnsweredStatusWidget(
-                          value:
-                              '${flaggedQuestions.length + savedQuestions.length}',
-                          label: TocLocalizations.of(context)!.mStaticAnswered),
+                        value:
+                            '${flaggedQuestions.length + savedQuestions.length}',
+                        label: TocLocalizations.of(context)!.mStaticAnswered,
+                      ),
                     ],
                   ),
                 ),
@@ -96,20 +99,23 @@ class QuestionCountSummaryWidget extends StatelessWidget {
                   child: Row(
                     children: [
                       Expanded(
-                          child: Divider(
-                        thickness: 2,
-                        color: TocModuleColors.grey16,
-                      )),
+                        child: Divider(
+                          thickness: 2,
+                          color: TocModuleColors.grey16,
+                        ),
+                      ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 4),
                         child: Text(
-                            TocLocalizations.of(context)!.mStaticQuestions),
+                          TocLocalizations.of(context)!.mStaticQuestions,
+                        ),
                       ),
                       Expanded(
-                          child: Divider(
-                        thickness: 2,
-                        color: TocModuleColors.grey16,
-                      ))
+                        child: Divider(
+                          thickness: 2,
+                          color: TocModuleColors.grey16,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -124,7 +130,7 @@ class QuestionCountSummaryWidget extends StatelessWidget {
             savedQuestions: savedQuestions,
             notAnsweredQuestions: notAnsweredQuestions,
             changeQuestion: changeQuestion,
-          )
+          ),
         ],
       ),
     );

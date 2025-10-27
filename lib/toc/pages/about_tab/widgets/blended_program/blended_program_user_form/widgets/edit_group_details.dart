@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 import 'package:toc_module/toc/constants/english_lang.dart';
 import 'package:toc_module/toc/util/field_name_widget.dart';
 import 'package:toc_module/toc/util/validations.dart';
@@ -10,9 +11,11 @@ class EditGroupDetails extends StatefulWidget {
   final ValueChanged<String> groupDetails;
   final bool isCadreProgram;
 
-  const EditGroupDetails(
-      {Key? key, required this.groupDetails, required this.isCadreProgram})
-      : super(key: key);
+  const EditGroupDetails({
+    Key? key,
+    required this.groupDetails,
+    required this.isCadreProgram,
+  }) : super(key: key);
 
   @override
   State<EditGroupDetails> createState() => _EditGroupDetailsState();
@@ -58,28 +61,34 @@ class _EditGroupDetailsState extends State<EditGroupDetails> {
         widget.isCadreProgram
             ? Padding(
                 padding: const EdgeInsets.only(top: 8.0).r,
-                child: Text(TocLocalizations.of(context)!
-                    .mNoteForDoptBlendedProgramGroup),
+                child: Text(
+                  TocLocalizations.of(context)!.mNoteForDoptBlendedProgramGroup,
+                ),
               )
-            : SizedBox()
+            : SizedBox(),
       ],
     );
   }
 
   void _populateFields() async {
     // Fetching profile data and populating the fields
-    Profile? profileDetails =
-        Provider.of<ProfileRepository>(context, listen: false).profileDetails;
-    List<dynamic> inReviewFields =
-        Provider.of<ProfileRepository>(context, listen: false).inReview;
+    Profile? profileDetails = Provider.of<ProfileRepository>(
+      context,
+      listen: false,
+    ).profileDetails;
+    List<dynamic> inReviewFields = Provider.of<ProfileRepository>(
+      context,
+      listen: false,
+    ).inReview;
 
-    dynamic inReviewGroup =
-        inReviewFields.where((element) => element.containsKey(_groupKey));
+    dynamic inReviewGroup = inReviewFields.where(
+      (element) => element.containsKey(_groupKey),
+    );
 
     _groupController.text =
         (inReviewFields.isNotEmpty && inReviewGroup.isNotEmpty)
-            ? inReviewGroup.first[_groupKey]
-            : (profileDetails?.group ?? '');
+        ? inReviewGroup.first[_groupKey]
+        : (profileDetails?.group ?? '');
 
     setState(() {});
   }

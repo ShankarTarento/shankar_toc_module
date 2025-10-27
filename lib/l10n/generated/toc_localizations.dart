@@ -18,7 +18,7 @@ import 'toc_localizations_hi.dart';
 /// `supportedLocales` list. For example:
 ///
 /// ```dart
-/// import 'gen_l10n/toc_localizations.dart';
+/// import 'generated/toc_localizations.dart';
 ///
 /// return MaterialApp(
 ///   localizationsDelegates: TocLocalizations.localizationsDelegates,
@@ -62,7 +62,8 @@ import 'toc_localizations_hi.dart';
 /// be consistent with the languages listed in the TocLocalizations.supportedLocales
 /// property.
 abstract class TocLocalizations {
-  TocLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  TocLocalizations(String locale)
+    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
@@ -70,7 +71,8 @@ abstract class TocLocalizations {
     return Localizations.of<TocLocalizations>(context, TocLocalizations);
   }
 
-  static const LocalizationsDelegate<TocLocalizations> delegate = _TocLocalizationsDelegate();
+  static const LocalizationsDelegate<TocLocalizations> delegate =
+      _TocLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -82,17 +84,18 @@ abstract class TocLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
-    delegate,
-    GlobalMaterialLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-  ];
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
+      <LocalizationsDelegate<dynamic>>[
+        delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ];
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
-    Locale('hi')
+    Locale('hi'),
   ];
 
   /// No description provided for @mWeAreAvailable.
@@ -15078,7 +15081,8 @@ abstract class TocLocalizations {
   String get mStaticApar;
 }
 
-class _TocLocalizationsDelegate extends LocalizationsDelegate<TocLocalizations> {
+class _TocLocalizationsDelegate
+    extends LocalizationsDelegate<TocLocalizations> {
   const _TocLocalizationsDelegate();
 
   @override
@@ -15087,25 +15091,26 @@ class _TocLocalizationsDelegate extends LocalizationsDelegate<TocLocalizations> 
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['en', 'hi'].contains(locale.languageCode);
+  bool isSupported(Locale locale) =>
+      <String>['en', 'hi'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_TocLocalizationsDelegate old) => false;
 }
 
 TocLocalizations lookupTocLocalizations(Locale locale) {
-
-
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'en': return TocLocalizationsEn();
-    case 'hi': return TocLocalizationsHi();
+    case 'en':
+      return TocLocalizationsEn();
+    case 'hi':
+      return TocLocalizationsHi();
   }
 
   throw FlutterError(
     'TocLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
     'an issue with the localizations generation tool. Please file an issue '
     'on GitHub with a reproducible sample app and the gen-l10n configuration '
-    'that was used.'
+    'that was used.',
   );
 }

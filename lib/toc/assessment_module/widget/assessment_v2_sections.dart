@@ -6,7 +6,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:igot_ui_components/ui/widgets/alert_dialog/alert_dialog.dart';
 
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 import 'package:toc_module/toc/assessment_module/widget/assessment_verification_screen.dart';
 import 'package:toc_module/toc/assessment_module/widget/new_assessment_v2_questions.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
@@ -25,7 +26,7 @@ import 'package:toc_module/toc/view_model/toc_player_view_model.dart';
 class AssessmentV2Section extends StatefulWidget {
   final CourseHierarchyModel course;
   final String identifier;
-  final questionSets;
+  final List questionSets;
   final ValueChanged<double> parentAction;
   final String batchId;
   final duration;
@@ -48,28 +49,33 @@ class AssessmentV2Section extends StatefulWidget {
   final String? preEnrolmentAssessmentId;
   final String? preRequisiteMimeType;
 
-  const AssessmentV2Section(this.course, this.identifier, this.questionSets,
-      this.parentAction, this.batchId, this.duration,
-      {Key? key,
-      this.isNewAssessment = false,
-      required this.primaryCategory,
-      this.objectType,
-      this.assessmentsInfo,
-      this.updateContentProgress,
-      this.fileUrl,
-      required this.parentCourseId,
-      this.compatibilityLevel = 5,
-      this.savePointInfo,
-      required this.assessmentType,
-      this.showMark = false,
-      required this.resourceInfo,
-      this.isFeatured = false,
-      required this.courseCategory,
-      this.guestUserData,
-      this.isPreRequisite = false,
-      this.preEnrolmentAssessmentId,
-      this.preRequisiteMimeType})
-      : super(key: key);
+  const AssessmentV2Section(
+    this.course,
+    this.identifier,
+    this.questionSets,
+    this.parentAction,
+    this.batchId,
+    this.duration, {
+    Key? key,
+    this.isNewAssessment = false,
+    required this.primaryCategory,
+    this.objectType,
+    this.assessmentsInfo,
+    this.updateContentProgress,
+    this.fileUrl,
+    required this.parentCourseId,
+    this.compatibilityLevel = 5,
+    this.savePointInfo,
+    required this.assessmentType,
+    this.showMark = false,
+    required this.resourceInfo,
+    this.isFeatured = false,
+    required this.courseCategory,
+    this.guestUserData,
+    this.isPreRequisite = false,
+    this.preEnrolmentAssessmentId,
+    this.preRequisiteMimeType,
+  }) : super(key: key);
 
   @override
   State<AssessmentV2Section> createState() => _AssessmentV2SectionState();
@@ -100,8 +106,10 @@ class _AssessmentV2SectionState extends State<AssessmentV2Section> {
   void initState() {
     super.initState();
     _start = widget.duration;
-    courseId = TocPlayerViewModel()
-        .getEnrolledCourseId(context, widget.parentCourseId);
+    courseId = TocPlayerViewModel().getEnrolledCourseId(
+      context,
+      widget.parentCourseId,
+    );
     if (_start == widget.duration) {
       // telemetryType = TelemetryType.player;
       // pageIdentifier = TelemetryPageIdentifier.assessmentPlayerPageId;
@@ -167,14 +175,20 @@ class _AssessmentV2SectionState extends State<AssessmentV2Section> {
     }
   }
 
-  _getAnsweredStatus(int index, List<dynamic> selectedAnswers,
-      {String? status, String? id}) {
+  _getAnsweredStatus(
+    int index,
+    List<dynamic> selectedAnswers, {
+    String? status,
+    String? id,
+  }) {
     var selected = _selected.sublist(0);
     if (selected.length > 0) {
       for (var i = 0; i < selected.length; i++) {
-        if (!selected.any((element) =>
-            element['index'] == index &&
-            element['selectedAnswers'] == selectedAnswers)) {
+        if (!selected.any(
+          (element) =>
+              element['index'] == index &&
+              element['selectedAnswers'] == selectedAnswers,
+        )) {
           if (selected[i]['index'] == index && selected.length > i) {
             _selected[i] = {'index': index, 'selectedAnswers': selectedAnswers};
             if (selected.length > i + 1) {
@@ -188,8 +202,9 @@ class _AssessmentV2SectionState extends State<AssessmentV2Section> {
             status != null &&
             id != null) {
           var updateItem = selected[i]['selectedAnswers'].firstWhere(
-              (element) => element['index'] == id,
-              orElse: () => null);
+            (element) => element['index'] == id,
+            orElse: () => null,
+          );
           if (updateItem != null) {
             updateItem['status'] = status;
           }
@@ -202,16 +217,20 @@ class _AssessmentV2SectionState extends State<AssessmentV2Section> {
       if (widget.assessmentsInfo[index].childStatus == null ||
           widget.assessmentsInfo[index].childStatus.isEmpty) {
         widget.assessmentsInfo[index].childStatus = [
-          {'questionId': id, 'status': status}
+          {'questionId': id, 'status': status},
         ];
       } else {
         Map<String, dynamic>? data = widget.assessmentsInfo[index].childStatus
             .cast<Map<String, dynamic>?>()
-            .firstWhere((element) => element['questionId'] == id,
-                orElse: () => null);
+            .firstWhere(
+              (element) => element['questionId'] == id,
+              orElse: () => null,
+            );
         if (data == null) {
-          widget.assessmentsInfo[index].childStatus
-              .add({'questionId': id, 'status': status});
+          widget.assessmentsInfo[index].childStatus.add({
+            'questionId': id,
+            'status': status,
+          });
         } else {
           data['status'] = status;
         }
@@ -234,20 +253,23 @@ class _AssessmentV2SectionState extends State<AssessmentV2Section> {
       });
       List assessmentQuestions = List.from(widget.questionSets[q].sublist(0));
       for (int index = 0; index < widget.assessmentsInfo.length; index++) {
-        for (int qstnIndex = 0;
-            qstnIndex < assessmentQuestions.length;
-            qstnIndex++) {
+        for (
+          int qstnIndex = 0;
+          qstnIndex < assessmentQuestions.length;
+          qstnIndex++
+        ) {
           Map<String, dynamic> timeSpentData =
               widget.assessmentsInfo[index].timeSpent == null ||
-                      widget.assessmentsInfo[index].timeSpent.isEmpty
-                  ? {}
-                  : (widget.assessmentsInfo[index].timeSpent as List)
-                      .cast<Map<String, dynamic>>()
-                      .firstWhere(
-                          (item) =>
-                              item['questionId'] ==
-                              assessmentQuestions[qstnIndex]['identifier'],
-                          orElse: () => {});
+                  widget.assessmentsInfo[index].timeSpent.isEmpty
+              ? {}
+              : (widget.assessmentsInfo[index].timeSpent as List)
+                    .cast<Map<String, dynamic>>()
+                    .firstWhere(
+                      (item) =>
+                          item['questionId'] ==
+                          assessmentQuestions[qstnIndex]['identifier'],
+                      orElse: () => {},
+                    );
           if (timeSpentData['questionId'] ==
               assessmentQuestions[qstnIndex]['identifier']) {
             assessmentQuestions[qstnIndex]['timeSpent'] =
@@ -259,56 +281,59 @@ class _AssessmentV2SectionState extends State<AssessmentV2Section> {
       for (int i = 0; i < widget.questionSets[q].length; i++) {
         var userSelected;
         widget.questionSets[q][i]['editorState'] =
-            widget.questionSets[q][i]['editorState'] != null
-                ? widget.questionSets[q][i]['editorState']
-                : widget.questionSets[q][i]['choices'];
+            widget.questionSets[q][i]['editorState'] ??
+            widget.questionSets[q][i]['choices'];
         assessmentQuestions[i]['editorState'] =
-            assessmentQuestions[i]['editorState'] != null
-                ? assessmentQuestions[i]['editorState']
-                : assessmentQuestions[i]['choices'];
+            assessmentQuestions[i]['editorState'] ??
+            assessmentQuestions[i]['choices'];
         for (int j = 0; j < questionAnswers.length; j++) {
           if (questionAnswers[j]['index'] ==
               widget.questionSets[q][i]['identifier']) {
-            if (questionAnswers[j]['value'] != null)
+            if (questionAnswers[j]['value'] != null) {
               userSelected = questionAnswers[j];
+            }
           }
         }
         if (assessmentQuestions[i]['qType'] ==
             AssessmentQuestionType.matchCase.toUpperCase()) {
-          for (int k = 0;
-              k < widget.questionSets[q][i]['editorState']['options'].length;
-              k++) {
+          for (
+            int k = 0;
+            k < widget.questionSets[q][i]['editorState']['options'].length;
+            k++
+          ) {
             if (userSelected != null) {
               for (var m = 0; m < userSelected['value'].length; m++) {
                 if (m ==
-                    widget.questionSets[q][i]['editorState']['options'][k]
-                        ['value']['value']) {
+                    widget
+                        .questionSets[q][i]['editorState']['options'][k]['value']['value']) {
                   assessmentQuestions[i]['editorState']['options'][k]['index'] =
-                      widget.questionSets[q][i]['editorState']['options'][k]
-                              ['value']['value']
+                      widget
+                          .questionSets[q][i]['editorState']['options'][k]['value']['value']
                           .toString();
-                  assessmentQuestions[i]['editorState']['options'][k]
-                      ['selectedAnswer'] = userSelected['value'][m];
+                  assessmentQuestions[i]['editorState']['options'][k]['selectedAnswer'] =
+                      userSelected['value'][m];
                 }
               }
             }
           }
         } else if (assessmentQuestions[i]['qType'] ==
             AssessmentQuestionType.radioType.toUpperCase()) {
-          for (int k = 0;
-              k < widget.questionSets[q][i]['editorState']['options'].length;
-              k++) {
+          for (
+            int k = 0;
+            k < widget.questionSets[q][i]['editorState']['options'].length;
+            k++
+          ) {
             if (userSelected != null) {
-              if (widget.questionSets[q][i]['editorState']['options'][k]
-                          ['value']['body']
+              if (widget
+                      .questionSets[q][i]['editorState']['options'][k]['value']['body']
                       .toString() ==
                   userSelected['value'].toString()) {
                 assessmentQuestions[i]['editorState']['options'][k]['index'] =
-                    widget.questionSets[q][i]['editorState']['options'][k]
-                            ['value']['value']
+                    widget
+                        .questionSets[q][i]['editorState']['options'][k]['value']['value']
                         .toString();
-                assessmentQuestions[i]['editorState']['options'][k]
-                    ['selectedAnswer'] = true;
+                assessmentQuestions[i]['editorState']['options'][k]['selectedAnswer'] =
+                    true;
               }
             }
           }
@@ -318,34 +343,36 @@ class _AssessmentV2SectionState extends State<AssessmentV2Section> {
                 AssessmentQuestionType.radioWeightageType.toUpperCase()) {
           if (userSelected != null) {
             int selectedIndex = userSelected['optionIndex'];
-            if (widget.questionSets[q][i]['editorState']['options']
-                        [selectedIndex]['value']['body']
+            if (widget
+                    .questionSets[q][i]['editorState']['options'][selectedIndex]['value']['body']
                     .toString() ==
                 userSelected['value'].toString()) {
-              assessmentQuestions[i]['editorState']['options'][selectedIndex]
-                  ['index'] = widget.questionSets[q][i]['editorState']
-                      ['options'][selectedIndex]['value']['value']
-                  .toString();
-              assessmentQuestions[i]['editorState']['options'][selectedIndex]
-                  ['selectedAnswer'] = true;
+              assessmentQuestions[i]['editorState']['options'][selectedIndex]['index'] =
+                  widget
+                      .questionSets[q][i]['editorState']['options'][selectedIndex]['value']['value']
+                      .toString();
+              assessmentQuestions[i]['editorState']['options'][selectedIndex]['selectedAnswer'] =
+                  true;
             }
           }
         } else if (assessmentQuestions[i]['qType'] ==
             AssessmentQuestionType.checkBoxType.toUpperCase()) {
-          for (int k = 0;
-              k < widget.questionSets[q][i]['editorState']['options'].length;
-              k++) {
+          for (
+            int k = 0;
+            k < widget.questionSets[q][i]['editorState']['options'].length;
+            k++
+          ) {
             if (userSelected != null) {
               userSelected['value'].forEach((element) {
                 if ((element) ==
-                    widget.questionSets[q][i]['editorState']['options'][k]
-                        ['value']['value']) {
+                    widget
+                        .questionSets[q][i]['editorState']['options'][k]['value']['value']) {
                   assessmentQuestions[i]['editorState']['options'][k]['index'] =
-                      widget.questionSets[q][i]['editorState']['options'][k]
-                              ['value']['value']
+                      widget
+                          .questionSets[q][i]['editorState']['options'][k]['value']['value']
                           .toString();
-                  assessmentQuestions[i]['editorState']['options'][k]
-                      ['selectedAnswer'] = true;
+                  assessmentQuestions[i]['editorState']['options'][k]['selectedAnswer'] =
+                      true;
                 }
               });
             }
@@ -354,20 +381,22 @@ class _AssessmentV2SectionState extends State<AssessmentV2Section> {
             assessmentQuestions[i]['qType'] ==
                 AssessmentQuestionType.ftb.toUpperCase()) {
           if (widget.questionSets[q][i]['editorState'] != null) {
-            for (int k = 0;
-                k < widget.questionSets[q][i]['editorState']['options'].length;
-                k++) {
+            for (
+              int k = 0;
+              k < widget.questionSets[q][i]['editorState']['options'].length;
+              k++
+            ) {
               if (userSelected != null) {
                 for (var m = 0; m < userSelected['value'].length; m++) {
                   if (m ==
-                      widget.questionSets[q][i]['editorState']['options'][k]
-                          ['value']['value']) {
-                    assessmentQuestions[i]['editorState']['options'][k]
-                        ['index'] = widget.questionSets[q][i]['editorState']
-                            ['options'][k]['value']['value']
-                        .toString();
-                    assessmentQuestions[i]['editorState']['options'][k]
-                        ['selectedAnswer'] = userSelected['value'][m];
+                      widget
+                          .questionSets[q][i]['editorState']['options'][k]['value']['value']) {
+                    assessmentQuestions[i]['editorState']['options'][k]['index'] =
+                        widget
+                            .questionSets[q][i]['editorState']['options'][k]['value']['value']
+                            .toString();
+                    assessmentQuestions[i]['editorState']['options'][k]['selectedAnswer'] =
+                        userSelected['value'][m];
                   }
                 }
               }
@@ -376,8 +405,10 @@ class _AssessmentV2SectionState extends State<AssessmentV2Section> {
             assessmentQuestions[i]['editorState'] = {'options': []};
 
             for (var m = 0; m < userSelected['value'].length; m++) {
-              assessmentQuestions[i]['editorState']['options'].add(
-                  {'index': '$m', 'selectedAnswer': userSelected['value'][m]});
+              assessmentQuestions[i]['editorState']['options'].add({
+                'index': '$m',
+                'selectedAnswer': userSelected['value'][m],
+              });
             }
           }
         }
@@ -406,8 +437,9 @@ class _AssessmentV2SectionState extends State<AssessmentV2Section> {
         if (_optionInfo['editorState'] == null) {
           _optionInfo['editorState'] = {'options': []};
         }
-        List<Map<String, dynamic>> editorStateOptions =
-            List.from(_optionInfo['editorState']['options'].sublist(0));
+        List<Map<String, dynamic>> editorStateOptions = List.from(
+          _optionInfo['editorState']['options'].sublist(0),
+        );
         _optionInfo['editorState']['options'] = editorStateOptions
             .where((_optionInfo) => _optionInfo['value'] == null)
             .toList();
@@ -418,7 +450,8 @@ class _AssessmentV2SectionState extends State<AssessmentV2Section> {
           "mimeType": _optionInfo['mimeType'],
           "objectType": _optionInfo['objectType'],
           "questionLevel": _optionInfo['questionLevel'],
-          "primaryCategory": _optionInfo['qType'] ==
+          "primaryCategory":
+              _optionInfo['qType'] ==
                       AssessmentQuestionType.radioType.toUpperCase() ||
                   _optionInfo['qType'] ==
                       AssessmentQuestionType.radioWeightageType.toUpperCase() ||
@@ -429,7 +462,7 @@ class _AssessmentV2SectionState extends State<AssessmentV2Section> {
           "qType": _optionInfo['qType'],
           "editorState": _optionInfo['editorState'],
           "question": _optionInfo['body'],
-          "timeSpent": _optionInfo['timeSpent']
+          "timeSpent": _optionInfo['timeSpent'],
         });
       }).toList(); // Convert map result to list if necessary
 
@@ -439,15 +472,17 @@ class _AssessmentV2SectionState extends State<AssessmentV2Section> {
         "objectType": widget.assessmentsInfo[q].objectType,
         "primaryCategory": widget.assessmentsInfo[q].primaryCategory,
         "scoreCutoffType": widget.assessmentsInfo[q].scoreCutoffType,
-        "children": submittedAnswers
+        "children": submittedAnswers,
       };
 
       courseAssessmentData.add(assessmentData);
     }
     Map surveyData;
     if (widget.isFeatured) {
-      String courseId = TocPlayerViewModel()
-          .getEnrolledCourseId(context, widget.parentCourseId);
+      String courseId = TocPlayerViewModel().getEnrolledCourseId(
+        context,
+        widget.parentCourseId,
+      );
       surveyData = {
         'batchId': widget.batchId,
         'identifier': widget.identifier,
@@ -460,7 +495,7 @@ class _AssessmentV2SectionState extends State<AssessmentV2Section> {
         'name': widget.guestUserData?.name ?? '',
         'email': widget.guestUserData?.email ?? '',
         'contextId': courseId,
-        'language': widget.resourceInfo.language.toLowerCase()
+        'language': widget.resourceInfo.language.toLowerCase(),
       };
     } else {
       surveyData = {
@@ -472,7 +507,7 @@ class _AssessmentV2SectionState extends State<AssessmentV2Section> {
         'objectType': widget.objectType,
         'timeLimit': widget.duration,
         'children': courseAssessmentData,
-        'language': widget.resourceInfo.language.toLowerCase()
+        'language': widget.resourceInfo.language.toLowerCase(),
       };
     }
 
@@ -480,15 +515,21 @@ class _AssessmentV2SectionState extends State<AssessmentV2Section> {
     if (widget.compatibilityLevel >=
         AssessmentCompatibility.dropdownCompatibility.version) {
       response = response = widget.isFeatured
-          ? await assessmentService.submitPublicAssessment(surveyData,
-              isAdvanceAssessment: true)
-          : await assessmentService.submitStandaloneAssessment(surveyData,
-              isFTBDropdown: true);
+          ? await assessmentService.submitPublicAssessment(
+              surveyData,
+              isAdvanceAssessment: true,
+            )
+          : await assessmentService.submitStandaloneAssessment(
+              surveyData,
+              isFTBDropdown: true,
+            );
     } else if (widget.compatibilityLevel >=
         AssessmentCompatibility.multimediaCompatibility.version) {
       response = widget.isFeatured
-          ? await assessmentService.submitPublicAssessment(surveyData,
-              isAdvanceAssessment: true)
+          ? await assessmentService.submitPublicAssessment(
+              surveyData,
+              isAdvanceAssessment: true,
+            )
           : await assessmentService.submitStandaloneAssessment(surveyData);
     } else {
       response = await assessmentService.submitAssessmentNew(surveyData);
@@ -500,84 +541,93 @@ class _AssessmentV2SectionState extends State<AssessmentV2Section> {
     if (widget.assessmentType != '' &&
         widget.assessmentType == AssessmentType.optionalWeightage) {
       showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (BuildContext cxt) {
-            return AlertDialogWidget(
-              dialogRadius: 8,
-              icon: Image.asset(
-                'assets/img/examlist.png',
-                width: 56.0.w,
-                height: 56.0.w,
-                fit: BoxFit.fill,
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext cxt) {
+          return AlertDialogWidget(
+            dialogRadius: 8,
+            icon: Image.asset(
+              'assets/img/examlist.png',
+              width: 56.0.w,
+              height: 56.0.w,
+              fit: BoxFit.fill,
+            ),
+            title: TocLocalizations.of(context)!.mAssessmentThankYouMessage,
+            subtitle: TocLocalizations.of(
+              context,
+            )!.mAssessmentDetailedAnalysisWillShare,
+            primaryButtonText: TocLocalizations.of(
+              context,
+            )!.mAssessmentReattemptTest,
+            onPrimaryButtonPressed: () async {
+              _generateInteractTelemetryData(
+                widget.identifier,
+                AssessmentType.optionalWeightage,
+              );
+              Navigator.of(cxt).pop();
+              await Navigator.pushReplacement(
+                context,
+                FadeRoute(
+                  page: CourseAssessmentPlayer(
+                    widget.course,
+                    widget.identifier,
+                    widget.updateContentProgress,
+                    widget.batchId,
+                    parentCourseId: widget.course.identifier,
+                    compatibilityLevel: widget.compatibilityLevel,
+                    resourceNavigateItems: widget.resourceInfo,
+                    isFeatured: widget.isFeatured,
+                    courseCategory: widget.courseCategory,
+                    isPreRequisite: widget.isPreRequisite,
+                  ),
+                ),
+              );
+            },
+            primaryButtonIcon: SvgPicture.asset(
+              'assets/img/assessment_vector.svg',
+              width: 24.0.w,
+              height: 24.0.w,
+            ),
+            primaryButtonTextStyle: GoogleFonts.lato(
+              color: TocModuleColors.darkBlue,
+              fontWeight: FontWeight.w400,
+              fontSize: 14.0.sp,
+              height: 1.5.w,
+            ),
+            secondaryButtonText: TocLocalizations.of(
+              context,
+            )!.mAssessmentGoBackToToc,
+            onSecondaryButtonPressed: () async {
+              Navigator.of(cxt).pop();
+              Navigator.of(context).pop();
+            },
+            secondaryButtonIcon: SvgPicture.asset(
+              'assets/img/link.svg',
+              width: 24.0.w,
+              height: 24.0.w,
+              colorFilter: ColorFilter.mode(
+                TocModuleColors.appBarBackground,
+                BlendMode.srcIn,
               ),
-              title: TocLocalizations.of(context)!.mAssessmentThankYouMessage,
-              subtitle: TocLocalizations.of(context)!
-                  .mAssessmentDetailedAnalysisWillShare,
-              primaryButtonText:
-                  TocLocalizations.of(context)!.mAssessmentReattemptTest,
-              onPrimaryButtonPressed: () async {
-                _generateInteractTelemetryData(
-                    widget.identifier, AssessmentType.optionalWeightage);
-                Navigator.of(cxt).pop();
-                await Navigator.pushReplacement(
-                    context,
-                    FadeRoute(
-                        page: CourseAssessmentPlayer(
-                            widget.course,
-                            widget.identifier,
-                            widget.updateContentProgress,
-                            widget.batchId,
-                            parentCourseId: widget.course.identifier,
-                            compatibilityLevel: widget.compatibilityLevel,
-                            resourceNavigateItems: widget.resourceInfo,
-                            isFeatured: widget.isFeatured,
-                            courseCategory: widget.courseCategory,
-                            isPreRequisite: widget.isPreRequisite)));
-              },
-              primaryButtonIcon: SvgPicture.asset(
-                'assets/img/assessment_vector.svg',
-                width: 24.0.w,
-                height: 24.0.w,
-              ),
-              primaryButtonTextStyle: GoogleFonts.lato(
-                color: TocModuleColors.darkBlue,
-                fontWeight: FontWeight.w400,
-                fontSize: 14.0.sp,
-                height: 1.5.w,
-              ),
-              secondaryButtonText:
-                  TocLocalizations.of(context)!.mAssessmentGoBackToToc,
-              onSecondaryButtonPressed: () async {
-                Navigator.of(cxt).pop();
-                Navigator.of(context).pop();
-              },
-              secondaryButtonIcon: SvgPicture.asset(
-                'assets/img/link.svg',
-                width: 24.0.w,
-                height: 24.0.w,
-                colorFilter: ColorFilter.mode(
-                    TocModuleColors.appBarBackground, BlendMode.srcIn),
-              ),
-              secondaryButtonTextStyle: GoogleFonts.lato(
-                color: TocModuleColors.appBarBackground,
-                fontWeight: FontWeight.w400,
-                fontSize: 14.0.sp,
-                height: 1.5.w,
-              ),
-              secondaryButtonBgColor: TocModuleColors.darkBlue,
-              alignButtonVertical: true,
-            );
-          });
+            ),
+            secondaryButtonTextStyle: GoogleFonts.lato(
+              color: TocModuleColors.appBarBackground,
+              fontWeight: FontWeight.w400,
+              fontSize: 14.0.sp,
+              height: 1.5.w,
+            ),
+            secondaryButtonBgColor: TocModuleColors.darkBlue,
+            alignButtonVertical: true,
+          );
+        },
+      );
     } else if (submittedSuccessfully) {
       Map request = {
         'assessmentId': widget.identifier,
         'batchId': widget.batchId,
         'courseId': widget.parentCourseId,
       };
-      Map requestBody = {
-        'request': request,
-      };
+      Map requestBody = {'request': request};
 
       Navigator.of(context).pop();
       await showModalBottomSheet(
@@ -588,29 +638,32 @@ class _AssessmentV2SectionState extends State<AssessmentV2Section> {
         backgroundColor: Colors.transparent,
         builder: (BuildContext context) {
           return Container(
-              child: AssessmentVerificationScreen(
-                  formatHHMMSS(widget.duration - _start, insertPadding: false),
-                  requestBody,
-                  assessmentsInfo: widget.assessmentsInfo,
-                  primaryCategory: widget.primaryCategory,
-                  course: widget.course,
-                  identifier: widget.identifier,
-                  updateContentProgress: widget.updateContentProgress,
-                  batchId: widget.batchId,
-                  fromSectionalCutoff: widget.questionSets.length > 1,
-                  compatibilityLevel: widget.compatibilityLevel,
-                  assessmentType: widget.assessmentType,
-                  submitResponse: contents['result'],
-                  resourceInfo: widget.resourceInfo,
-                  isFeatured: widget.isFeatured,
-                  courseCategory: widget.courseCategory,
-                  isPreRequisite: widget.isPreRequisite));
+            child: AssessmentVerificationScreen(
+              formatHHMMSS(widget.duration - _start, insertPadding: false),
+              requestBody,
+              assessmentsInfo: widget.assessmentsInfo,
+              primaryCategory: widget.primaryCategory,
+              course: widget.course,
+              identifier: widget.identifier,
+              updateContentProgress: widget.updateContentProgress,
+              batchId: widget.batchId,
+              fromSectionalCutoff: widget.questionSets.length > 1,
+              compatibilityLevel: widget.compatibilityLevel,
+              assessmentType: widget.assessmentType,
+              submitResponse: contents['result'],
+              resourceInfo: widget.resourceInfo,
+              isFeatured: widget.isFeatured,
+              courseCategory: widget.courseCategory,
+              isPreRequisite: widget.isPreRequisite,
+            ),
+          );
         },
       );
     } else {
       widget.parentAction(0.0);
       await Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => Scaffold(body: ErrorPage())));
+        MaterialPageRoute(builder: (context) => Scaffold(body: ErrorPage())),
+      );
     }
     if (((widget.course.batches != null || widget.batchId != '') ||
             widget.isPreRequisite) &&
@@ -636,17 +689,18 @@ class _AssessmentV2SectionState extends State<AssessmentV2Section> {
     //     status == 2 ? 100.0 : (_start / maxSize) * 100;
     double completionPercentage = 100.0;
     await TocRepository().updateContentProgress(
-        courseId: courseId,
-        batchId: batchId,
-        contentId: contentId,
-        status: status,
-        contentType: contentType,
-        current: current,
-        maxSize: maxSize,
-        completionPercentage: completionPercentage,
-        isAssessment: true,
-        isPreRequisite: widget.isPreRequisite,
-        language: widget.resourceInfo.language);
+      courseId: courseId,
+      batchId: batchId,
+      contentId: contentId,
+      status: status,
+      contentType: contentType,
+      current: current,
+      maxSize: maxSize,
+      completionPercentage: completionPercentage,
+      isAssessment: true,
+      isPreRequisite: widget.isPreRequisite,
+      language: widget.resourceInfo.language,
+    );
   }
 
   Widget roundedButton(String buttonLabel, Color bgColor, Color textColor) {
@@ -664,70 +718,78 @@ class _AssessmentV2SectionState extends State<AssessmentV2Section> {
       child: Text(
         buttonLabel,
         style: GoogleFonts.montserrat(
-            decoration: TextDecoration.none,
-            color: textColor,
-            fontSize: 14.sp,
-            fontWeight: FontWeight.w500),
+          decoration: TextDecoration.none,
+          color: textColor,
+          fontSize: 14.sp,
+          fontWeight: FontWeight.w500,
+        ),
       ),
     );
     return optionButton;
   }
 
-  _navigateToNextSection(int index,
-      {bool isSubmitted = false,
-      int sectionalTimeTaken = 0,
-      int? prevSectionIndex}) {
+  _navigateToNextSection(
+    int index, {
+    bool isSubmitted = false,
+    int sectionalTimeTaken = 0,
+    int? prevSectionIndex,
+  }) {
     // Initialize childStatus with empty list for handling sectional cut-off assessment
     widget.assessmentsInfo[index].childStatus = [];
     widget.assessmentsInfo[index].timeSpent = [];
-    if (prevSectionIndex != null)
+    if (prevSectionIndex != null) {
       widget.assessmentsInfo[prevSectionIndex].sectionalTimeTaken =
           sectionalTimeTaken;
-    if (widget.assessmentsInfo[index].sectionalTimeTaken == null)
+    }
+    if (widget.assessmentsInfo[index].sectionalTimeTaken == null) {
       widget.assessmentsInfo[index].sectionalTimeTaken = 0;
+    }
     if (isSubmitted) {
       widget.assessmentsInfo[index - 1].submitted = true;
     }
 
-    Navigator.of(context).push(MaterialPageRoute(
+    Navigator.of(context).push(
+      MaterialPageRoute(
         builder: (context) => NewAssessmentV2Questions(
-            widget.course,
-            widget.identifier,
-            widget.questionSets[index],
-            widget.parentAction,
-            widget.batchId,
-            widget.duration,
-            widget.assessmentsInfo[index].expectedDuration,
-            key: UniqueKey(),
-            isNewAssessment: true,
-            primaryCategory: widget.primaryCategory,
-            objectType: widget.objectType,
-            assessmentInfo: widget.assessmentsInfo[index],
-            sectionIndex: index,
-            getAnsweredQuestions: _getAnsweredStatus,
-            answeredQuestions:
-                _selected.indexWhere((element) => element['index'] == index) ==
-                        -1
-                    ? []
-                    : _selected[_selected
-                            .indexWhere((element) => element['index'] == index)]
-                        ['selectedAnswers'],
-            isLastSection: index == widget.assessmentsInfo.length - 1,
-            navigateToNextSection: _navigateToNextSection,
-            currentRunningTime: _start,
-            isFullAnswered: _isFullAnswered,
-            submitSurvey: _submitSurvey,
-            assessmentSection: widget.questionSets,
-            selectedSection: _selectedSection,
-            generateInteractTelemetryData: _generateInteractTelemetryData,
-            assessmentDetails: widget.assessmentsInfo,
-            parentCourseId: widget.parentCourseId,
-            compatibilityLevel: widget.compatibilityLevel,
-            savePointInfo: widget.savePointInfo,
-            assessmentType: widget.assessmentType,
-            showMarks: widget.showMark,
-            resourceInfo: widget.resourceInfo,
-            isFeatured: widget.isFeatured)));
+          widget.course,
+          widget.identifier,
+          widget.questionSets[index],
+          widget.parentAction,
+          widget.batchId,
+          widget.duration,
+          widget.assessmentsInfo[index].expectedDuration,
+          key: UniqueKey(),
+          isNewAssessment: true,
+          primaryCategory: widget.primaryCategory,
+          objectType: widget.objectType,
+          assessmentInfo: widget.assessmentsInfo[index],
+          sectionIndex: index,
+          getAnsweredQuestions: _getAnsweredStatus,
+          answeredQuestions:
+              _selected.indexWhere((element) => element['index'] == index) == -1
+              ? []
+              : _selected[_selected.indexWhere(
+                  (element) => element['index'] == index,
+                )]['selectedAnswers'],
+          isLastSection: index == widget.assessmentsInfo.length - 1,
+          navigateToNextSection: _navigateToNextSection,
+          currentRunningTime: _start,
+          isFullAnswered: _isFullAnswered,
+          submitSurvey: _submitSurvey,
+          assessmentSection: widget.questionSets,
+          selectedSection: _selectedSection,
+          generateInteractTelemetryData: _generateInteractTelemetryData,
+          assessmentDetails: widget.assessmentsInfo,
+          parentCourseId: widget.parentCourseId,
+          compatibilityLevel: widget.compatibilityLevel,
+          savePointInfo: widget.savePointInfo,
+          assessmentType: widget.assessmentType,
+          showMarks: widget.showMark,
+          resourceInfo: widget.resourceInfo,
+          isFeatured: widget.isFeatured,
+        ),
+      ),
+    );
   }
 
   bool _isFullAnswered() {
@@ -786,8 +848,9 @@ class _AssessmentV2SectionState extends State<AssessmentV2Section> {
             assessmentInfo: widget.assessmentsInfo.first,
             sectionIndex: 0,
             getAnsweredQuestions: _getAnsweredStatus,
-            answeredQuestions:
-                _selected.length > 0 ? _selected[0]['selectedAnswers'] : [],
+            answeredQuestions: _selected.length > 0
+                ? _selected[0]['selectedAnswers']
+                : [],
             isLastSection: false,
             navigateToNextSection: _navigateToNextSection,
             currentRunningTime: _start,
@@ -803,38 +866,41 @@ class _AssessmentV2SectionState extends State<AssessmentV2Section> {
             assessmentType: widget.assessmentType,
             showMarks: widget.showMark,
             resourceInfo: widget.resourceInfo,
-            isFeatured: widget.isFeatured)
+            isFeatured: widget.isFeatured,
+          )
         : widget.questionSets.first.length > 0
-            ? NewAssessmentV2Questions(
-                widget.course,
-                widget.identifier,
-                widget.questionSets.first,
-                widget.parentAction,
-                widget.batchId,
-                widget.duration,
-                widget.assessmentsInfo.first.expectedDuration,
-                key: UniqueKey(),
-                isNewAssessment: true,
-                primaryCategory: widget.primaryCategory,
-                objectType: widget.objectType,
-                assessmentInfo: widget.assessmentsInfo.first,
-                isLastSection: true,
-                submitSurvey: _submitSurvey,
-                isFullAnswered: _isFullAnswered,
-                sectionIndex: 0,
-                getAnsweredQuestions: _getAnsweredStatus,
-                answeredQuestions:
-                    _selected.length > 0 ? _selected[0]['selectedAnswers'] : [],
-                assessmentSection: widget.questionSets,
-                generateInteractTelemetryData: _generateInteractTelemetryData,
-                assessmentDetails: widget.assessmentsInfo,
-                parentCourseId: widget.parentCourseId,
-                compatibilityLevel: widget.compatibilityLevel,
-                savePointInfo: widget.savePointInfo,
-                assessmentType: widget.assessmentType,
-                showMarks: widget.showMark,
-                resourceInfo: widget.resourceInfo,
-                isFeatured: widget.isFeatured)
-            : ErrorPage();
+        ? NewAssessmentV2Questions(
+            widget.course,
+            widget.identifier,
+            widget.questionSets.first,
+            widget.parentAction,
+            widget.batchId,
+            widget.duration,
+            widget.assessmentsInfo.first.expectedDuration,
+            key: UniqueKey(),
+            isNewAssessment: true,
+            primaryCategory: widget.primaryCategory,
+            objectType: widget.objectType,
+            assessmentInfo: widget.assessmentsInfo.first,
+            isLastSection: true,
+            submitSurvey: _submitSurvey,
+            isFullAnswered: _isFullAnswered,
+            sectionIndex: 0,
+            getAnsweredQuestions: _getAnsweredStatus,
+            answeredQuestions: _selected.length > 0
+                ? _selected[0]['selectedAnswers']
+                : [],
+            assessmentSection: widget.questionSets,
+            generateInteractTelemetryData: _generateInteractTelemetryData,
+            assessmentDetails: widget.assessmentsInfo,
+            parentCourseId: widget.parentCourseId,
+            compatibilityLevel: widget.compatibilityLevel,
+            savePointInfo: widget.savePointInfo,
+            assessmentType: widget.assessmentType,
+            showMarks: widget.showMark,
+            resourceInfo: widget.resourceInfo,
+            isFeatured: widget.isFeatured,
+          )
+        : ErrorPage();
   }
 }

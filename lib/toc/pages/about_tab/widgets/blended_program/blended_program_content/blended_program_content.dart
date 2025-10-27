@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
@@ -24,22 +25,22 @@ class BlendedProgramContent extends StatefulWidget {
   final VoidCallback? showLatestProgress;
   final ValueChanged<String>? startNewResourse;
 
-  const BlendedProgramContent(
-      {Key? key,
-      required this.courseDetails,
-      this.batch,
-      required this.course,
-      required this.courseHierarchyData,
-      required this.courseId,
-      required this.lastAccessContentId,
-      required this.navigationItems,
-      this.enrolledCourse,
-      this.batches,
-      this.enrollmentList = const [],
-      this.isPlayer = false,
-      this.showLatestProgress,
-      this.startNewResourse})
-      : super(key: key);
+  const BlendedProgramContent({
+    Key? key,
+    required this.courseDetails,
+    this.batch,
+    required this.course,
+    required this.courseHierarchyData,
+    required this.courseId,
+    required this.lastAccessContentId,
+    required this.navigationItems,
+    this.enrolledCourse,
+    this.batches,
+    this.enrollmentList = const [],
+    this.isPlayer = false,
+    this.showLatestProgress,
+    this.startNewResourse,
+  }) : super(key: key);
 
   @override
   State<BlendedProgramContent> createState() => _BlendedProgramContentState();
@@ -54,7 +55,7 @@ class _BlendedProgramContentState extends State<BlendedProgramContent> {
   void didChangeDependencies() {
     contentType = [
       TocLocalizations.of(context)!.mBlendedSelfPaced,
-      TocLocalizations.of(context)!.mBlendedInstructorLed
+      TocLocalizations.of(context)!.mBlendedInstructorLed,
     ];
     super.didChangeDependencies();
   }
@@ -74,43 +75,49 @@ class _BlendedProgramContentState extends State<BlendedProgramContent> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      Row(
-        children: List.generate(
-          contentType.length,
-          (index) => GestureDetector(
-            onTap: () {
-              selectedContentIndex = index;
-              setState(() {});
-            },
-            child: Container(
-              margin: EdgeInsets.only(left: 16, top: 24).r,
-              padding:
-                  EdgeInsets.only(top: 6, bottom: 6, left: 16, right: 16).r,
-              decoration: BoxDecoration(
-                border: Border.all(
+    return Column(
+      children: [
+        Row(
+          children: List.generate(
+            contentType.length,
+            (index) => GestureDetector(
+              onTap: () {
+                selectedContentIndex = index;
+                setState(() {});
+              },
+              child: Container(
+                margin: EdgeInsets.only(left: 16, top: 24).r,
+                padding: EdgeInsets.only(
+                  top: 6,
+                  bottom: 6,
+                  left: 16,
+                  right: 16,
+                ).r,
+                decoration: BoxDecoration(
+                  border: Border.all(
                     color: selectedContentIndex == index
                         ? TocModuleColors.darkBlue
-                        : TocModuleColors.grey08),
-                borderRadius: BorderRadius.circular(16).r,
-              ),
-              child: Text(
-                contentType[index],
-                style: GoogleFonts.lato(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w700,
-                  color: selectedContentIndex == index
-                      ? TocModuleColors.darkBlue
-                      : TocModuleColors.greys60,
+                        : TocModuleColors.grey08,
+                  ),
+                  borderRadius: BorderRadius.circular(16).r,
                 ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+                child: Text(
+                  contentType[index],
+                  style: GoogleFonts.lato(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w700,
+                    color: selectedContentIndex == index
+                        ? TocModuleColors.darkBlue
+                        : TocModuleColors.greys60,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
             ),
           ),
         ),
-      ),
-      Expanded(
+        Expanded(
           child: selectedContentIndex == 0
               ? FutureBuilder(
                   future: _contentFuture,
@@ -119,32 +126,39 @@ class _BlendedProgramContentState extends State<BlendedProgramContent> {
                       return Container();
                     }
                     return TocContentPage(
-                        courseId: widget.courseId,
-                        course: widget.course,
-                        courseHierarchy: widget.courseHierarchyData,
-                        navigationItems: widget.navigationItems,
-                        lastAccessContentId: widget.lastAccessContentId,
-                        enrolledCourse: widget.enrolledCourse,
-                        enrollmentList: widget.enrollmentList,
-                        isPlayer: widget.isPlayer,
-                        startNewResourse: widget.startNewResourse);
+                      courseId: widget.courseId,
+                      course: widget.course,
+                      courseHierarchy: widget.courseHierarchyData,
+                      navigationItems: widget.navigationItems,
+                      lastAccessContentId: widget.lastAccessContentId,
+                      enrolledCourse: widget.enrolledCourse,
+                      enrollmentList: widget.enrollmentList,
+                      isPlayer: widget.isPlayer,
+                      startNewResourse: widget.startNewResourse,
+                    );
                   },
                 )
               : widget.batch != null &&
-                      widget.batch!.batchAttributes!.sessionDetailsV2.isNotEmpty
-                  ? LedByInstructor(
-                      isEnrolledCourse: widget.enrolledCourse != null,
-                      batch: widget.batch,
-                      courseDetails: widget.courseDetails,
-                      batches: widget.batches ?? [],
-                      showLatestProgress: widget.showLatestProgress)
-                  : Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 32),
-                      child: Text(TocLocalizations.of(context)!
-                          .mCommonnoSessionsAvailable),
-                    ))
-    ]);
+                    widget.batch!.batchAttributes!.sessionDetailsV2.isNotEmpty
+              ? LedByInstructor(
+                  isEnrolledCourse: widget.enrolledCourse != null,
+                  batch: widget.batch,
+                  courseDetails: widget.courseDetails,
+                  batches: widget.batches ?? [],
+                  showLatestProgress: widget.showLatestProgress,
+                )
+              : Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 32,
+                  ),
+                  child: Text(
+                    TocLocalizations.of(context)!.mCommonnoSessionsAvailable,
+                  ),
+                ),
+        ),
+      ],
+    );
   }
 
   Future<void> removeOfflineContentFromNavigation() async {
@@ -168,8 +182,9 @@ class _BlendedProgramContentState extends State<BlendedProgramContent> {
       }
       return false;
     });
-    widget.navigationItems
-        .removeWhere((element) => element is List && element.isEmpty);
+    widget.navigationItems.removeWhere(
+      (element) => element is List && element.isEmpty,
+    );
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       setState(() {});
     });

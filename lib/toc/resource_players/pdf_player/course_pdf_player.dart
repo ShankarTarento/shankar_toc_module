@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pdfx/pdfx.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
@@ -12,6 +13,7 @@ import 'package:toc_module/toc/repository/toc_repository.dart';
 import 'package:toc_module/toc/resource_players/pdf_player/course_pdf_player_skeleton.dart';
 import 'package:toc_module/toc/util/error_page.dart';
 import '../../view_model/toc_player_view_model.dart';
+import 'package:internet_file/internet_file.dart';
 
 class CoursePdfPlayer extends StatefulWidget {
   final String identifier;
@@ -26,18 +28,19 @@ class CoursePdfPlayer extends StatefulWidget {
   final bool? isPreRequisite;
   final String language;
 
-  CoursePdfPlayer(
-      {required this.identifier,
-      required this.parentCourseId,
-      this.batchId,
-      required this.isFeaturedCourse,
-      this.updateProgress,
-      this.primaryCategory,
-      this.playNextResource,
-      this.startAt,
-      this.resourceNavigateItems,
-      this.isPreRequisite = false,
-      required this.language});
+  CoursePdfPlayer({
+    required this.identifier,
+    required this.parentCourseId,
+    this.batchId,
+    required this.isFeaturedCourse,
+    this.updateProgress,
+    this.primaryCategory,
+    this.playNextResource,
+    this.startAt,
+    this.resourceNavigateItems,
+    this.isPreRequisite = false,
+    required this.language,
+  });
 
   @override
   _CoursePdfPlayerState createState() => _CoursePdfPlayerState();
@@ -66,8 +69,10 @@ class _CoursePdfPlayerState extends State<CoursePdfPlayer> {
     super.initState();
     fetchData();
     _identifier = widget.identifier;
-    courseId = TocPlayerViewModel()
-        .getEnrolledCourseId(context, widget.parentCourseId);
+    courseId = TocPlayerViewModel().getEnrolledCourseId(
+      context,
+      widget.parentCourseId,
+    );
     _triggerTelemetryData();
   }
 
@@ -81,8 +86,10 @@ class _CoursePdfPlayerState extends State<CoursePdfPlayer> {
       _triggerTelemetryData();
       setState(() => _isLoading = true);
       loadDocument();
-      courseId = TocPlayerViewModel()
-          .getEnrolledCourseId(context, widget.parentCourseId);
+      courseId = TocPlayerViewModel().getEnrolledCourseId(
+        context,
+        widget.parentCourseId,
+      );
     }
   }
 
@@ -100,12 +107,9 @@ class _CoursePdfPlayerState extends State<CoursePdfPlayer> {
 
   void _startTimer() {
     const Duration(seconds: 1);
-    new Timer.periodic(
-      const Duration(seconds: 1),
-      (Timer timer) {
-        _start++;
-      },
-    );
+    new Timer.periodic(const Duration(seconds: 1), (Timer timer) {
+      _start++;
+    });
   }
 
   void _generateTelemetryData() async {
@@ -134,8 +138,10 @@ class _CoursePdfPlayerState extends State<CoursePdfPlayer> {
     //     eventData: eventData2, isPublic: widget.isFeaturedCourse);
   }
 
-  void _generateInteractTelemetryData(String contentId,
-      {String subType = ''}) async {
+  void _generateInteractTelemetryData(
+    String contentId, {
+    String subType = '',
+  }) async {
     // var telemetryRepository = TelemetryRepository();
     // Map eventData = telemetryRepository.getInteractTelemetryEvent(
     //     pageIdentifier: pageIdentifier ?? "",
@@ -162,8 +168,9 @@ class _CoursePdfPlayerState extends State<CoursePdfPlayer> {
       var pdfData = await InternetFile.get(resUri);
       final Future<PdfDocument> document = PdfDocument.openData(pdfData);
       _pdfController = PdfController(
-          document: document,
-          initialPage: widget.startAt ?? await getInitialPage(document));
+        document: document,
+        initialPage: widget.startAt ?? await getInitialPage(document),
+      );
     } catch (e) {
     } finally {
       if (mounted) {
@@ -172,10 +179,7 @@ class _CoursePdfPlayerState extends State<CoursePdfPlayer> {
     }
   }
 
-  Future<void> _updateContentProgress(
-    int currentPage,
-    int totalPages,
-  ) async {
+  Future<void> _updateContentProgress(int currentPage, int totalPages) async {
     if (!widget.isFeaturedCourse &&
         (int.parse(resourceInfo!.currentProgress.toString()) < currentPage ||
             currentPage == 0) &&
@@ -188,28 +192,29 @@ class _CoursePdfPlayerState extends State<CoursePdfPlayer> {
       current.add((currentPage).toString());
       int status = resourceInfo!.status != 2
           ? currentPage == totalPages
-              ? 2
-              : 1
+                ? 2
+                : 1
           : 2;
       int maxSize = totalPages;
       double completionPercentage = currentPage / totalPages * 100;
       await TocRepository().updateContentProgress(
-          courseId: courseId,
-          batchId: widget.batchId!,
-          contentId: widget.identifier,
-          status: status,
-          contentType: EMimeTypes.pdf,
-          current: current,
-          maxSize: maxSize,
-          completionPercentage: completionPercentage,
-          isPreRequisite: widget.isPreRequisite,
-          language: widget.language);
+        courseId: courseId,
+        batchId: widget.batchId!,
+        contentId: widget.identifier,
+        status: status,
+        contentType: EMimeTypes.pdf,
+        current: current,
+        maxSize: maxSize,
+        completionPercentage: completionPercentage,
+        isPreRequisite: widget.isPreRequisite,
+        language: widget.language,
+      );
 
       widget.updateProgress({
         'identifier': widget.identifier,
         'mimeType': EMimeTypes.pdf,
         'current': (currentPage).toString(),
-        'completionPercentage': completionPercentage / 100
+        'completionPercentage': completionPercentage / 100,
       });
     }
   }
@@ -256,274 +261,292 @@ class _CoursePdfPlayerState extends State<CoursePdfPlayer> {
       child: _isLoading
           ? PdfPlayerSkeletonPage()
           : _pdfController != null
-              ? Stack(
-                  alignment: Alignment.topCenter,
-                  fit: StackFit.passthrough,
-                  children: [
-                    PdfView(
-                      controller: _pdfController!,
-                      scrollDirection: Axis.vertical,
-                      onDocumentError: (error) => ErrorPage(),
-                      onDocumentLoaded: (document) {
-                        setState(() => _isLoading = true);
-                        _currentPage.value = _pdfController!.initialPage;
-                        isCompleted.value = (_currentProgress == _totalPages) ||
-                            resourceInfo!.status == 2;
-                        setState(() => _isLoading = false);
-                      },
-                      builders: const PdfViewBuilders<DefaultBuilderOptions>(
-                          options: DefaultBuilderOptions(
-                              loaderSwitchDuration:
-                                  const Duration(milliseconds: 500))),
-                      onPageChanged: (value) async {
-                        _currentPage.value = value;
-                        if (_currentPage.value == _totalPages) {
-                          isCompleted.value = true;
-                          await _updateContentProgress(
-                              _currentPage.value, _totalPages);
-                        }
-                      },
+          ? Stack(
+              alignment: Alignment.topCenter,
+              fit: StackFit.passthrough,
+              children: [
+                PdfView(
+                  controller: _pdfController!,
+                  scrollDirection: Axis.vertical,
+                  onDocumentError: (error) => ErrorPage(),
+                  onDocumentLoaded: (document) {
+                    setState(() => _isLoading = true);
+                    _currentPage.value = _pdfController!.initialPage;
+                    isCompleted.value =
+                        (_currentProgress == _totalPages) ||
+                        resourceInfo!.status == 2;
+                    setState(() => _isLoading = false);
+                  },
+                  builders: const PdfViewBuilders<DefaultBuilderOptions>(
+                    options: DefaultBuilderOptions(
+                      loaderSwitchDuration: const Duration(milliseconds: 500),
                     ),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Container(
-                        color: TocModuleColors.appBarBackground,
-                        height: _fullScreen ? 25.w : 60.w,
-                        padding: EdgeInsets.only(left: 16, right: 16).w,
-                        child: Flex(
-                          direction: Axis.horizontal,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            ValueListenableBuilder(
-                                valueListenable: _currentPage,
-                                builder: (BuildContext context, int currentPage,
-                                    Widget? child) {
-                                  return Expanded(
-                                      flex: 1,
-                                      child: _currentPage.value != 1
-                                          ? InkWell(
-                                              onTap: () {
-                                                // jumpToPage(page: page - 2);
-                                                _pdfController!.jumpToPage(
-                                                    _currentPage.value - 1);
-                                                // _generateInteractTelemetryData(
-                                                //     widget.identifier,
-                                                //     subType: TelemetrySubType
-                                                //         .previousPageButton);
-                                              },
-                                              child: Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                        horizontal: 8,
-                                                        vertical: 4)
-                                                    .w,
-                                                child: Text(
-                                                  TocLocalizations.of(context)!
-                                                      .mPdfPlayerPrevious,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .titleSmall!
-                                                      .copyWith(
-                                                        letterSpacing: 0.25.r,
-                                                      ),
+                  ),
+                  onPageChanged: (value) async {
+                    _currentPage.value = value;
+                    if (_currentPage.value == _totalPages) {
+                      isCompleted.value = true;
+                      await _updateContentProgress(
+                        _currentPage.value,
+                        _totalPages,
+                      );
+                    }
+                  },
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    color: TocModuleColors.appBarBackground,
+                    height: _fullScreen ? 25.w : 60.w,
+                    padding: EdgeInsets.only(left: 16, right: 16).w,
+                    child: Flex(
+                      direction: Axis.horizontal,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        ValueListenableBuilder(
+                          valueListenable: _currentPage,
+                          builder:
+                              (
+                                BuildContext context,
+                                int currentPage,
+                                Widget? child,
+                              ) {
+                                return Expanded(
+                                  flex: 1,
+                                  child: _currentPage.value != 1
+                                      ? InkWell(
+                                          onTap: () {
+                                            // jumpToPage(page: page - 2);
+                                            _pdfController!.jumpToPage(
+                                              _currentPage.value - 1,
+                                            );
+                                            // _generateInteractTelemetryData(
+                                            //     widget.identifier,
+                                            //     subType: TelemetrySubType
+                                            //         .previousPageButton);
+                                          },
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                              horizontal: 8,
+                                              vertical: 4,
+                                            ).w,
+                                            child: Text(
+                                              TocLocalizations.of(
+                                                context,
+                                              )!.mPdfPlayerPrevious,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleSmall!
+                                                  .copyWith(
+                                                    letterSpacing: 0.25.r,
+                                                  ),
+                                            ),
+                                          ),
+                                        )
+                                      : SizedBox(),
+                                );
+                              },
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: ValueListenableBuilder<bool>(
+                            valueListenable: isCompleted,
+                            builder: (context, completionValue, child) {
+                              return completionValue
+                                  ? Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.done,
+                                          size: 24.sp,
+                                          color: TocModuleColors.darkBlue,
+                                        ),
+                                        Text(
+                                          TocLocalizations.of(
+                                            context,
+                                          )!.mCommoncompleted,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleSmall!
+                                              .copyWith(letterSpacing: 0.25.w),
+                                        ),
+                                      ],
+                                    )
+                                  : Center(
+                                      child: InkWell(
+                                        onTap: () async {
+                                          // _generateInteractTelemetryData(
+                                          //     widget.identifier,
+                                          //     subType: TelemetrySubType
+                                          //         .markAsCompletePageButton);
+                                          if (!widget.isFeaturedCourse) {
+                                            await _updateContentProgress(
+                                              _totalPages,
+                                              _totalPages,
+                                            );
+                                            widget.playNextResource!(true);
+                                            Navigator.of(context).pop();
+                                          }
+                                        },
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: 8,
+                                            vertical: 4,
+                                          ).w,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(
+                                              63,
+                                            ).w,
+                                            border: Border.all(
+                                              color: TocModuleColors.darkBlue,
+                                            ),
+                                          ),
+                                          child: Text(
+                                            TocLocalizations.of(
+                                              context,
+                                            )!.mPdfPlayerMarkAsComplete,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleSmall!
+                                                .copyWith(
+                                                  letterSpacing: 0.25.w,
                                                 ),
-                                              ))
-                                          : SizedBox());
-                                }),
-                            Expanded(
-                              flex: 2,
-                              child: ValueListenableBuilder<bool>(
-                                  valueListenable: isCompleted,
-                                  builder: (context, completionValue, child) {
-                                    return completionValue
-                                        ? Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Icon(
-                                                Icons.done,
-                                                size: 24.sp,
-                                                color: TocModuleColors.darkBlue,
-                                              ),
-                                              Text(
-                                                TocLocalizations.of(context)!
-                                                    .mCommoncompleted,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                            },
+                          ),
+                        ),
+                        ValueListenableBuilder(
+                          valueListenable: _currentPage,
+                          builder:
+                              (
+                                BuildContext context,
+                                int currentPage,
+                                Widget? child,
+                              ) {
+                                return Expanded(
+                                  flex: 1,
+                                  child: _currentPage.value != _totalPages
+                                      ? Align(
+                                          alignment: Alignment.centerRight,
+                                          child: InkWell(
+                                            onTap: () async {
+                                              _pdfController!.jumpToPage(
+                                                _currentPage.value + 1,
+                                              );
+                                              // _generateInteractTelemetryData(
+                                              //     widget.identifier,
+                                              //     subType: TelemetrySubType
+                                              //         .nextPageButton);
+                                              if (!widget.isFeaturedCourse) {
+                                                await _updateContentProgress(
+                                                  _currentPage.value,
+                                                  _totalPages,
+                                                );
+                                              }
+                                            },
+                                            child: Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                horizontal: 8,
+                                                vertical: 4,
+                                              ).w,
+                                              child: Text(
+                                                TocLocalizations.of(
+                                                  context,
+                                                )!.mPdfPlayerNext,
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .titleSmall!
                                                     .copyWith(
-                                                      letterSpacing: 0.25.w,
+                                                      letterSpacing: 0.25.r,
                                                     ),
                                               ),
-                                            ],
-                                          )
-                                        : Center(
-                                            child: InkWell(
-                                                onTap: () async {
-                                                  // _generateInteractTelemetryData(
-                                                  //     widget.identifier,
-                                                  //     subType: TelemetrySubType
-                                                  //         .markAsCompletePageButton);
-                                                  if (!widget
-                                                      .isFeaturedCourse) {
-                                                    await _updateContentProgress(
-                                                        _totalPages,
-                                                        _totalPages);
-                                                    widget.playNextResource!(
-                                                        true);
-                                                    Navigator.of(context).pop();
-                                                  }
-                                                },
-                                                child: Container(
-                                                  padding: EdgeInsets.symmetric(
-                                                          horizontal: 8,
-                                                          vertical: 4)
-                                                      .w,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                                  63)
-                                                              .w,
-                                                      border: Border.all(
-                                                          color: TocModuleColors
-                                                              .darkBlue)),
-                                                  child: Text(
-                                                    TocLocalizations.of(
-                                                            context)!
-                                                        .mPdfPlayerMarkAsComplete,
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .titleSmall!
-                                                        .copyWith(
-                                                          letterSpacing: 0.25.w,
-                                                        ),
-                                                  ),
-                                                )),
-                                          );
-                                  }),
-                            ),
-                            ValueListenableBuilder(
-                                valueListenable: _currentPage,
-                                builder: (BuildContext context, int currentPage,
-                                    Widget? child) {
-                                  return Expanded(
-                                      flex: 1,
-                                      child: _currentPage.value != _totalPages
-                                          ? Align(
-                                              alignment: Alignment.centerRight,
-                                              child: InkWell(
-                                                  onTap: () async {
-                                                    _pdfController!.jumpToPage(
-                                                        _currentPage.value + 1);
-                                                    // _generateInteractTelemetryData(
-                                                    //     widget.identifier,
-                                                    //     subType: TelemetrySubType
-                                                    //         .nextPageButton);
-                                                    if (!widget
-                                                        .isFeaturedCourse) {
-                                                      await _updateContentProgress(
-                                                          _currentPage.value,
-                                                          _totalPages);
-                                                    }
-                                                  },
-                                                  child: Padding(
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                                horizontal: 8,
-                                                                vertical: 4)
-                                                            .w,
-                                                    child: Text(
-                                                      TocLocalizations.of(
-                                                              context)!
-                                                          .mPdfPlayerNext,
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .titleSmall!
-                                                          .copyWith(
-                                                            letterSpacing:
-                                                                0.25.r,
-                                                          ),
-                                                    ),
-                                                  )),
-                                            )
-                                          : Center());
-                                }),
-                          ],
+                                            ),
+                                          ),
+                                        )
+                                      : Center(),
+                                );
+                              },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                ValueListenableBuilder(
+                  valueListenable: _currentPage,
+                  builder: (context, value, child) {
+                    return Visibility(
+                      visible: _totalPages != 0,
+                      child: Positioned(
+                        top: 0,
+                        right: 0,
+                        child: Container(
+                          margin: EdgeInsets.all(16).r,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 6,
+                            vertical: 4,
+                          ).r,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(4),
+                            ).r,
+                            color: TocModuleColors.greys60,
+                          ),
+                          child: Text(
+                            '${_currentPage.value} of $_totalPages',
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.labelSmall!
+                                .copyWith(
+                                  letterSpacing: 0.25.r,
+                                  fontSize: 12.sp,
+                                ),
+                          ),
                         ),
                       ),
-                    ),
-                    ValueListenableBuilder(
-                        valueListenable: _currentPage,
-                        builder: (context, value, child) {
-                          return Visibility(
-                            visible: _totalPages != 0,
-                            child: Positioned(
-                              top: 0,
-                              right: 0,
-                              child: Container(
-                                margin: EdgeInsets.all(16).r,
-                                padding: EdgeInsets.symmetric(
-                                        horizontal: 6, vertical: 4)
-                                    .r,
-                                decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(4)).r,
-                                    color: TocModuleColors.greys60),
-                                child: Text(
-                                  '${_currentPage.value} of $_totalPages',
-                                  textAlign: TextAlign.center,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .labelSmall!
-                                      .copyWith(
-                                        letterSpacing: 0.25.r,
-                                        fontSize: 12.sp,
-                                      ),
-                                ),
+                    );
+                  },
+                ),
+                Positioned(
+                  bottom: _fullScreen ? 100.r : 60.r,
+                  right: 16.r,
+                  child: Container(
+                    child: Row(
+                      children: [
+                        _fullScreen
+                            ? IconButton(
+                                icon: Icon(Icons.fullscreen_exit, size: 30),
+                                onPressed: () async {
+                                  _fullScreen = false;
+                                  await changeOrientation();
+                                },
+                              )
+                            : IconButton(
+                                icon: Icon(Icons.fullscreen, size: 30),
+                                onPressed: () async {
+                                  _fullScreen = true;
+                                  await changeOrientation();
+                                },
                               ),
-                            ),
-                          );
-                        }),
-                    Positioned(
-                        bottom: _fullScreen ? 100.r : 60.r,
-                        right: 16.r,
-                        child: Container(
-                            child: Row(
-                          children: [
-                            _fullScreen
-                                ? IconButton(
-                                    icon: Icon(
-                                      Icons.fullscreen_exit,
-                                      size: 30,
-                                    ),
-                                    onPressed: () async {
-                                      _fullScreen = false;
-                                      await changeOrientation();
-                                    },
-                                  )
-                                : IconButton(
-                                    icon: Icon(
-                                      Icons.fullscreen,
-                                      size: 30,
-                                    ),
-                                    onPressed: () async {
-                                      _fullScreen = true;
-                                      await changeOrientation();
-                                    },
-                                  ),
-                          ],
-                        )))
-                  ],
-                )
-              : PdfPlayerSkeletonPage(),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            )
+          : PdfPlayerSkeletonPage(),
     );
   }
 
   Future<void> fetchData() async {
     resourceInfo = await TocHelper.getResourceInfo(
-        context: context,
-        resourceId: widget.identifier,
-        isFeatured: widget.isFeaturedCourse,
-        resourceNavigateItems: widget.resourceNavigateItems);
+      context: context,
+      resourceId: widget.identifier,
+      isFeatured: widget.isFeaturedCourse,
+      resourceNavigateItems: widget.resourceNavigateItems,
+    );
     if (resourceInfo != null) {
       await loadDocument();
     }

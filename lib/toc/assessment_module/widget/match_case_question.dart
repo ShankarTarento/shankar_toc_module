@@ -5,7 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:reorderables/reorderables.dart';
 
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 import 'package:toc_module/toc/assessment_module/widget/html_webview_widget.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/helper/toc_helper.dart';
@@ -21,9 +22,17 @@ class MatchCaseQuestion extends StatefulWidget {
   final ValueChanged<Map> parentAction;
   final bool isNewAssessment;
   final String? id;
-  MatchCaseQuestion(this.question, this.questionText, this.options,
-      this.currentIndex, this.answerGiven, this.showAnswer, this.parentAction,
-      {this.isNewAssessment = false, this.id});
+  MatchCaseQuestion(
+    this.question,
+    this.questionText,
+    this.options,
+    this.currentIndex,
+    this.answerGiven,
+    this.showAnswer,
+    this.parentAction, {
+    this.isNewAssessment = false,
+    this.id,
+  });
   @override
   _MatchCaseQuestionQuestionState createState() =>
       _MatchCaseQuestionQuestionState();
@@ -110,156 +119,149 @@ class _MatchCaseQuestionQuestionState extends State<MatchCaseQuestion> {
       if (mounted) {
         setState(() {});
       }
-      widget
-          .parentAction({'index': _qId, 'isCorrect': true, 'value': _options});
+      widget.parentAction({
+        'index': _qId,
+        'isCorrect': true,
+        'value': _options,
+      });
     }
   }
 
   _getRows(ctx) {
     return List<Widget>.generate(
-        widget.options.length,
-        (int index) => InkWell(
-              onTap: () {
-                TocHelper.showSnackBarMessage(
-                    textColor: Colors.white,
-                    context: context,
-                    text: TocLocalizations.of(context)!
-                        .mMatchCaseHoldANdDragItems,
-                    bgColor: TocModuleColors.darkBlue);
-              },
-              onLongPress: widget.showAnswer
-                  ? () {
-                      setState(() {
-                        _selectedIndex = index;
-                      });
-                      Future.delayed(
-                          Duration(
-                            seconds: 2,
-                          ), () {
-                        if (mounted) {
-                          setState(() {
-                            _selectedIndex = null;
-                          });
-                        }
-                      });
-                    }
-                  : null,
-              child: Container(
-                width: (double.infinity - 30).w,
-                height: _heights[index],
-                margin: EdgeInsets.only(bottom: 8).r,
-                child: Row(
-                  children: [
-                    Label(
-                      triangleHeight: 10.0.w,
-                      edge: Edge.LEFT,
-                      child: Container(
-                          alignment: Alignment.centerLeft,
-                          width: 1.sw / 2 - 62.w,
-                          height: _heights[index],
-                          decoration: BoxDecoration(
-                            color: widget.showAnswer &&
-                                    (widget.isNewAssessment
-                                            ? widget.question['options'][index]
-                                                ['answer']
-                                            : widget.question['options'][index]
-                                                ['match']) !=
-                                        _options[index]
-                                ? TocModuleColors.negativeLightBg
-                                : widget.showAnswer &&
-                                        (widget.isNewAssessment
-                                                ? widget.question['options']
-                                                    [index]['answer']
-                                                : widget.question['options']
-                                                    [index]['match']) ==
-                                            _options[index]
-                                    ? TocModuleColors.positiveLightBg
-                                    : TocModuleColors.background,
-                            boxShadow: [
-                              BoxShadow(
-                                color: TocModuleColors.grey08,
-                                blurRadius: 6.0.r,
-                                spreadRadius: 0.r,
-                                offset: Offset(
-                                  3,
-                                  3,
-                                ),
-                              ),
-                            ],
-                            border: Border.all(
-                                color: widget.showAnswer &&
-                                        (widget.isNewAssessment
-                                                ? widget.question['options']
-                                                    [index]['answer']
-                                                : widget.question['options']
-                                                    [index]['match']) !=
-                                            _options[index]
-                                    ? TocModuleColors.negativeLight
-                                    : widget.showAnswer &&
-                                            (widget.isNewAssessment
-                                                    ? widget.question['options']
-                                                        [index]['answer']
-                                                    : widget.question['options']
-                                                        [index]['match']) ==
-                                                _options[index]
-                                        ? TocModuleColors.positiveLight
-                                        : TocModuleColors.grey08),
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          padding: EdgeInsets.all(10).r,
-                          // height: 0,
-                          child: Padding(
-                              padding: const EdgeInsets.only(left: 8).r,
-                              child: HtmlWebviewWidget(
-                                  htmlText: _selectedIndex != null &&
-                                          _selectedIndex == index
-                                      ? ((widget.isNewAssessment
-                                          ? widget.question['options'][index]
-                                              ['answer']
-                                          : widget.question['options'][index]
-                                              ['match']))
-                                      : _options[index],
-                                  textStyle: getTextStyle(
-                                      _selectedIndex != null && _selectedIndex == index
-                                          ? ((widget.isNewAssessment
-                                              ? widget.question['options']
-                                                  [index]['answer']
-                                              : widget.question['options']
-                                                  [index]['match']))
-                                          : _options[index],
-                                      color: _selectedIndex == index
-                                          ? TocModuleColors.positiveLight
-                                          : TocModuleColors.black87)))),
+      widget.options.length,
+      (int index) => InkWell(
+        onTap: () {
+          TocHelper.showSnackBarMessage(
+            textColor: Colors.white,
+            context: context,
+            text: TocLocalizations.of(context)!.mMatchCaseHoldANdDragItems,
+            bgColor: TocModuleColors.darkBlue,
+          );
+        },
+        onLongPress: widget.showAnswer
+            ? () {
+                setState(() {
+                  _selectedIndex = index;
+                });
+                Future.delayed(Duration(seconds: 2), () {
+                  if (mounted) {
+                    setState(() {
+                      _selectedIndex = null;
+                    });
+                  }
+                });
+              }
+            : null,
+        child: Container(
+          width: (double.infinity - 30).w,
+          height: _heights[index],
+          margin: EdgeInsets.only(bottom: 8).r,
+          child: Row(
+            children: [
+              Label(
+                triangleHeight: 10.0.w,
+                edge: Edge.LEFT,
+                child: Container(
+                  alignment: Alignment.centerLeft,
+                  width: 1.sw / 2 - 62.w,
+                  height: _heights[index],
+                  decoration: BoxDecoration(
+                    color:
+                        widget.showAnswer &&
+                            (widget.isNewAssessment
+                                    ? widget
+                                          .question['options'][index]['answer']
+                                    : widget
+                                          .question['options'][index]['match']) !=
+                                _options[index]
+                        ? TocModuleColors.negativeLightBg
+                        : widget.showAnswer &&
+                              (widget.isNewAssessment
+                                      ? widget
+                                            .question['options'][index]['answer']
+                                      : widget
+                                            .question['options'][index]['match']) ==
+                                  _options[index]
+                        ? TocModuleColors.positiveLightBg
+                        : TocModuleColors.background,
+                    boxShadow: [
+                      BoxShadow(
+                        color: TocModuleColors.grey08,
+                        blurRadius: 6.0.r,
+                        spreadRadius: 0.r,
+                        offset: Offset(3, 3),
+                      ),
+                    ],
+                    border: Border.all(
+                      color:
+                          widget.showAnswer &&
+                              (widget.isNewAssessment
+                                      ? widget
+                                            .question['options'][index]['answer']
+                                      : widget
+                                            .question['options'][index]['match']) !=
+                                  _options[index]
+                          ? TocModuleColors.negativeLight
+                          : widget.showAnswer &&
+                                (widget.isNewAssessment
+                                        ? widget
+                                              .question['options'][index]['answer']
+                                        : widget
+                                              .question['options'][index]['match']) ==
+                                    _options[index]
+                          ? TocModuleColors.positiveLight
+                          : TocModuleColors.grey08,
                     ),
-                    Container(
-                      width: 40.w,
-                      height: _heights[index],
-                      decoration: BoxDecoration(
-                          color: TocModuleColors.appBarBackground,
-                          border: Border(
-                              right: BorderSide(
-                                color: TocModuleColors.grey08,
-                              ),
-                              left: BorderSide(
-                                  color: TocModuleColors.grey08, width: 0.5),
-                              top: BorderSide(
-                                color: TocModuleColors.grey08,
-                              ),
-                              bottom: BorderSide(
-                                color: TocModuleColors.grey08,
-                              ))
-                          // borderRadius: BorderRadius.circular(4),
-                          ),
-                      child: Center(
-                          child: Icon(
-                        Icons.reorder,
-                        color: TocModuleColors.greys60,
-                      )),
-                    )
-                  ],
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  padding: EdgeInsets.all(10).r,
+                  // height: 0,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8).r,
+                    child: HtmlWebviewWidget(
+                      htmlText:
+                          _selectedIndex != null && _selectedIndex == index
+                          ? ((widget.isNewAssessment
+                                ? widget.question['options'][index]['answer']
+                                : widget.question['options'][index]['match']))
+                          : _options[index],
+                      textStyle: getTextStyle(
+                        _selectedIndex != null && _selectedIndex == index
+                            ? ((widget.isNewAssessment
+                                  ? widget.question['options'][index]['answer']
+                                  : widget.question['options'][index]['match']))
+                            : _options[index],
+                        color: _selectedIndex == index
+                            ? TocModuleColors.positiveLight
+                            : TocModuleColors.black87,
+                      ),
+                    ),
+                  ),
                 ),
               ),
-            ));
+              Container(
+                width: 40.w,
+                height: _heights[index],
+                decoration: BoxDecoration(
+                  color: TocModuleColors.appBarBackground,
+                  border: Border(
+                    right: BorderSide(color: TocModuleColors.grey08),
+                    left: BorderSide(color: TocModuleColors.grey08, width: 0.5),
+                    top: BorderSide(color: TocModuleColors.grey08),
+                    bottom: BorderSide(color: TocModuleColors.grey08),
+                  ),
+                  // borderRadius: BorderRadius.circular(4),
+                ),
+                child: Center(
+                  child: Icon(Icons.reorder, color: TocModuleColors.greys60),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   // Make sure there is a scroll controller attached to the scroll view that contains ReorderableSliverList.
@@ -281,10 +283,9 @@ class _MatchCaseQuestionQuestionState extends State<MatchCaseQuestion> {
                       htmlText: widget.questionText != null
                           ? widget.questionText
                           : widget.question['question'],
-                      textStyle: Theme.of(context)
-                          .textTheme
-                          .titleLarge!
-                          .copyWith(height: 1.5.w),
+                      textStyle: Theme.of(
+                        context,
+                      ).textTheme.titleLarge!.copyWith(height: 1.5.w),
                     ),
                   ),
                   Container(
@@ -292,122 +293,126 @@ class _MatchCaseQuestionQuestionState extends State<MatchCaseQuestion> {
                     child: Text(
                       TocLocalizations.of(context)!.mMatchCaseHoldANdDragItems,
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            fontSize: 14.sp,
-                            fontFamily: GoogleFonts.montserrat().fontFamily,
-                          ),
+                        fontSize: 14.sp,
+                        fontFamily: GoogleFonts.montserrat().fontFamily,
+                      ),
                     ),
                   ),
                   Container(
-                      margin: const EdgeInsets.only(bottom: 10).r,
-                      child: Divider(
-                        color: TocModuleColors.greys,
-                      )),
+                    margin: const EdgeInsets.only(bottom: 10).r,
+                    child: Divider(color: TocModuleColors.greys),
+                  ),
                   Container(
-                      width: 1.sw,
-                      child: Stack(
-                        children: [
-                          Container(
-                              width: (1.sw / 2) - 26.w,
-                              child: ListView.builder(
-                                physics: NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                itemCount: _options.length,
-                                itemBuilder: (context, index) {
-                                  return Container(
-                                    margin:
-                                        EdgeInsets.only(bottom: 8, right: 4).r,
-                                    child: Point(
-                                        triangleHeight: 10.0,
-                                        edge: Edge.RIGHT,
-                                        child: Container(
-                                            height: _heights[index],
-                                            padding: EdgeInsets.all(10).r,
-                                            decoration: BoxDecoration(
-                                                color: TocModuleColors.grey
-                                                    .withValues(alpha: 0.1),
-                                                border: Border(
-                                                    left: BorderSide(
-                                                      color: TocModuleColors
-                                                          .grey08,
-                                                    ),
-                                                    right: BorderSide(
-                                                        color: TocModuleColors
-                                                            .avatarRed,
-                                                        width: 0.5),
-                                                    top: BorderSide(
-                                                      color: TocModuleColors
-                                                          .grey08,
-                                                    ),
-                                                    bottom: BorderSide(
-                                                      color: TocModuleColors
-                                                          .grey08,
-                                                    ))),
-                                            child: Align(
-                                                alignment: Alignment.centerLeft,
-                                                child: HtmlWebviewWidget(
-                                                  htmlText: widget
-                                                          .isNewAssessment
-                                                      ? widget.question[
-                                                              'options'][index]
-                                                          ['value']['body']
-                                                      : widget.question[
-                                                              'options'][index]
-                                                          ['text'],
-                                                  textStyle: getTextStyle(widget
-                                                          .isNewAssessment
-                                                      ? widget.question[
-                                                              'options'][index]
-                                                          ['value']['body']
-                                                      : widget.question[
-                                                              'options'][index]
-                                                          ['text']),
-                                                )))),
-                                  );
-
-                                  // ]);
-                                },
-                              )),
-                          Positioned(
-                              right: 0,
-                              child: Container(
-                                height: _getHeight().w + 1.0.sw,
-                                width: 1.sw / 2 - 22.w,
-                                child: CustomScrollView(
-                                  physics: NeverScrollableScrollPhysics(),
-                                  // A ScrollController must be included in CustomScrollView, otherwise
-                                  // ReorderableSliverList wouldn't work
-                                  controller: _scrollController,
-                                  slivers: <Widget>[
-                                    ReorderableSliverList(
-                                      enabled: widget.showAnswer ? false : true,
-                                      delegate:
-                                          ReorderableSliverChildListDelegate(
-                                              _getRows(context)),
-                                      onReorder: _onReorder,
-                                    )
-                                  ],
+                    width: 1.sw,
+                    child: Stack(
+                      children: [
+                        Container(
+                          width: (1.sw / 2) - 26.w,
+                          child: ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: _options.length,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                margin: EdgeInsets.only(bottom: 8, right: 4).r,
+                                child: Point(
+                                  triangleHeight: 10.0,
+                                  edge: Edge.RIGHT,
+                                  child: Container(
+                                    height: _heights[index],
+                                    padding: EdgeInsets.all(10).r,
+                                    decoration: BoxDecoration(
+                                      color: TocModuleColors.grey.withValues(
+                                        alpha: 0.1,
+                                      ),
+                                      border: Border(
+                                        left: BorderSide(
+                                          color: TocModuleColors.grey08,
+                                        ),
+                                        right: BorderSide(
+                                          color: TocModuleColors.avatarRed,
+                                          width: 0.5,
+                                        ),
+                                        top: BorderSide(
+                                          color: TocModuleColors.grey08,
+                                        ),
+                                        bottom: BorderSide(
+                                          color: TocModuleColors.grey08,
+                                        ),
+                                      ),
+                                    ),
+                                    child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: HtmlWebviewWidget(
+                                        htmlText: widget.isNewAssessment
+                                            ? widget
+                                                  .question['options'][index]['value']['body']
+                                            : widget
+                                                  .question['options'][index]['text'],
+                                        textStyle: getTextStyle(
+                                          widget.isNewAssessment
+                                              ? widget
+                                                    .question['options'][index]['value']['body']
+                                              : widget
+                                                    .question['options'][index]['text'],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                              )),
-                        ],
-                      )),
+                              );
+
+                              // ]);
+                            },
+                          ),
+                        ),
+                        Positioned(
+                          right: 0,
+                          child: Container(
+                            height: _getHeight().w + 1.0.sw,
+                            width: 1.sw / 2 - 22.w,
+                            child: CustomScrollView(
+                              physics: NeverScrollableScrollPhysics(),
+                              // A ScrollController must be included in CustomScrollView, otherwise
+                              // ReorderableSliverList wouldn't work
+                              controller: _scrollController,
+                              slivers: <Widget>[
+                                ReorderableSliverList(
+                                  enabled: widget.showAnswer ? false : true,
+                                  delegate: ReorderableSliverChildListDelegate(
+                                    _getRows(context),
+                                  ),
+                                  onReorder: _onReorder,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                   widget.showAnswer
                       ? Padding(
                           padding: const EdgeInsets.only(top: 16).r,
-                          child: Text(TocLocalizations.of(context)!
-                              .mMatchCaseLongPressOnItems),
+                          child: Text(
+                            TocLocalizations.of(
+                              context,
+                            )!.mMatchCaseLongPressOnItems,
+                          ),
                         )
                       : Center(),
-                  SizedBox(
-                    height: 100.w,
-                  )
+                  SizedBox(height: 100.w),
                 ],
-              ))
+              ),
+            )
           : PageLoader(),
     );
   }
 
-  TextStyle? getTextStyle(String htmlText,
-      {Color color = TocModuleColors.black87}) {
+  TextStyle? getTextStyle(
+    String htmlText, {
+    Color color = TocModuleColors.black87,
+  }) {
     return htmlText.contains('<strong>')
         ? null
         : GoogleFonts.lato(

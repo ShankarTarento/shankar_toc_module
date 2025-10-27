@@ -6,7 +6,8 @@ import 'package:http/http.dart' as http;
 import 'package:open_file_plus/open_file_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/helper/toc_helper.dart';
 import 'package:toc_module/toc/model/reference_node.dart';
@@ -15,10 +16,7 @@ import 'package:toc_module/toc/pages/resource_details_screen/resource_details_sc
 class TeachersNotesCard extends StatefulWidget {
   final ReferenceNode referenceNode;
 
-  const TeachersNotesCard({
-    super.key,
-    required this.referenceNode,
-  });
+  const TeachersNotesCard({super.key, required this.referenceNode});
 
   @override
   State<TeachersNotesCard> createState() => _TeachersNotesCardState();
@@ -44,12 +42,14 @@ class _TeachersNotesCardState extends State<TeachersNotesCard> {
         setState(() {
           _isDownloading = true;
         });
-        var response =
-            await http.get(Uri.parse(widget.referenceNode.downloadUrl!));
+        var response = await http.get(
+          Uri.parse(widget.referenceNode.downloadUrl!),
+        );
 
         if (response.statusCode == 200) {
           String path = await TocHelper.getDownloadPath();
-          String fileName = widget.referenceNode.name +
+          String fileName =
+              widget.referenceNode.name +
               widget.referenceNode.downloadUrl!.split('/').last;
           String filePath = '${path}/$fileName';
 
@@ -58,15 +58,21 @@ class _TeachersNotesCardState extends State<TeachersNotesCard> {
 
           displayDialog(true, '$filePath', 'Success');
         } else {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(TocLocalizations.of(context)!.mStaticSomethingWrong),
-          ));
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                TocLocalizations.of(context)!.mStaticSomethingWrong,
+              ),
+            ),
+          );
         }
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(TocLocalizations.of(context)!.mStaticSomethingWrong),
-      ));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(TocLocalizations.of(context)!.mStaticSomethingWrong),
+        ),
+      );
     } finally {
       setState(() {
         _isDownloading = false;
@@ -106,9 +112,7 @@ class _TeachersNotesCardState extends State<TeachersNotesCard> {
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  SizedBox(
-                    height: 12.sp,
-                  ),
+                  SizedBox(height: 12.sp),
                   InkWell(
                     onTap: () {
                       Navigator.push(
@@ -129,9 +133,7 @@ class _TeachersNotesCardState extends State<TeachersNotesCard> {
                             size: 18.sp,
                             color: TocModuleColors.greys60,
                           ),
-                          SizedBox(
-                            width: 6.w,
-                          ),
+                          SizedBox(width: 6.w),
                           Text(
                             TocLocalizations.of(context)!.mLearnView,
                             style: GoogleFonts.lato(
@@ -159,7 +161,9 @@ class _TeachersNotesCardState extends State<TeachersNotesCard> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                             side: BorderSide(
-                                color: TocModuleColors.darkBlue, width: 1),
+                              color: TocModuleColors.darkBlue,
+                              width: 1,
+                            ),
                           ),
                         ),
                         child: Text(
@@ -179,82 +183,84 @@ class _TeachersNotesCardState extends State<TeachersNotesCard> {
   }
 
   Future<bool?> displayDialog(
-      bool isSuccess, String filePath, String message) async {
+    bool isSuccess,
+    String filePath,
+    String message,
+  ) async {
     return showModalBottomSheet(
-        isScrollControlled: true,
-        // useSafeArea: true,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(8), topRight: Radius.circular(8))
-              .r,
-          side: BorderSide(
-            color: TocModuleColors.grey08,
-          ),
-        ),
-        context: context,
-        builder: (context) => SingleChildScrollView(
-              child: Container(
-                padding: EdgeInsets.fromLTRB(20, 8, 20, 20).r,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                        margin: EdgeInsets.only(bottom: 20).r,
-                        height: 6.w,
-                        width: 0.25.sw,
-                        decoration: BoxDecoration(
-                          color: TocModuleColors.grey16,
-                          borderRadius: BorderRadius.all(Radius.circular(16).r),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                        padding: const EdgeInsets.only(top: 5, bottom: 15).r,
-                        child: Text(
-                          isSuccess
-                              ? TocLocalizations.of(context)!
-                                  .mStaticFileDownloadingCompleted
-                              : message,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium!
-                              .copyWith(
-                                decoration: TextDecoration.none,
-                                fontSize: 14,
-                                fontFamily: GoogleFonts.montserrat().fontFamily,
-                              ),
-                        )),
-                    filePath != ''
-                        ? Padding(
-                            padding:
-                                const EdgeInsets.only(top: 5, bottom: 10).r,
-                            child: GestureDetector(
-                              onTap: () => openFile(filePath),
-                              child: roundedButton(
-                                TocLocalizations.of(context)!.mStaticOpen,
-                                TocModuleColors.darkBlue,
-                                TocModuleColors.appBarBackground,
-                              ),
-                            ),
-                          )
-                        : Center(),
-                    // Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 5, bottom: 15).r,
-                      child: GestureDetector(
-                        onTap: () => Navigator.of(context).pop(false),
-                        child: roundedButton(
-                            TocLocalizations.of(context)!.mCommonClose,
-                            TocModuleColors.appBarBackground,
-                            TocModuleColors.darkBlue),
-                      ),
-                    ),
-                  ],
+      isScrollControlled: true,
+      // useSafeArea: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(8),
+          topRight: Radius.circular(8),
+        ).r,
+        side: BorderSide(color: TocModuleColors.grey08),
+      ),
+      context: context,
+      builder: (context) => SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.fromLTRB(20, 8, 20, 20).r,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Align(
+                alignment: Alignment.center,
+                child: Container(
+                  margin: EdgeInsets.only(bottom: 20).r,
+                  height: 6.w,
+                  width: 0.25.sw,
+                  decoration: BoxDecoration(
+                    color: TocModuleColors.grey16,
+                    borderRadius: BorderRadius.all(Radius.circular(16).r),
+                  ),
                 ),
               ),
-            ));
+              Padding(
+                padding: const EdgeInsets.only(top: 5, bottom: 15).r,
+                child: Text(
+                  isSuccess
+                      ? TocLocalizations.of(
+                          context,
+                        )!.mStaticFileDownloadingCompleted
+                      : message,
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    decoration: TextDecoration.none,
+                    fontSize: 14,
+                    fontFamily: GoogleFonts.montserrat().fontFamily,
+                  ),
+                ),
+              ),
+              filePath != ''
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: 5, bottom: 10).r,
+                      child: GestureDetector(
+                        onTap: () => openFile(filePath),
+                        child: roundedButton(
+                          TocLocalizations.of(context)!.mStaticOpen,
+                          TocModuleColors.darkBlue,
+                          TocModuleColors.appBarBackground,
+                        ),
+                      ),
+                    )
+                  : Center(),
+              // Spacer(),
+              Padding(
+                padding: const EdgeInsets.only(top: 5, bottom: 15).r,
+                child: GestureDetector(
+                  onTap: () => Navigator.of(context).pop(false),
+                  child: roundedButton(
+                    TocLocalizations.of(context)!.mCommonClose,
+                    TocModuleColors.appBarBackground,
+                    TocModuleColors.darkBlue,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   Widget roundedButton(String buttonLabel, Color bgColor, Color textColor) {
@@ -272,12 +278,12 @@ class _TeachersNotesCardState extends State<TeachersNotesCard> {
       child: Text(
         buttonLabel,
         style: Theme.of(context).textTheme.displaySmall!.copyWith(
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w500,
-              color: textColor,
-              decoration: TextDecoration.none,
-              fontFamily: GoogleFonts.montserrat().fontFamily,
-            ),
+          fontSize: 12.sp,
+          fontWeight: FontWeight.w500,
+          color: textColor,
+          decoration: TextDecoration.none,
+          fontFamily: GoogleFonts.montserrat().fontFamily,
+        ),
       ),
     );
     return loginBtn;

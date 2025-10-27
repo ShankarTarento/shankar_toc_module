@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:just_the_tooltip/just_the_tooltip.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 import 'package:toc_module/toc/assessment_module/widget/assessment_v2_completed.dart';
 import 'package:toc_module/toc/assessment_module/widget/match_case_question.dart';
 import 'package:toc_module/toc/assessment_module/widget/multi_select_question.dart';
@@ -33,14 +34,21 @@ class AssessmentQuestions extends StatefulWidget {
   final bool isPreRequisite;
   final String? preEnrolmentAssessmentId;
   final String language;
-  AssessmentQuestions(this.course, this.title, this.identifier,
-      this.microSurvey, this.parentAction, this.batchId, this.duration,
-      {this.isNewAssessment = false,
-      required this.primaryCategory,
-      required this.parentCourseId,
-      this.isPreRequisite = false,
-      this.preEnrolmentAssessmentId,
-      required this.language});
+  AssessmentQuestions(
+    this.course,
+    this.title,
+    this.identifier,
+    this.microSurvey,
+    this.parentAction,
+    this.batchId,
+    this.duration, {
+    this.isNewAssessment = false,
+    required this.primaryCategory,
+    required this.parentCourseId,
+    this.isPreRequisite = false,
+    this.preEnrolmentAssessmentId,
+    required this.language,
+  });
 
   @override
   _AssessmentQuestionsState createState() => _AssessmentQuestionsState();
@@ -86,13 +94,16 @@ class _AssessmentQuestionsState extends State<AssessmentQuestions> {
     super.initState();
     try {
       timeLimit = DateTimeHelper.getMilliSecondsFromTimeFormat(
-          widget.duration.toString().split('-').last.trim());
+        widget.duration.toString().split('-').last.trim(),
+      );
     } catch (e) {
       timeLimit = DEFAULT_TIME_LIMIT;
     }
     _start = timeLimit == 0 ? DEFAULT_TIME_LIMIT : timeLimit;
-    courseId = TocPlayerViewModel()
-        .getEnrolledCourseId(context, widget.parentCourseId);
+    courseId = TocPlayerViewModel().getEnrolledCourseId(
+      context,
+      widget.parentCourseId,
+    );
     _microSurvey = widget.microSurvey['questions'];
     if (_start == timeLimit) {
       // telemetryType = TelemetryType.player;
@@ -171,17 +182,18 @@ class _AssessmentQuestionsState extends State<AssessmentQuestions> {
     var maxSize = widget.course.duration;
     double completionPercentage = 100.0;
     await TocRepository().updateContentProgress(
-        courseId: courseId,
-        batchId: batchId,
-        contentId: contentId,
-        status: status,
-        contentType: contentType,
-        current: current,
-        maxSize: maxSize,
-        completionPercentage: completionPercentage,
-        isAssessment: true,
-        isPreRequisite: widget.isPreRequisite,
-        language: widget.language);
+      courseId: courseId,
+      batchId: batchId,
+      contentId: contentId,
+      status: status,
+      contentType: contentType,
+      current: current,
+      maxSize: maxSize,
+      completionPercentage: completionPercentage,
+      isAssessment: true,
+      isPreRequisite: widget.isPreRequisite,
+      language: widget.language,
+    );
   }
 
   String formatHHMMSS(int seconds) {
@@ -203,25 +215,22 @@ class _AssessmentQuestionsState extends State<AssessmentQuestions> {
   void startTimer() {
     _timeFormat = formatHHMMSS(_start);
     const oneSec = const Duration(seconds: 1);
-    _timer = new Timer.periodic(
-      oneSec,
-      (Timer timer) {
-        if (_start == 0) {
+    _timer = new Timer.periodic(oneSec, (Timer timer) {
+      if (_start == 0) {
+        setState(() {
+          timer.cancel();
+          _questionIndex = _microSurvey.length;
+          _submitSurvey();
+        });
+      } else {
+        if (mounted) {
           setState(() {
-            timer.cancel();
-            _questionIndex = _microSurvey.length;
-            _submitSurvey();
+            _start--;
           });
-        } else {
-          if (mounted) {
-            setState(() {
-              _start--;
-            });
-          }
         }
-        _timeFormat = formatHHMMSS(_start);
-      },
-    );
+      }
+      _timeFormat = formatHHMMSS(_start);
+    });
   }
 
   void updateQuestionIndex(int value) {
@@ -278,8 +287,9 @@ class _AssessmentQuestionsState extends State<AssessmentQuestions> {
           if (_microSurvey[i]['questionType'] ==
               AssessmentQuestionType.matchCase) {
             for (int k = 0; k < _microSurvey[i]['options'].length; k++) {
-              _microSurvey[i]['options'][k]['response'] =
-                  userSelected != null ? userSelected['value'][k] : '';
+              _microSurvey[i]['options'][k]['response'] = userSelected != null
+                  ? userSelected['value'][k]
+                  : '';
             }
           } else if (_microSurvey[i]['questionType'] ==
                   AssessmentQuestionType.radioType ||
@@ -303,8 +313,9 @@ class _AssessmentQuestionsState extends State<AssessmentQuestions> {
             for (int k = 0; k < _microSurvey[i]['options'].length; k++) {
               _microSurvey[i]['options'][k]['userSelected'] = false;
               if (userSelected != null &&
-                  userSelected['value']
-                      .contains(_microSurvey[i]['options'][k]['optionId'])) {
+                  userSelected['value'].contains(
+                    _microSurvey[i]['options'][k]['optionId'],
+                  )) {
                 _microSurvey[i]['options'][k]['userSelected'] = true;
               }
             }
@@ -333,7 +344,7 @@ class _AssessmentQuestionsState extends State<AssessmentQuestions> {
       // 'timeLimit': widget.microSurvey['timeLimit'],
       'timeLimit': timeLimit,
       'isAssessment': true,
-      'questions': _microSurvey
+      'questions': _microSurvey,
     };
 
     Map response = await assessmentService.submitAssessment(surveyData);
@@ -341,17 +352,23 @@ class _AssessmentQuestionsState extends State<AssessmentQuestions> {
       _assessmentCompleted = true;
       _apiResponse = response;
     });
-    await Navigator.of(context).pushReplacement(MaterialPageRoute(
+    await Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
         builder: (context) => AssessmentV2Completed(
-                formatHHMMSS(timeLimit - _start), _apiResponse, () {
-              if ((widget.course.batches != null || widget.batchId != '') ||
-                  widget.isPreRequisite) {
-                _updateContentProgress();
-                widget.parentAction(100.0);
-              } else {
-                widget.parentAction(0.0);
-              }
-            })));
+          formatHHMMSS(timeLimit - _start),
+          _apiResponse,
+          () {
+            if ((widget.course.batches != null || widget.batchId != '') ||
+                widget.isPreRequisite) {
+              _updateContentProgress();
+              widget.parentAction(100.0);
+            } else {
+              widget.parentAction(0.0);
+            }
+          },
+        ),
+      ),
+    );
   }
 
   int? _getRadioQuestionCorrectAnswer(List options) {
@@ -388,71 +405,75 @@ class _AssessmentQuestionsState extends State<AssessmentQuestions> {
         alignment: Alignment.center,
         width: 0.7.sw,
         child: Padding(
-            padding: const EdgeInsets.only(left: 10).r,
-            child: Text(
-              // widget.assessmentInfo['name'],
-              widget.title,
-              overflow: TextOverflow.fade,
-              style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                  fontFamily: GoogleFonts.montserrat().fontFamily,
-                  letterSpacing: 0.25.sp),
-            )),
+          padding: const EdgeInsets.only(left: 10).r,
+          child: Text(
+            // widget.assessmentInfo['name'],
+            widget.title,
+            overflow: TextOverflow.fade,
+            style: Theme.of(context).textTheme.titleLarge!.copyWith(
+              fontFamily: GoogleFonts.montserrat().fontFamily,
+              letterSpacing: 0.25.sp,
+            ),
+          ),
+        ),
       ),
       actions: [
         (_questionIndex >= _microSurvey.length)
             ? Center()
             : (_timeFormat != null && _questionIndex < _microSurvey.length)
-                ? Container(
-                    child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      _timeFormat != null &&
-                              _questionIndex < _microSurvey.length
-                          ? Align(
-                              alignment: Alignment.centerLeft,
-                              child: Container(
-                                width: 80.w,
-                                margin: EdgeInsets.only(left: 16, right: 16).r,
-                                padding: EdgeInsets.all(4).r,
-                                decoration: BoxDecoration(
-                                    color: TocModuleColors.darkBlue
-                                        .withValues(alpha: 0.16),
-                                    borderRadius: BorderRadius.circular(16).r,
-                                    border: Border.all(
-                                        color: TocModuleColors.darkBlue,
-                                        width: 1)),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(right: 2).r,
-                                      child: Icon(
-                                        Icons.timer_outlined,
-                                        color: TocModuleColors.darkBlue,
-                                        size: 16.sp,
-                                      ),
-                                    ),
-                                    Container(
-                                      width: 40.w,
-                                      child: Text(
-                                        '$_timeFormat' + ' ',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall!
-                                            .copyWith(fontSize: 12.sp),
-                                      ),
-                                    )
-                                  ],
+            ? Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    _timeFormat != null && _questionIndex < _microSurvey.length
+                        ? Align(
+                            alignment: Alignment.centerLeft,
+                            child: Container(
+                              width: 80.w,
+                              margin: EdgeInsets.only(left: 16, right: 16).r,
+                              padding: EdgeInsets.all(4).r,
+                              decoration: BoxDecoration(
+                                color: TocModuleColors.darkBlue.withValues(
+                                  alpha: 0.16,
+                                ),
+                                borderRadius: BorderRadius.circular(16).r,
+                                border: Border.all(
+                                  color: TocModuleColors.darkBlue,
+                                  width: 1,
                                 ),
                               ),
-                            )
-                          : SizedBox.shrink(),
-                    ],
-                  ))
-                : SizedBox.shrink(),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 2).r,
+                                    child: Icon(
+                                      Icons.timer_outlined,
+                                      color: TocModuleColors.darkBlue,
+                                      size: 16.sp,
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 40.w,
+                                    child: Text(
+                                      '$_timeFormat' + ' ',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(fontSize: 12.sp),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        : SizedBox.shrink(),
+                  ],
+                ),
+              )
+            : SizedBox.shrink(),
       ],
       // centerTitle: true,
     );
@@ -483,80 +504,76 @@ class _AssessmentQuestionsState extends State<AssessmentQuestions> {
 
   Future _onSubmitPressed(contextMain) {
     return showModalBottomSheet(
-        isScrollControlled: true,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(8), topRight: Radius.circular(8))
-              .r,
-          side: BorderSide(
-            color: TocModuleColors.grey08,
-          ),
-        ),
-        context: context,
-        builder: (context) => SafeArea(
-              child: SingleChildScrollView(
-                child: Container(
-                  padding: EdgeInsets.fromLTRB(20, 8, 20, 20).r,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Align(
-                        alignment: Alignment.center,
-                        child: Container(
-                          margin: EdgeInsets.only(bottom: 20).r,
-                          height: 6.w,
-                          width: 0.25.sw,
-                          decoration: BoxDecoration(
-                            color: TocModuleColors.grey16,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(16)).r,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                          padding: const EdgeInsets.only(top: 5, bottom: 15).r,
-                          child: Text(
-                            TocLocalizations.of(context)!
-                                .mStaticQuestionsNotAttempted,
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleLarge!
-                                .copyWith(
-                                  fontWeight: FontWeight.w500,
-                                  fontFamily:
-                                      GoogleFonts.montserrat().fontFamily,
-                                ),
-                          )),
-                      GestureDetector(
-                        onTap: () async {
-                          setState(() {
-                            _questionIndex++;
-                          });
-                          _timer.cancel();
-                          Navigator.of(context).pop(true);
-                          await _submitSurvey();
-                        },
-                        child: roundedButton(
-                            TocLocalizations.of(context)!.mStaticNoSubmit,
-                            TocModuleColors.appBarBackground,
-                            TocModuleColors.primaryBlue),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 12).r,
-                        child: GestureDetector(
-                          onTap: () => Navigator.of(context).pop(),
-                          child: roundedButton(
-                              TocLocalizations.of(context)!
-                                  .mStaticYesTakeMeBack,
-                              TocModuleColors.primaryBlue,
-                              TocModuleColors.appBarBackground),
-                        ),
-                      )
-                    ],
+      isScrollControlled: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(8),
+          topRight: Radius.circular(8),
+        ).r,
+        side: BorderSide(color: TocModuleColors.grey08),
+      ),
+      context: context,
+      builder: (context) => SafeArea(
+        child: SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.fromLTRB(20, 8, 20, 20).r,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                    margin: EdgeInsets.only(bottom: 20).r,
+                    height: 6.w,
+                    width: 0.25.sw,
+                    decoration: BoxDecoration(
+                      color: TocModuleColors.grey16,
+                      borderRadius: BorderRadius.all(Radius.circular(16)).r,
+                    ),
                   ),
                 ),
-              ),
-            ));
+                Padding(
+                  padding: const EdgeInsets.only(top: 5, bottom: 15).r,
+                  child: Text(
+                    TocLocalizations.of(context)!.mStaticQuestionsNotAttempted,
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      fontWeight: FontWeight.w500,
+                      fontFamily: GoogleFonts.montserrat().fontFamily,
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    setState(() {
+                      _questionIndex++;
+                    });
+                    _timer.cancel();
+                    Navigator.of(context).pop(true);
+                    await _submitSurvey();
+                  },
+                  child: roundedButton(
+                    TocLocalizations.of(context)!.mStaticNoSubmit,
+                    TocModuleColors.appBarBackground,
+                    TocModuleColors.primaryBlue,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 12).r,
+                  child: GestureDetector(
+                    onTap: () => Navigator.of(context).pop(),
+                    child: roundedButton(
+                      TocLocalizations.of(context)!.mStaticYesTakeMeBack,
+                      TocModuleColors.primaryBlue,
+                      TocModuleColors.appBarBackground,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   Widget roundedButton(String buttonLabel, Color bgColor, Color textColor) {
@@ -573,10 +590,10 @@ class _AssessmentQuestionsState extends State<AssessmentQuestions> {
       ),
       child: Text(
         buttonLabel,
-        style: Theme.of(context)
-            .textTheme
-            .bodyMedium!
-            .copyWith(fontWeight: FontWeight.w500, color: textColor),
+        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+          fontWeight: FontWeight.w500,
+          color: textColor,
+        ),
       ),
     );
     return optionButton;
@@ -586,110 +603,114 @@ class _AssessmentQuestionsState extends State<AssessmentQuestions> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-          key: _scaffoldKey,
-          appBar: _getAppbar(),
-          body: _buildLayout(),
-          bottomSheet: (_questionIndex < _microSurvey.length)
-              ? _actionButton()
-              : PageLoader(
-                  bottom: 200,
-                )),
+        key: _scaffoldKey,
+        appBar: _getAppbar(),
+        body: _buildLayout(),
+        bottomSheet: (_questionIndex < _microSurvey.length)
+            ? _actionButton()
+            : PageLoader(bottom: 200),
+      ),
     );
   }
 
   Widget _buildLayout() {
     return SafeArea(
       child: Container(
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Stack(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
+            Stack(
               children: [
-                if (_questionIndex < _microSurvey.length)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 0).r,
+                Column(
+                  children: [
+                    if (_questionIndex < _microSurvey.length)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 0).r,
+                        child: Container(
+                          color: TocModuleColors.appBarBackground,
+                          child: _generatePagination(),
+                        ),
+                      ),
+                    SizedBox(height: 20.w),
+                  ],
+                ),
+                Positioned.fill(
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
                     child: Container(
-                        color: TocModuleColors.appBarBackground,
-                        child: _generatePagination()),
+                      margin: EdgeInsets.only(bottom: 8).r,
+                      height: 24.w,
+                      width: 24.w,
+                      decoration: BoxDecoration(
+                        color: TocModuleColors.deepBlue,
+                        borderRadius: BorderRadius.circular(100).r,
+                      ),
+                      child: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            _showQuestionIndex = !_showQuestionIndex;
+                          });
+                        },
+                        iconSize: 20.w,
+                        icon: _showQuestionIndex
+                            ? Icon(
+                                Icons.arrow_drop_up,
+                                color: TocModuleColors.appBarBackground,
+                              )
+                            : Icon(
+                                Icons.arrow_drop_down,
+                                color: TocModuleColors.appBarBackground,
+                              ),
+                        padding: EdgeInsets.zero.r,
+                      ),
+                    ),
                   ),
-                SizedBox(
-                  height: 20.w,
                 ),
               ],
             ),
-            Positioned.fill(
-              child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    margin: EdgeInsets.only(bottom: 8).r,
-                    height: 24.w,
-                    width: 24.w,
-                    decoration: BoxDecoration(
-                      color: TocModuleColors.deepBlue,
-                      borderRadius: BorderRadius.circular(100).r,
-                    ),
-                    child: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          _showQuestionIndex = !_showQuestionIndex;
-                        });
-                      },
-                      iconSize: 20.w,
-                      icon: _showQuestionIndex
-                          ? Icon(
-                              Icons.arrow_drop_up,
-                              color: TocModuleColors.appBarBackground,
-                            )
-                          : Icon(
-                              Icons.arrow_drop_down,
-                              color: TocModuleColors.appBarBackground,
-                            ),
-                      padding: EdgeInsets.zero.r,
-                    ),
-                  )),
-            ),
+            _assessmentProgress(),
+            _assessmentWidget(),
           ],
         ),
-        _assessmentProgress(),
-        _assessmentWidget(),
-      ])),
+      ),
     );
   }
 
   Widget _generatePagination() {
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Container(
-        padding: const EdgeInsets.fromLTRB(16, 4, 16, 0).r,
-        child: Column(
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _totalAnswerItem('${_microSurvey.length - _answeredQuestion}',
-                    TocLocalizations.of(context)!.mStaticNotAnswered),
-                SizedBox(
-                  width: 32.0.w,
-                ),
-                _totalAnswerItem('$_answeredQuestion',
-                    TocLocalizations.of(context)!.mStaticAnswered),
-              ],
-            ),
-            _headerToolTip(),
-          ],
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          padding: const EdgeInsets.fromLTRB(16, 4, 16, 0).r,
+          child: Column(
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _totalAnswerItem(
+                    '${_microSurvey.length - _answeredQuestion}',
+                    TocLocalizations.of(context)!.mStaticNotAnswered,
+                  ),
+                  SizedBox(width: 32.0.w),
+                  _totalAnswerItem(
+                    '$_answeredQuestion',
+                    TocLocalizations.of(context)!.mStaticAnswered,
+                  ),
+                ],
+              ),
+              _headerToolTip(),
+            ],
+          ),
         ),
-      ),
-      Visibility(
-        visible: _showQuestionIndex,
-        child: _microSurvey.length >= 15
-            ? SizedBox(
-                height: 0.15.sh,
-                child: _questionIndexWidget(),
-              )
-            : _questionIndexWidget(),
-      )
-    ]);
+        Visibility(
+          visible: _showQuestionIndex,
+          child: _microSurvey.length >= 15
+              ? SizedBox(height: 0.15.sh, child: _questionIndexWidget())
+              : _questionIndexWidget(),
+        ),
+      ],
+    );
   }
 
   Widget _totalAnswerItem(String value, String label) {
@@ -703,9 +724,9 @@ class _AssessmentQuestionsState extends State<AssessmentQuestions> {
             child: Text(
               value,
               style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 16.sp,
-                  ),
+                fontWeight: FontWeight.w600,
+                fontSize: 16.sp,
+              ),
             ),
           ),
           Padding(
@@ -713,11 +734,11 @@ class _AssessmentQuestionsState extends State<AssessmentQuestions> {
             child: Text(
               label,
               style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 12.sp,
-                  ),
+                fontWeight: FontWeight.w400,
+                fontSize: 12.sp,
+              ),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -731,10 +752,7 @@ class _AssessmentQuestionsState extends State<AssessmentQuestions> {
           Row(
             children: [
               Expanded(
-                child: Divider(
-                  thickness: 1,
-                  color: TocModuleColors.grey16,
-                ),
+                child: Divider(thickness: 1, color: TocModuleColors.grey16),
               ),
               Container(
                 padding: EdgeInsets.fromLTRB(8, 4, 8, 4).r,
@@ -743,16 +761,17 @@ class _AssessmentQuestionsState extends State<AssessmentQuestions> {
                   children: [
                     Text(
                       TocLocalizations.of(context)!.mStaticQuestion,
-                      style: Theme.of(context).textTheme.displayLarge!.copyWith(
-                            fontSize: 12.sp,
-                          ),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.displayLarge!.copyWith(fontSize: 12.sp),
                     ),
                     JustTheTooltip(
                       showDuration: const Duration(seconds: 30),
                       tailBaseWidth: 16,
                       triggerMode: TooltipTriggerMode.tap,
-                      backgroundColor:
-                          TocModuleColors.black.withValues(alpha: 0.96),
+                      backgroundColor: TocModuleColors.black.withValues(
+                        alpha: 0.96,
+                      ),
                       borderRadius: BorderRadius.all(Radius.circular(24)).r,
                       content: Container(
                         height: 180.w,
@@ -775,8 +794,8 @@ class _AssessmentQuestionsState extends State<AssessmentQuestions> {
                                             color: TocModuleColors
                                                 .appBarBackground,
                                             borderRadius: BorderRadius.all(
-                                                    Radius.circular(0))
-                                                .r,
+                                              Radius.circular(0),
+                                            ).r,
                                             border: Border.all(
                                               color: TocModuleColors.darkBlue,
                                             ),
@@ -787,16 +806,17 @@ class _AssessmentQuestionsState extends State<AssessmentQuestions> {
                                           width: 44.w,
                                           margin: const EdgeInsets.all(6).r,
                                           child: Center(
-                                              child: Icon(
-                                            Icons.check,
-                                            color: TocModuleColors.darkBlue,
-                                          )),
+                                            child: Icon(
+                                              Icons.check,
+                                              color: TocModuleColors.darkBlue,
+                                            ),
+                                          ),
                                           decoration: BoxDecoration(
                                             color: TocModuleColors.darkBlue
                                                 .withValues(alpha: 0.16),
                                             borderRadius: BorderRadius.all(
-                                                    Radius.circular(0))
-                                                .r,
+                                              Radius.circular(0),
+                                            ).r,
                                             border: Border.all(
                                               color: TocModuleColors.darkBlue,
                                             ),
@@ -807,16 +827,15 @@ class _AssessmentQuestionsState extends State<AssessmentQuestions> {
                                     Padding(
                                       padding: EdgeInsets.only(left: 16).r,
                                       child: Text(
-                                        TocLocalizations.of(context)!
-                                            .mStaticAnswered,
+                                        TocLocalizations.of(
+                                          context,
+                                        )!.mStaticAnswered,
                                         style: Theme.of(context)
                                             .textTheme
                                             .labelSmall!
-                                            .copyWith(
-                                              fontSize: 16.sp,
-                                            ),
+                                            .copyWith(fontSize: 16.sp),
                                       ),
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),
@@ -830,9 +849,9 @@ class _AssessmentQuestionsState extends State<AssessmentQuestions> {
                                       margin: const EdgeInsets.all(6).r,
                                       decoration: BoxDecoration(
                                         color: TocModuleColors.appBarBackground,
-                                        borderRadius:
-                                            BorderRadius.all(Radius.circular(0))
-                                                .r,
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(0),
+                                        ).r,
                                         border: Border.all(
                                           color: TocModuleColors.black
                                               .withValues(alpha: 0.4),
@@ -842,16 +861,15 @@ class _AssessmentQuestionsState extends State<AssessmentQuestions> {
                                     Padding(
                                       padding: EdgeInsets.only(left: 16).r,
                                       child: Text(
-                                        TocLocalizations.of(context)!
-                                            .mStaticNotAnswered,
+                                        TocLocalizations.of(
+                                          context,
+                                        )!.mStaticNotAnswered,
                                         style: Theme.of(context)
                                             .textTheme
                                             .labelSmall!
-                                            .copyWith(
-                                              fontSize: 16.sp,
-                                            ),
+                                            .copyWith(fontSize: 16.sp),
                                       ),
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),
@@ -869,11 +887,11 @@ class _AssessmentQuestionsState extends State<AssessmentQuestions> {
                                             color: TocModuleColors
                                                 .appBarBackground,
                                             borderRadius: BorderRadius.all(
-                                                    Radius.circular(50))
-                                                .r,
+                                              Radius.circular(50),
+                                            ).r,
                                             border: Border.all(
-                                                color:
-                                                    TocModuleColors.primaryOne),
+                                              color: TocModuleColors.primaryOne,
+                                            ),
                                           ),
                                         ),
                                         Container(
@@ -884,11 +902,11 @@ class _AssessmentQuestionsState extends State<AssessmentQuestions> {
                                             color: TocModuleColors.primaryOne
                                                 .withValues(alpha: 0.16),
                                             borderRadius: BorderRadius.all(
-                                                    Radius.circular(50))
-                                                .r,
+                                              Radius.circular(50),
+                                            ).r,
                                             border: Border.all(
-                                                color:
-                                                    TocModuleColors.primaryOne),
+                                              color: TocModuleColors.primaryOne,
+                                            ),
                                           ),
                                         ),
                                       ],
@@ -896,19 +914,18 @@ class _AssessmentQuestionsState extends State<AssessmentQuestions> {
                                     Padding(
                                       padding: EdgeInsets.only(left: 16).r,
                                       child: Text(
-                                        TocLocalizations.of(context)!
-                                            .mStaticFlagged,
+                                        TocLocalizations.of(
+                                          context,
+                                        )!.mStaticFlagged,
                                         style: Theme.of(context)
                                             .textTheme
                                             .labelSmall!
-                                            .copyWith(
-                                              fontSize: 16.sp,
-                                            ),
+                                            .copyWith(fontSize: 16.sp),
                                       ),
-                                    )
+                                    ),
                                   ],
                                 ),
-                              )
+                              ),
                             ],
                           ),
                         ),
@@ -919,8 +936,11 @@ class _AssessmentQuestionsState extends State<AssessmentQuestions> {
                         shape: const CircleBorder(),
                         child: Padding(
                           padding: const EdgeInsets.only(left: 4).r,
-                          child: Icon(Icons.info_outline,
-                              color: TocModuleColors.greys60, size: 14.sp),
+                          child: Icon(
+                            Icons.info_outline,
+                            color: TocModuleColors.greys60,
+                            size: 14.sp,
+                          ),
                         ),
                       ),
                     ),
@@ -928,13 +948,10 @@ class _AssessmentQuestionsState extends State<AssessmentQuestions> {
                 ),
               ),
               Expanded(
-                child: Divider(
-                  thickness: 1,
-                  color: TocModuleColors.grey16,
-                ),
+                child: Divider(thickness: 1, color: TocModuleColors.grey16),
               ),
             ],
-          )
+          ),
         ],
       ),
     );
@@ -951,79 +968,89 @@ class _AssessmentQuestionsState extends State<AssessmentQuestions> {
             direction: Axis.horizontal,
             children: _microSurvey.map((item) {
               return InkWell(
-                  onTap: () {
-                    // _generateInteractTelemetryData(
-                    //     _microSurvey[_microSurvey.indexOf(item)]['questionId'],
-                    //     TelemetrySubType.click);
-                    _questionIndex = _microSurvey.indexOf(item);
-                    setState(() {
-                      if (_answerGiven(_microSurvey[_microSurvey.indexOf(item)]
-                          ['questionId'])) {
-                        _showAnswer = widget.primaryCategory ==
-                            PrimaryCategory.practiceAssessment;
-                      } else {
-                        _showAnswer = false;
-                      }
-                      _nextQuestion = (_questionIndex > 0) ? true : false;
-                    });
-                  },
-                  child: Container(
-                    height: 28.w,
-                    width: 44.w,
-                    margin: const EdgeInsets.all(6).r,
-                    decoration: BoxDecoration(
-                      color: (_flaggedQuestions
-                              .contains(_microSurvey.indexOf(item)))
-                          ? TocModuleColors.primaryOne.withValues(alpha: 0.16)
-                          : _questionIndex == _microSurvey.indexOf(item)
-                              ? TocModuleColors.appBarBackground
-                              : _answerGiven(
-                                      _microSurvey[_microSurvey.indexOf(item)]
-                                          ['questionId'])
-                                  ? TocModuleColors.darkBlue
-                                      .withValues(alpha: 0.16)
-                                  : TocModuleColors.appBarBackground,
-                      borderRadius: BorderRadius.all((_flaggedQuestions
-                              .contains(_microSurvey.indexOf(item)))
+                onTap: () {
+                  // _generateInteractTelemetryData(
+                  //     _microSurvey[_microSurvey.indexOf(item)]['questionId'],
+                  //     TelemetrySubType.click);
+                  _questionIndex = _microSurvey.indexOf(item);
+                  setState(() {
+                    if (_answerGiven(
+                      _microSurvey[_microSurvey.indexOf(item)]['questionId'],
+                    )) {
+                      _showAnswer =
+                          widget.primaryCategory ==
+                          PrimaryCategory.practiceAssessment;
+                    } else {
+                      _showAnswer = false;
+                    }
+                    _nextQuestion = (_questionIndex > 0) ? true : false;
+                  });
+                },
+                child: Container(
+                  height: 28.w,
+                  width: 44.w,
+                  margin: const EdgeInsets.all(6).r,
+                  decoration: BoxDecoration(
+                    color:
+                        (_flaggedQuestions.contains(_microSurvey.indexOf(item)))
+                        ? TocModuleColors.primaryOne.withValues(alpha: 0.16)
+                        : _questionIndex == _microSurvey.indexOf(item)
+                        ? TocModuleColors.appBarBackground
+                        : _answerGiven(
+                            _microSurvey[_microSurvey.indexOf(
+                              item,
+                            )]['questionId'],
+                          )
+                        ? TocModuleColors.darkBlue.withValues(alpha: 0.16)
+                        : TocModuleColors.appBarBackground,
+                    borderRadius: BorderRadius.all(
+                      (_flaggedQuestions.contains(_microSurvey.indexOf(item)))
                           ? Radius.circular(50).r
-                          : Radius.circular(0).r),
-                      border: Border.all(
-                          color: (_flaggedQuestions
-                                  .contains(_microSurvey.indexOf(item)))
-                              ? TocModuleColors.primaryOne
-                              : _questionIndex == _microSurvey.indexOf(item)
-                                  ? TocModuleColors.darkBlue
-                                  : _answerGiven(_microSurvey[_microSurvey
-                                          .indexOf(item)]['questionId'])
-                                      ? TocModuleColors.darkBlue
-                                      : TocModuleColors.black
-                                          .withValues(alpha: 0.4)),
+                          : Radius.circular(0).r,
                     ),
-                    child: Center(
-                      child: (_answerGiven(
-                                  _microSurvey[_microSurvey.indexOf(item)]
-                                      ['questionId']) &&
-                              _questionIndex != _microSurvey.indexOf(item))
-                          ? Icon(
-                              Icons.check,
-                              color: TocModuleColors.darkBlue,
+                    border: Border.all(
+                      color:
+                          (_flaggedQuestions.contains(
+                            _microSurvey.indexOf(item),
+                          ))
+                          ? TocModuleColors.primaryOne
+                          : _questionIndex == _microSurvey.indexOf(item)
+                          ? TocModuleColors.darkBlue
+                          : _answerGiven(
+                              _microSurvey[_microSurvey.indexOf(
+                                item,
+                              )]['questionId'],
                             )
-                          : Text(
-                              '${_microSurvey.indexOf(item) + 1}',
-                              style: GoogleFonts.lato(
-                                color:
-                                    _questionIndex == _microSurvey.indexOf(item)
-                                        ? TocModuleColors.darkBlue
-                                        : TocModuleColors.greys60,
-                                fontWeight:
-                                    _questionIndex == _microSurvey.indexOf(item)
-                                        ? FontWeight.w700
-                                        : FontWeight.w400,
-                                fontSize: 14.sp,
-                              ),
-                            ),
+                          ? TocModuleColors.darkBlue
+                          : TocModuleColors.black.withValues(alpha: 0.4),
                     ),
-                  ));
+                  ),
+                  child: Center(
+                    child:
+                        (_answerGiven(
+                              _microSurvey[_microSurvey.indexOf(
+                                item,
+                              )]['questionId'],
+                            ) &&
+                            _questionIndex != _microSurvey.indexOf(item))
+                        ? Icon(Icons.check, color: TocModuleColors.darkBlue)
+                        : Text(
+                            '${_microSurvey.indexOf(item) + 1}',
+                            style: GoogleFonts.lato(
+                              color:
+                                  _questionIndex == _microSurvey.indexOf(item)
+                                  ? TocModuleColors.darkBlue
+                                  : TocModuleColors.greys60,
+                              fontWeight:
+                                  _questionIndex == _microSurvey.indexOf(item)
+                                  ? FontWeight.w700
+                                  : FontWeight.w400,
+                              fontSize: 14.sp,
+                            ),
+                          ),
+                  ),
+                ),
+              );
             }).toList(),
           ),
         ),
@@ -1041,55 +1068,57 @@ class _AssessmentQuestionsState extends State<AssessmentQuestions> {
 
   Widget _assessmentWidget() {
     return Expanded(
-        child: Container(
-      color: TocModuleColors.appBarBackground,
-      child: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (_questionIndex < _microSurvey.length)
-              Container(
-                padding: const EdgeInsets.fromLTRB(16, 4, 16, 0),
-                child: Row(
-                  children: [
-                    Text(
-                      TocLocalizations.of(context)!.mStaticQuestion,
-                      style: GoogleFonts.lato(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16.0,
+      child: Container(
+        color: TocModuleColors.appBarBackground,
+        child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (_questionIndex < _microSurvey.length)
+                Container(
+                  padding: const EdgeInsets.fromLTRB(16, 4, 16, 0),
+                  child: Row(
+                    children: [
+                      Text(
+                        TocLocalizations.of(context)!.mStaticQuestion,
+                        style: GoogleFonts.lato(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16.0,
+                        ),
                       ),
-                    ),
-                    Text(
-                      ' ${_questionIndex + 1} ${TocLocalizations.of(context)!.mOutOf} ${_microSurvey.length}',
-                      style: GoogleFonts.lato(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 16.0,
+                      Text(
+                        ' ${_questionIndex + 1} ${TocLocalizations.of(context)!.mOutOf} ${_microSurvey.length}',
+                        style: GoogleFonts.lato(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 16.0,
+                        ),
                       ),
-                    ),
-                    Spacer(),
-                    widget.primaryCategory != PrimaryCategory.finalAssessment
-                        ? IconButton(
-                            onPressed: () {
-                              if (_answerGiven(
-                                  _microSurvey[_questionIndex]['questionId'])) {
-                                setState(() {
-                                  _nextQuestion = true;
-                                  _showAnswer = true;
-                                });
-                              } else {
-                                _showDialogBox();
-                              }
-                            },
-                            icon: Icon(
-                              Icons.remove_red_eye,
-                              color: _showAnswer
-                                  ? TocModuleColors.darkBlue
-                                  : TocModuleColors.greys60,
-                              size: 24.w.sp,
-                            ))
-                        : Center(),
-                    IconButton(
+                      Spacer(),
+                      widget.primaryCategory != PrimaryCategory.finalAssessment
+                          ? IconButton(
+                              onPressed: () {
+                                if (_answerGiven(
+                                  _microSurvey[_questionIndex]['questionId'],
+                                )) {
+                                  setState(() {
+                                    _nextQuestion = true;
+                                    _showAnswer = true;
+                                  });
+                                } else {
+                                  _showDialogBox();
+                                }
+                              },
+                              icon: Icon(
+                                Icons.remove_red_eye,
+                                color: _showAnswer
+                                    ? TocModuleColors.darkBlue
+                                    : TocModuleColors.greys60,
+                                size: 24.w.sp,
+                              ),
+                            )
+                          : Center(),
+                      IconButton(
                         iconSize: 24.w,
                         onPressed: () {
                           if (!_flaggedQuestions.contains(_questionIndex)) {
@@ -1110,85 +1139,93 @@ class _AssessmentQuestionsState extends State<AssessmentQuestions> {
                             : Icon(
                                 Icons.flag_outlined,
                                 color: TocModuleColors.greys60,
-                              )),
-                  ],
+                              ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            _questionIndex >= _microSurvey.length
-                ? _assessmentCompleted
-                    ? Container()
-                    : PageLoader(
-                        bottom: 200,
-                      )
-                : _microSurvey[_questionIndex]['questionType'] ==
+              _questionIndex >= _microSurvey.length
+                  ? _assessmentCompleted
+                        ? Container()
+                        : PageLoader(bottom: 200)
+                  : _microSurvey[_questionIndex]['questionType'] ==
                             AssessmentQuestionType.radioType ||
                         _microSurvey[_questionIndex]['questionType'] ==
                             AssessmentQuestionType.radioWeightageType ||
                         _microSurvey[_questionIndex]['questionType'] ==
                             AssessmentQuestionType.checkBoxWeightageType
-                    ? _radioAssessment()
-                    : _microSurvey[_questionIndex]['questionType'] ==
-                            AssessmentQuestionType.checkBoxType
-                        ? _multiSelectAssessment()
-                        : _microSurvey[_questionIndex]['questionType'] ==
-                                AssessmentQuestionType.matchCase
-                            ? _matchCaseAssessment()
-                            : Container(
-                                color: TocModuleColors.appBarBackground,
-                                child: SingleFillInTheBlankQuestion(
-                                    _microSurvey[_questionIndex],
-                                    _questionIndex + 1,
-                                    _getQuestionAnswer(
-                                        _microSurvey[_questionIndex]
-                                            ['questionId']),
-                                    _showAnswer,
-                                    setUserAnswer)),
-          ],
+                  ? _radioAssessment()
+                  : _microSurvey[_questionIndex]['questionType'] ==
+                        AssessmentQuestionType.checkBoxType
+                  ? _multiSelectAssessment()
+                  : _microSurvey[_questionIndex]['questionType'] ==
+                        AssessmentQuestionType.matchCase
+                  ? _matchCaseAssessment()
+                  : Container(
+                      color: TocModuleColors.appBarBackground,
+                      child: SingleFillInTheBlankQuestion(
+                        _microSurvey[_questionIndex],
+                        _questionIndex + 1,
+                        _getQuestionAnswer(
+                          _microSurvey[_questionIndex]['questionId'],
+                        ),
+                        _showAnswer,
+                        setUserAnswer,
+                      ),
+                    ),
+            ],
+          ),
         ),
       ),
-    ));
+    );
   }
 
   Widget _radioAssessment() {
     return Container(
-        child: RadioQuestion(
-            _microSurvey[_questionIndex],
-            _microSurvey[_questionIndex]['body'],
-            _questionIndex + 1,
-            _getQuestionAnswer(_microSurvey[_questionIndex]['questionId']),
-            _showAnswer,
-            _getRadioQuestionCorrectAnswer(
-                _microSurvey[_questionIndex]['options']),
-            setUserAnswer));
+      child: RadioQuestion(
+        _microSurvey[_questionIndex],
+        _microSurvey[_questionIndex]['body'],
+        _questionIndex + 1,
+        _getQuestionAnswer(_microSurvey[_questionIndex]['questionId']),
+        _showAnswer,
+        _getRadioQuestionCorrectAnswer(_microSurvey[_questionIndex]['options']),
+        setUserAnswer,
+      ),
+    );
   }
 
   Widget _multiSelectAssessment() {
     return Container(
-        child: MultiSelectQuestion(
-            _microSurvey[_questionIndex],
-            _microSurvey[_questionIndex]['body'],
-            _questionIndex + 1,
-            _getQuestionAnswer(_microSurvey[_questionIndex]['questionId']),
-            _showAnswer,
-            setUserAnswer));
+      child: MultiSelectQuestion(
+        _microSurvey[_questionIndex],
+        _microSurvey[_questionIndex]['body'],
+        _questionIndex + 1,
+        _getQuestionAnswer(_microSurvey[_questionIndex]['questionId']),
+        _showAnswer,
+        setUserAnswer,
+      ),
+    );
   }
 
   Widget _matchCaseAssessment() {
     return Container(
-        child: MatchCaseQuestion(
-            _microSurvey[_questionIndex],
-            _microSurvey[_questionIndex]['body'],
-            _shuffleOptions(_microSurvey[_questionIndex]['options']),
-            _questionIndex + 1,
-            _getQuestionAnswer(_microSurvey[_questionIndex]['questionId']),
-            _showAnswer,
-            setUserAnswer));
+      child: MatchCaseQuestion(
+        _microSurvey[_questionIndex],
+        _microSurvey[_questionIndex]['body'],
+        _shuffleOptions(_microSurvey[_questionIndex]['options']),
+        _questionIndex + 1,
+        _getQuestionAnswer(_microSurvey[_questionIndex]['questionId']),
+        _showAnswer,
+        setUserAnswer,
+      ),
+    );
   }
 
   Widget _actionButton() {
     return Container(
       height: _questionIndex >= _microSurvey.length ? 0.w : 74.w,
-      padding: ((_nextQuestion ||
+      padding:
+          ((_nextQuestion ||
                   widget.primaryCategory == PrimaryCategory.finalAssessment) &&
               _questionIndex != 0)
           ? EdgeInsets.fromLTRB(8, 16, 12, 18).r
@@ -1201,16 +1238,18 @@ class _AssessmentQuestionsState extends State<AssessmentQuestions> {
               ? Container(
                   width: 0.44.sw,
                   child: ButtonWithBorder(
-                      onPressCallback: () {
-                        setState(() {
-                          if (_questionIndex != 0) {
-                            _questionIndex--;
-                            _nextQuestion = true;
-                            _showAnswer = false;
-                          }
-                        });
-                      },
-                      text: TocLocalizations.of(context)!.mStaticPrevious))
+                    onPressCallback: () {
+                      setState(() {
+                        if (_questionIndex != 0) {
+                          _questionIndex--;
+                          _nextQuestion = true;
+                          _showAnswer = false;
+                        }
+                      });
+                    },
+                    text: TocLocalizations.of(context)!.mStaticPrevious,
+                  ),
+                )
               : Container(),
           Container(
             width: _questionIndex != 0 ? 0.44.sw : 1.sw - 24.w,
@@ -1231,7 +1270,8 @@ class _AssessmentQuestionsState extends State<AssessmentQuestions> {
                   _timer.cancel();
                 } else {
                   if (_answerGiven(
-                      _microSurvey[_questionIndex + 1]['questionId'])) {
+                    _microSurvey[_questionIndex + 1]['questionId'],
+                  )) {
                     setState(() {
                       _questionIndex++;
                       _nextQuestion = true;
@@ -1249,17 +1289,18 @@ class _AssessmentQuestionsState extends State<AssessmentQuestions> {
               style: TextButton.styleFrom(
                 backgroundColor: TocModuleColors.darkBlue,
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50).r,
-                    side: BorderSide(color: TocModuleColors.darkBlue)),
+                  borderRadius: BorderRadius.circular(50).r,
+                  side: BorderSide(color: TocModuleColors.darkBlue),
+                ),
               ),
               child: Text(
                 _questionIndex < _microSurvey.length - 1
                     ? TocLocalizations.of(context)!.mNextQuestion
                     : TocLocalizations.of(context)!.mCommonsubmit,
                 style: Theme.of(context).textTheme.displaySmall!.copyWith(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16.sp,
-                    ),
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16.sp,
+                ),
               ),
             ),
           ),
@@ -1269,52 +1310,56 @@ class _AssessmentQuestionsState extends State<AssessmentQuestions> {
   }
 
   _showDialogBox() => {
-        showDialog(
-            barrierDismissible: true,
-            context: context,
-            builder: (BuildContext contxt) => FutureBuilder(
-                future:
-                    Future.delayed(Duration(seconds: 3)).then((value) => true),
-                builder: (BuildContext futureContext, AsyncSnapshot snapshot) {
-                  if (snapshot.hasData) {
-                    Navigator.of(contxt).pop();
-                  }
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      AlertDialog(
-                          insetPadding: EdgeInsets.symmetric(horizontal: 16).r,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12).r),
-                          actionsPadding: EdgeInsets.zero,
-                          actions: [
-                            Container(
-                              padding: EdgeInsets.all(16).r,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12).r,
-                                  color: TocModuleColors.negativeLight),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      TocLocalizations.of(context)!
-                                          .mGiveYourAnswerBeforeShowingAnswer,
-                                      style: TextStyle(
-                                        fontSize: 14.sp,
-                                        color: TocModuleColors.appBarBackground,
-                                      ),
-                                      maxLines: 3,
-                                    ),
-                                  ),
-                                ],
-                              ),
+    showDialog(
+      barrierDismissible: true,
+      context: context,
+      builder: (BuildContext contxt) => FutureBuilder(
+        future: Future.delayed(Duration(seconds: 3)).then((value) => true),
+        builder: (BuildContext futureContext, AsyncSnapshot snapshot) {
+          if (snapshot.hasData) {
+            Navigator.of(contxt).pop();
+          }
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              AlertDialog(
+                insetPadding: EdgeInsets.symmetric(horizontal: 16).r,
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12).r,
+                ),
+                actionsPadding: EdgeInsets.zero,
+                actions: [
+                  Container(
+                    padding: EdgeInsets.all(16).r,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12).r,
+                      color: TocModuleColors.negativeLight,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            TocLocalizations.of(
+                              context,
+                            )!.mGiveYourAnswerBeforeShowingAnswer,
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              color: TocModuleColors.appBarBackground,
                             ),
-                          ]),
-                    ],
-                  );
-                }))
-      };
+                            maxLines: 3,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          );
+        },
+      ),
+    ),
+  };
 }

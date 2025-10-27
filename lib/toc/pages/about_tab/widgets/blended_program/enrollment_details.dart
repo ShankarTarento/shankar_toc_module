@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/model/batch_model.dart';
 
@@ -15,16 +16,16 @@ class EnrollmentDetailsForm extends StatefulWidget {
   final ValueChanged<String>? enrollParentAction;
   final Function()? previousPage;
 
-  const EnrollmentDetailsForm(
-      {Key? key,
-      this.surveyform,
-      this.courseId,
-      this.formId,
-      this.enrollParentAction,
-      this.batch,
-      this.previousPage,
-      this.courseDetails})
-      : super(key: key);
+  const EnrollmentDetailsForm({
+    Key? key,
+    this.surveyform,
+    this.courseId,
+    this.formId,
+    this.enrollParentAction,
+    this.batch,
+    this.previousPage,
+    this.courseDetails,
+  }) : super(key: key);
 
   @override
   State<EnrollmentDetailsForm> createState() => _EnrollmentDetailsFormState();
@@ -67,53 +68,58 @@ class _EnrollmentDetailsFormState extends State<EnrollmentDetailsForm> {
     // if (answerVal[index] == null) {
     //   answerVal[index] = radioButtons[0];
     // }
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      question('${index + 1}. ${radiofield['name']}'),
-      SizedBox(height: 16.w),
-      SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child:
-            Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
-          ...List.generate(
-            radioButtons.length,
-            (listIndex) => Container(
-              padding: EdgeInsets.only(right: 26).r,
-              height: 48.w,
-              margin: EdgeInsets.only(right: 20).r,
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: (answerVal[index] == radioButtons[listIndex])
-                      ? TocModuleColors.darkBlue
-                      : TocModuleColors.grey16,
-                  width: 1.w,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        question('${index + 1}. ${radiofield['name']}'),
+        SizedBox(height: 16.w),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              ...List.generate(
+                radioButtons.length,
+                (listIndex) => Container(
+                  padding: EdgeInsets.only(right: 26).r,
+                  height: 48.w,
+                  margin: EdgeInsets.only(right: 20).r,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: (answerVal[index] == radioButtons[listIndex])
+                          ? TocModuleColors.darkBlue
+                          : TocModuleColors.grey16,
+                      width: 1.w,
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Radio<String>(
+                        activeColor: TocModuleColors.darkBlue,
+                        value: radioButtons[listIndex],
+                        groupValue: answerVal[index],
+                        onChanged: (val) {
+                          setState(() {
+                            answerVal[index] = val!;
+                            checkMandatoryFieldsStatus();
+                          });
+                        },
+                      ),
+                      Text(
+                        radioButtons[listIndex],
+                        style: Theme.of(
+                          context,
+                        ).textTheme.bodyMedium!.copyWith(letterSpacing: 0.25),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              child: Row(
-                children: [
-                  Radio<String>(
-                    activeColor: TocModuleColors.darkBlue,
-                    value: radioButtons[listIndex],
-                    groupValue: answerVal[index],
-                    onChanged: (val) {
-                      setState(() {
-                        answerVal[index] = val!;
-                        checkMandatoryFieldsStatus();
-                      });
-                    },
-                  ),
-                  Text(
-                    radioButtons[listIndex],
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          letterSpacing: 0.25,
-                        ),
-                  ),
-                ],
-              ),
-            ),
+            ],
           ),
-        ]),
-      )
-    ]);
+        ),
+      ],
+    );
   }
 
   submitForm() async {
@@ -132,7 +138,10 @@ class _EnrollmentDetailsFormState extends State<EnrollmentDetailsForm> {
     }
     dataObject['Course ID and Name'] = widget.courseDetails;
     formResponse = await learnService.submitSurveyForm(
-        widget.formId, dataObject, widget.courseId);
+      widget.formId,
+      dataObject,
+      widget.courseId,
+    );
     if (formResponse == 'success') {
       setState(() {});
     }
@@ -175,39 +184,40 @@ class _EnrollmentDetailsFormState extends State<EnrollmentDetailsForm> {
   }
 
   Widget textareaTypeQstn(list, index) {
-    return Column(children: [
-      question('${index + 1}. ${list['name']}'),
-      SizedBox(
-        height: 6.w,
-      ),
-      Container(
-        decoration: BoxDecoration(
-            border: Border.all(width: 1.w, color: TocModuleColors.grey16)),
-        padding: EdgeInsets.only(left: 10, right: 10).r,
-        child: TextField(
-          controller: textFieldControllers[index],
-          maxLines: null,
-          onChanged: (value) {
-            setState(() {
-              enableConfirmbtn = checkMandatoryFieldsStatus();
-            });
-          },
-          keyboardType: TextInputType.multiline,
-          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+    return Column(
+      children: [
+        question('${index + 1}. ${list['name']}'),
+        SizedBox(height: 6.w),
+        Container(
+          decoration: BoxDecoration(
+            border: Border.all(width: 1.w, color: TocModuleColors.grey16),
+          ),
+          padding: EdgeInsets.only(left: 10, right: 10).r,
+          child: TextField(
+            controller: textFieldControllers[index],
+            maxLines: null,
+            onChanged: (value) {
+              setState(() {
+                enableConfirmbtn = checkMandatoryFieldsStatus();
+              });
+            },
+            keyboardType: TextInputType.multiline,
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+              letterSpacing: 0.25,
+              height: 1.5.w,
+            ),
+            decoration: InputDecoration(
+              hintText: 'Type here',
+              border: InputBorder.none,
+              hintStyle: Theme.of(context).textTheme.labelLarge!.copyWith(
                 letterSpacing: 0.25,
                 height: 1.5.w,
               ),
-          decoration: InputDecoration(
-            hintText: 'Type here',
-            border: InputBorder.none,
-            hintStyle: Theme.of(context).textTheme.labelLarge!.copyWith(
-                  letterSpacing: 0.25,
-                  height: 1.5.w,
-                ),
+            ),
           ),
         ),
-      )
-    ]);
+      ],
+    );
   }
 
   Widget question(text) {
@@ -215,9 +225,9 @@ class _EnrollmentDetailsFormState extends State<EnrollmentDetailsForm> {
       alignment: Alignment.centerLeft,
       child: Text(
         text,
-        style: Theme.of(context).textTheme.displayLarge!.copyWith(
-              letterSpacing: 0.25,
-            ),
+        style: Theme.of(
+          context,
+        ).textTheme.displayLarge!.copyWith(letterSpacing: 0.25),
       ),
     );
   }
@@ -226,42 +236,44 @@ class _EnrollmentDetailsFormState extends State<EnrollmentDetailsForm> {
     if (checkboxAnswerVal[index] == null) {
       checkboxAnswerVal[index] = [];
     }
-    return Column(children: [
-      question('${index + 1}. ${checklist['name']}'),
-      SizedBox(
-        height: 8.w,
-      ),
-      ListView.builder(
+    return Column(
+      children: [
+        question('${index + 1}. ${checklist['name']}'),
+        SizedBox(height: 8.w),
+        ListView.builder(
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          itemCount:
-              checklist['values'] != null ? checklist['values'].length : 0,
+          itemCount: checklist['values'] != null
+              ? checklist['values'].length
+              : 0,
           itemBuilder: (context, checkboxIndex) {
             return Container(
               decoration: BoxDecoration(
-                  border: Border.all(width: 1, color: TocModuleColors.grey16)),
-              padding: EdgeInsets.only(
-                left: 10,
-                right: 10,
-              ).r,
+                border: Border.all(width: 1, color: TocModuleColors.grey16),
+              ),
+              padding: EdgeInsets.only(left: 10, right: 10).r,
               margin: EdgeInsets.only(top: 6).r,
               child: Row(
                 children: [
                   Checkbox(
                     checkColor: TocModuleColors.appBarBackground,
                     activeColor: TocModuleColors.darkBlue,
-                    value: checkboxAnswerVal[index]!
-                            .contains(checklist['values'][checkboxIndex]['key'])
+                    value:
+                        checkboxAnswerVal[index]!.contains(
+                          checklist['values'][checkboxIndex]['key'],
+                        )
                         ? true
                         : false,
                     onChanged: (bool? value) {
                       setState(() {
                         if (value!) {
-                          checkboxAnswerVal[index]!
-                              .add(checklist['values'][checkboxIndex]['key']);
+                          checkboxAnswerVal[index]!.add(
+                            checklist['values'][checkboxIndex]['key'],
+                          );
                         } else {
                           checkboxAnswerVal[index]!.remove(
-                              checklist['values'][checkboxIndex]['key']);
+                            checklist['values'][checkboxIndex]['key'],
+                          );
                         }
                         checkMandatoryFieldsStatus();
                       });
@@ -270,19 +282,22 @@ class _EnrollmentDetailsFormState extends State<EnrollmentDetailsForm> {
                   Wrap(
                     children: [
                       Container(
-                          width: 0.6.sw,
-                          child: Text(
-                            checklist['values'][checkboxIndex]['key'],
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          )),
+                        width: 0.6.sw,
+                        child: Text(
+                          checklist['values'][checkboxIndex]['key'],
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
                     ],
-                  )
+                  ),
                 ],
               ),
             );
-          })
-    ]);
+          },
+        ),
+      ],
+    );
   }
 
   Widget starRating(list, index) {
@@ -290,9 +305,7 @@ class _EnrollmentDetailsFormState extends State<EnrollmentDetailsForm> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         question('${index + 1}. ${list['name']}'),
-        SizedBox(
-          height: 8.w,
-        ),
+        SizedBox(height: 8.w),
         RatingBar.builder(
           unratedColor: TocModuleColors.grey16,
           initialRating: 0,
@@ -302,10 +315,8 @@ class _EnrollmentDetailsFormState extends State<EnrollmentDetailsForm> {
           itemCount: 5,
           itemSize: 30,
           itemPadding: EdgeInsets.symmetric(horizontal: 0.0).r,
-          itemBuilder: (context, _) => Icon(
-            Icons.star_rounded,
-            color: FeedbackColors.ratedColor,
-          ),
+          itemBuilder: (context, _) =>
+              Icon(Icons.star_rounded, color: FeedbackColors.ratedColor),
           onRatingUpdate: (rate) {
             rating = rate;
           },
@@ -322,9 +333,7 @@ class _EnrollmentDetailsFormState extends State<EnrollmentDetailsForm> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-              height: 8.w,
-            ),
+            SizedBox(height: 8.w),
             Text(
               TocLocalizations.of(context)!.mStaticEnterDetailsToEnrol,
               style: GoogleFonts.montserrat(
@@ -335,52 +344,51 @@ class _EnrollmentDetailsFormState extends State<EnrollmentDetailsForm> {
             Padding(
               padding: const EdgeInsets.only(top: 20, right: 18).r,
               child: ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: surveyFields.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: EdgeInsets.only(bottom: 26).r,
-                      child: surveyFields[index]['fieldType'] ==
-                              FieldTypes.radio.name
-                          ? Container(
-                              color: TocModuleColors.appBarBackground,
-                              child: radioTypeQstn(
-                                  surveyFields[index],
-                                  index,
-                                  surveyFields[index]['values']
-                                      .map((e) => e['key'].toString())
-                                      .toList()),
-                            )
-                          : surveyFields[index]['fieldType'] ==
-                                      FieldTypes.text.name ||
-                                  surveyFields[index]['fieldType'] ==
-                                      FieldTypes.textarea.name
-                              ? Container(
-                                  color: TocModuleColors.appBarBackground,
-                                  child: textareaTypeQstn(
-                                      surveyFields[index], index),
-                                )
-                              : surveyFields[index]['fieldType'] ==
-                                      FieldTypes.checkbox.name
-                                  ? Container(
-                                      color: TocModuleColors.appBarBackground,
-                                      child: checkboxTypeQstn(
-                                          surveyFields[index], index),
-                                    )
-                                  : surveyFields[index]['fieldType'] == 'rating'
-                                      ? starRating(surveyFields[index], index)
-                                      : SizedBox(),
-                    );
-                  }),
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: surveyFields.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: EdgeInsets.only(bottom: 26).r,
+                    child:
+                        surveyFields[index]['fieldType'] ==
+                            FieldTypes.radio.name
+                        ? Container(
+                            color: TocModuleColors.appBarBackground,
+                            child: radioTypeQstn(
+                              surveyFields[index],
+                              index,
+                              surveyFields[index]['values']
+                                  .map((e) => e['key'].toString())
+                                  .toList(),
+                            ),
+                          )
+                        : surveyFields[index]['fieldType'] ==
+                                  FieldTypes.text.name ||
+                              surveyFields[index]['fieldType'] ==
+                                  FieldTypes.textarea.name
+                        ? Container(
+                            color: TocModuleColors.appBarBackground,
+                            child: textareaTypeQstn(surveyFields[index], index),
+                          )
+                        : surveyFields[index]['fieldType'] ==
+                              FieldTypes.checkbox.name
+                        ? Container(
+                            color: TocModuleColors.appBarBackground,
+                            child: checkboxTypeQstn(surveyFields[index], index),
+                          )
+                        : surveyFields[index]['fieldType'] == 'rating'
+                        ? starRating(surveyFields[index], index)
+                        : SizedBox(),
+                  );
+                },
+              ),
             ),
             Text(
               'This batch starting on ${DateTimeHelper.getDateTimeInFormat(widget.batch!.startDate, desiredDateFormat: IntentType.dateFormat2)} - ${DateTimeHelper.getDateTimeInFormat(widget.batch!.endDate, desiredDateFormat: IntentType.dateFormat2)}, kindly go through the content and be prepared. ',
               style: Theme.of(context).textTheme.bodyMedium,
             ),
-            SizedBox(
-              height: 24.w,
-            ),
+            SizedBox(height: 24.w),
             Row(
               children: [
                 Expanded(
@@ -400,28 +408,30 @@ class _EnrollmentDetailsFormState extends State<EnrollmentDetailsForm> {
                       },
                       style: ButtonStyle(
                         shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(4.0).r,
-                                side: BorderSide(
-                                    color: TocModuleColors.darkBlue,
-                                    width: 1.5.w))),
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4.0).r,
+                            side: BorderSide(
+                              color: TocModuleColors.darkBlue,
+                              width: 1.5.w,
+                            ),
+                          ),
+                        ),
                         backgroundColor: WidgetStateProperty.all<Color>(
-                            TocModuleColors.appBarBackground),
+                          TocModuleColors.appBarBackground,
+                        ),
                       ),
                       child: Text(
                         widget.previousPage != null
                             ? EnglishLang.previous
                             : EnglishLang.cancel,
-                        style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                              letterSpacing: 1,
-                            ),
+                        style: Theme.of(
+                          context,
+                        ).textTheme.titleSmall!.copyWith(letterSpacing: 1),
                       ),
                     ),
                   ),
                 ),
-                SizedBox(
-                  width: 16.w,
-                ),
+                SizedBox(width: 16.w),
                 Expanded(
                   flex: 1,
                   child: SizedBox(
@@ -446,19 +456,16 @@ class _EnrollmentDetailsFormState extends State<EnrollmentDetailsForm> {
                       // padding: EdgeInsets.all(15.0),
                       child: Text(
                         EnglishLang.confirm,
-                        style:
-                            Theme.of(context).textTheme.displaySmall!.copyWith(
-                                  letterSpacing: 1,
-                                ),
+                        style: Theme.of(
+                          context,
+                        ).textTheme.displaySmall!.copyWith(letterSpacing: 1),
                       ),
                     ),
                   ),
-                )
+                ),
               ],
             ),
-            SizedBox(
-              height: 100,
-            )
+            SizedBox(height: 100),
           ],
         ),
       ),

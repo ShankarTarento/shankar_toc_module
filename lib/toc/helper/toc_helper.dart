@@ -850,4 +850,13 @@ class TocHelper {
     }
     return false;
   }
+
+  static bool hasScromContent(resourceNavigateItems) {
+    for (int i = 0; i < resourceNavigateItems.length; i++) {
+      if (resourceNavigateItems[i].mimeType == EMimeTypes.html) {
+        return true;
+      }
+    }
+    return false;
+  }
 }

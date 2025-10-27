@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/model/competency_model.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
 
 class CompetencyCard extends StatefulWidget {
   final CompetencyTheme competencyTheme;
@@ -41,8 +41,9 @@ class _CompetencyCardState extends State<CompetencyCard> {
         padding: EdgeInsets.symmetric(vertical: 8, horizontal: 6).r,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8).r,
-          border:
-              Border.all(color: TocModuleColors.greys.withValues(alpha: 0.04)),
+          border: Border.all(
+            color: TocModuleColors.greys.withValues(alpha: 0.04),
+          ),
           color: TocModuleColors.appBarBackground,
         ),
         child: Column(
@@ -60,10 +61,7 @@ class _CompetencyCardState extends State<CompetencyCard> {
   Widget _buildTitle() {
     return Text(
       currentTheme?.name ?? '',
-      style: GoogleFonts.lato(
-        fontSize: 16.sp,
-        fontWeight: FontWeight.w700,
-      ),
+      style: GoogleFonts.lato(fontSize: 16.sp, fontWeight: FontWeight.w700),
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
     );
@@ -75,11 +73,14 @@ class _CompetencyCardState extends State<CompetencyCard> {
     return SizedBox(
       width: 1.sw,
       child: Wrap(
-        alignment:
-            showAllItems ? WrapAlignment.start : WrapAlignment.spaceBetween,
+        alignment: showAllItems
+            ? WrapAlignment.start
+            : WrapAlignment.spaceBetween,
         children: [
           ...List.generate(
-              displayCount, (index) => _buildSubThemeChip(subThemes[index])),
+            displayCount,
+            (index) => _buildSubThemeChip(subThemes[index]),
+          ),
           if (subThemes.length > 1) _buildToggleButton(),
         ],
       ),
@@ -111,11 +112,11 @@ class _CompetencyCardState extends State<CompetencyCard> {
               ? TocLocalizations.of(context)!.mCompetencyViewLessTxt
               : TocLocalizations.of(context)!.mCompetencyViewMoreTxt,
           style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                fontSize: 12.sp,
-                height: 2.5.w,
-                decoration: TextDecoration.underline,
-                decorationThickness: 1.0.w,
-              ),
+            fontSize: 12.sp,
+            height: 2.5.w,
+            decoration: TextDecoration.underline,
+            decorationThickness: 1.0.w,
+          ),
         ),
       ),
     );

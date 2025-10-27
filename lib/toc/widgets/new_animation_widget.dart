@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:igot_ui_components/utils/module_colors.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
 
 class NewWidgetAnimation extends StatefulWidget {
   const NewWidgetAnimation({super.key});
@@ -24,9 +24,10 @@ class _NewWidgetAnimationState extends State<NewWidgetAnimation>
       duration: const Duration(seconds: 2),
     );
 
-    _scaleAnimation = Tween<double>(begin: 0.9, end: 1.15).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _scaleAnimation = Tween<double>(
+      begin: 0.9,
+      end: 1.15,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
 
     _controller.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
@@ -60,10 +61,10 @@ class _NewWidgetAnimationState extends State<NewWidgetAnimation>
         child: Text(
           TocLocalizations.of(context)!.mStaticNew,
           style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                fontSize: 8.sp,
-                fontWeight: FontWeight.w900,
-                color: ModuleColors.appBarBackground,
-              ),
+            fontSize: 8.sp,
+            fontWeight: FontWeight.w900,
+            color: ModuleColors.appBarBackground,
+          ),
           textAlign: TextAlign.center,
         ),
       ),

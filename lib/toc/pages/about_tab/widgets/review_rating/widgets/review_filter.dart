@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
@@ -8,9 +8,11 @@ import 'package:toc_module/toc/constants/color_constants.dart';
 class ReviewFilter extends StatefulWidget {
   final ValueChanged<int> onChanged;
   final int selectedIndex;
-  const ReviewFilter(
-      {Key? key, required this.onChanged, required this.selectedIndex})
-      : super(key: key);
+  const ReviewFilter({
+    Key? key,
+    required this.onChanged,
+    required this.selectedIndex,
+  }) : super(key: key);
 
   @override
   State<ReviewFilter> createState() => _ReviewFilterState();
@@ -28,7 +30,7 @@ class _ReviewFilterState extends State<ReviewFilter> {
     super.didChangeDependencies();
     filter = [
       TocLocalizations.of(context)!.mStaticLatestReviews,
-      TocLocalizations.of(context)!.mStaticTopReviews
+      TocLocalizations.of(context)!.mStaticTopReviews,
     ];
   }
 
@@ -48,8 +50,9 @@ class _ReviewFilterState extends State<ReviewFilter> {
             height: 8.w,
             margin: EdgeInsets.only(top: 24, bottom: 24).r,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(60).r,
-                color: TocModuleColors.greys60),
+              borderRadius: BorderRadius.circular(60).r,
+              color: TocModuleColors.greys60,
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(16.0).r,
@@ -65,9 +68,7 @@ class _ReviewFilterState extends State<ReviewFilter> {
               ],
             ),
           ),
-          Divider(
-            color: TocModuleColors.black40,
-          ),
+          Divider(color: TocModuleColors.black40),
           ...List.generate(
             2,
             (index) => GestureDetector(
@@ -75,18 +76,11 @@ class _ReviewFilterState extends State<ReviewFilter> {
                 selectedIndex = index;
                 setState(() {});
               },
-              child: ratingFilter(
-                index: index,
-                title: filter[index],
-              ),
+              child: ratingFilter(index: index, title: filter[index]),
             ),
           ),
-          Divider(
-            color: TocModuleColors.black40,
-          ),
-          SizedBox(
-            height: 12.w,
-          ),
+          Divider(color: TocModuleColors.black40),
+          SizedBox(height: 12.w),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -103,7 +97,9 @@ class _ReviewFilterState extends State<ReviewFilter> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(63.0).w,
                       side: BorderSide(
-                          color: TocModuleColors.darkBlue, width: 1.0.w),
+                        color: TocModuleColors.darkBlue,
+                        width: 1.0.w,
+                      ),
                     ),
                   ),
                   child: Text(
@@ -130,12 +126,15 @@ class _ReviewFilterState extends State<ReviewFilter> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(63.0).w,
                       side: BorderSide(
-                          color: TocModuleColors.darkBlue, width: 1.0.w),
+                        color: TocModuleColors.darkBlue,
+                        width: 1.0.w,
+                      ),
                     ),
                   ),
                   child: Text(
-                    TocLocalizations.of(context)!
-                        .mCompetenciesContentTypeApplyFilters,
+                    TocLocalizations.of(
+                      context,
+                    )!.mCompetenciesContentTypeApplyFilters,
                     style: GoogleFonts.lato(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w700,
@@ -143,9 +142,9 @@ class _ReviewFilterState extends State<ReviewFilter> {
                     ),
                   ),
                 ),
-              )
+              ),
             ],
-          )
+          ),
         ],
       ),
     );
@@ -197,7 +196,7 @@ class _ReviewFilterState extends State<ReviewFilter> {
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w400,
                     ),
-            )
+            ),
           ],
         ),
       ),

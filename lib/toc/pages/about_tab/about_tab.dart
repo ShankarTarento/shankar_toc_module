@@ -16,7 +16,8 @@ import 'package:toc_module/toc/pages/about_tab/widgets/provider.dart';
 import 'package:toc_module/toc/pages/about_tab/widgets/review_rating/review_rating.dart';
 import 'package:toc_module/toc/pages/about_tab/widgets/sector.dart';
 import 'package:toc_module/toc/pages/about_tab/widgets/tags.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'gen_l10n/toc_localizations.dart' show TocLocalizations;
+//import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
 
 class AboutTab extends StatefulWidget {
   final Course courseRead;
@@ -28,17 +29,17 @@ class AboutTab extends StatefulWidget {
   final bool isFeaturedCourse;
   final Widget? aiTutorStrip;
 
-  AboutTab(
-      {Key? key,
-      required this.courseRead,
-      required this.isBlendedProgram,
-      this.enrolledCourse,
-      this.aiTutorStrip,
-      required this.courseHierarchy,
-      this.highlightRating = false,
-      this.isFeaturedCourse = false,
-      this.showCertificate = false})
-      : super(key: key);
+  AboutTab({
+    Key? key,
+    required this.courseRead,
+    required this.isBlendedProgram,
+    this.enrolledCourse,
+    this.aiTutorStrip,
+    required this.courseHierarchy,
+    this.highlightRating = false,
+    this.isFeaturedCourse = false,
+    this.showCertificate = false,
+  }) : super(key: key);
 
   final dataKey = new GlobalKey();
   @override
@@ -57,8 +58,10 @@ class _AboutTabState extends State<AboutTab>
     if (widget.highlightRating) {
       Future.delayed(Duration.zero, () {
         WidgetsBinding.instance.addPostFrameCallback((_) async {
-          Scrollable.ensureVisible(widget.dataKey.currentContext!,
-              curve: Curves.easeInOutBack);
+          Scrollable.ensureVisible(
+            widget.dataKey.currentContext!,
+            curve: Curves.easeInOutBack,
+          );
         });
       });
     }
@@ -71,6 +74,7 @@ class _AboutTabState extends State<AboutTab>
             competencies: widget.courseRead.competencies,
             courseInfo: widget.enrolledCourse ?? widget.courseRead,
           ),
+
           // widget.isBlendedProgram
           //     ? Consumer<TocRepository>(
           //         builder: (context, tocServices, _) {
@@ -93,23 +97,21 @@ class _AboutTabState extends State<AboutTab>
           //       )
           //     : SizedBox(),
           //  widget.isBlendedProgram ?  : SizedBox(),
-
           ValueListenableBuilder(
-              valueListenable: showKarmaPointClaimButton,
-              builder: (BuildContext context, bool value, Widget? child) {
-                return value
-                    ? TocClaimKarmaPoints(
-                        courseId: widget.courseRead.id,
-                        claimedKarmaPoint: (bool value) {
-                          showKarmaPointCongratsMessageCard.value = true;
-                          showKarmaPointClaimButton.value = false;
-                        },
-                      )
-                    : Center();
-              }),
-          SizedBox(
-            height: 10.w,
+            valueListenable: showKarmaPointClaimButton,
+            builder: (BuildContext context, bool value, Widget? child) {
+              return value
+                  ? TocClaimKarmaPoints(
+                      courseId: widget.courseRead.id,
+                      claimedKarmaPoint: (bool value) {
+                        showKarmaPointCongratsMessageCard.value = true;
+                        showKarmaPointClaimButton.value = false;
+                      },
+                    )
+                  : Center();
+            },
           ),
+          SizedBox(height: 10.w),
           Padding(
             padding: const EdgeInsets.all(16.0).r,
             child: TocOverviewIcons(
@@ -120,9 +122,10 @@ class _AboutTabState extends State<AboutTab>
 
           widget.courseRead.description != null
               ? Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16)
-                          .r,
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 16.0,
+                    horizontal: 16,
+                  ).r,
                   child: ExpandableTextWidget(
                     title: TocLocalizations.of(context)!.mStaticSummary,
                     content: widget.courseRead.description!,
@@ -132,9 +135,10 @@ class _AboutTabState extends State<AboutTab>
               : SizedBox.shrink(),
           widget.courseRead.instructions != null
               ? Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16)
-                          .r,
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 16.0,
+                    horizontal: 16,
+                  ).r,
                   child: ExpandableTextWidget(
                     content: widget.courseRead.instructions!,
                     maxLength: 150,
@@ -146,8 +150,11 @@ class _AboutTabState extends State<AboutTab>
           widget.courseRead.competencies != null &&
                   widget.courseRead.competencies!.isNotEmpty
               ? Padding(
-                  padding:
-                      const EdgeInsets.only(left: 16.0, bottom: 8, top: 8).r,
+                  padding: const EdgeInsets.only(
+                    left: 16.0,
+                    bottom: 8,
+                    top: 8,
+                  ).r,
                   child: CompetencyStrip(
                     competencies: widget.courseRead.competencies ?? [],
                   ),
@@ -164,25 +171,27 @@ class _AboutTabState extends State<AboutTab>
               : SizedBox(),
           widget.courseRead.sectorDetails.isNotEmpty
               ? TocSectorSubsectorView(
-                  sectorDetails: widget.courseRead.sectorDetails)
+                  sectorDetails: widget.courseRead.sectorDetails,
+                )
               : SizedBox(),
           ValueListenableBuilder(
-              valueListenable: showKarmaPointCongratsMessageCard,
-              builder: (BuildContext context, bool value, Widget? child) {
-                return Padding(
-                  padding:
-                      const EdgeInsets.only(left: 16.0, bottom: 8, top: 8).r,
-                  child: MessageCard(
-                      course: widget.courseRead,
-                      showCourseCongratsMessage:
-                          showKarmaPointCongratsMessageCard.value,
-                      showKarmaPointClaimButton: (bool value) {
-                        showKarmaPointClaimButton.value = value;
-                        showKarmaPointCongratsMessageCard.value = false;
-                      },
-                      isEnrolled: widget.enrolledCourse != null ? true : false),
-                );
-              }),
+            valueListenable: showKarmaPointCongratsMessageCard,
+            builder: (BuildContext context, bool value, Widget? child) {
+              return Padding(
+                padding: const EdgeInsets.only(left: 16.0, bottom: 8, top: 8).r,
+                child: MessageCard(
+                  course: widget.courseRead,
+                  showCourseCongratsMessage:
+                      showKarmaPointCongratsMessageCard.value,
+                  showKarmaPointClaimButton: (bool value) {
+                    showKarmaPointClaimButton.value = value;
+                    showKarmaPointCongratsMessageCard.value = false;
+                  },
+                  isEnrolled: widget.enrolledCourse != null ? true : false,
+                ),
+              );
+            },
+          ),
           Padding(
             padding: const EdgeInsets.all(16.0).r,
             child: AuthorCreator(
@@ -238,17 +247,10 @@ class _AboutTabState extends State<AboutTab>
           // ),
           Padding(
             padding: const EdgeInsets.all(16.0).r,
-            child: CourseProvider(
-              courseRead: widget.courseRead,
-            ),
+            child: CourseProvider(courseRead: widget.courseRead),
           ),
-          ReviewRating(
-            courseRead: widget.courseRead,
-          ),
-          SizedBox(
-            key: widget.dataKey,
-            height: 280.w,
-          )
+          ReviewRating(courseRead: widget.courseRead),
+          SizedBox(key: widget.dataKey, height: 280.w),
         ],
       ),
     );

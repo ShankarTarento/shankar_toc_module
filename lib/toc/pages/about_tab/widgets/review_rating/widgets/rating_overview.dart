@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 import 'package:provider/provider.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/model/course_model.dart';
@@ -10,40 +11,44 @@ import 'package:toc_module/toc/pages/about_tab/widgets/review_rating/repository/
 class RatingOverview extends StatelessWidget {
   final Course courseRead;
 
-  const RatingOverview({
-    Key? key,
-    required this.courseRead,
-  }) : super(key: key);
+  const RatingOverview({Key? key, required this.courseRead}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Consumer(builder: (context, ReviewRatingRepository provider, _) {
-      final bool shouldShowRating = provider.courseRating != null &&
-          provider.courseRating!.totalNumberOfRatings != '0.0';
+    return Consumer(
+      builder: (context, ReviewRatingRepository provider, _) {
+        final bool shouldShowRating =
+            provider.courseRating != null &&
+            provider.courseRating!.totalNumberOfRatings != '0.0';
 
-      if (!shouldShowRating) {
-        return const SizedBox.shrink();
-      }
+        if (!shouldShowRating) {
+          return const SizedBox.shrink();
+        }
 
-      return Row(
-        children: <Widget>[
-          _buildRatingPill(
+        return Row(
+          children: <Widget>[
+            _buildRatingPill(
               context,
               getTotalRating(provider.courseRating!).toStringAsFixed(1),
               provider.courseRating!.totalNumberOfRatings != null
                   ? provider.courseRating!.totalNumberOfRatings!
-                      .ceil()
-                      .toString()
-                  : "0"),
-          SizedBox(width: 8.w),
-          _buildTagsList(context),
-        ],
-      );
-    });
+                        .ceil()
+                        .toString()
+                  : "0",
+            ),
+            SizedBox(width: 8.w),
+            _buildTagsList(context),
+          ],
+        );
+      },
+    );
   }
 
   Widget _buildRatingPill(
-      BuildContext context, String rating, String noOfRating) {
+    BuildContext context,
+    String rating,
+    String noOfRating,
+  ) {
     return Container(
       decoration: BoxDecoration(
         color: TocModuleColors.greys60,
@@ -65,10 +70,10 @@ class RatingOverview extends StatelessWidget {
           Text(
             rating,
             style: Theme.of(context).textTheme.displaySmall!.copyWith(
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 0.25,
-                ),
+              fontSize: 12.sp,
+              fontWeight: FontWeight.w600,
+              letterSpacing: 0.25,
+            ),
           ),
           // Divider
           Container(
@@ -81,10 +86,10 @@ class RatingOverview extends StatelessWidget {
           Text(
             noOfRating,
             style: Theme.of(context).textTheme.displaySmall!.copyWith(
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 0.25,
-                ),
+              fontSize: 12.sp,
+              fontWeight: FontWeight.w600,
+              letterSpacing: 0.25,
+            ),
           ),
         ],
       ),
@@ -122,13 +127,14 @@ class RatingOverview extends StatelessWidget {
         borderRadius: BorderRadius.circular(2).r,
       ),
       child: Center(
-          child: Text(
-        _getLocalizedTag(context, tag),
-        style: TextStyle(
-          color: TocModuleColors.enrollLabelGrey,
-          fontSize: 10.sp,
+        child: Text(
+          _getLocalizedTag(context, tag),
+          style: TextStyle(
+            color: TocModuleColors.enrollLabelGrey,
+            fontSize: 10.sp,
+          ),
         ),
-      )),
+      ),
     );
   }
 
@@ -148,7 +154,7 @@ class RatingOverview extends StatelessWidget {
     return courseRatingInfo.sumOfTotalRatings != null &&
             courseRatingInfo.totalNumberOfRatings != null
         ? (courseRatingInfo.sumOfTotalRatings! /
-            courseRatingInfo.totalNumberOfRatings!)
+              courseRatingInfo.totalNumberOfRatings!)
         : 0;
   }
 }

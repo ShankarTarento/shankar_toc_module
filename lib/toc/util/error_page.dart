@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
 
 class ErrorPage extends StatelessWidget {
   const ErrorPage({super.key});
@@ -34,10 +34,11 @@ class ErrorPage extends StatelessWidget {
                 child: Text(
                   TocLocalizations.of(context)!.mErrorOops,
                   style: GoogleFonts.montserrat(
-                      color: TocModuleColors.primaryThree,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 24.sp,
-                      height: 1.5),
+                    color: TocModuleColors.primaryThree,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 24.sp,
+                    height: 1.5,
+                  ),
                 ),
               ),
               Padding(
@@ -46,11 +47,12 @@ class ErrorPage extends StatelessWidget {
                   TocLocalizations.of(context)!.mErrorSomethingIsNotRight,
                   textAlign: TextAlign.center,
                   style: GoogleFonts.montserrat(
-                      color: TocModuleColors.greys87,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 20.w,
-                      letterSpacing: 0.12,
-                      height: 1.4),
+                    color: TocModuleColors.greys87,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 20.w,
+                    letterSpacing: 0.12,
+                    height: 1.4,
+                  ),
                 ),
               ),
               Padding(
@@ -76,22 +78,24 @@ class ErrorPage extends StatelessWidget {
                       Navigator.of(context).pop();
                     },
                     style: TextButton.styleFrom(
-                        backgroundColor: TocModuleColors.primaryThree,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(4),
-                        )),
+                      backgroundColor: TocModuleColors.primaryThree,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                    ),
                     child: Text(
                       TocLocalizations.of(context)!.mErrorGoBack,
                       style: GoogleFonts.lato(
-                          color: TocModuleColors.appBarBackground,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 14.sp,
-                          letterSpacing: 0.5,
-                          height: 1.5),
+                        color: TocModuleColors.appBarBackground,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 14.sp,
+                        letterSpacing: 0.5,
+                        height: 1.5,
+                      ),
                     ),
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ],

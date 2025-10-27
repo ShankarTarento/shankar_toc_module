@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:google_fonts/google_fonts.dart';
@@ -8,11 +9,8 @@ class SummaryWidget extends StatefulWidget {
   final String title;
   final String details;
 
-  const SummaryWidget({
-    Key? key,
-    required this.title,
-    required this.details,
-  }) : super(key: key);
+  const SummaryWidget({Key? key, required this.title, required this.details})
+    : super(key: key);
 
   @override
   State<SummaryWidget> createState() => _SummaryWidgetState();
@@ -29,22 +27,17 @@ class _SummaryWidgetState extends State<SummaryWidget> {
       children: [
         Text(
           widget.title,
-          style: GoogleFonts.lato(
-            fontSize: 16.sp,
-            fontWeight: FontWeight.w700,
-          ),
+          style: GoogleFonts.lato(fontSize: 16.sp, fontWeight: FontWeight.w700),
         ),
-        SizedBox(
-          height: 8.w,
-        ),
+        SizedBox(height: 8.w),
         Text(
           widget.details,
           maxLines: isExpanded ? null : 3,
           style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                fontWeight: FontWeight.w400,
-                fontSize: 16.sp,
-                height: 1.5.w,
-              ),
+            fontWeight: FontWeight.w400,
+            fontSize: 16.sp,
+            height: 1.5.w,
+          ),
         ),
         widget.details.length > _maxLength
             ? GestureDetector(
@@ -57,10 +50,10 @@ class _SummaryWidgetState extends State<SummaryWidget> {
                       ? TocLocalizations.of(context)!.mStaticViewLess
                       : "...${TocLocalizations.of(context)!.mStaticViewMore}",
                   style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w900,
-                        height: 1.5.w,
-                      ),
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w900,
+                    height: 1.5.w,
+                  ),
                 ),
               )
             : SizedBox(),

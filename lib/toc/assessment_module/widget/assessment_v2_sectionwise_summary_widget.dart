@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 import 'package:toc_module/toc/constants/color_constants.dart';
 
 class SectionWiseSummaryV2 extends StatefulWidget {
-  const SectionWiseSummaryV2({
-    Key? key,
-    required this.sectionSummary,
-  }) : super(key: key);
+  const SectionWiseSummaryV2({Key? key, required this.sectionSummary})
+    : super(key: key);
 
   final List<Map<String, String>> sectionSummary;
 
@@ -45,10 +44,7 @@ class _SectionWiseSummaryV2State extends State<SectionWiseSummaryV2> {
         Column(
           children: [
             Table(
-              columnWidths: {
-                0: FlexColumnWidth(),
-                1: FlexColumnWidth(),
-              },
+              columnWidths: {0: FlexColumnWidth(), 1: FlexColumnWidth()},
               children: [
                 TableRow(
                   children: [
@@ -59,9 +55,10 @@ class _SectionWiseSummaryV2State extends State<SectionWiseSummaryV2> {
                         child: Text(
                           TocLocalizations.of(context)!.mStaticSubject,
                           style: GoogleFonts.lato(
-                              color: TocModuleColors.greys60,
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w400),
+                            color: TocModuleColors.greys60,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
                       ),
                     ),
@@ -72,9 +69,10 @@ class _SectionWiseSummaryV2State extends State<SectionWiseSummaryV2> {
                         child: Text(
                           TocLocalizations.of(context)!.mStaticYourScore,
                           style: GoogleFonts.lato(
-                              color: TocModuleColors.greys60,
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w400),
+                            color: TocModuleColors.greys60,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
                       ),
                     ),
@@ -94,20 +92,24 @@ class _SectionWiseSummaryV2State extends State<SectionWiseSummaryV2> {
                           child: Text(
                             row['sectionName'] ?? '',
                             style: GoogleFonts.lato(
-                                color: TocModuleColors.blackLegend,
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w400),
+                              color: TocModuleColors.blackLegend,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
                         ),
                       ),
                       TableCell(
                         child: Container(
                           padding: EdgeInsets.all(16.0),
-                          child: Text(row['score'] ?? '',
-                              style: GoogleFonts.lato(
-                                  color: TocModuleColors.blackLegend,
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w400)),
+                          child: Text(
+                            row['score'] ?? '',
+                            style: GoogleFonts.lato(
+                              color: TocModuleColors.blackLegend,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
                         ),
                       ),
                     ],
@@ -115,7 +117,7 @@ class _SectionWiseSummaryV2State extends State<SectionWiseSummaryV2> {
               ],
             ),
           ],
-        )
+        ),
       ],
     );
   }

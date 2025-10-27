@@ -3,17 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
 
 class TocTags extends StatefulWidget {
   final List<dynamic> keywords;
   final String title;
 
-  const TocTags({
-    Key? key,
-    required this.keywords,
-    required this.title,
-  }) : super(key: key);
+  const TocTags({Key? key, required this.keywords, required this.title})
+    : super(key: key);
 
   @override
   State<TocTags> createState() => _TagsState();
@@ -43,10 +40,7 @@ class _TagsState extends State<TocTags> {
   Widget _buildTitle() {
     return Text(
       widget.title,
-      style: GoogleFonts.lato(
-        fontSize: 16.sp,
-        fontWeight: FontWeight.w700,
-      ),
+      style: GoogleFonts.lato(fontSize: 16.sp, fontWeight: FontWeight.w700),
     );
   }
 
@@ -61,11 +55,11 @@ class _TagsState extends State<TocTags> {
               ? TocLocalizations.of(context)!.mStaticViewLess
               : TocLocalizations.of(context)!.mStaticViewMore,
           style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                fontSize: 12.sp,
-                height: 1.3.w,
-                decoration: TextDecoration.underline,
-                decorationThickness: 1.0.w,
-              ),
+            fontSize: 12.sp,
+            height: 1.3.w,
+            decoration: TextDecoration.underline,
+            decorationThickness: 1.0.w,
+          ),
         ),
       ),
       runSpacing: 8,
@@ -88,9 +82,9 @@ class _TagsState extends State<TocTags> {
             Text(
               tag,
               style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                    fontSize: 13.sp,
-                    fontWeight: FontWeight.w400,
-                  ),
+                fontSize: 13.sp,
+                fontWeight: FontWeight.w400,
+              ),
             ),
             if (!isLast)
               Padding(
@@ -110,9 +104,9 @@ class _TagsState extends State<TocTags> {
     return Text(
       TocLocalizations.of(context)!.mProfileNoTags,
       style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-            fontWeight: FontWeight.w400,
-            height: 1.5.w,
-          ),
+        fontWeight: FontWeight.w400,
+        height: 1.5.w,
+      ),
     );
   }
 }

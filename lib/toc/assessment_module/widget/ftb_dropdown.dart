@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
 
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -20,21 +20,24 @@ class FTBDropdown extends StatefulWidget {
   final bool showAnswer;
   final ValueChanged<Map> parentAction;
   final String id;
-  FTBDropdown(
-      {required this.question,
-      required this.questionText,
-      required this.currentIndex,
-      required this.answerGiven,
-      required this.showAnswer,
-      required this.parentAction,
-      required this.id});
+  FTBDropdown({
+    required this.question,
+    required this.questionText,
+    required this.currentIndex,
+    required this.answerGiven,
+    required this.showAnswer,
+    required this.parentAction,
+    required this.id,
+  });
   @override
   State<FTBDropdown> createState() => _FTBDropdownState();
 }
 
 class _FTBDropdownState extends State<FTBDropdown> {
-  List<String> _alphabets =
-      List.generate(10, (index) => String.fromCharCode(index + 65));
+  List<String> _alphabets = List.generate(
+    10,
+    (index) => String.fromCharCode(index + 65),
+  );
   late String _questionWithBlank;
   List<dynamic> _answer = [];
   late int _blankCount;
@@ -53,8 +56,9 @@ class _FTBDropdownState extends State<FTBDropdown> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (TocHelper.isHtml(_questionWithBlank)) {
-      contentWidgets =
-          renderHtmlContent(TocHelper.decodeHtmlEntities(_questionWithBlank));
+      contentWidgets = renderHtmlContent(
+        TocHelper.decodeHtmlEntities(_questionWithBlank),
+      );
     }
   }
 
@@ -62,8 +66,9 @@ class _FTBDropdownState extends State<FTBDropdown> {
     dropdownCount = -1;
     await _setText();
     if (TocHelper.isHtml(widget.questionText)) {
-      contentWidgets =
-          renderHtmlContent(TocHelper.decodeHtmlEntities(widget.questionText));
+      contentWidgets = renderHtmlContent(
+        TocHelper.decodeHtmlEntities(widget.questionText),
+      );
     }
   }
 
@@ -96,15 +101,19 @@ class _FTBDropdownState extends State<FTBDropdown> {
     }
     if (!TocHelper.isHtml(_questionWithBlank)) {
       selectedDropdownValue.clear();
-      for (var i = 0;
-          i <
-              ((_question != null && _question['options'] != null)
-                  ? _question['options'].length
-                  : _blankCount);
-          i++) {
+      for (
+        var i = 0;
+        i <
+            ((_question != null && _question['options'] != null)
+                ? _question['options'].length
+                : _blankCount);
+        i++
+      ) {
         selectedDropdownValue.add(null);
         _questionWithBlank = _questionWithBlank.replaceFirst(
-            "_______________", " ___(${_alphabets[i].toLowerCase()})___");
+          "_______________",
+          " ___(${_alphabets[i].toLowerCase()})___",
+        );
       }
       for (var i = 0; i < _answer.length; i++) {
         selectedDropdownValue[i] = _answer[i];
@@ -120,93 +129,98 @@ class _FTBDropdownState extends State<FTBDropdown> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.all(32).r,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              padding: const EdgeInsets.only(bottom: 15).r,
-              child: TocHelper.isHtml(_questionWithBlank)
-                  ? Wrap(
-                      runSpacing: 16,
-                      spacing: 4.0,
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      children: contentWidgets!,
-                    )
-                  : HtmlWidget(
-                      TocHelper.decodeHtmlEntities(_questionWithBlank),
-                      textStyle: Theme.of(context)
-                          .textTheme
-                          .titleLarge!
-                          .copyWith(height: 1.5.w),
-                    ),
-            ),
-            SizedBox(
-              height: 16.w,
-            ),
-            !TocHelper.isHtml(_questionWithBlank)
-                ? Column(
-                    children: [
-                      for (var i = 0;
-                          i <
-                              ((_question != null &&
-                                      _question['options'] != null)
-                                  ? _question['options'].length
-                                  : _blankCount);
-                          i++)
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Container(
-                                width: 1.sw,
-                                decoration: BoxDecoration(
-                                  color: TocModuleColors.appBarBackground,
-                                  borderRadius: BorderRadius.circular(4).r,
-                                ),
-                                child: DropDownListWidget(
-                                    key: ValueKey(
-                                        '${_questionWithBlank}_$i${Random().nextInt(10000)}'),
-                                    options: widget.question['options'],
-                                    selectedValue: selectedDropdownValue[i],
-                                    changeOption: (value) {
-                                      selectedDropdownValue[i] = value;
-                                      updateAnswer(value, i);
-                                    })),
-                            (widget.showAnswer &&
-                                    _question['options'][i]['value']['body']
-                                            .toString() !=
-                                        (_answer.length > i ? _answer[i] : ''))
-                                ? Padding(
-                                    padding: const EdgeInsets.only(
-                                        bottom: 20, left: 24),
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          TocLocalizations.of(context)!
-                                              .mStaticCorrectAnswer,
-                                          style: GoogleFonts.lato(
-                                              fontWeight: FontWeight.bold,
-                                              color: TocModuleColors.greys87),
-                                        ),
-                                        Text(
-                                          _question['options'][i]['value']
-                                                  ['body']
-                                              .toString(),
-                                          style: GoogleFonts.lato(
-                                              color: TocModuleColors
-                                                  .positiveLight),
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                : Center()
-                          ],
-                        ),
-                    ],
+      padding: const EdgeInsets.all(32).r,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: const EdgeInsets.only(bottom: 15).r,
+            child: TocHelper.isHtml(_questionWithBlank)
+                ? Wrap(
+                    runSpacing: 16,
+                    spacing: 4.0,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: contentWidgets!,
                   )
-                : Center(),
-          ],
-        ));
+                : HtmlWidget(
+                    TocHelper.decodeHtmlEntities(_questionWithBlank),
+                    textStyle: Theme.of(
+                      context,
+                    ).textTheme.titleLarge!.copyWith(height: 1.5.w),
+                  ),
+          ),
+          SizedBox(height: 16.w),
+          !TocHelper.isHtml(_questionWithBlank)
+              ? Column(
+                  children: [
+                    for (
+                      var i = 0;
+                      i <
+                          ((_question != null && _question['options'] != null)
+                              ? _question['options'].length
+                              : _blankCount);
+                      i++
+                    )
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Container(
+                            width: 1.sw,
+                            decoration: BoxDecoration(
+                              color: TocModuleColors.appBarBackground,
+                              borderRadius: BorderRadius.circular(4).r,
+                            ),
+                            child: DropDownListWidget(
+                              key: ValueKey(
+                                '${_questionWithBlank}_$i${Random().nextInt(10000)}',
+                              ),
+                              options: widget.question['options'],
+                              selectedValue: selectedDropdownValue[i],
+                              changeOption: (value) {
+                                selectedDropdownValue[i] = value;
+                                updateAnswer(value, i);
+                              },
+                            ),
+                          ),
+                          (widget.showAnswer &&
+                                  _question['options'][i]['value']['body']
+                                          .toString() !=
+                                      (_answer.length > i ? _answer[i] : ''))
+                              ? Padding(
+                                  padding: const EdgeInsets.only(
+                                    bottom: 20,
+                                    left: 24,
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        TocLocalizations.of(
+                                          context,
+                                        )!.mStaticCorrectAnswer,
+                                        style: GoogleFonts.lato(
+                                          fontWeight: FontWeight.bold,
+                                          color: TocModuleColors.greys87,
+                                        ),
+                                      ),
+                                      Text(
+                                        _question['options'][i]['value']['body']
+                                            .toString(),
+                                        style: GoogleFonts.lato(
+                                          color: TocModuleColors.positiveLight,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : Center(),
+                        ],
+                      ),
+                  ],
+                )
+              : Center(),
+        ],
+      ),
+    );
   }
 
   List<Widget> renderHtmlContent(String html) {
@@ -216,30 +230,35 @@ class _FTBDropdownState extends State<FTBDropdown> {
 
     void addDropDownToWidget() {
       int currentIndex = initializeDropdown();
-      widgets.add(DropDownListWidget(
-        key: ValueKey(
-            '${html.hashCode}_$currentIndex${Random().nextInt(10000)}'),
-        options: widget.question['options'],
-        selectedValue: selectedDropdownValue[currentIndex],
-        changeOption: (value) {
-          selectedDropdownValue[currentIndex] = value;
-          updateAnswer(value, currentIndex);
-        },
-      ));
+      widgets.add(
+        DropDownListWidget(
+          key: ValueKey(
+            '${html.hashCode}_$currentIndex${Random().nextInt(10000)}',
+          ),
+          options: widget.question['options'],
+          selectedValue: selectedDropdownValue[currentIndex],
+          changeOption: (value) {
+            selectedDropdownValue[currentIndex] = value;
+            updateAnswer(value, currentIndex);
+          },
+        ),
+      );
     }
 
     void processNode(dom.Node node, {TextStyle? parentStyle}) {
       if (node is dom.Element) {
         final currentStyle = parentStyle ?? DefaultTextStyle.of(context).style;
         if (node.localName == 'em') {
-          final emStyle =
-              currentStyle.merge(TextStyle(fontStyle: FontStyle.italic));
+          final emStyle = currentStyle.merge(
+            TextStyle(fontStyle: FontStyle.italic),
+          );
           node.nodes.forEach((childNode) {
             processNode(childNode, parentStyle: emStyle);
           });
         } else if (node.localName == 'strong') {
-          final strongStyle =
-              currentStyle.merge(TextStyle(fontWeight: FontWeight.bold));
+          final strongStyle = currentStyle.merge(
+            TextStyle(fontWeight: FontWeight.bold),
+          );
           node.nodes.forEach((childNode) {
             processNode(childNode, parentStyle: strongStyle);
           });
@@ -268,10 +287,7 @@ class _FTBDropdownState extends State<FTBDropdown> {
           });
         }
       } else if (node is dom.Text) {
-        widgets.add(Text(
-          node.text.trim(),
-          style: parentStyle,
-        ));
+        widgets.add(Text(node.text.trim(), style: parentStyle));
       }
     }
 
@@ -307,11 +323,14 @@ class _FTBDropdownState extends State<FTBDropdown> {
 
   IntrinsicWidth addWidget(Widget widget) {
     return IntrinsicWidth(
-        child: Container(
-            height: 60.w,
-            child: Align(
-                alignment: Alignment.centerLeft,
-                child: Center(child: widget))));
+      child: Container(
+        height: 60.w,
+        child: Align(
+          alignment: Alignment.centerLeft,
+          child: Center(child: widget),
+        ),
+      ),
+    );
   }
 
   int initializeDropdown() {

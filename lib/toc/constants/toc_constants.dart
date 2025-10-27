@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:igot_ui_components/utils/module_colors.dart';
 import 'package:toc_module/toc/model/information_card_model.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
 
 class PrimaryCategory {
   static const String practiceAssessment = "Practice Question Set";
@@ -36,10 +36,10 @@ class PrimaryCategory {
     PrimaryCategory.curatedProgram.toLowerCase(),
     PrimaryCategory.moderatedProgram.toLowerCase(),
     PrimaryCategory.inviteOnlyProgram.toLowerCase(),
-    PrimaryCategory.blendedProgram.toLowerCase()
+    PrimaryCategory.blendedProgram.toLowerCase(),
   ];
   static List<String> dynamicCertProgramCategoriesList = [
-    PrimaryCategory.curatedProgram.toLowerCase()
+    PrimaryCategory.curatedProgram.toLowerCase(),
   ];
 }
 
@@ -175,7 +175,7 @@ enum TocPublishStatus {
 class TocConstants {
   static const contextLockCategories = {
     PrimaryCategory.curatedProgram,
-    PrimaryCategory.comprehensiveAssessmentProgram
+    PrimaryCategory.comprehensiveAssessmentProgram,
   };
   static const int RATING_DEFAULT_PERCENTAGE = 50;
   static const int COURSE_COMPLETION_PERCENTAGE = 100;
@@ -184,12 +184,16 @@ class TocConstants {
 class RegExpressions {
   static RegExp specialChar = RegExp(r'[^\w\s]');
   static RegExp validEmail = RegExp(
-      r"[a-zA-Z0-9_-]+(?:\.[a-zA-Z0-9_-]+)*@((?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?){2,}\.){1,3}(?:\w){2,}");
+    r"[a-zA-Z0-9_-]+(?:\.[a-zA-Z0-9_-]+)*@((?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?){2,}\.){1,3}(?:\w){2,}",
+  );
   static RegExp validPhone = RegExp(
-      r'^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$');
+    r'^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$',
+  );
   static RegExp htmlValidator = RegExp(r'<[^>]+>');
-  static RegExp inputTagRegExp =
-      RegExp(r'<input\b[^>]*>', caseSensitive: false);
+  static RegExp inputTagRegExp = RegExp(
+    r'<input\b[^>]*>',
+    caseSensitive: false,
+  );
   static RegExp unicodeSpecialChar = RegExp(r'[^\p{L}\p{N}_]+', unicode: true);
   static RegExp registrationLink = RegExp(r"\/crp\/\d+\/\d+$");
   static RegExp extractOrgIdFromRegisterLink = RegExp(r"\/crp\/\d+\/(\d+)$");
@@ -199,18 +203,22 @@ class RegExpressions {
   static RegExp alphaNumeric = RegExp(r'^[A-Za-z0-9 ]+$');
   static RegExp alphabets = RegExp(r"^[a-zA-Z]+$");
   static RegExp numeric = RegExp(r'\d');
-  static RegExp alphabetWithAmbresandDotCommaSlashBracket =
-      RegExp(r'^[a-zA-Z\s(),.&/]+$');
-  static RegExp alphaNumWithDotCommaBracketHyphen =
-      RegExp(r'^[a-zA-Z0-9\s(),.-]+$');
+  static RegExp alphabetWithAmbresandDotCommaSlashBracket = RegExp(
+    r'^[a-zA-Z\s(),.&/]+$',
+  );
+  static RegExp alphaNumWithDotCommaBracketHyphen = RegExp(
+    r'^[a-zA-Z0-9\s(),.-]+$',
+  );
   static RegExp alphabetWithDotCommaBracket = RegExp(r'^[a-zA-Z\s(),.]+$');
   static RegExp startAndEndWithSpace = RegExp(r"^\s|\s$");
   static RegExp multipleConsecutiveSpace = RegExp(r'\s{2,}');
-  static RegExp alphabetsWithAmbresandHyphenSlashParentheses =
-      RegExp(r'^[a-zA-Z\s()&\-/]+$');
+  static RegExp alphabetsWithAmbresandHyphenSlashParentheses = RegExp(
+    r'^[a-zA-Z\s()&\-/]+$',
+  );
   static RegExp alphabetsWithAmbresandParentheses = RegExp(r'^[a-zA-Z\s()&]+$');
-  static RegExp alphabetWithAmbresandDotCommaSlashBracketHyphen =
-      RegExp(r'^[a-zA-Z\s(),.&/\-]+$');
+  static RegExp alphabetWithAmbresandDotCommaSlashBracketHyphen = RegExp(
+    r'^[a-zA-Z\s(),.&/\-]+$',
+  );
 }
 
 class AssessmentQuestionStatus {
@@ -271,7 +279,7 @@ enum WFBlendedProgramStatus {
   REJECTED,
   WITHDRAWN,
   WITHDRAW,
-  REMOVED
+  REMOVED,
 }
 
 class QuestionType {
@@ -291,214 +299,249 @@ class QuestionType {
 }
 
 List<InformationCardModel> scenario1summary(context) => [
-      InformationCardModel(
-          scenarioNumber: 1,
-          icon: Icons.list,
-          information: '3 ${TocLocalizations.of(context)!.mCommonQuestions}',
-          iconColor: ModuleColors.primaryThree),
-      InformationCardModel(
-          scenarioNumber: 2,
-          icon: Icons.replay,
-          information: TocLocalizations.of(context)!.mStaticUnlimitedRetakes,
-          iconColor: ModuleColors.primaryThree),
-      InformationCardModel(
-          scenarioNumber: 3,
-          icon: Icons.timer,
-          information:
-              '${TocLocalizations.of(context)!.mCommonTotal} 5 ${TocLocalizations.of(context)!.mStaticMinutes}',
-          iconColor: ModuleColors.primaryThree),
-    ];
+  InformationCardModel(
+    scenarioNumber: 1,
+    icon: Icons.list,
+    information: '3 ${TocLocalizations.of(context)!.mCommonQuestions}',
+    iconColor: ModuleColors.primaryThree,
+  ),
+  InformationCardModel(
+    scenarioNumber: 2,
+    icon: Icons.replay,
+    information: TocLocalizations.of(context)!.mStaticUnlimitedRetakes,
+    iconColor: ModuleColors.primaryThree,
+  ),
+  InformationCardModel(
+    scenarioNumber: 3,
+    icon: Icons.timer,
+    information:
+        '${TocLocalizations.of(context)!.mCommonTotal} 5 ${TocLocalizations.of(context)!.mStaticMinutes}',
+    iconColor: ModuleColors.primaryThree,
+  ),
+];
 List<InformationCardModel> practiceScenario1summary(context) => [
-      InformationCardModel(
-          scenarioNumber: 1,
-          icon: Icons.list,
-          information: '3 ${TocLocalizations.of(context)!.mCommonQuestions}',
-          iconColor: ModuleColors.primaryThree),
-      InformationCardModel(
-          scenarioNumber: 2,
-          icon: Icons.replay,
-          information: TocLocalizations.of(context)!.mStaticUnlimitedRetakes,
-          iconColor: ModuleColors.primaryThree),
-      // InformationCardModel(
-      //     scenarioNumber: 3,
-      //     icon: Icons.timer,
-      //     information: 'Total 5 mins',
-      //     iconColor: ModuleColors.primaryThree),
-    ];
+  InformationCardModel(
+    scenarioNumber: 1,
+    icon: Icons.list,
+    information: '3 ${TocLocalizations.of(context)!.mCommonQuestions}',
+    iconColor: ModuleColors.primaryThree,
+  ),
+  InformationCardModel(
+    scenarioNumber: 2,
+    icon: Icons.replay,
+    information: TocLocalizations.of(context)!.mStaticUnlimitedRetakes,
+    iconColor: ModuleColors.primaryThree,
+  ),
+  // InformationCardModel(
+  //     scenarioNumber: 3,
+  //     icon: Icons.timer,
+  //     information: 'Total 5 mins',
+  //     iconColor: ModuleColors.primaryThree),
+];
 List<InformationCardModel> scenario2summary(context) => const [
-      InformationCardModel(
-          scenarioNumber: 2,
-          icon: Icons.timer,
-          information: '60 seconds per question',
-          iconColor: ModuleColors.primaryThree),
-      InformationCardModel(
-          scenarioNumber: 2,
-          icon: Icons.list,
-          information: '3 questions',
-          iconColor: ModuleColors.primaryThree),
-      InformationCardModel(
-          scenarioNumber: 2,
-          icon: Icons.replay,
-          information: 'Retake available after 1 month',
-          iconColor: ModuleColors.primaryThree)
-    ];
+  InformationCardModel(
+    scenarioNumber: 2,
+    icon: Icons.timer,
+    information: '60 seconds per question',
+    iconColor: ModuleColors.primaryThree,
+  ),
+  InformationCardModel(
+    scenarioNumber: 2,
+    icon: Icons.list,
+    information: '3 questions',
+    iconColor: ModuleColors.primaryThree,
+  ),
+  InformationCardModel(
+    scenarioNumber: 2,
+    icon: Icons.replay,
+    information: 'Retake available after 1 month',
+    iconColor: ModuleColors.primaryThree,
+  ),
+];
 
 List<InformationCardModel> scenario3summary(context) => const [
-      InformationCardModel(
-          scenarioNumber: 3,
-          icon: Icons.timer,
-          information: 'No time limit',
-          iconColor: ModuleColors.primaryThree),
-      InformationCardModel(
-          scenarioNumber: 3,
-          icon: Icons.list,
-          information: '3 questions',
-          iconColor: ModuleColors.primaryThree),
-      InformationCardModel(
-          scenarioNumber: 3,
-          icon: Icons.timer,
-          information: 'Unlimited takes allowed',
-          iconColor: ModuleColors.primaryThree)
-    ];
+  InformationCardModel(
+    scenarioNumber: 3,
+    icon: Icons.timer,
+    information: 'No time limit',
+    iconColor: ModuleColors.primaryThree,
+  ),
+  InformationCardModel(
+    scenarioNumber: 3,
+    icon: Icons.list,
+    information: '3 questions',
+    iconColor: ModuleColors.primaryThree,
+  ),
+  InformationCardModel(
+    scenarioNumber: 3,
+    icon: Icons.timer,
+    information: 'Unlimited takes allowed',
+    iconColor: ModuleColors.primaryThree,
+  ),
+];
 List<InformationCardModel> scenario1info(context) => [
-      InformationCardModel(
-          scenarioNumber: 1,
-          icon: Icons.info,
-          information: TocLocalizations.of(context)!.mNoNegativeMarking,
-          iconColor: ModuleColors.greys60),
-      InformationCardModel(
-          scenarioNumber: 1,
-          icon: Icons.info,
-          information: 'If time runs out answers will be autosubmitted',
-          iconColor: ModuleColors.greys60),
-      InformationCardModel(
-          scenarioNumber: 1,
-          icon: Icons.info,
-          information:
-              'Skipped questions can be attempted again before submitting',
-          iconColor: ModuleColors.greys60)
-    ];
+  InformationCardModel(
+    scenarioNumber: 1,
+    icon: Icons.info,
+    information: TocLocalizations.of(context)!.mNoNegativeMarking,
+    iconColor: ModuleColors.greys60,
+  ),
+  InformationCardModel(
+    scenarioNumber: 1,
+    icon: Icons.info,
+    information: 'If time runs out answers will be autosubmitted',
+    iconColor: ModuleColors.greys60,
+  ),
+  InformationCardModel(
+    scenarioNumber: 1,
+    icon: Icons.info,
+    information: 'Skipped questions can be attempted again before submitting',
+    iconColor: ModuleColors.greys60,
+  ),
+];
 List<InformationCardModel> practiceScenario1info(context) => [
-      InformationCardModel(
-          scenarioNumber: 1,
-          icon: Icons.info,
-          information: TocLocalizations.of(context)!.mNoNegativeMarking,
-          iconColor: ModuleColors.greys60),
-      // InformationCardModel(
-      //     scenarioNumber: 1,
-      //     icon: Icons.info,
-      //     information: 'If time runs out answers will be autosubmitted',
-      //     iconColor: ModuleColors.greys60),
-      InformationCardModel(
-          scenarioNumber: 1,
-          icon: Icons.info,
-          information: TocLocalizations.of(context)!
-              .mSkippedQuestionsAttemptedBeforeSubmiting,
-          iconColor: ModuleColors.greys60)
-    ];
+  InformationCardModel(
+    scenarioNumber: 1,
+    icon: Icons.info,
+    information: TocLocalizations.of(context)!.mNoNegativeMarking,
+    iconColor: ModuleColors.greys60,
+  ),
+  // InformationCardModel(
+  //     scenarioNumber: 1,
+  //     icon: Icons.info,
+  //     information: 'If time runs out answers will be autosubmitted',
+  //     iconColor: ModuleColors.greys60),
+  InformationCardModel(
+    scenarioNumber: 1,
+    icon: Icons.info,
+    information: TocLocalizations.of(
+      context,
+    )!.mSkippedQuestionsAttemptedBeforeSubmiting,
+    iconColor: ModuleColors.greys60,
+  ),
+];
 
 List<InformationCardModel> scenario2info(context) => [
-      InformationCardModel(
-          scenarioNumber: 2,
-          icon: Icons.info,
-          information: TocLocalizations.of(context)!.mNoNegativeMarking,
-          iconColor: ModuleColors.greys60),
-      InformationCardModel(
-          scenarioNumber: 2,
-          icon: Icons.info,
-          information: TocLocalizations.of(context)!.mTimeRunsOut,
-          iconColor: ModuleColors.greys60),
-      InformationCardModel(
-          scenarioNumber: 2,
-          icon: Icons.info,
-          information:
-              TocLocalizations.of(context)!.mUnansweredConsideredIncorrect,
-          iconColor: ModuleColors.greys60)
-    ];
+  InformationCardModel(
+    scenarioNumber: 2,
+    icon: Icons.info,
+    information: TocLocalizations.of(context)!.mNoNegativeMarking,
+    iconColor: ModuleColors.greys60,
+  ),
+  InformationCardModel(
+    scenarioNumber: 2,
+    icon: Icons.info,
+    information: TocLocalizations.of(context)!.mTimeRunsOut,
+    iconColor: ModuleColors.greys60,
+  ),
+  InformationCardModel(
+    scenarioNumber: 2,
+    icon: Icons.info,
+    information: TocLocalizations.of(context)!.mUnansweredConsideredIncorrect,
+    iconColor: ModuleColors.greys60,
+  ),
+];
 
 List<InformationCardModel> scenario3info(context) => [
-      InformationCardModel(
-          scenarioNumber: 3,
-          icon: Icons.info,
-          information: TocLocalizations.of(context)!.mScoresWillNotBeStored,
-          iconColor: ModuleColors.greys60)
-    ];
+  InformationCardModel(
+    scenarioNumber: 3,
+    icon: Icons.info,
+    information: TocLocalizations.of(context)!.mScoresWillNotBeStored,
+    iconColor: ModuleColors.greys60,
+  ),
+];
 List<InformationCardModel> scenario4summary(context) => const [
-      InformationCardModel(
-          scenarioNumber: 1,
-          icon: Icons.list,
-          information: '3 questions',
-          iconColor: ModuleColors.darkBlue),
-      InformationCardModel(
-          scenarioNumber: 3,
-          icon: Icons.timer_outlined,
-          information: 'Total 5 mins',
-          iconColor: ModuleColors.darkBlue),
-    ];
+  InformationCardModel(
+    scenarioNumber: 1,
+    icon: Icons.list,
+    information: '3 questions',
+    iconColor: ModuleColors.darkBlue,
+  ),
+  InformationCardModel(
+    scenarioNumber: 3,
+    icon: Icons.timer_outlined,
+    information: 'Total 5 mins',
+    iconColor: ModuleColors.darkBlue,
+  ),
+];
 List<InformationCardModel> practiceScenario4summary(context) => const [
-      InformationCardModel(
-          scenarioNumber: 1,
-          icon: Icons.list,
-          information: '3 questions',
-          iconColor: ModuleColors.darkBlue),
-    ];
+  InformationCardModel(
+    scenarioNumber: 1,
+    icon: Icons.list,
+    information: '3 questions',
+    iconColor: ModuleColors.darkBlue,
+  ),
+];
 
 List<InformationCardModel> practiceScenario4Info(context) => [
-      InformationCardModel(
-          scenarioNumber: 1,
-          icon: Icons.info,
-          information: TocLocalizations.of(context)!.mStaticUnlimitedRetakes,
-          iconColor: ModuleColors.primaryThree),
-      InformationCardModel(
-          scenarioNumber: 2,
-          icon: Icons.info,
-          information: TocLocalizations.of(context)!
-              .mSkippedQuestionsAttemptedBeforeSubmiting,
-          iconColor: ModuleColors.greys60),
-      InformationCardModel(
-          scenarioNumber: 3,
-          icon: Icons.info,
-          information: TocLocalizations.of(context)!.mNoNegativeMarking,
-          iconColor: ModuleColors.greys60),
-    ];
+  InformationCardModel(
+    scenarioNumber: 1,
+    icon: Icons.info,
+    information: TocLocalizations.of(context)!.mStaticUnlimitedRetakes,
+    iconColor: ModuleColors.primaryThree,
+  ),
+  InformationCardModel(
+    scenarioNumber: 2,
+    icon: Icons.info,
+    information: TocLocalizations.of(
+      context,
+    )!.mSkippedQuestionsAttemptedBeforeSubmiting,
+    iconColor: ModuleColors.greys60,
+  ),
+  InformationCardModel(
+    scenarioNumber: 3,
+    icon: Icons.info,
+    information: TocLocalizations.of(context)!.mNoNegativeMarking,
+    iconColor: ModuleColors.greys60,
+  ),
+];
 List<InformationCardModel> scenarioV2Info(context) => [
-      InformationCardModel(
-          scenarioNumber: 1,
-          icon: Icons.info,
-          information: TocLocalizations.of(context)!.mStaticUnlimitedRetakes,
-          iconColor: ModuleColors.primaryThree),
-      InformationCardModel(
-          scenarioNumber: 2,
-          icon: Icons.info,
-          information: TocLocalizations.of(context)!.mTimeRunsOut,
-          iconColor: ModuleColors.greys60),
-      InformationCardModel(
-          scenarioNumber: 3,
-          icon: Icons.info,
-          information: TocLocalizations.of(context)!
-              .mSkippedQuestionsAttemptedBeforeSubmiting,
-          iconColor: ModuleColors.greys60),
-      InformationCardModel(
-          scenarioNumber: 4,
-          icon: Icons.info,
-          information: TocLocalizations.of(context)!.mNoNegativeMarking,
-          iconColor: ModuleColors.greys60),
-    ];
+  InformationCardModel(
+    scenarioNumber: 1,
+    icon: Icons.info,
+    information: TocLocalizations.of(context)!.mStaticUnlimitedRetakes,
+    iconColor: ModuleColors.primaryThree,
+  ),
+  InformationCardModel(
+    scenarioNumber: 2,
+    icon: Icons.info,
+    information: TocLocalizations.of(context)!.mTimeRunsOut,
+    iconColor: ModuleColors.greys60,
+  ),
+  InformationCardModel(
+    scenarioNumber: 3,
+    icon: Icons.info,
+    information: TocLocalizations.of(
+      context,
+    )!.mSkippedQuestionsAttemptedBeforeSubmiting,
+    iconColor: ModuleColors.greys60,
+  ),
+  InformationCardModel(
+    scenarioNumber: 4,
+    icon: Icons.info,
+    information: TocLocalizations.of(context)!.mNoNegativeMarking,
+    iconColor: ModuleColors.greys60,
+  ),
+];
 List<InformationCardModel> scenario4Info(context) => [
-      InformationCardModel(
-          scenarioNumber: 1,
-          icon: Icons.info,
-          information: TocLocalizations.of(context)!.mTimeRunsOut,
-          iconColor: ModuleColors.greys60),
-      InformationCardModel(
-          scenarioNumber: 2,
-          icon: Icons.info,
-          information: TocLocalizations.of(context)!
-              .mSkippedQuestionsAttemptedBeforeSubmiting,
-          iconColor: ModuleColors.greys60),
-      InformationCardModel(
-          scenarioNumber: 3,
-          icon: Icons.info,
-          information: TocLocalizations.of(context)!.mNoNegativeMarking,
-          iconColor: ModuleColors.greys60),
-    ];
+  InformationCardModel(
+    scenarioNumber: 1,
+    icon: Icons.info,
+    information: TocLocalizations.of(context)!.mTimeRunsOut,
+    iconColor: ModuleColors.greys60,
+  ),
+  InformationCardModel(
+    scenarioNumber: 2,
+    icon: Icons.info,
+    information: TocLocalizations.of(
+      context,
+    )!.mSkippedQuestionsAttemptedBeforeSubmiting,
+    iconColor: ModuleColors.greys60,
+  ),
+  InformationCardModel(
+    scenarioNumber: 3,
+    icon: Icons.info,
+    information: TocLocalizations.of(context)!.mNoNegativeMarking,
+    iconColor: ModuleColors.greys60,
+  ),
+];

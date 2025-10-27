@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/constants/english_lang.dart';
 import 'package:toc_module/toc/constants/toc_constants.dart';
@@ -25,12 +26,13 @@ class BlendedProgramSurveyForm extends StatefulWidget {
   final String courseId;
   final Map surveyFormData;
   final ValueChanged<String>? enrollParentAction;
-  const BlendedProgramSurveyForm(
-      {super.key,
-      required this.batch,
-      required this.courseId,
-      required this.surveyFormData,
-      required this.enrollParentAction});
+  const BlendedProgramSurveyForm({
+    super.key,
+    required this.batch,
+    required this.courseId,
+    required this.surveyFormData,
+    required this.enrollParentAction,
+  });
 
   @override
   State<BlendedProgramSurveyForm> createState() =>
@@ -130,67 +132,72 @@ class _BlendedProgramSurveyFormState extends State<BlendedProgramSurveyForm> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 FutureBuilder(
-                    future: body,
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(child: FormSkeleton());
-                      }
-                      if (snapshot.hasData) {
-                        return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 16.0, bottom: 16)
-                                        .r,
-                                child: Text(
-                                  title,
-                                  style: GoogleFonts.lato(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 20.sp,
+                  future: body,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: FormSkeleton());
+                    }
+                    if (snapshot.hasData) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              top: 16.0,
+                              bottom: 16,
+                            ).r,
+                            child: Text(
+                              title,
+                              style: GoogleFonts.lato(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 20.sp,
+                              ),
+                            ),
+                          ),
+                          ...List.generate(
+                            snapshot.data!.length,
+                            (index) => Column(
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.only(
+                                    top: 16,
+                                    bottom: 16,
+                                  ).r,
+                                  decoration: BoxDecoration(
+                                    color: const Color.fromARGB(
+                                      255,
+                                      238,
+                                      243,
+                                      250,
+                                    ),
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(12).r,
+                                    ),
+                                  ),
+                                  child: Column(
+                                    children: snapshot.data![index],
                                   ),
                                 ),
-                              ),
-                              ...List.generate(
-                                snapshot.data!.length,
-                                (index) => Column(
-                                  children: [
-                                    Container(
-                                      padding:
-                                          EdgeInsets.only(top: 16, bottom: 16)
-                                              .r,
-                                      decoration: BoxDecoration(
-                                        color: const Color.fromARGB(
-                                            255, 238, 243, 250),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(12).r),
-                                      ),
-                                      child: Column(
-                                        children: snapshot.data![index],
-                                      ),
-                                    ),
-                                    Divider(
-                                      thickness: 1,
-                                      color: TocModuleColors.grey24,
-                                      height: 20.w,
-                                    ),
-                                  ],
+                                Divider(
+                                  thickness: 1,
+                                  color: TocModuleColors.grey24,
+                                  height: 20.w,
                                 ),
-                              ),
-                            ]);
-                      }
-                      return SizedBox();
-                    }),
-                SizedBox(
-                  height: 42.w,
+                              ],
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+                    return SizedBox();
+                  },
                 ),
+                SizedBox(height: 42.w),
                 Text(
                   'This batch starting on ${DateTimeHelper.getDateTimeInFormat(widget.batch.startDate, desiredDateFormat: IntentType.dateFormat2)} - ${DateTimeHelper.getDateTimeInFormat(widget.batch.endDate, desiredDateFormat: IntentType.dateFormat2)}, kindly go through the content and be prepared. ',
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
-                SizedBox(
-                  height: 30.w,
-                ),
+                SizedBox(height: 30.w),
                 Row(
                   children: [
                     Expanded(
@@ -204,30 +211,28 @@ class _BlendedProgramSurveyFormState extends State<BlendedProgramSurveyForm> {
                           style: ButtonStyle(
                             shape:
                                 WidgetStateProperty.all<RoundedRectangleBorder>(
-                                    RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(4.0).r,
-                                        side: BorderSide(
-                                            color: TocModuleColors.darkBlue,
-                                            width: 1.5.w))),
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(4.0).r,
+                                    side: BorderSide(
+                                      color: TocModuleColors.darkBlue,
+                                      width: 1.5.w,
+                                    ),
+                                  ),
+                                ),
                             backgroundColor: WidgetStateProperty.all<Color>(
-                                TocModuleColors.appBarBackground),
+                              TocModuleColors.appBarBackground,
+                            ),
                           ),
                           child: Text(
                             EnglishLang.cancel,
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleSmall!
-                                .copyWith(
-                                  letterSpacing: 1,
-                                ),
+                            style: Theme.of(
+                              context,
+                            ).textTheme.titleSmall!.copyWith(letterSpacing: 1),
                           ),
                         ),
                       ),
                     ),
-                    SizedBox(
-                      width: 16.w,
-                    ),
+                    SizedBox(width: 16.w),
                     Expanded(
                       flex: 1,
                       child: SizedBox(
@@ -237,20 +242,21 @@ class _BlendedProgramSurveyFormState extends State<BlendedProgramSurveyForm> {
                           style: ButtonStyle(
                             shape:
                                 WidgetStateProperty.all<RoundedRectangleBorder>(
-                                    RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(4.0).r,
-                                        side: BorderSide(
-                                            color: TocModuleColors.darkBlue,
-                                            width: 1.5.w))),
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(4.0).r,
+                                    side: BorderSide(
+                                      color: TocModuleColors.darkBlue,
+                                      width: 1.5.w,
+                                    ),
+                                  ),
+                                ),
                             backgroundColor: WidgetStateProperty.all<Color>(
-                                TocModuleColors.darkBlue),
+                              TocModuleColors.darkBlue,
+                            ),
                           ),
                           child: Text(
                             "Confirm",
-                            style: Theme.of(context)
-                                .textTheme
-                                .displaySmall!
+                            style: Theme.of(context).textTheme.displaySmall!
                                 .copyWith(letterSpacing: 1),
                           ),
                         ),
@@ -258,9 +264,7 @@ class _BlendedProgramSurveyFormState extends State<BlendedProgramSurveyForm> {
                     ),
                   ],
                 ),
-                SizedBox(
-                  height: 36.w,
-                ),
+                SizedBox(height: 36.w),
               ],
             ),
           ),
@@ -283,7 +287,7 @@ class _BlendedProgramSurveyFormState extends State<BlendedProgramSurveyForm> {
             isMandatory: data.isRequired,
             checkListItems: [
               FilterModel(title: "True"),
-              FilterModel(title: "False")
+              FilterModel(title: "False"),
             ],
             onChanged: (value) {
               radioButtonValue[data] = value.toLowerCase();
@@ -311,8 +315,9 @@ class _BlendedProgramSurveyFormState extends State<BlendedProgramSurveyForm> {
         return Padding(
           padding: const EdgeInsets.only(bottom: 16.0, left: 8, right: 8).r,
           child: CustomFilterCheckBox(
-            checkListItems:
-                data.values.map((e) => FilterModel(title: e.value!)).toList(),
+            checkListItems: data.values
+                .map((e) => FilterModel(title: e.value!))
+                .toList(),
             onChanged: (value) {
               checkboxValue[data] = value;
             },
@@ -330,11 +335,7 @@ class _BlendedProgramSurveyFormState extends State<BlendedProgramSurveyForm> {
             value: dropdownValue[data],
             title: data.name,
             isMandatory: data.isRequired,
-            items: data.values
-                .map(
-                  (e) => e.value ?? "",
-                )
-                .toList(),
+            items: data.values.map((e) => e.value ?? "").toList(),
             onChanged: (value) {
               dropdownValue[data] = value!;
               getController(data).text = value.toString();
@@ -356,10 +357,11 @@ class _BlendedProgramSurveyFormState extends State<BlendedProgramSurveyForm> {
             inputType: TextInputType.number,
             validator: (value) {
               return BlendedProgramSurveyServices().generalValidator(
-                  context: context,
-                  isRequired: data.isRequired,
-                  fieldType: data.fieldType,
-                  value: value);
+                context: context,
+                isRequired: data.isRequired,
+                fieldType: data.fieldType,
+                value: value,
+              );
             },
           ),
         );
@@ -373,8 +375,9 @@ class _BlendedProgramSurveyFormState extends State<BlendedProgramSurveyForm> {
             showNA: data.notApplicable,
             selectedItem: radioButtonValue[data],
             isMandatory: data.isRequired,
-            checkListItems:
-                data.values.map((e) => FilterModel(title: e.value!)).toList(),
+            checkListItems: data.values
+                .map((e) => FilterModel(title: e.value!))
+                .toList(),
             onChanged: (value) {
               getController(data).text = value.toString();
 
@@ -396,10 +399,11 @@ class _BlendedProgramSurveyFormState extends State<BlendedProgramSurveyForm> {
             inputType: TextInputType.emailAddress,
             validator: (value) {
               return BlendedProgramSurveyServices().generalValidator(
-                  context: context,
-                  isRequired: data.isRequired,
-                  fieldType: data.fieldType,
-                  value: value != null ? value.trim() : "");
+                context: context,
+                isRequired: data.isRequired,
+                fieldType: data.fieldType,
+                value: value != null ? value.trim() : "",
+              );
             },
           ),
         );
@@ -416,10 +420,11 @@ class _BlendedProgramSurveyFormState extends State<BlendedProgramSurveyForm> {
             inputType: TextInputType.name,
             validator: (value) {
               return BlendedProgramSurveyServices().generalValidator(
-                  context: context,
-                  isRequired: data.isRequired,
-                  fieldType: data.fieldType,
-                  value: value);
+                context: context,
+                isRequired: data.isRequired,
+                fieldType: data.fieldType,
+                value: value,
+              );
             },
           ),
         );
@@ -442,25 +447,28 @@ class _BlendedProgramSurveyFormState extends State<BlendedProgramSurveyForm> {
       case QuestionType.heading:
         return Container(
           width: 1.sw,
-          padding:
-              const EdgeInsets.only(bottom: 8.0, left: 8, right: 8, top: 16).r,
+          padding: const EdgeInsets.only(
+            bottom: 8.0,
+            left: 8,
+            right: 8,
+            top: 16,
+          ).r,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 data.heading![0].heading ?? "",
                 style: GoogleFonts.lato(
-                    fontSize: 16.sp, fontWeight: FontWeight.w600),
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               SizedBox(height: 8.w),
               Text(
                 data.heading![0].subHeading ?? "",
                 style: GoogleFonts.lato(fontSize: 14.sp),
               ),
-              Divider(
-                thickness: 1,
-                color: TocModuleColors.grey24,
-              ),
+              Divider(thickness: 1, color: TocModuleColors.grey24),
             ],
           ),
         );
@@ -487,8 +495,10 @@ class _BlendedProgramSurveyFormState extends State<BlendedProgramSurveyForm> {
         bottom: MediaQuery.of(context).viewInsets.bottom + 20,
         child: Container(
           width: 1.sw,
-          padding:
-              const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0).r,
+          padding: const EdgeInsets.symmetric(
+            vertical: 12.0,
+            horizontal: 8.0,
+          ).r,
           decoration: BoxDecoration(
             color: backgroundColor,
             borderRadius: BorderRadius.circular(3.0).r,
@@ -496,9 +506,10 @@ class _BlendedProgramSurveyFormState extends State<BlendedProgramSurveyForm> {
           child: Text(
             message,
             style: GoogleFonts.lato(
-                color: TocModuleColors.appBarBackground,
-                fontSize: 13.sp,
-                decoration: TextDecoration.none),
+              color: TocModuleColors.appBarBackground,
+              fontSize: 13.sp,
+              decoration: TextDecoration.none,
+            ),
             textAlign: TextAlign.center,
           ),
         ),
@@ -522,9 +533,11 @@ class _BlendedProgramSurveyFormState extends State<BlendedProgramSurveyForm> {
         if (controller.text.trim().isNotEmpty) {
           if (key.fieldType == QuestionType.date) {
             data.addAll({
-              key.name: DateTimeHelper.convertDateFormat(controller.text,
-                  inputFormat: IntentType.dateFormat,
-                  desiredFormat: IntentType.dateFormat4),
+              key.name: DateTimeHelper.convertDateFormat(
+                controller.text,
+                inputFormat: IntentType.dateFormat,
+                desiredFormat: IntentType.dateFormat4,
+              ),
             });
           } else {
             if (controller.text.trim().toLowerCase() != 'n/a') {
@@ -543,26 +556,31 @@ class _BlendedProgramSurveyFormState extends State<BlendedProgramSurveyForm> {
       }
 
       Response response = await LearnService.submitForm(
-          courseId: widget.courseId,
-          version: widget.surveyFormData['version'],
-          formId: widget.surveyFormData['id'].toString(),
-          dataObject: data);
+        courseId: widget.courseId,
+        version: widget.surveyFormData['version'],
+        formId: widget.surveyFormData['id'].toString(),
+        dataObject: data,
+      );
       Map<String, dynamic> result = jsonDecode(response.body);
       if (result['statusInfo'] != null &&
           result['statusInfo']['statusMessage'].toLowerCase() == 'success') {
         widget.enrollParentAction!('Confirm');
       } else {
         widget.enrollParentAction!('Failed');
-        _showSnackBar(TocLocalizations.of(context)!.mStaticSomethingWrong,
-            TocModuleColors.mandatoryRed);
+        _showSnackBar(
+          TocLocalizations.of(context)!.mStaticSomethingWrong,
+          TocModuleColors.mandatoryRed,
+        );
       }
 
       Navigator.pop(context);
 
       debugPrint("===============Form submitted");
     } else {
-      _showSnackBar(TocLocalizations.of(context)!.mStaticPleaseFillAllMandatory,
-          TocModuleColors.mandatoryRed);
+      _showSnackBar(
+        TocLocalizations.of(context)!.mStaticPleaseFillAllMandatory,
+        TocModuleColors.mandatoryRed,
+      );
     }
   }
 

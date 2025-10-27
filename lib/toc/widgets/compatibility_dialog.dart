@@ -7,7 +7,7 @@ import 'package:toc_module/toc/constants/api_urls.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
 
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
 
 class CompatibilityDialog extends StatefulWidget {
   final Function closeCallback;
@@ -37,10 +37,10 @@ class _CompatibilityDialogState extends State<CompatibilityDialog> {
               borderRadius: BorderRadius.circular(12).r,
               child: Container(
                 decoration: BoxDecoration(
-                    border: Border.all(color: TocModuleColors.grey16),
-                    borderRadius:
-                        BorderRadius.all(const Radius.circular(12.0).r),
-                    color: TocModuleColors.appBarBackground),
+                  border: Border.all(color: TocModuleColors.grey16),
+                  borderRadius: BorderRadius.all(const Radius.circular(12.0).r),
+                  color: TocModuleColors.appBarBackground,
+                ),
                 child: _buildLayout(),
               ),
             ),
@@ -58,69 +58,65 @@ class _CompatibilityDialogState extends State<CompatibilityDialog> {
       decoration: BoxDecoration(color: TocModuleColors.appBarBackground),
       alignment: Alignment.center,
       child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
-          child: Padding(
-            padding: const EdgeInsets.only(left: 16, right: 16).r,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(TocLocalizations.of(context)!.mCompatibilityTitle,
-                    style: GoogleFonts.lato(
-                      color: TocModuleColors.greys87,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 16.sp,
-                    )),
-                SizedBox(
-                  height: 12.w,
+        physics: BouncingScrollPhysics(),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 16, right: 16).r,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                TocLocalizations.of(context)!.mCompatibilityTitle,
+                style: GoogleFonts.lato(
+                  color: TocModuleColors.greys87,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 16.sp,
                 ),
-                Text(
-                  TocLocalizations.of(context)!.mCompatibilityDescription,
-                  style: GoogleFonts.lato(
-                    color: TocModuleColors.greys87,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14.sp,
+              ),
+              SizedBox(height: 12.w),
+              Text(
+                TocLocalizations.of(context)!.mCompatibilityDescription,
+                style: GoogleFonts.lato(
+                  color: TocModuleColors.greys87,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14.sp,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 12.w),
+              ElevatedButton(
+                onPressed: () {
+                  launchURL(
+                    url: Platform.isAndroid
+                        ? ApiUrls.androidUrl
+                        : ApiUrls.iOSUrl,
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: TocModuleColors.orangeTourText,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50).r,
                   ),
-                  textAlign: TextAlign.center,
                 ),
-                SizedBox(
-                  height: 12.w,
-                ),
-                ElevatedButton(
-                    onPressed: () {
-                      launchURL(
-                        url: Platform.isAndroid
-                            ? ApiUrls.androidUrl
-                            : ApiUrls.iOSUrl,
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: TocModuleColors.orangeTourText,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50).r,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      TocLocalizations.of(context)!.mStaticUpdateApp,
+                      style: GoogleFonts.lato(
+                        color: TocModuleColors.appBarBackground,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          TocLocalizations.of(context)!.mStaticUpdateApp,
-                          style: GoogleFonts.lato(
-                              color: TocModuleColors.appBarBackground,
-                              fontWeight: FontWeight.w600),
-                        ),
-                        SizedBox(
-                          width: 4.w,
-                        ),
-                        Icon(
-                          Icons.file_download_outlined,
-                          size: 20.sp,
-                        )
-                      ],
-                    ))
-              ],
-            ),
-          )),
+                    SizedBox(width: 4.w),
+                    Icon(Icons.file_download_outlined, size: 20.sp),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -128,27 +124,28 @@ class _CompatibilityDialogState extends State<CompatibilityDialog> {
     return Padding(
       padding: const EdgeInsets.only(right: 8, top: 8).r,
       child: Align(
-          alignment: Alignment.topRight,
-          child: InkWell(
-            onTap: () async {
-              Navigator.of(context).pop();
-              widget.closeCallback();
-            },
-            child: Container(
-              alignment: Alignment.center,
-              height: 36.w,
-              width: 36.w,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: TocModuleColors.grey84,
-              ),
-              child: Icon(
-                Icons.close,
-                color: TocModuleColors.whiteGradientOne,
-                size: 16.sp,
-              ),
+        alignment: Alignment.topRight,
+        child: InkWell(
+          onTap: () async {
+            Navigator.of(context).pop();
+            widget.closeCallback();
+          },
+          child: Container(
+            alignment: Alignment.center,
+            height: 36.w,
+            width: 36.w,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: TocModuleColors.grey84,
             ),
-          )),
+            child: Icon(
+              Icons.close,
+              color: TocModuleColors.whiteGradientOne,
+              size: 16.sp,
+            ),
+          ),
+        ),
+      ),
     );
   }
 

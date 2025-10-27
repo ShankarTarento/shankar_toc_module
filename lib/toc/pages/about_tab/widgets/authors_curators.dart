@@ -4,13 +4,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/helper/toc_helper.dart';
 import 'package:toc_module/toc/model/creator_model.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
 
 class AuthorCreator extends StatelessWidget {
   final List<CreatorModel> curators;
   final List<CreatorModel> authors;
   const AuthorCreator({Key? key, required this.curators, required this.authors})
-      : super(key: key);
+    : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +26,7 @@ class AuthorCreator extends StatelessWidget {
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              SizedBox(
-                height: 10.w,
-              ),
+              SizedBox(height: 10.w),
               if (authors.isNotEmpty)
                 ...List.generate(authors.length, (index) {
                   return displayCard(
@@ -46,16 +44,17 @@ class AuthorCreator extends StatelessWidget {
                     subtitle: TocLocalizations.of(context)!.mLearnCourseCurator,
                     context: context,
                   );
-                })
+                }),
             ],
           );
   }
 
-  Widget displayCard(
-      {required String initial,
-      required String title,
-      required String subtitle,
-      required BuildContext context}) {
+  Widget displayCard({
+    required String initial,
+    required String title,
+    required String subtitle,
+    required BuildContext context,
+  }) {
     return Padding(
       padding: const EdgeInsets.only(top: 16).r,
       child: Row(
@@ -66,15 +65,13 @@ class AuthorCreator extends StatelessWidget {
             child: Text(
               initial,
               style: Theme.of(context).textTheme.displaySmall!.copyWith(
-                    fontSize: 16.sp,
-                    color: TocModuleColors.appBarBackground,
-                    fontWeight: FontWeight.w600,
-                  ),
+                fontSize: 16.sp,
+                color: TocModuleColors.appBarBackground,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
-          SizedBox(
-            width: 16.w,
-          ),
+          SizedBox(width: 16.w),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -95,12 +92,12 @@ class AuthorCreator extends StatelessWidget {
                 subtitle,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w400,
-                    ),
-              )
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
             ],
-          )
+          ),
         ],
       ),
     );

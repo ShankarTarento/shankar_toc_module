@@ -3,7 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/constants/toc_constants.dart';
 import 'package:toc_module/toc/helper/date_time_helper.dart';
@@ -35,22 +36,22 @@ class EnrollBlendedProgramButton extends StatefulWidget {
   final double? courseRating;
   final bool isFeatured;
   final List<Course> enrollmentList;
-  EnrollBlendedProgramButton(
-      {Key? key,
-      required this.batches,
-      required this.lastAccessContentId,
-      required this.navigationItems,
-      required this.courseId,
-      required this.courseDetails,
-      this.selectedBatch,
-      this.enrolledCourse,
-      this.readCourseProgress,
-      this.isFeatured = false,
-      this.numberOfCourseRating,
-      required this.isLearningPathContent,
-      this.courseRating,
-      this.enrollmentList = const []})
-      : super(key: key);
+  EnrollBlendedProgramButton({
+    Key? key,
+    required this.batches,
+    required this.lastAccessContentId,
+    required this.navigationItems,
+    required this.courseId,
+    required this.courseDetails,
+    this.selectedBatch,
+    this.enrolledCourse,
+    this.readCourseProgress,
+    this.isFeatured = false,
+    this.numberOfCourseRating,
+    required this.isLearningPathContent,
+    this.courseRating,
+    this.enrollmentList = const [],
+  }) : super(key: key);
 
   @override
   State<EnrollBlendedProgramButton> createState() =>
@@ -81,8 +82,10 @@ class _EnrollBlendedProgramButtonState
   bool enableStartButton = false;
 
   Future<Map?> getForm(id) async {
-    var surveyForm = await Provider.of<TocRepository>(context, listen: false)
-        .getSurveyForm(id);
+    var surveyForm = await Provider.of<TocRepository>(
+      context,
+      listen: false,
+    ).getSurveyForm(id);
     return surveyForm;
   }
 
@@ -132,9 +135,11 @@ class _EnrollBlendedProgramButtonState
         List workflowStates = workflowDetails[0]['wfInfo'] ?? [];
         if (workflowStates.isNotEmpty) {
           workflowStates.sort((a, b) {
-            return DateTime.fromMillisecondsSinceEpoch(a['lastUpdatedOn'])
-                .compareTo(
-                    DateTime.fromMillisecondsSinceEpoch(b['lastUpdatedOn']));
+            return DateTime.fromMillisecondsSinceEpoch(
+              a['lastUpdatedOn'],
+            ).compareTo(
+              DateTime.fromMillisecondsSinceEpoch(b['lastUpdatedOn']),
+            );
           });
 
           widget.batches.forEach((batch) {
@@ -148,8 +153,10 @@ class _EnrollBlendedProgramButtonState
                     workflowStates.last['currentStatus'] ==
                         WFBlendedProgramStatus.SEND_FOR_PC_APPROVAL.name)) {
               enrolledBatchDetails = batch;
-              Provider.of<TocRepository>(context, listen: false)
-                  .setBatchDetails(selectedBatch: enrolledBatchDetails!);
+              Provider.of<TocRepository>(
+                context,
+                listen: false,
+              ).setBatchDetails(selectedBatch: enrolledBatchDetails!);
             }
           });
 
@@ -159,17 +166,21 @@ class _EnrollBlendedProgramButtonState
             if (WFBlendedWithdrawCheck.values[i].name ==
                 workflowStates.last['currentStatus']) {
               withdrawStatus = true;
-              enableRequestWithdraw(workflowStates.last['currentStatus'],
-                  workflowStates.last['serviceName']);
+              enableRequestWithdraw(
+                workflowStates.last['currentStatus'],
+                workflowStates.last['serviceName'],
+              );
 
               if (!enableRequestWithdrawBtn) {
                 List batches = widget.courseDetails.batches ?? [];
                 batches.forEach((batch) {
                   if (batch.batchId == workflowStates.last['applicationId']) {
-                    if (DateTime.parse(batch.startDate)
-                            .isBefore(DateTime.now()) ||
-                        DateTime.parse(batch.startDate)
-                            .isAtSameMomentAs(DateTime.now())) {
+                    if (DateTime.parse(
+                          batch.startDate,
+                        ).isBefore(DateTime.now()) ||
+                        DateTime.parse(
+                          batch.startDate,
+                        ).isAtSameMomentAs(DateTime.now())) {
                       if (!isWithdrawPopupShowing) {
                         isWithdrawPopupShowing = true;
                         _showWithdrawPopUp();
@@ -254,113 +265,123 @@ class _EnrollBlendedProgramButtonState
 
   Future<void> unEnrollBlendedCourse() async {
     await learnService.requestUnenroll(
-        batchId: enrolledBatchDetails!.batchId,
-        courseId: widget.courseDetails.id,
-        wfId: wfId,
-        state: enrolledBatch!['currentStatus'],
-        action: WFBlendedProgramStatus.WITHDRAW.name);
+      batchId: enrolledBatchDetails!.batchId,
+      courseId: widget.courseDetails.id,
+      wfId: wfId,
+      state: enrolledBatch!['currentStatus'],
+      action: WFBlendedProgramStatus.WITHDRAW.name,
+    );
     userSearch();
   }
 
   _showWithdrawPopUp() => {
-        showDialog(
-            barrierDismissible: false,
-            context: context,
-            builder: (BuildContext context) =>
-                OverflowBar(alignment: MainAxisAlignment.center, children: [
-                  AlertDialog(
-                    content: Text(
-                        TocLocalizations.of(context)!
-                            .mStaticYourEnrollmentIsNotApproved,
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.lato(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 14.sp,
-                          letterSpacing: 0.25,
-                          color: TocModuleColors.greys87,
-                        )),
-                    actionsAlignment: MainAxisAlignment.center,
-                    actions: [
-                      ElevatedButton(
-                        onPressed: () {
-                          isWithdrawPopupShowing = false;
-                          Navigator.of(context).pop();
-                        },
-                        style: ButtonStyle(
-                          shape:
-                              WidgetStateProperty.all<RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(4.0).w,
-                                      side: BorderSide(
-                                          color: TocModuleColors.darkBlue,
-                                          width: 1.5.w))),
-                          backgroundColor: WidgetStateProperty.all<Color>(
-                              TocModuleColors.appBarBackground),
-                        ),
-                        // padding: EdgeInsets.all(15.0),
-                        child: Text(
-                          "Cancel",
-                          style: GoogleFonts.lato(
-                            color: TocModuleColors.darkBlue,
-                            fontSize: 14.0.sp,
-                            letterSpacing: 1,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) => OverflowBar(
+        alignment: MainAxisAlignment.center,
+        children: [
+          AlertDialog(
+            content: Text(
+              TocLocalizations.of(context)!.mStaticYourEnrollmentIsNotApproved,
+              textAlign: TextAlign.center,
+              style: GoogleFonts.lato(
+                fontWeight: FontWeight.w400,
+                fontSize: 14.sp,
+                letterSpacing: 0.25,
+                color: TocModuleColors.greys87,
+              ),
+            ),
+            actionsAlignment: MainAxisAlignment.center,
+            actions: [
+              ElevatedButton(
+                onPressed: () {
+                  isWithdrawPopupShowing = false;
+                  Navigator.of(context).pop();
+                },
+                style: ButtonStyle(
+                  shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4.0).w,
+                      side: BorderSide(
+                        color: TocModuleColors.darkBlue,
+                        width: 1.5.w,
                       ),
-                      ElevatedButton(
-                        onPressed: () {
-                          setState(() async {
-                            await unEnrollBlendedCourse();
-                            isWithdrawPopupShowing = false;
-                            Navigator.of(context)
-                              ..pop()
-                              ..pop();
-                          });
-                        },
-                        style: ButtonStyle(
-                          backgroundColor: WidgetStateProperty.all<Color>(
-                              TocModuleColors.darkBlue),
-                        ),
-                        child: Text(
-                          "Withdraw",
-                          style: GoogleFonts.lato(
-                            color: TocModuleColors.appBarBackground,
-                            fontSize: 14.0.sp,
-                            letterSpacing: 1,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      )
-                    ],
-                  )
-                ]))
-      };
+                    ),
+                  ),
+                  backgroundColor: WidgetStateProperty.all<Color>(
+                    TocModuleColors.appBarBackground,
+                  ),
+                ),
+                // padding: EdgeInsets.all(15.0),
+                child: Text(
+                  "Cancel",
+                  style: GoogleFonts.lato(
+                    color: TocModuleColors.darkBlue,
+                    fontSize: 14.0.sp,
+                    letterSpacing: 1,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  setState(() async {
+                    await unEnrollBlendedCourse();
+                    isWithdrawPopupShowing = false;
+                    Navigator.of(context)
+                      ..pop()
+                      ..pop();
+                  });
+                },
+                style: ButtonStyle(
+                  backgroundColor: WidgetStateProperty.all<Color>(
+                    TocModuleColors.darkBlue,
+                  ),
+                ),
+                child: Text(
+                  "Withdraw",
+                  style: GoogleFonts.lato(
+                    color: TocModuleColors.appBarBackground,
+                    fontSize: 14.0.sp,
+                    letterSpacing: 1,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    ),
+  };
 
   enrollBlendedCourse() async {
     String courseId = widget.courseDetails.id;
     if (enrollStatus == 'Confirm') {
       var batchDetails = await learnService.requestToEnroll(
-          batchId: widget.selectedBatch!.batchId,
-          courseId: courseId,
-          state: WFBlendedProgramStatus.INITIATE.name,
-          action: WFBlendedProgramStatus.INITIATE.name);
+        batchId: widget.selectedBatch!.batchId,
+        courseId: courseId,
+        state: WFBlendedProgramStatus.INITIATE.name,
+        action: WFBlendedProgramStatus.INITIATE.name,
+      );
       if (batchDetails is String) {
         await userSearch();
         TocHelper.showSnackBarMessage(
-            bgColor: TocModuleColors.darkBlue,
-            textColor: Colors.white,
-            context: context,
-            text: batchDetails.toString());
+          bgColor: TocModuleColors.darkBlue,
+          textColor: Colors.white,
+          context: context,
+          text: batchDetails.toString(),
+        );
         return;
       }
       if (batchDetails is BlendedProgramEnrollResponseModel) {
         TocHelper.showSnackBarMessage(
-            bgColor: TocModuleColors.darkBlue,
-            context: context,
-            textColor: Colors.white,
-            text: TocLocalizations.of(context)!.mStaticEnrollmentSentForReview);
+          bgColor: TocModuleColors.darkBlue,
+          context: context,
+          textColor: Colors.white,
+          text: TocLocalizations.of(context)!.mStaticEnrollmentSentForReview,
+        );
         showWithdrawBtnForEnrolled = true;
         await userSearch();
         /** SMT track course enroll **/
@@ -377,14 +398,18 @@ class _EnrollBlendedProgramButtonState
       if (widget.enrolledCourse?.batch?.startDate != null &&
           widget.enrolledCourse?.batch?.endDate != null) {
         DateTime nowWithoutTime = DateTime(
-            DateTime.now().year, DateTime.now().month, DateTime.now().day);
-        DateTime startDateWithoutTime =
-            DateTime.parse(widget.enrolledCourse!.batch!.startDate)
-                .copyWith(hour: 0, minute: 0, second: 0, millisecond: 0);
-        DateTime endDateWithoutTime =
-            DateTime.parse(widget.enrolledCourse!.batch!.endDate)
-                .copyWith(hour: 0, minute: 0, second: 0, millisecond: 0);
-        enableStartButton = (nowWithoutTime.isAfter(startDateWithoutTime) ||
+          DateTime.now().year,
+          DateTime.now().month,
+          DateTime.now().day,
+        );
+        DateTime startDateWithoutTime = DateTime.parse(
+          widget.enrolledCourse!.batch!.startDate,
+        ).copyWith(hour: 0, minute: 0, second: 0, millisecond: 0);
+        DateTime endDateWithoutTime = DateTime.parse(
+          widget.enrolledCourse!.batch!.endDate,
+        ).copyWith(hour: 0, minute: 0, second: 0, millisecond: 0);
+        enableStartButton =
+            (nowWithoutTime.isAfter(startDateWithoutTime) ||
                 nowWithoutTime == startDateWithoutTime) &&
             nowWithoutTime.isBefore(endDateWithoutTime.add(Duration(days: 1)));
       }
@@ -437,56 +462,62 @@ class _EnrollBlendedProgramButtonState
 
   void showBottomSheet({Map? response, required bool isCadreProgram}) async {
     await showModalBottomSheet(
-        isScrollControlled: true,
-        context: context,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(16),
-            topRight: Radius.circular(16),
-          ).r,
-          side: BorderSide(
-            color: TocModuleColors.grey08,
+      isScrollControlled: true,
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(16),
+          topRight: Radius.circular(16),
+        ).r,
+        side: BorderSide(color: TocModuleColors.grey08),
+      ),
+      builder: (BuildContext context) {
+        return Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
           ),
-        ),
-        builder: (BuildContext context) {
-          return Padding(
-            padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom),
-            child: Container(
-                height: 0.9.sh,
-                child: SurveyFormBottomSheet(
-                  isCadreProgram: isCadreProgram,
-                  title: widget.courseDetails.name,
-                  courseId: '${widget.courseDetails.id}',
-                  courseIdName:
-                      '${widget.courseDetails.id},${widget.courseDetails.name}',
-                  formId: formId,
-                  response: response,
-                  selectedBatch: widget.selectedBatch!,
-                  setEnrollStatus: (value) {
-                    setEnrollStatus(value);
-                  },
-                )),
-          );
-        });
+          child: Container(
+            height: 0.9.sh,
+            child: SurveyFormBottomSheet(
+              isCadreProgram: isCadreProgram,
+              title: widget.courseDetails.name,
+              courseId: '${widget.courseDetails.id}',
+              courseIdName:
+                  '${widget.courseDetails.id},${widget.courseDetails.name}',
+              formId: formId,
+              response: response,
+              selectedBatch: widget.selectedBatch!,
+              setEnrollStatus: (value) {
+                setEnrollStatus(value);
+              },
+            ),
+          ),
+        );
+      },
+    );
   }
 
   bool checkIsCadreProgram() {
     try {
-      Profile? profileDetails =
-          Provider.of<ProfileRepository>(context, listen: false).profileDetails;
+      Profile? profileDetails = Provider.of<ProfileRepository>(
+        context,
+        listen: false,
+      ).profileDetails;
       List<String> cadreServiceList = [];
       if (widget.selectedBatch?.batchAttributes?.raw['cadreList'] is List) {
         cadreServiceList = List<String>.from(
-            widget.selectedBatch!.batchAttributes!.raw['cadreList']);
+          widget.selectedBatch!.batchAttributes!.raw['cadreList'],
+        );
       }
 
       if (profileDetails != null) {
         String? userCadreService =
             profileDetails.cadreDetails?['civilServiceName'];
         if (userCadreService != null) {
-          String userCadreServiceId =
-              userCadreService.toLowerCase().replaceAll(' ', '');
+          String userCadreServiceId = userCadreService.toLowerCase().replaceAll(
+            ' ',
+            '',
+          );
 
           List<String> cadreServiceListId = cadreServiceList
               .map((service) => service.toLowerCase().replaceAll(' ', ''))
@@ -495,60 +526,72 @@ class _EnrollBlendedProgramButtonState
             return true;
           } else {
             TocHelper.showSnackBarMessage(
-                durationInSec: 4,
-                textColor: Colors.white,
-                context: context,
-                text: TocLocalizations.of(context)!
-                        .mDoptBlendedProgramEligibilityMessage1 +
-                    " " +
-                    widget.courseDetails.name +
-                    " " +
-                    TocLocalizations.of(context)!
-                        .mDoptBlendedProgramEligibilityMessage2,
-                bgColor: TocModuleColors.darkBlue);
+              durationInSec: 4,
+              textColor: Colors.white,
+              context: context,
+              text:
+                  TocLocalizations.of(
+                    context,
+                  )!.mDoptBlendedProgramEligibilityMessage1 +
+                  " " +
+                  widget.courseDetails.name +
+                  " " +
+                  TocLocalizations.of(
+                    context,
+                  )!.mDoptBlendedProgramEligibilityMessage2,
+              bgColor: TocModuleColors.darkBlue,
+            );
             return false;
           }
         } else {
           TocHelper.showSnackBarMessage(
-              context: context,
-              textColor: Colors.white,
-              text: TocLocalizations.of(context)!
-                  .mNonEligibleServiceMessageForDoptBlendedProgram,
-              bgColor: TocModuleColors.darkBlue);
+            context: context,
+            textColor: Colors.white,
+            text: TocLocalizations.of(
+              context,
+            )!.mNonEligibleServiceMessageForDoptBlendedProgram,
+            bgColor: TocModuleColors.darkBlue,
+          );
           return false;
         }
       } else {
         TocHelper.showSnackBarMessage(
-            context: context,
-            textColor: Colors.white,
-            text: TocLocalizations.of(context)!
-                .mNonEligibleServiceMessageForDoptBlendedProgram,
-            bgColor: TocModuleColors.darkBlue);
+          context: context,
+          textColor: Colors.white,
+          text: TocLocalizations.of(
+            context,
+          )!.mNonEligibleServiceMessageForDoptBlendedProgram,
+          bgColor: TocModuleColors.darkBlue,
+        );
         return false;
       }
     } catch (e) {
       print('Error: $e');
       TocHelper.showSnackBarMessage(
-          context: context,
-          textColor: Colors.white,
-          text: TocLocalizations.of(context)!.mStaticSomethingWrong,
-          bgColor: TocModuleColors.darkBlue);
+        context: context,
+        textColor: Colors.white,
+        text: TocLocalizations.of(context)!.mStaticSomethingWrong,
+        bgColor: TocModuleColors.darkBlue,
+      );
       return false;
     }
   }
 
   void onPreEnrollmentButtonClick() async {
     var result = await Navigator.push(
-        context,
-        FadeRoute(
-            page: PreTocPlayerScreen(
+      context,
+      FadeRoute(
+        page: PreTocPlayerScreen(
           arguments: TocPlayerModel(
-              courseId: widget.courseId,
-              lastAccessContentId: widget.lastAccessContentId,
-              isFeatured: widget.isFeatured,
-              isCuratedProgram: false,
-              enrollmentList: widget.enrollmentList),
-        )));
+            courseId: widget.courseId,
+            lastAccessContentId: widget.lastAccessContentId,
+            isFeatured: widget.isFeatured,
+            isCuratedProgram: false,
+            enrollmentList: widget.enrollmentList,
+          ),
+        ),
+      ),
+    );
     if (result != null && result is Map<String, bool>) {
       Map<String, dynamic> response = result;
       if (response['isFinished']) {
@@ -570,12 +613,15 @@ class _EnrollBlendedProgramButtonState
       final mandatoryIds = getMandatoryPreRequisiteContentIds(children);
       if (mandatoryIds.isEmpty) return false;
 
-      final contentProgress =
-          await Provider.of<TocRepository>(context, listen: false)
-              .readPreRequisiteContentProgress(contentIds);
+      final contentProgress = await Provider.of<TocRepository>(
+        context,
+        listen: false,
+      ).readPreRequisiteContentProgress(contentIds);
 
       final isCompleted = await isPreEnrollmentRequisiteCompleted(
-          contentProgress, mandatoryIds);
+        contentProgress,
+        mandatoryIds,
+      );
       if (isCompleted) {
         isPreEnrollRequisiteCompleted.value = true;
         return false;
@@ -588,7 +634,8 @@ class _EnrollBlendedProgramButtonState
   }
 
   Set<String> getMandatoryPreRequisiteContentIds(
-      List<CourseHierarchyModelChild?> children) {
+    List<CourseHierarchyModelChild?> children,
+  ) {
     return children
         .where((child) => child?.isMandatory == true)
         .map((child) => child?.identifier)
@@ -622,10 +669,10 @@ class _EnrollBlendedProgramButtonState
           await unEnrollBlendedCourse();
           showWithdrawBtnForEnrolled = false;
 
-          Provider.of<TocRepository>(context, listen: false).setInitialBatch(
-            batches: widget.batches,
-            courseId: widget.courseId,
-          );
+          Provider.of<TocRepository>(
+            context,
+            listen: false,
+          ).setInitialBatch(batches: widget.batches, courseId: widget.courseId);
 
           setState(() {});
         },
@@ -642,27 +689,33 @@ class _EnrollBlendedProgramButtonState
       child: ElevatedButton(
         onPressed: () async {
           if (enableStartButton) {
-            var result = await Navigator.pushNamed(context, AppUrl.tocPlayer,
-                arguments: TocPlayerModel(
-                    batchId: widget.enrolledCourse!.batchId,
-                    courseId: widget.courseId,
-                    enrolledCourse: widget.enrolledCourse,
-                    navigationItems: widget.navigationItems,
-                    lastAccessContentId: widget.lastAccessContentId,
-                    isFeatured: widget.isFeatured,
-                    isCuratedProgram: false,
-                    enrollmentList: widget.enrollmentList));
+            var result = await Navigator.pushNamed(
+              context,
+              AppUrl.tocPlayer,
+              arguments: TocPlayerModel(
+                batchId: widget.enrolledCourse!.batchId,
+                courseId: widget.courseId,
+                enrolledCourse: widget.enrolledCourse,
+                navigationItems: widget.navigationItems,
+                lastAccessContentId: widget.lastAccessContentId,
+                isFeatured: widget.isFeatured,
+                isCuratedProgram: false,
+                enrollmentList: widget.enrollmentList,
+              ),
+            );
             if (result != null && result is Map<String, bool>) {
               Map<String, dynamic> response = result;
               if (response['isFinished']) {
                 showModalBottomSheet(
-                    isScrollControlled: true,
-                    context: context,
-                    backgroundColor: TocModuleColors.greys60,
-                    builder: (ctx) => RateNowPopUp(
-                          courseDetails: widget.courseDetails,
-                        )).whenComplete(() =>
-                    InAppReviewRespository().triggerInAppReviewPopup(context));
+                  isScrollControlled: true,
+                  context: context,
+                  backgroundColor: TocModuleColors.greys60,
+                  builder: (ctx) =>
+                      RateNowPopUp(courseDetails: widget.courseDetails),
+                ).whenComplete(
+                  () =>
+                      InAppReviewRespository().triggerInAppReviewPopup(context),
+                );
               }
             }
             widget.readCourseProgress!();
@@ -673,11 +726,10 @@ class _EnrollBlendedProgramButtonState
           backgroundColor: enableStartButton
               ? WidgetStateProperty.all<Color>(TocModuleColors.darkBlue)
               : WidgetStateProperty.all<Color>(
-                  TocModuleColors.darkBlue.withValues(alpha: 0.5)),
+                  TocModuleColors.darkBlue.withValues(alpha: 0.5),
+                ),
           shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(63.0).r,
-            ),
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(63.0).r),
           ),
         ),
         child: Text(
@@ -702,22 +754,30 @@ class _EnrollBlendedProgramButtonState
 
   Widget _preEnrollmentView() {
     return FutureBuilder<bool?>(
-        future: _isPreRequisiteMandatoryFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const SizedBox.shrink();
-          }
-          return ValueListenableBuilder(
-              valueListenable: isPreEnrollRequisiteCompleted,
-              builder: (BuildContext context,
-                  bool _isPreEnrollRequisiteCompleted, Widget? child) {
+      future: _isPreRequisiteMandatoryFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const SizedBox.shrink();
+        }
+        return ValueListenableBuilder(
+          valueListenable: isPreEnrollRequisiteCompleted,
+          builder:
+              (
+                BuildContext context,
+                bool _isPreEnrollRequisiteCompleted,
+                Widget? child,
+              ) {
                 return ((snapshot.data ?? false) &&
                         !_isPreEnrollRequisiteCompleted)
                     ? _preEnrollButtonView()
                     : _requestToEnrollView(
-                        _isPreEnrollRequisiteCompleted, true);
-              });
-        });
+                        _isPreEnrollRequisiteCompleted,
+                        true,
+                      );
+              },
+        );
+      },
+    );
   }
 
   Widget _preEnrollButtonView() {
@@ -728,12 +788,11 @@ class _EnrollBlendedProgramButtonState
         onPressed: () => onPreEnrollmentButtonClick(),
         style: ButtonStyle(
           overlayColor: WidgetStateProperty.all<Color>(Colors.transparent),
-          backgroundColor:
-              WidgetStateProperty.all<Color>(TocModuleColors.darkBlue),
+          backgroundColor: WidgetStateProperty.all<Color>(
+            TocModuleColors.darkBlue,
+          ),
           shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(63.0).r,
-            ),
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(63.0).r),
           ),
         ),
         child: Text(
@@ -746,7 +805,9 @@ class _EnrollBlendedProgramButtonState
   }
 
   Widget _requestToEnrollView(
-      bool isPreEnrollRequisiteCompleted, bool showPreEnrollButton) {
+    bool isPreEnrollRequisiteCompleted,
+    bool showPreEnrollButton,
+  ) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12).r,
@@ -755,199 +816,216 @@ class _EnrollBlendedProgramButtonState
       child: Container(
         padding: EdgeInsets.only(bottom: 16).r,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12).r,
-            color: TocModuleColors.orangeTourText.withValues(alpha: 0.2)),
+          borderRadius: BorderRadius.circular(12).r,
+          color: TocModuleColors.orangeTourText.withValues(alpha: 0.2),
+        ),
         width: 1.sw,
-        child: Column(children: [
-          if (widget.selectedBatch == null) _emptyBatchView(),
-          if (widget.selectedBatch != null) ...[
-            if (showPreEnrollButton)
-              _optionalRequisiteWithCompletion(isPreEnrollRequisiteCompleted),
-            Container(
-              margin:
-                  EdgeInsets.only(bottom: 10, left: 16, top: 16, right: 16).r,
-              padding: EdgeInsets.all(12).r,
-              decoration: BoxDecoration(
+        child: Column(
+          children: [
+            if (widget.selectedBatch == null) _emptyBatchView(),
+            if (widget.selectedBatch != null) ...[
+              if (showPreEnrollButton)
+                _optionalRequisiteWithCompletion(isPreEnrollRequisiteCompleted),
+              Container(
+                margin: EdgeInsets.only(
+                  bottom: 10,
+                  left: 16,
+                  top: 16,
+                  right: 16,
+                ).r,
+                padding: EdgeInsets.all(12).r,
+                decoration: BoxDecoration(
                   color: TocModuleColors.appBarBackground,
                   borderRadius: BorderRadius.circular(4).r,
-                  border: Border.all(color: TocModuleColors.primaryOne)),
-              width: 1.sw,
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: 1.sw / 1.6,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          widget.selectedBatch!.name,
-                          style: GoogleFonts.lato(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 14.sp,
+                  border: Border.all(color: TocModuleColors.primaryOne),
+                ),
+                width: 1.sw,
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: 1.sw / 1.6,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            widget.selectedBatch!.name,
+                            style: GoogleFonts.lato(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 14.sp,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        SizedBox(
-                          height: 4.w,
-                        ),
-                        Text(
-                          "${DateTimeHelper.getDateTimeInFormat(widget.selectedBatch!.startDate, desiredDateFormat: IntentType.dateFormat2)} to  ${DateTimeHelper.getDateTimeInFormat(widget.selectedBatch!.endDate, desiredDateFormat: IntentType.dateFormat2)}",
-                          style: GoogleFonts.lato(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 12.sp,
+                          SizedBox(height: 4.w),
+                          Text(
+                            "${DateTimeHelper.getDateTimeInFormat(widget.selectedBatch!.startDate, desiredDateFormat: IntentType.dateFormat2)} to  ${DateTimeHelper.getDateTimeInFormat(widget.selectedBatch!.endDate, desiredDateFormat: IntentType.dateFormat2)}",
+                            style: GoogleFonts.lato(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 12.sp,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        )
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  Spacer(),
-                  IconButton(
+                    Spacer(),
+                    IconButton(
                       onPressed: () {
                         showModalBottomSheet(
-                            context: context,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(16),
-                                topRight: Radius.circular(16),
-                              ).r,
-                              side: BorderSide(
-                                color: TocModuleColors.grey08,
-                              ),
-                            ),
-                            builder: (BuildContext context) {
-                              return Consumer<TocRepository>(
-                                  builder: (context, tocServices, _) {
+                          context: context,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(16),
+                              topRight: Radius.circular(16),
+                            ).r,
+                            side: BorderSide(color: TocModuleColors.grey08),
+                          ),
+                          builder: (BuildContext context) {
+                            return Consumer<TocRepository>(
+                              builder: (context, tocServices, _) {
                                 return SelectBatchBottomSheet(
                                   batches: widget.batches,
                                   batch: tocServices.batch,
                                 );
-                              });
-                            });
+                              },
+                            );
+                          },
+                        );
                       },
-                      icon: Icon(Icons.keyboard_arrow_down))
-                ],
+                      icon: Icon(Icons.keyboard_arrow_down),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 16.0, right: 16).r,
-              child: Row(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        TocLocalizations.of(context)!.mStaticLastEnrollDate,
-                        style: GoogleFonts.lato(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 12.sp,
-                          height: 1.5.w,
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0, right: 16).r,
+                child: Row(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          TocLocalizations.of(context)!.mStaticLastEnrollDate,
+                          style: GoogleFonts.lato(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 12.sp,
+                            height: 1.5.w,
+                          ),
                         ),
-                      ),
-                      Text(
-                        enrolledBatchDetails != null
-                            ? DateTimeHelper.getDateTimeInFormat(
-                                enrolledBatchDetails!.enrollmentEndDate,
-                                desiredDateFormat: IntentType.dateFormat)
-                            : DateTimeHelper.getDateTimeInFormat(
-                                widget.selectedBatch!.enrollmentEndDate,
-                                desiredDateFormat: IntentType.dateFormat),
-                        style: GoogleFonts.lato(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 14.sp,
-                          height: 1.5.w,
+                        Text(
+                          enrolledBatchDetails != null
+                              ? DateTimeHelper.getDateTimeInFormat(
+                                  enrolledBatchDetails!.enrollmentEndDate,
+                                  desiredDateFormat: IntentType.dateFormat,
+                                )
+                              : DateTimeHelper.getDateTimeInFormat(
+                                  widget.selectedBatch!.enrollmentEndDate,
+                                  desiredDateFormat: IntentType.dateFormat,
+                                ),
+                          style: GoogleFonts.lato(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 14.sp,
+                            height: 1.5.w,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  Spacer(),
-                  ElevatedButton(
-                    onPressed: showBlendedProgramReqButton.value ||
-                            (!showStart && isAllBatchEnrollmentDateFinished) ||
-                            (showStart && !isBatchStarted) && false
-                        ? null
-                        : !_disableButton
-                            ? () async {
-                                startCourse = true;
-                                if (widget.courseDetails.courseCategory ==
-                                        PrimaryCategory.blendedProgram &&
-                                    widget.courseDetails.batches != null) {
-                                  if (widget.courseDetails.wfSurveyLink != '') {
-                                    var surveyFormLink =
-                                        widget.courseDetails.wfSurveyLink;
-                                    formId = int.parse(
-                                        surveyFormLink.split('/').last);
+                      ],
+                    ),
+                    Spacer(),
+                    ElevatedButton(
+                      onPressed:
+                          showBlendedProgramReqButton.value ||
+                              (!showStart &&
+                                  isAllBatchEnrollmentDateFinished) ||
+                              (showStart && !isBatchStarted) && false
+                          ? null
+                          : !_disableButton
+                          ? () async {
+                              startCourse = true;
+                              if (widget.courseDetails.courseCategory ==
+                                      PrimaryCategory.blendedProgram &&
+                                  widget.courseDetails.batches != null) {
+                                if (widget.courseDetails.wfSurveyLink != '') {
+                                  var surveyFormLink =
+                                      widget.courseDetails.wfSurveyLink;
+                                  formId = int.parse(
+                                    surveyFormLink.split('/').last,
+                                  );
 
-                                    if (true && !showStart) {
-                                      var response = await getForm(formId);
-                                      userSearch();
-                                      if (response != null) {
-                                        if (widget.selectedBatch != null &&
-                                            widget
-                                                    .selectedBatch!
-                                                    .batchAttributes
-                                                    ?.raw['cadreList'] !=
-                                                null &&
-                                            (widget
-                                                    .selectedBatch!
-                                                    .batchAttributes!
-                                                    .raw['cadreList'] as List)
-                                                .isNotEmpty) {
-                                          if (checkIsCadreProgram()) {
-                                            showBottomSheet(
-                                                isCadreProgram: true,
-                                                response: response);
-                                          }
-                                        } else {
+                                  if (true && !showStart) {
+                                    var response = await getForm(formId);
+                                    userSearch();
+                                    if (response != null) {
+                                      if (widget.selectedBatch != null &&
+                                          widget
+                                                  .selectedBatch!
+                                                  .batchAttributes
+                                                  ?.raw['cadreList'] !=
+                                              null &&
+                                          (widget
+                                                      .selectedBatch!
+                                                      .batchAttributes!
+                                                      .raw['cadreList']
+                                                  as List)
+                                              .isNotEmpty) {
+                                        if (checkIsCadreProgram()) {
                                           showBottomSheet(
-                                              isCadreProgram: false,
-                                              response: response);
+                                            isCadreProgram: true,
+                                            response: response,
+                                          );
                                         }
-                                      }
-                                    }
-                                  } else {
-                                    if (widget.selectedBatch != null &&
-                                        widget.selectedBatch!.batchAttributes
-                                                ?.raw['cadreList'] !=
-                                            null &&
-                                        (widget.selectedBatch!.batchAttributes!
-                                                .raw['cadreList'] as List)
-                                            .isNotEmpty) {
-                                      if (checkIsCadreProgram()) {
+                                      } else {
                                         showBottomSheet(
-                                          isCadreProgram: true,
+                                          isCadreProgram: false,
+                                          response: response,
                                         );
                                       }
-                                    } else {
-                                      showBottomSheet(
-                                        isCadreProgram: false,
-                                      );
                                     }
+                                  }
+                                } else {
+                                  if (widget.selectedBatch != null &&
+                                      widget
+                                              .selectedBatch!
+                                              .batchAttributes
+                                              ?.raw['cadreList'] !=
+                                          null &&
+                                      (widget
+                                                  .selectedBatch!
+                                                  .batchAttributes!
+                                                  .raw['cadreList']
+                                              as List)
+                                          .isNotEmpty) {
+                                    if (checkIsCadreProgram()) {
+                                      showBottomSheet(isCadreProgram: true);
+                                    }
+                                  } else {
+                                    showBottomSheet(isCadreProgram: false);
                                   }
                                 }
                               }
-                            : null,
-                    style: ButtonStyle(
-                      backgroundColor: WidgetStateProperty.all<Color>(
-                          TocModuleColors.primaryOne),
-                      shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(63.0).r,
+                            }
+                          : null,
+                      style: ButtonStyle(
+                        backgroundColor: WidgetStateProperty.all<Color>(
+                          TocModuleColors.primaryOne,
+                        ),
+                        shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(63.0).r,
+                          ),
                         ),
                       ),
+                      child: Text(
+                        TocLocalizations.of(context)!.mLearnRequestToEnroll,
+                        style: Theme.of(context).textTheme.displaySmall,
+                      ),
                     ),
-                    child: Text(
-                      TocLocalizations.of(context)!.mLearnRequestToEnroll,
-                      style: Theme.of(context).textTheme.displaySmall,
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            )
-          ]
-        ]),
+            ],
+          ],
+        ),
       ),
     );
   }
@@ -959,27 +1037,32 @@ class _EnrollBlendedProgramButtonState
         margin: EdgeInsets.only(left: 16, right: 16, top: 8).r,
         padding: const EdgeInsets.all(8).r,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(50).r,
-            border: Border.all(
-                color: isPreEnrollRequisiteCompleted
-                    ? TocModuleColors.positiveLight
-                    : TocModuleColors.darkBlue)),
+          borderRadius: BorderRadius.circular(50).r,
+          border: Border.all(
+            color: isPreEnrollRequisiteCompleted
+                ? TocModuleColors.positiveLight
+                : TocModuleColors.darkBlue,
+          ),
+        ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               isPreEnrollRequisiteCompleted
-                  ? TocLocalizations.of(context)!
-                      .mBlendedPreEnrollmentRequisitesCompleted
-                  : TocLocalizations.of(context)!
-                      .mBlendedPreEnrollmentRequisites,
+                  ? TocLocalizations.of(
+                      context,
+                    )!.mBlendedPreEnrollmentRequisitesCompleted
+                  : TocLocalizations.of(
+                      context,
+                    )!.mBlendedPreEnrollmentRequisites,
               style: GoogleFonts.lato(
-                  fontSize: 14.sp,
-                  color: isPreEnrollRequisiteCompleted
-                      ? TocModuleColors.positiveLight
-                      : TocModuleColors.darkBlue,
-                  fontWeight: FontWeight.w700),
+                fontSize: 14.sp,
+                color: isPreEnrollRequisiteCompleted
+                    ? TocModuleColors.positiveLight
+                    : TocModuleColors.darkBlue,
+                fontWeight: FontWeight.w700,
+              ),
             ),
             if (isPreEnrollRequisiteCompleted)
               Padding(
@@ -989,7 +1072,7 @@ class _EnrollBlendedProgramButtonState
                   width: 20.w,
                   height: 20.w,
                 ),
-              )
+              ),
           ],
         ),
       ),
@@ -998,38 +1081,40 @@ class _EnrollBlendedProgramButtonState
 
   Widget _emptyBatchView() {
     return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12).r,
+        color: TocModuleColors.appBarBackground,
+      ),
+      child: Container(
+        padding: EdgeInsets.all(16).r,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12).r,
-          color: TocModuleColors.appBarBackground,
+          color: TocModuleColors.orangeTourText.withValues(alpha: 0.2),
         ),
-        child: Container(
-          padding: EdgeInsets.all(16).r,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12).r,
-              color: TocModuleColors.orangeTourText.withValues(alpha: 0.2)),
-          width: 1.sw,
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        width: 1.sw,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
             Container(
               margin: EdgeInsets.only(bottom: 10).r,
               padding: EdgeInsets.all(12).r,
               height: 50.w,
               decoration: BoxDecoration(
-                  color: TocModuleColors.appBarBackground,
-                  borderRadius: BorderRadius.circular(4).r,
-                  border: Border.all(color: TocModuleColors.black40)),
+                color: TocModuleColors.appBarBackground,
+                borderRadius: BorderRadius.circular(4).r,
+                border: Border.all(color: TocModuleColors.black40),
+              ),
               width: 1.sw,
             ),
             Text(
               TocLocalizations.of(context)!.mLearnNoActiveBatches,
               style: GoogleFonts.lato(
-                  color: TocModuleColors.textHeadingColor,
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.w600),
+                color: TocModuleColors.textHeadingColor,
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w600,
+              ),
             ),
-            SizedBox(
-              height: 5.w,
-            ),
+            SizedBox(height: 5.w),
             Row(
               children: [
                 Column(
@@ -1060,8 +1145,9 @@ class _EnrollBlendedProgramButtonState
                   onPressed: () {},
                   style: ButtonStyle(
                     elevation: WidgetStateProperty.all(0),
-                    backgroundColor:
-                        WidgetStateProperty.all<Color>(TocModuleColors.black40),
+                    backgroundColor: WidgetStateProperty.all<Color>(
+                      TocModuleColors.black40,
+                    ),
                     shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(63.0).w,
@@ -1079,7 +1165,9 @@ class _EnrollBlendedProgramButtonState
                 ),
               ],
             ),
-          ]),
-        ));
+          ],
+        ),
+      ),
+    );
   }
 }

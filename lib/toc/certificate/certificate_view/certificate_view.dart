@@ -14,7 +14,7 @@ import 'package:toc_module/toc/helper/date_time_helper.dart';
 import 'package:toc_module/toc/helper/toc_helper.dart';
 import 'package:toc_module/toc/model/competency_passbook.dart';
 import 'package:toc_module/toc/model/course_model.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
 
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter/webview_flutter.dart' as Webview;
@@ -22,11 +22,8 @@ import 'package:webview_flutter/webview_flutter.dart' as Webview;
 class CertificateView extends StatefulWidget {
   final Course courseInfo;
   final List<CompetencyPassbook>? competencies;
-  const CertificateView({
-    Key? key,
-    required this.courseInfo,
-    this.competencies,
-  }) : super(key: key);
+  const CertificateView({Key? key, required this.courseInfo, this.competencies})
+    : super(key: key);
 
   @override
   State<CertificateView> createState() => _CourseCompleteCertificateState();
@@ -43,18 +40,20 @@ class _CourseCompleteCertificateState extends State<CertificateView> {
   void initState() {
     _webViewController = Webview.WebViewController()
       ..setJavaScriptMode(Webview.JavaScriptMode.unrestricted)
-      ..setNavigationDelegate(Webview.NavigationDelegate(
-        onNavigationRequest: (Webview.NavigationRequest request) {
-          return Webview.NavigationDecision.navigate;
-        },
-        onPageFinished: (String url) async {
-          double imageWidth = MediaQuery.of(context).size.width * 2.4;
-          _webViewController.runJavaScript('''
+      ..setNavigationDelegate(
+        Webview.NavigationDelegate(
+          onNavigationRequest: (Webview.NavigationRequest request) {
+            return Webview.NavigationDecision.navigate;
+          },
+          onPageFinished: (String url) async {
+            double imageWidth = MediaQuery.of(context).size.width * 2.4;
+            _webViewController.runJavaScript('''
             document.querySelector("svg").setAttribute("width", "$imageWidth");
             document.querySelector("svg").setAttribute("height", "500px");
           ''');
-        },
-      ));
+          },
+        ),
+      );
     super.initState();
   }
 
@@ -84,17 +83,22 @@ class _CourseCompleteCertificateState extends State<CertificateView> {
                   child: Text(
                     TocLocalizations.of(context)!.mStaticCertificateEarned,
                     style: GoogleFonts.lato(
-                        color: TocModuleColors.darkBlue,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 20.sp),
+                      color: TocModuleColors.darkBlue,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 20.sp,
+                    ),
                   ),
                 ),
                 ClipPath(
                   clipper: TocBottomCornerClipper(),
                   child: Container(
                     margin: const EdgeInsets.only(left: 35.0, right: 35).r,
-                    padding:
-                        EdgeInsets.only(top: 1, left: 1, right: 1, bottom: 0).r,
+                    padding: EdgeInsets.only(
+                      top: 1,
+                      left: 1,
+                      right: 1,
+                      bottom: 0,
+                    ).r,
                     decoration: BoxDecoration(
                       color: TocModuleColors.grey16,
                       borderRadius: BorderRadius.only(
@@ -108,11 +112,12 @@ class _CourseCompleteCertificateState extends State<CertificateView> {
                       clipper: TocBottomCornerClipper(),
                       child: Container(
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(9),
-                              topRight: Radius.circular(9),
-                            ).r,
-                            color: TocModuleColors.appBarBackground),
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(9),
+                            topRight: Radius.circular(9),
+                          ).r,
+                          color: TocModuleColors.appBarBackground,
+                        ),
                         child: ClipPath(
                           clipper: TocBottomCornerClipper(),
                           child: Container(
@@ -133,40 +138,49 @@ class _CourseCompleteCertificateState extends State<CertificateView> {
                                 certificateTopSection(),
                                 SizedBox(height: 10.w),
                                 Container(
-                                    width:
-                                        MediaQuery.of(context).size.width * 2.4,
-                                    height: imageHeight,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(8)),
-                                    child: widget.courseInfo
-                                                    .issuedCertificates !=
-                                                null &&
-                                            widget.courseInfo
-                                                .issuedCertificates!.isNotEmpty
-                                        ? isDownloaded
+                                  width:
+                                      MediaQuery.of(context).size.width * 2.4,
+                                  height: imageHeight,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child:
+                                      widget.courseInfo.issuedCertificates !=
+                                              null &&
+                                          widget
+                                              .courseInfo
+                                              .issuedCertificates!
+                                              .isNotEmpty
+                                      ? isDownloaded
                                             ? ClipRRect(
                                                 borderRadius:
                                                     BorderRadius.circular(8),
                                                 child: showCertInWebview(
-                                                    context, imageWidth))
+                                                  context,
+                                                  imageWidth,
+                                                ),
+                                              )
                                             : ValueListenableBuilder<bool>(
                                                 valueListenable: isDownloading,
                                                 builder:
                                                     (context, snapshot, child) {
-                                                  return CertificateDefaultView(
-                                                    downloadClicked: () {
-                                                      downloadClicked();
+                                                      return CertificateDefaultView(
+                                                        downloadClicked: () {
+                                                          downloadClicked();
+                                                        },
+                                                        imageHeight:
+                                                            imageHeight,
+                                                        imageWidth: imageWidth,
+                                                        isDownloadingToSave:
+                                                            snapshot,
+                                                      );
                                                     },
-                                                    imageHeight: imageHeight,
-                                                    imageWidth: imageWidth,
-                                                    isDownloadingToSave:
-                                                        snapshot,
-                                                  );
-                                                })
-                                        : CertificateNotGeneratedCard(
-                                            imageHeight: imageHeight,
-                                            imageWidth: imageWidth,
-                                          ))
+                                              )
+                                      : CertificateNotGeneratedCard(
+                                          imageHeight: imageHeight,
+                                          imageWidth: imageWidth,
+                                        ),
+                                ),
                               ],
                             ),
                           ),
@@ -199,7 +213,9 @@ class _CourseCompleteCertificateState extends State<CertificateView> {
                 widget.courseInfo.name,
                 maxLines: 2,
                 style: GoogleFonts.lato(
-                    fontWeight: FontWeight.w700, fontSize: 12.sp),
+                  fontWeight: FontWeight.w700,
+                  fontSize: 12.sp,
+                ),
               ),
               widget.courseInfo.completedOn != null
                   ? SizedBox(height: 4.w)
@@ -207,15 +223,15 @@ class _CourseCompleteCertificateState extends State<CertificateView> {
               widget.courseInfo.completedOn != null
                   ? Text(
                       '${TocLocalizations.of(context)!.mStaticYouCompletedThisCourseOn(widget.courseInfo.courseCategory)} ${DateTimeHelper.getDateTimeInFormat("${DateTime.fromMillisecondsSinceEpoch(widget.courseInfo.completedOn!)}", desiredDateFormat: IntentType.dateFormat2)}',
-                      style:
-                          Theme.of(context).textTheme.headlineSmall!.copyWith(
-                                fontSize: 9.sp,
-                                fontWeight: FontWeight.w400,
-                              ),
+                      style: Theme.of(context).textTheme.headlineSmall!
+                          .copyWith(
+                            fontSize: 9.sp,
+                            fontWeight: FontWeight.w400,
+                          ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     )
-                  : SizedBox.shrink()
+                  : SizedBox.shrink(),
             ],
           ),
         ),
@@ -226,9 +242,8 @@ class _CourseCompleteCertificateState extends State<CertificateView> {
                     ? SizedBox(
                         height: 20.w,
                         width: 20.w,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 3,
-                        ))
+                        child: CircularProgressIndicator(strokeWidth: 3),
+                      )
                     : Visibility(
                         visible: isDownloaded,
                         child: IconButton(
@@ -243,7 +258,7 @@ class _CourseCompleteCertificateState extends State<CertificateView> {
                         ),
                       ),
               )
-            : SizedBox.shrink()
+            : SizedBox.shrink(),
       ],
     );
   }
@@ -279,7 +294,8 @@ class _CourseCompleteCertificateState extends State<CertificateView> {
               ).r,
             ),
             child: CertificateCompetencySubtheme(
-                competencySubthemes: widget.competencies!),
+              competencySubthemes: widget.competencies!,
+            ),
           ),
         ),
       ),
@@ -293,17 +309,17 @@ class _CourseCompleteCertificateState extends State<CertificateView> {
     return Webview.WebViewWidget(
       controller: Webview.WebViewController()
         ..setJavaScriptMode(Webview.JavaScriptMode.unrestricted)
-        ..setNavigationDelegate(Webview.NavigationDelegate(
-          onNavigationRequest: (Webview.NavigationRequest request) {
-            return Webview.NavigationDecision.navigate;
-          },
-          onPageFinished: (String url) async {
-            _webViewController.runJavaScript(resizeCertJS);
-          },
-        ))
-        ..loadRequest(Uri.parse(
-          certificatePrintUri ?? '',
-        )),
+        ..setNavigationDelegate(
+          Webview.NavigationDelegate(
+            onNavigationRequest: (Webview.NavigationRequest request) {
+              return Webview.NavigationDecision.navigate;
+            },
+            onPageFinished: (String url) async {
+              _webViewController.runJavaScript(resizeCertJS);
+            },
+          ),
+        )
+        ..loadRequest(Uri.parse(certificatePrintUri ?? '')),
     );
   }
 
@@ -311,26 +327,29 @@ class _CourseCompleteCertificateState extends State<CertificateView> {
     if (isDownloading.value) return;
     isDownloading.value = true;
     try {
-      certificatePrintUri =
-          await CertificateRepository().getCertificatePrintUri(
-        batchId: widget.courseInfo.batches != null &&
-                widget.courseInfo.batches!.isNotEmpty &&
-                widget.courseInfo.batches!.first.batchId != ""
-            ? widget.courseInfo.batches!.first.batchId
-            : "",
-        certificateId: widget.courseInfo.issuedCertificates != null &&
-                widget.courseInfo.issuedCertificates!.isNotEmpty
-            ? widget.courseInfo.issuedCertificates!.first['identifier']
-            : "",
-        courseCategory: widget.courseInfo.courseCategory,
-        courseId: widget.courseInfo.id,
-      );
+      certificatePrintUri = await CertificateRepository()
+          .getCertificatePrintUri(
+            batchId:
+                widget.courseInfo.batches != null &&
+                    widget.courseInfo.batches!.isNotEmpty &&
+                    widget.courseInfo.batches!.first.batchId != ""
+                ? widget.courseInfo.batches!.first.batchId
+                : "",
+            certificateId:
+                widget.courseInfo.issuedCertificates != null &&
+                    widget.courseInfo.issuedCertificates!.isNotEmpty
+                ? widget.courseInfo.issuedCertificates!.first['identifier']
+                : "",
+            courseCategory: widget.courseInfo.courseCategory,
+            courseId: widget.courseInfo.id,
+          );
     } catch (e) {
       TocHelper.showSnackBarMessage(
-          context: context,
-          text: TocLocalizations.of(context)!.mStaticSomethingWrongTryLater,
-          textColor: Colors.white,
-          bgColor: Colors.red);
+        context: context,
+        text: TocLocalizations.of(context)!.mStaticSomethingWrongTryLater,
+        textColor: Colors.white,
+        bgColor: Colors.red,
+      );
       debugPrint('Error saving certificate as PDF: $e');
     } finally {
       isDownloading.value = false;
@@ -339,10 +358,11 @@ class _CourseCompleteCertificateState extends State<CertificateView> {
         downloadAsPdf();
       } else {
         TocHelper.showSnackBarMessage(
-            context: context,
-            text: TocLocalizations.of(context)!.mStaticSomethingWrongTryLater,
-            textColor: Colors.white,
-            bgColor: Colors.red);
+          context: context,
+          text: TocLocalizations.of(context)!.mStaticSomethingWrongTryLater,
+          textColor: Colors.white,
+          bgColor: Colors.red,
+        );
       }
       setState(() {});
     }
@@ -354,33 +374,38 @@ class _CourseCompleteCertificateState extends State<CertificateView> {
     try {
       String? downloadedPath = await CertificateRepository()
           .getCertificateDownloadedPath(
-              batchId: widget.courseInfo.batches != null &&
-                      widget.courseInfo.batches!.isNotEmpty
-                  ? widget.courseInfo.batches!.first.batchId
-                  : "",
-              certificateId: widget.courseInfo.issuedCertificates != null &&
-                      widget.courseInfo.issuedCertificates!.isNotEmpty
-                  ? widget.courseInfo.issuedCertificates!.first['identifier']
-                  : "",
-              courseCategory: widget.courseInfo.courseCategory,
-              courseId: widget.courseInfo.id,
-              courseName: widget.courseInfo.name,
-              context: context);
+            batchId:
+                widget.courseInfo.batches != null &&
+                    widget.courseInfo.batches!.isNotEmpty
+                ? widget.courseInfo.batches!.first.batchId
+                : "",
+            certificateId:
+                widget.courseInfo.issuedCertificates != null &&
+                    widget.courseInfo.issuedCertificates!.isNotEmpty
+                ? widget.courseInfo.issuedCertificates!.first['identifier']
+                : "",
+            courseCategory: widget.courseInfo.courseCategory,
+            courseId: widget.courseInfo.id,
+            courseName: widget.courseInfo.name,
+            context: context,
+          );
       if (downloadedPath != null) {
         displayDialog(filePath: downloadedPath);
       } else {
         TocHelper.showSnackBarMessage(
-            context: context,
-            text: TocLocalizations.of(context)!.mStaticSomethingWrongTryLater,
-            textColor: Colors.white,
-            bgColor: Colors.red);
-      }
-    } catch (e) {
-      TocHelper.showSnackBarMessage(
           context: context,
           text: TocLocalizations.of(context)!.mStaticSomethingWrongTryLater,
           textColor: Colors.white,
-          bgColor: Colors.red);
+          bgColor: Colors.red,
+        );
+      }
+    } catch (e) {
+      TocHelper.showSnackBarMessage(
+        context: context,
+        text: TocLocalizations.of(context)!.mStaticSomethingWrongTryLater,
+        textColor: Colors.white,
+        bgColor: Colors.red,
+      );
       debugPrint("Error downloading certificate as PDF: $e");
     } finally {
       isDownloading.value = false;
@@ -389,18 +414,16 @@ class _CourseCompleteCertificateState extends State<CertificateView> {
 
   Future displayDialog({required String filePath}) {
     return showModalBottomSheet(
-        isScrollControlled: true,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(8), topRight: Radius.circular(8))
-              .r,
-          side: BorderSide(
-            color: TocModuleColors.grey08,
-          ),
-        ),
-        context: context,
-        builder: (context) => CertificateBottomSheet(
-              filePath: filePath,
-            ));
+      isScrollControlled: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(8),
+          topRight: Radius.circular(8),
+        ).r,
+        side: BorderSide(color: TocModuleColors.grey08),
+      ),
+      context: context,
+      builder: (context) => CertificateBottomSheet(filePath: filePath),
+    );
   }
 }

@@ -3,7 +3,8 @@ import 'package:animated_flip_counter/animated_flip_counter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/model/batch_model.dart';
 
@@ -23,17 +24,18 @@ class _CountdownState extends State<Countdown> {
   void initState() {
     print(DateTime.parse(widget.batch.startDate).difference(DateTime.now()));
     super.initState();
-    _remainingTime = DateTime.parse(widget.batch.startDate.replaceAll('Z', ''))
-        .difference(DateTime.now());
+    _remainingTime = DateTime.parse(
+      widget.batch.startDate.replaceAll('Z', ''),
+    ).difference(DateTime.now());
     _startTimer();
   }
 
   void _startTimer() {
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
-        _remainingTime =
-            DateTime.parse(widget.batch.startDate.replaceAll('Z', ''))
-                .difference(DateTime.now());
+        _remainingTime = DateTime.parse(
+          widget.batch.startDate.replaceAll('Z', ''),
+        ).difference(DateTime.now());
         //  Provider.of<TocRepository>(context, listen: false)
         //     .getBatchStartTime()
         //     .difference(DateTime.now());
@@ -57,15 +59,16 @@ class _CountdownState extends State<Countdown> {
     int minutes = _remainingTime!.inMinutes.remainder(60);
 
     return _remainingTime!.inSeconds <= 0
-        ? SizedBox(
-            height: 37.w,
-          )
+        ? SizedBox(height: 37.w)
         : Column(
             children: [
               Padding(
                 padding: const EdgeInsets.only(
-                        left: 16.0, right: 16, top: 28, bottom: 20)
-                    .r,
+                  left: 16.0,
+                  right: 16,
+                  top: 28,
+                  bottom: 20,
+                ).r,
                 child: Row(
                   children: [
                     Expanded(
@@ -78,13 +81,12 @@ class _CountdownState extends State<Countdown> {
                       padding: EdgeInsets.fromLTRB(8, 4, 8, 4).r,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16).r,
-                        border: Border.all(
-                          color: TocModuleColors.grey16,
-                        ),
+                        border: Border.all(color: TocModuleColors.grey16),
                       ),
                       child: Text(
-                        TocLocalizations.of(context)!
-                            .mHomeBlendedProgramBatchStart,
+                        TocLocalizations.of(
+                          context,
+                        )!.mHomeBlendedProgramBatchStart,
                         style: Theme.of(context).textTheme.labelMedium,
                       ),
                     ),
@@ -100,28 +102,29 @@ class _CountdownState extends State<Countdown> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  _buildCountdownPart(days,
-                      TocLocalizations.of(context)!.mStaticDays.toUpperCase()),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 16.0, right: 16).r,
-                    child: Text(":"),
+                  _buildCountdownPart(
+                    days,
+                    TocLocalizations.of(context)!.mStaticDays.toUpperCase(),
                   ),
-                  _buildCountdownPart(hours,
-                      TocLocalizations.of(context)!.mStaticHours.toUpperCase()),
                   Padding(
                     padding: const EdgeInsets.only(left: 16.0, right: 16).r,
                     child: Text(":"),
                   ),
                   _buildCountdownPart(
-                      minutes,
-                      TocLocalizations.of(context)!
-                          .mStaticMinutes
-                          .toUpperCase()),
+                    hours,
+                    TocLocalizations.of(context)!.mStaticHours.toUpperCase(),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16.0, right: 16).r,
+                    child: Text(":"),
+                  ),
+                  _buildCountdownPart(
+                    minutes,
+                    TocLocalizations.of(context)!.mStaticMinutes.toUpperCase(),
+                  ),
                 ],
               ),
-              SizedBox(
-                height: 17.w,
-              )
+              SizedBox(height: 17.w),
             ],
           );
   }
@@ -138,14 +141,12 @@ class _CountdownState extends State<Countdown> {
             fontSize: 36.sp,
           ),
         ),
-        SizedBox(
-          width: 2.w,
-        ),
+        SizedBox(width: 2.w),
         Text(
           unit,
-          style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                fontSize: 12.sp,
-              ),
+          style: Theme.of(
+            context,
+          ).textTheme.labelLarge!.copyWith(fontSize: 12.sp),
         ),
       ],
     );

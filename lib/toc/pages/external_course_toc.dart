@@ -22,18 +22,18 @@ import 'package:toc_module/toc/util/button_widget_v2.dart';
 import 'package:toc_module/toc/view_model/course_toc_view_model.dart';
 import 'about_tab/widgets/competency_strip/competency_strip.dart';
 import 'course_comments.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
 
 class ExternalCourseTOC extends StatefulWidget {
   final String contentId;
   final String? externalId;
   final String? contentType;
-  const ExternalCourseTOC(
-      {Key? key,
-      required this.contentId,
-      this.externalId = '',
-      this.contentType})
-      : super(key: key);
+  const ExternalCourseTOC({
+    Key? key,
+    required this.contentId,
+    this.externalId = '',
+    this.contentType,
+  }) : super(key: key);
 
   @override
   State<ExternalCourseTOC> createState() => _ExternalCourseTOCState();
@@ -54,8 +54,9 @@ class _ExternalCourseTOCState extends State<ExternalCourseTOC>
   @override
   void initState() {
     super.initState();
-    _tocDataFuture =
-        TocRepository().getExternalCourseContents(extId: widget.contentId);
+    _tocDataFuture = TocRepository().getExternalCourseContents(
+      extId: widget.contentId,
+    );
     _enrollCourseFuture = _checkEnrolled();
     _generateTelemetryData();
     setIsLearningPathContent();
@@ -65,23 +66,27 @@ class _ExternalCourseTOCState extends State<ExternalCourseTOC>
     List<CompetencyPassbook> competencies = [];
 
     for (var data in competenciesData) {
-      competencies.add(CompetencyPassbook(
-        courseId: "courseId",
-        competencyArea: data['competencyAreaName'] ?? data['competencyArea'],
-        competencyAreaId:
-            data['competencyAreaIdentifier'] ?? data['competencyAreaId'],
-        competencyAreaDescription: data['competencyAreaDescription'],
-        competencyTheme: data['competencyThemeName'] ?? data['competencyTheme'],
-        competencyThemeId:
-            data['competencyThemeIdentifier'] ?? data['competencyThemeId'],
-        competencyThemeDescription: data['competencyThemeDescription'],
-        competencyThemeType: data['competencyThemeType'],
-        competencySubTheme:
-            data['competencySubThemeName'] ?? data['competencySubTheme'],
-        competencySubThemeId: data['competencySubThemeIdentifier'] ??
-            data['competencySubThemeId'],
-        competencySubThemeDescription: data['competencySubThemeDescription'],
-      ));
+      competencies.add(
+        CompetencyPassbook(
+          courseId: "courseId",
+          competencyArea: data['competencyAreaName'] ?? data['competencyArea'],
+          competencyAreaId:
+              data['competencyAreaIdentifier'] ?? data['competencyAreaId'],
+          competencyAreaDescription: data['competencyAreaDescription'],
+          competencyTheme:
+              data['competencyThemeName'] ?? data['competencyTheme'],
+          competencyThemeId:
+              data['competencyThemeIdentifier'] ?? data['competencyThemeId'],
+          competencyThemeDescription: data['competencyThemeDescription'],
+          competencyThemeType: data['competencyThemeType'],
+          competencySubTheme:
+              data['competencySubThemeName'] ?? data['competencySubTheme'],
+          competencySubThemeId:
+              data['competencySubThemeIdentifier'] ??
+              data['competencySubThemeId'],
+          competencySubThemeDescription: data['competencySubThemeDescription'],
+        ),
+      );
     }
     return competencies;
   }
@@ -94,280 +99,306 @@ class _ExternalCourseTOCState extends State<ExternalCourseTOC>
   @override
   void didChangeDependencies() {
     learnTabController = TabController(
-        length: LearnTab.externalCourseTocTabs(context).length,
-        vsync: this,
-        initialIndex: 0);
+      length: LearnTab.externalCourseTocTabs(context).length,
+      vsync: this,
+      initialIndex: 0,
+    );
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: _tocDataFuture,
-        builder: (BuildContext context, AsyncSnapshot<Course> tocData) {
-          /** SMT track course view **/
-          if ((tocData.connectionState == ConnectionState.done &&
-                  tocData.hasData) &&
-              !isViewed) {
-            isViewed = true;
-            trackCourseView(tocData.data);
+      future: _tocDataFuture,
+      builder: (BuildContext context, AsyncSnapshot<Course> tocData) {
+        /** SMT track course view **/
+        if ((tocData.connectionState == ConnectionState.done &&
+                tocData.hasData) &&
+            !isViewed) {
+          isViewed = true;
+          trackCourseView(tocData.data);
+        }
+        if (tocData.hasData) {
+          if (tocData.data?.raw["searchTags"] is List) {
+            _filteredTags = (tocData.data!.raw["searchTags"] as List).where((
+              tag,
+            ) {
+              final tagStr = tag.toString().trim().toLowerCase();
+              return tagStr.isNotEmpty &&
+                  tagStr != (tocData.data!.name).toLowerCase();
+            }).toList();
           }
-          if (tocData.hasData) {
-            if (tocData.data?.raw["searchTags"] is List) {
-              _filteredTags =
-                  (tocData.data!.raw["searchTags"] as List).where((tag) {
-                final tagStr = tag.toString().trim().toLowerCase();
-                return tagStr.isNotEmpty &&
-                    tagStr != (tocData.data!.name).toLowerCase();
-              }).toList();
-            }
-          }
-          return tocData.connectionState == ConnectionState.done &&
-                  tocData.hasData
-              ? Scaffold(
-                  backgroundColor: TocModuleColors.darkBlue,
-                  body: NestedScrollView(
-                      headerSliverBuilder:
-                          (BuildContext context, innerBoxIsScrolled) {
-                        return <Widget>[
-                          SliverAppBar(
-                            pinned: true,
-                            backgroundColor: TocModuleColors.darkBlue,
-                            automaticallyImplyLeading: false,
-                            leading: IconButton(
-                              icon: Icon(
-                                Icons.arrow_back_ios,
-                                size: 24.sp,
-                                color: TocModuleColors.appBarBackground,
-                              ),
-                              onPressed: () => Navigator.pop(context),
+        }
+        return tocData.connectionState == ConnectionState.done &&
+                tocData.hasData
+            ? Scaffold(
+                backgroundColor: TocModuleColors.darkBlue,
+                body: NestedScrollView(
+                  headerSliverBuilder: (BuildContext context, innerBoxIsScrolled) {
+                    return <Widget>[
+                      SliverAppBar(
+                        pinned: true,
+                        backgroundColor: TocModuleColors.darkBlue,
+                        automaticallyImplyLeading: false,
+                        leading: IconButton(
+                          icon: Icon(
+                            Icons.arrow_back_ios,
+                            size: 24.sp,
+                            color: TocModuleColors.appBarBackground,
+                          ),
+                          onPressed: () => Navigator.pop(context),
+                        ),
+                      ),
+                      SliverToBoxAdapter(
+                        child: Container(
+                          color: TocModuleColors.darkBlue,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                            ).w,
+                            child: _getTOCHeaderWidget(
+                              courseData: tocData.data!,
                             ),
                           ),
-                          SliverToBoxAdapter(
+                        ),
+                      ),
+                      SliverAppBar(
+                        automaticallyImplyLeading: false,
+                        pinned: true,
+                        toolbarHeight: 28.w,
+                        backgroundColor: TocModuleColors.lightBackground,
+                        flexibleSpace: Container(
+                          color: TocModuleColors.darkBlue,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(16.0).r,
+                              topRight: Radius.circular(16.0).r,
+                            ),
                             child: Container(
-                              color: TocModuleColors.darkBlue,
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 16)
-                                        .w,
-                                child: _getTOCHeaderWidget(
-                                    courseData: tocData.data!),
-                              ),
-                            ),
-                          ),
-                          SliverAppBar(
-                            automaticallyImplyLeading: false,
-                            pinned: true,
-                            toolbarHeight: 28.w,
-                            backgroundColor: TocModuleColors.lightBackground,
-                            flexibleSpace: Container(
-                              color: TocModuleColors.darkBlue,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(16.0).r,
-                                  topRight: Radius.circular(16.0).r,
+                              padding: EdgeInsets.only(top: 4).r,
+                              color: TocModuleColors.appBarBackground,
+                              child: TabBar(
+                                tabAlignment: TabAlignment.start,
+                                isScrollable: true,
+                                indicator: BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      color: TocModuleColors.darkBlue,
+                                      width: 2.0.w,
+                                    ),
+                                  ),
                                 ),
-                                child: Container(
-                                  padding: EdgeInsets.only(top: 4).r,
-                                  color: TocModuleColors.appBarBackground,
-                                  child: TabBar(
-                                    tabAlignment: TabAlignment.start,
-                                    isScrollable: true,
-                                    indicator: BoxDecoration(
-                                      border: Border(
-                                        bottom: BorderSide(
-                                          color: TocModuleColors.darkBlue,
-                                          width: 2.0.w,
+                                indicatorColor:
+                                    TocModuleColors.appBarBackground,
+                                labelPadding: EdgeInsets.only(top: 0.0).r,
+                                unselectedLabelColor: TocModuleColors.greys60,
+                                labelColor: TocModuleColors.darkBlue,
+                                labelStyle: Theme.of(context)
+                                    .textTheme
+                                    .titleSmall!
+                                    .copyWith(
+                                      fontSize: 10.sp,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                unselectedLabelStyle: Theme.of(context)
+                                    .textTheme
+                                    .headlineSmall!
+                                    .copyWith(
+                                      fontSize: 10.sp,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                onTap: (value) {
+                                  // _generateInteractTelemetryData(
+                                  //     clickId: learnTabController!.index ==
+                                  //             0
+                                  //         ? TelemetryIdentifier.aboutTab
+                                  //         : TelemetryIdentifier.contentTab);
+                                },
+                                tabs: [
+                                  for (var tabItem
+                                      in LearnTab.externalCourseTocTabs(
+                                        context,
+                                      ))
+                                    Container(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 16,
+                                      ).r,
+                                      child: Tab(
+                                        child: Padding(
+                                          padding: EdgeInsets.all(5.0).r,
+                                          child: Text(
+                                            tabItem.title,
+                                            style: GoogleFonts.lato(
+                                              color: TocModuleColors.greys87,
+                                              fontSize: 14.0.sp,
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ),
-                                    indicatorColor:
-                                        TocModuleColors.appBarBackground,
-                                    labelPadding: EdgeInsets.only(top: 0.0).r,
-                                    unselectedLabelColor:
-                                        TocModuleColors.greys60,
-                                    labelColor: TocModuleColors.darkBlue,
-                                    labelStyle: Theme.of(context)
-                                        .textTheme
-                                        .titleSmall!
-                                        .copyWith(
-                                            fontSize: 10.sp,
-                                            fontWeight: FontWeight.w600),
-                                    unselectedLabelStyle: Theme.of(context)
-                                        .textTheme
-                                        .headlineSmall!
-                                        .copyWith(
-                                            fontSize: 10.sp,
-                                            fontWeight: FontWeight.w400),
-                                    onTap: (value) {
-                                      // _generateInteractTelemetryData(
-                                      //     clickId: learnTabController!.index ==
-                                      //             0
-                                      //         ? TelemetryIdentifier.aboutTab
-                                      //         : TelemetryIdentifier.contentTab);
-                                    },
-                                    tabs: [
-                                      for (var tabItem
-                                          in LearnTab.externalCourseTocTabs(
-                                              context))
-                                        Container(
-                                          padding: EdgeInsets.symmetric(
-                                                  horizontal: 16)
-                                              .r,
-                                          child: Tab(
-                                            child: Padding(
-                                              padding: EdgeInsets.all(5.0).r,
-                                              child: Text(
-                                                tabItem.title,
-                                                style: GoogleFonts.lato(
-                                                  color:
-                                                      TocModuleColors.greys87,
-                                                  fontSize: 14.0.sp,
-                                                  fontWeight: FontWeight.w700,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        )
-                                    ],
-                                    controller: learnTabController,
-                                  ),
-                                ),
+                                ],
+                                controller: learnTabController,
                               ),
                             ),
                           ),
-                        ];
-                      },
-                      body: Container(
-                        color: TocModuleColors.lightBackground,
-                        child: TabBarView(
-                            controller: learnTabController,
-                            children: [
-                              _aboutTab(tocData),
-                              ValueListenableBuilder<bool?>(
-                                  valueListenable: _isEnrolled,
-                                  builder: (BuildContext context,
-                                      bool? isEnrolled, Widget? child) {
-                                    return CourseComments(
-                                      courseId: widget.contentId,
-                                      isEnrolled: isEnrolled ?? false,
-                                    );
-                                  })
-                            ]),
-                      )),
-                  bottomNavigationBar: BottomAppBar(
-                    elevation: 0,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0).w,
-                      child: FutureBuilder(
-                          future: _enrollCourseFuture,
-                          builder: (BuildContext context,
-                              AsyncSnapshot<void> snapshot) {
-                            return ValueListenableBuilder<bool?>(
-                                valueListenable: _isEnrolled,
-                                builder: (BuildContext context,
-                                    bool? isEnrolled, Widget? child) {
-                                  return IntrinsicHeight(
-                                    child: ButtonWidgetV2(
-                                        isLoading: snapshot.connectionState !=
-                                            ConnectionState.done,
-                                        onTap: isEnrolled != null
-                                            ? () async {
-                                                if (isEnrolled) {
-                                                  _navigateToExtCoursePlayer(
-                                                      redirectUrl: tocData
-                                                          .data!.redirectUrl!);
-                                                  // await _generateInteractTelemetryData(
-                                                  //     clickId:
-                                                  //         TelemetryIdentifier
-                                                  //             .redirect);
-                                                } else {
-                                                  await _enroll(
-                                                      partnerId: tocData
-                                                              .data
-                                                              ?.contentPartner
-                                                              ?.id ??
-                                                          '',
-                                                      redirectUrl: tocData
-                                                          .data!.redirectUrl!,
-                                                      course: tocData.data);
-                                                  // await _generateInteractTelemetryData(
-                                                  //     clickId:
-                                                  //         TelemetryIdentifier
-                                                  //             .enroll);
-                                                }
-                                              }
-                                            : null,
-                                        text: isEnrolled != null && isEnrolled
-                                            ? TocLocalizations.of(context)!
-                                                .mLearnRedirect
-                                            : TocLocalizations.of(context)!
-                                                .mEnroll,
-                                        bgColor: isEnrolled != null
-                                            ? TocModuleColors.darkBlue
-                                            : TocModuleColors.grey16,
-                                        textColor:
-                                            TocModuleColors.appBarBackground,
-                                        icon: isEnrolled != null && isEnrolled
-                                            ? Icons.open_in_new
-                                            : null),
-                                  );
-                                });
-                          }),
+                        ),
+                      ),
+                    ];
+                  },
+                  body: Container(
+                    color: TocModuleColors.lightBackground,
+                    child: TabBarView(
+                      controller: learnTabController,
+                      children: [
+                        _aboutTab(tocData),
+                        ValueListenableBuilder<bool?>(
+                          valueListenable: _isEnrolled,
+                          builder:
+                              (
+                                BuildContext context,
+                                bool? isEnrolled,
+                                Widget? child,
+                              ) {
+                                return CourseComments(
+                                  courseId: widget.contentId,
+                                  isEnrolled: isEnrolled ?? false,
+                                );
+                              },
+                        ),
+                      ],
                     ),
-                  ))
-              : ExternalCourseTocSkeleton(showCourseShareOption: false);
-        });
+                  ),
+                ),
+                bottomNavigationBar: BottomAppBar(
+                  elevation: 0,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0).w,
+                    child: FutureBuilder(
+                      future: _enrollCourseFuture,
+                      builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+                        return ValueListenableBuilder<bool?>(
+                          valueListenable: _isEnrolled,
+                          builder:
+                              (
+                                BuildContext context,
+                                bool? isEnrolled,
+                                Widget? child,
+                              ) {
+                                return IntrinsicHeight(
+                                  child: ButtonWidgetV2(
+                                    isLoading:
+                                        snapshot.connectionState !=
+                                        ConnectionState.done,
+                                    onTap: isEnrolled != null
+                                        ? () async {
+                                            if (isEnrolled) {
+                                              _navigateToExtCoursePlayer(
+                                                redirectUrl:
+                                                    tocData.data!.redirectUrl!,
+                                              );
+                                              // await _generateInteractTelemetryData(
+                                              //     clickId:
+                                              //         TelemetryIdentifier
+                                              //             .redirect);
+                                            } else {
+                                              await _enroll(
+                                                partnerId:
+                                                    tocData
+                                                        .data
+                                                        ?.contentPartner
+                                                        ?.id ??
+                                                    '',
+                                                redirectUrl:
+                                                    tocData.data!.redirectUrl!,
+                                                course: tocData.data,
+                                              );
+                                              // await _generateInteractTelemetryData(
+                                              //     clickId:
+                                              //         TelemetryIdentifier
+                                              //             .enroll);
+                                            }
+                                          }
+                                        : null,
+                                    text: isEnrolled != null && isEnrolled
+                                        ? TocLocalizations.of(
+                                            context,
+                                          )!.mLearnRedirect
+                                        : TocLocalizations.of(context)!.mEnroll,
+                                    bgColor: isEnrolled != null
+                                        ? TocModuleColors.darkBlue
+                                        : TocModuleColors.grey16,
+                                    textColor: TocModuleColors.appBarBackground,
+                                    icon: isEnrolled != null && isEnrolled
+                                        ? Icons.open_in_new
+                                        : null,
+                                  ),
+                                );
+                              },
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              )
+            : ExternalCourseTocSkeleton(showCourseShareOption: false);
+      },
+    );
   }
 
   Widget _getTOCHeaderWidget({required Course courseData}) {
     return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            courseData.name,
-            style: GoogleFonts.montserrat(
-                color: TocModuleColors.appBarBackground,
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w700,
-                letterSpacing: 0.12.sp),
-            softWrap: true,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          courseData.name,
+          style: GoogleFonts.montserrat(
+            color: TocModuleColors.appBarBackground,
+            fontSize: 16.sp,
+            fontWeight: FontWeight.w700,
+            letterSpacing: 0.12.sp,
           ),
-          SizedBox(height: 8.w),
-          Text(
-            (courseData.contentPartner?.contentPartnerName != '')
-                ? '${TocLocalizations.of(context)!.mCommonBy.toLowerCase()} ${courseData.contentPartner?.contentPartnerName}'
-                : '',
-            style: GoogleFonts.lato(
-                color: TocModuleColors.white70,
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w600,
-                height: 1.429.w,
-                letterSpacing: 0.25.sp),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
+          softWrap: true,
+        ),
+        SizedBox(height: 8.w),
+        Text(
+          (courseData.contentPartner?.contentPartnerName != '')
+              ? '${TocLocalizations.of(context)!.mCommonBy.toLowerCase()} ${courseData.contentPartner?.contentPartnerName}'
+              : '',
+          style: GoogleFonts.lato(
+            color: TocModuleColors.white70,
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w600,
+            height: 1.429.w,
+            letterSpacing: 0.25.sp,
           ),
-          SizedBox(height: 8.w),
-          courseData.lastUpdatedOn != null
-              ? Text(
-                  '(${TocLocalizations.of(context)!.mCourseLastUpdatedOn} ${DateTimeHelper.getDateTimeInFormat(courseData.lastUpdatedOn!, desiredDateFormat: IntentType.MMMddyyyy)})',
-                  style: GoogleFonts.lato(
-                      color: TocModuleColors.white70,
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w400,
-                      height: 1.333.w,
-                      letterSpacing: 0.25.sp),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                )
-              : Center(),
-          SizedBox(height: 32.w)
-        ]);
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+        ),
+        SizedBox(height: 8.w),
+        courseData.lastUpdatedOn != null
+            ? Text(
+                '(${TocLocalizations.of(context)!.mCourseLastUpdatedOn} ${DateTimeHelper.getDateTimeInFormat(courseData.lastUpdatedOn!, desiredDateFormat: IntentType.MMMddyyyy)})',
+                style: GoogleFonts.lato(
+                  color: TocModuleColors.white70,
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w400,
+                  height: 1.333.w,
+                  letterSpacing: 0.25.sp,
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              )
+            : Center(),
+        SizedBox(height: 32.w),
+      ],
+    );
   }
 
   Future<void> _checkEnrolled() async {
-    Response res =
-        await learnService.getUserDataOnExtCourse(courseId: widget.contentId);
+    Response res = await learnService.getUserDataOnExtCourse(
+      courseId: widget.contentId,
+    );
     if (res.statusCode == 200) {
       var result = jsonDecode(res.body)['result'];
       if (result != null && result['enrolled_date'] != null) {
@@ -378,36 +409,44 @@ class _ExternalCourseTOCState extends State<ExternalCourseTOC>
       }
     } else {
       TocHelper.showSnackBarMessage(
-          textColor: Colors.white,
-          context: context,
-          text: TocLocalizations.of(context)!.mStaticSomethingWrongTryLater,
-          bgColor: TocModuleColors.negativeLight);
+        textColor: Colors.white,
+        context: context,
+        text: TocLocalizations.of(context)!.mStaticSomethingWrongTryLater,
+        bgColor: TocModuleColors.negativeLight,
+      );
     }
     setState(() {});
   }
 
-  Future<void> _enroll(
-      {required String partnerId,
-      required String redirectUrl,
-      Course? course}) async {
+  Future<void> _enroll({
+    required String partnerId,
+    required String redirectUrl,
+    Course? course,
+  }) async {
     UserActionModel? response = await learnService.enrollExtCourse(
-        courseId: widget.contentId, partnerId: partnerId);
+      courseId: widget.contentId,
+      partnerId: partnerId,
+    );
     if (response != null &&
         (response.responseCode?.toString().toLowerCase() == 'ok')) {
       _isEnrolled.value = true;
       trackCourseEnrolled(course);
       _showSnackBar(
-          context,
-          TocLocalizations.of(context)!.mStaticEnrolledSuccessMessage,
-          TocModuleColors.positiveLight);
+        context,
+        TocLocalizations.of(context)!.mStaticEnrolledSuccessMessage,
+        TocModuleColors.positiveLight,
+      );
       Future.delayed(
         Duration(seconds: 1),
         () => _navigateToExtCoursePlayer(redirectUrl: redirectUrl),
       );
     } else {
       _isEnrolled.value = false;
-      _showSnackBar(context, TocLocalizations.of(context)!.mStaticErrorMessage,
-          TocModuleColors.negativeLight);
+      _showSnackBar(
+        context,
+        TocLocalizations.of(context)!.mStaticErrorMessage,
+        TocModuleColors.negativeLight,
+      );
     }
   }
 
@@ -458,9 +497,11 @@ class _ExternalCourseTOCState extends State<ExternalCourseTOC>
 
   _navigateToExtCoursePlayer({required String redirectUrl}) {
     if (_isEnrolled.value!) {
-      Navigator.of(context).push(MaterialPageRoute(
-        builder: (ctx) => ExternalCoursePlayer(url: redirectUrl),
-      ));
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (ctx) => ExternalCoursePlayer(url: redirectUrl),
+        ),
+      );
     }
   }
 
@@ -494,9 +535,7 @@ class _ExternalCourseTOCState extends State<ExternalCourseTOC>
       child: Container(
         //    height: 1.sh,
         padding: EdgeInsets.fromLTRB(16, 32, 16, 32).w,
-        decoration: BoxDecoration(
-          color: TocModuleColors.scaffoldBackground,
-        ),
+        decoration: BoxDecoration(color: TocModuleColors.scaffoldBackground),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -511,15 +550,17 @@ class _ExternalCourseTOCState extends State<ExternalCourseTOC>
                         margin: const EdgeInsets.only(right: 24.0).r,
                         child: Column(
                           children: [
-                            Icon(Icons.access_time_sharp,
-                                color: TocModuleColors.darkBlue, size: 20.sp),
-                            SizedBox(
-                              height: 2.w,
+                            Icon(
+                              Icons.access_time_sharp,
+                              color: TocModuleColors.darkBlue,
+                              size: 20.sp,
                             ),
+                            SizedBox(height: 2.w),
                             Expanded(
                               child: Text(
                                 DateTimeHelper.getTimeFormatInHrs(
-                                    int.parse(tocData.data!.duration!)),
+                                  int.parse(tocData.data!.duration!),
+                                ),
                                 style: GoogleFonts.lato(
                                   fontSize: 12.sp,
                                   fontWeight: FontWeight.w600,
@@ -528,7 +569,7 @@ class _ExternalCourseTOCState extends State<ExternalCourseTOC>
                                 overflow: TextOverflow.ellipsis,
                                 textAlign: TextAlign.center,
                               ),
-                            )
+                            ),
                           ],
                         ),
                       )
@@ -593,7 +634,7 @@ class _ExternalCourseTOCState extends State<ExternalCourseTOC>
                                 fontWeight: FontWeight.w400,
                                 color: TocModuleColors.greys60,
                               ),
-                            )
+                            ),
                           ],
                         ),
                       )
@@ -604,21 +645,26 @@ class _ExternalCourseTOCState extends State<ExternalCourseTOC>
                     ? Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(TocLocalizations.of(context)!.mLearnObjectives,
-                              style: GoogleFonts.lato(
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w700)),
+                          Text(
+                            TocLocalizations.of(context)!.mLearnObjectives,
+                            style: GoogleFonts.lato(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
                           SizedBox(height: 8.w),
                           HtmlWidget(
-                            tocData.data!.objectives!
-                                .replaceAll('_x000D_,', ''),
+                            tocData.data!.objectives!.replaceAll(
+                              '_x000D_,',
+                              '',
+                            ),
                             textStyle: GoogleFonts.lato(
                               fontSize: 16.sp,
                               height: 1.5.w,
                               fontWeight: FontWeight.w400,
                               color: TocModuleColors.greys60,
                             ),
-                          )
+                          ),
                         ],
                       )
                     : SizedBox(),
@@ -629,8 +675,11 @@ class _ExternalCourseTOCState extends State<ExternalCourseTOC>
             tocData.data?.competencies != null &&
                     tocData.data!.competencies!.isNotEmpty
                 ? Padding(
-                    padding:
-                        const EdgeInsets.only(left: 16.0, bottom: 8, top: 8).r,
+                    padding: const EdgeInsets.only(
+                      left: 16.0,
+                      bottom: 8,
+                      top: 8,
+                    ).r,
                     child: CompetencyStrip(
                       competencies: tocData.data!.competencies!,
                     ),
@@ -654,12 +703,12 @@ class _ExternalCourseTOCState extends State<ExternalCourseTOC>
   }
 
   void _showSnackBar(
-      BuildContext context, String message, Color backgroundColor) {
+    BuildContext context,
+    String message,
+    Color backgroundColor,
+  ) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: backgroundColor,
-      ),
+      SnackBar(content: Text(message), backgroundColor: backgroundColor),
     );
   }
 }

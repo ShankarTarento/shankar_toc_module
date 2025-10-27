@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/constants/learn_compatability_constants.dart';
 import 'package:toc_module/toc/constants/toc_constants.dart';
@@ -49,136 +50,135 @@ class OpenResource extends StatelessWidget {
             ResourceCategoryVersion.contentCompatibility.version
         ? ShowUpdate()
         : resourceNavigateItem.mimeType == EMimeTypes.assessment ||
-                resourceNavigateItem.mimeType == EMimeTypes.newAssessment
-            ? resourceNavigateItem.compatibilityLevel != null &&
-                    resourceNavigateItem.compatibilityLevel >
-                        ResourceCategoryVersion.navigationCompatibility.version
-                ? ShowUpdate()
-                : CourseAssessmentPlayer(
-                    courseHierarchyData,
-                    resourceNavigateItem.identifier,
-                    showLatestProgress!,
-                    isCuratedProgram
-                        ? resourceNavigateItem.parentBatchId
-                        : batchId,
-                    parentCourseId: isCuratedProgram
-                        ? resourceNavigateItem.parentCourseId
-                        : courseHierarchyData.identifier,
-                    playNextResource: playNextResource,
-                    compatibilityLevel: resourceNavigateItem.compatibilityLevel,
-                    resourceNavigateItems: resourceNavigateItem,
-                    isFeatured: isFeatured,
-                    courseCategory: courseCategory,
-                    isPreRequisite: isPreRequisite)
-            : resourceNavigateItem.mimeType == EMimeTypes.pdf
-                ? PDFStructureWidget(
-                    resourcename: resourceNavigateItem.name,
-                    player: CoursePdfPlayer(
-                        startAt: startAt,
-                        identifier: resourceNavigateItem.identifier,
-                        batchId: isCuratedProgram
-                            ? resourceNavigateItem.parentBatchId
-                            : batchId,
-                        parentCourseId: isCuratedProgram
-                            ? resourceNavigateItem.parentCourseId
-                            : courseHierarchyData.identifier,
-                        isFeaturedCourse: isFeatured,
-                        updateProgress: showLatestProgress,
-                        primaryCategory: primaryCategory,
-                        playNextResource: playNextResource,
-                        resourceNavigateItems: resourceNavigateItem,
-                        isPreRequisite: isPreRequisite,
-                        language: resourceNavigateItem.language))
-                : resourceNavigateItem.mimeType == EMimeTypes.survey
-                    ? Scaffold(
-                        body: Center(
-                        child: resourceNavigateItem.completionPercentage ==
-                                    100 ||
-                                resourceNavigateItem.status == 2
-                            ? Scaffold(
-                                appBar: AppBar(
-                                    title: Text(resourceNavigateItem.name,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .displayLarge)),
-                                body: SizedBox(
-                                  height: 1.0.sw,
-                                  width: 1.0.sw,
-                                  child: Center(
-                                    child: Text(
-                                        TocLocalizations.of(context)!
-                                            .mSurveySubmitted,
-                                        textAlign: TextAlign.center,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headlineSmall!
-                                            .copyWith(
-                                                color: TocModuleColors.greys)),
-                                  ),
-                                ))
-                            : ContentFeedback(
-                                resourceNavigateItem.artifactUrl,
-                                resourceNavigateItem.name,
-                                courseHierarchyData,
-                                resourceNavigateItem.identifier,
-                                isCuratedProgram
-                                    ? resourceNavigateItem.parentBatchId
-                                    : batchId,
-                                updateContentProgress: showLatestProgress,
-                                parentCourseId: isCuratedProgram
-                                    ? resourceNavigateItem.parentCourseId
-                                    : courseHierarchyData.identifier,
-                                playNextResource: playNextResource,
-                                resourceNavigateItems: resourceNavigateItem,
-                                isFeaturedCourse: isFeatured,
-                                isPreRequisite: isPreRequisite,
-                                language: resourceNavigateItem.language),
-                      ))
-                    : resourceNavigateItem.mimeType == EMimeTypes.html
-                        ? openInFullScreen(
-                            CourseHtmlPlayer(
-                                courseHierarchyData,
-                                resourceNavigateItem.identifier,
-                                isCuratedProgram
-                                    ? resourceNavigateItem.parentBatchId
-                                    : batchId,
-                                changeLayout!,
-                                parentAction3: showLatestProgress,
-                                isFeaturedCourse: isFeatured,
-                                parentCourseId: isCuratedProgram
-                                    ? resourceNavigateItem.parentCourseId
-                                    : courseHierarchyData.identifier,
-                                resourceNavigateItems: resourceNavigateItem,
-                                isPreRequisite: isPreRequisite,
-                                language: resourceNavigateItem.language),
-                            context)
-                        : resourceNavigateItem.mimeType ==
-                                    EMimeTypes.externalLink ||
-                                resourceNavigateItem.mimeType ==
-                                    EMimeTypes.youtubeLink
-                            ? Scaffold(
-                                body: Center(
-                                    child: CourseYoutubePlayer(
-                                        contentId:
-                                            resourceNavigateItem.identifier,
-                                        batchId: isCuratedProgram
-                                            ? resourceNavigateItem.parentBatchId
-                                            : batchId,
-                                        isFeaturedCourse: isFeatured,
-                                        updateContentProgress:
-                                            showLatestProgress,
-                                        identifier: isCuratedProgram
-                                            ? resourceNavigateItem
-                                                .parentCourseId
-                                            : courseHierarchyData.identifier,
-                                        resourceNavigateItems:
-                                            resourceNavigateItem,
-                                        duration: courseHierarchyData.duration,
-                                        isPreRequisite: isPreRequisite,
-                                        language:
-                                            resourceNavigateItem.language)),
-                              )
-                            : Center();
+              resourceNavigateItem.mimeType == EMimeTypes.newAssessment
+        ? resourceNavigateItem.compatibilityLevel != null &&
+                  resourceNavigateItem.compatibilityLevel >
+                      ResourceCategoryVersion.navigationCompatibility.version
+              ? ShowUpdate()
+              : CourseAssessmentPlayer(
+                  courseHierarchyData,
+                  resourceNavigateItem.identifier,
+                  showLatestProgress!,
+                  isCuratedProgram
+                      ? resourceNavigateItem.parentBatchId
+                      : batchId,
+                  parentCourseId: isCuratedProgram
+                      ? resourceNavigateItem.parentCourseId
+                      : courseHierarchyData.identifier,
+                  playNextResource: playNextResource,
+                  compatibilityLevel: resourceNavigateItem.compatibilityLevel,
+                  resourceNavigateItems: resourceNavigateItem,
+                  isFeatured: isFeatured,
+                  courseCategory: courseCategory,
+                  isPreRequisite: isPreRequisite,
+                )
+        : resourceNavigateItem.mimeType == EMimeTypes.pdf
+        ? PDFStructureWidget(
+            resourcename: resourceNavigateItem.name,
+            player: CoursePdfPlayer(
+              startAt: startAt,
+              identifier: resourceNavigateItem.identifier,
+              batchId: isCuratedProgram
+                  ? resourceNavigateItem.parentBatchId
+                  : batchId,
+              parentCourseId: isCuratedProgram
+                  ? resourceNavigateItem.parentCourseId
+                  : courseHierarchyData.identifier,
+              isFeaturedCourse: isFeatured,
+              updateProgress: showLatestProgress,
+              primaryCategory: primaryCategory,
+              playNextResource: playNextResource,
+              resourceNavigateItems: resourceNavigateItem,
+              isPreRequisite: isPreRequisite,
+              language: resourceNavigateItem.language,
+            ),
+          )
+        : resourceNavigateItem.mimeType == EMimeTypes.survey
+        ? Scaffold(
+            body: Center(
+              child:
+                  resourceNavigateItem.completionPercentage == 100 ||
+                      resourceNavigateItem.status == 2
+                  ? Scaffold(
+                      appBar: AppBar(
+                        title: Text(
+                          resourceNavigateItem.name,
+                          style: Theme.of(context).textTheme.displayLarge,
+                        ),
+                      ),
+                      body: SizedBox(
+                        height: 1.0.sw,
+                        width: 1.0.sw,
+                        child: Center(
+                          child: Text(
+                            TocLocalizations.of(context)!.mSurveySubmitted,
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.headlineSmall!
+                                .copyWith(color: TocModuleColors.greys),
+                          ),
+                        ),
+                      ),
+                    )
+                  : ContentFeedback(
+                      resourceNavigateItem.artifactUrl,
+                      resourceNavigateItem.name,
+                      courseHierarchyData,
+                      resourceNavigateItem.identifier,
+                      isCuratedProgram
+                          ? resourceNavigateItem.parentBatchId
+                          : batchId,
+                      updateContentProgress: showLatestProgress,
+                      parentCourseId: isCuratedProgram
+                          ? resourceNavigateItem.parentCourseId
+                          : courseHierarchyData.identifier,
+                      playNextResource: playNextResource,
+                      resourceNavigateItems: resourceNavigateItem,
+                      isFeaturedCourse: isFeatured,
+                      isPreRequisite: isPreRequisite,
+                      language: resourceNavigateItem.language,
+                    ),
+            ),
+          )
+        : resourceNavigateItem.mimeType == EMimeTypes.html
+        ? openInFullScreen(
+            CourseHtmlPlayer(
+              courseHierarchyData,
+              resourceNavigateItem.identifier,
+              isCuratedProgram ? resourceNavigateItem.parentBatchId : batchId,
+              changeLayout!,
+              parentAction3: showLatestProgress,
+              isFeaturedCourse: isFeatured,
+              parentCourseId: isCuratedProgram
+                  ? resourceNavigateItem.parentCourseId
+                  : courseHierarchyData.identifier,
+              resourceNavigateItems: resourceNavigateItem,
+              isPreRequisite: isPreRequisite,
+              language: resourceNavigateItem.language,
+            ),
+            context,
+          )
+        : resourceNavigateItem.mimeType == EMimeTypes.externalLink ||
+              resourceNavigateItem.mimeType == EMimeTypes.youtubeLink
+        ? Scaffold(
+            body: Center(
+              child: CourseYoutubePlayer(
+                contentId: resourceNavigateItem.identifier,
+                batchId: isCuratedProgram
+                    ? resourceNavigateItem.parentBatchId
+                    : batchId,
+                isFeaturedCourse: isFeatured,
+                updateContentProgress: showLatestProgress,
+                identifier: isCuratedProgram
+                    ? resourceNavigateItem.parentCourseId
+                    : courseHierarchyData.identifier,
+                resourceNavigateItems: resourceNavigateItem,
+                duration: courseHierarchyData.duration,
+                isPreRequisite: isPreRequisite,
+                language: resourceNavigateItem.language,
+              ),
+            ),
+          )
+        : Center();
   }
 
   Scaffold ShowUpdate() {
@@ -188,8 +188,11 @@ class OpenResource extends StatelessWidget {
     );
   }
 
-  Widget openInFullScreen(Widget player, BuildContext context,
-      {bool fullScreen = false}) {
+  Widget openInFullScreen(
+    Widget player,
+    BuildContext context, {
+    bool fullScreen = false,
+  }) {
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) async {
@@ -199,31 +202,35 @@ class OpenResource extends StatelessWidget {
         await setOrientationAndPop(context);
       },
       child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: TocModuleColors.greys,
-            elevation: 0,
-            titleSpacing: 0.w,
-            leading: BackButton(
-              color: TocModuleColors.white70,
-              onPressed: () async {
-                await setOrientationAndPop(context);
-              },
-            ),
-            title: Row(children: [
-              Padding(
-                  padding: const EdgeInsets.only(left: 10).w,
-                  child: Text(
-                    TocLocalizations.of(context)!.mStaticBack,
-                    overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.lato(
-                      color: TocModuleColors.white70,
-                      fontSize: 12.0.sp,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ))
-            ]),
+        appBar: AppBar(
+          backgroundColor: TocModuleColors.greys,
+          elevation: 0,
+          titleSpacing: 0.w,
+          leading: BackButton(
+            color: TocModuleColors.white70,
+            onPressed: () async {
+              await setOrientationAndPop(context);
+            },
           ),
-          body: Center(child: player)),
+          title: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 10).w,
+                child: Text(
+                  TocLocalizations.of(context)!.mStaticBack,
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.lato(
+                    color: TocModuleColors.white70,
+                    fontSize: 12.0.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        body: Center(child: player),
+      ),
     );
   }
 

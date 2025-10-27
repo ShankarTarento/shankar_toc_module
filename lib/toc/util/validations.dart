@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 import 'package:toc_module/toc/constants/toc_constants.dart';
 
 class Validations {
-  static validateFullName(
-      {required BuildContext context, required String value}) {
+  static validateFullName({
+    required BuildContext context,
+    required String value,
+  }) {
     if (value.isEmpty) {
       return TocLocalizations.of(context)!.mProfileFullNameMandatory;
     } else if (!RegExp(r"^[a-zA-Z' ]+$").hasMatch(value)) {
@@ -15,8 +18,10 @@ class Validations {
     }
   }
 
-  static validateEmployeeId(
-      {required BuildContext context, required String value}) {
+  static validateEmployeeId({
+    required BuildContext context,
+    required String value,
+  }) {
     RegExp regExp = RegExp(r"^[\p{Letter}\p{Number}]+$", unicode: true);
     if (value.isNotEmpty && !regExp.hasMatch(value)) {
       return TocLocalizations.of(context)!.mProfileEmployeeIdNotValidMsg;
@@ -24,8 +29,10 @@ class Validations {
     return null;
   }
 
-  static validateEmployeeIdBLendedProgramForm(
-      {required BuildContext context, required String value}) {
+  static validateEmployeeIdBLendedProgramForm({
+    required BuildContext context,
+    required String value,
+  }) {
     RegExp regExp = RegExp(r"^[\p{Letter}\p{Number}]+$", unicode: true);
     if (value.isEmpty || !regExp.hasMatch(value)) {
       return TocLocalizations.of(context)!.mProfileEmployeeIdNotValidMsg;
@@ -33,8 +40,10 @@ class Validations {
     return null;
   }
 
-  static validatePrimaryEmail(
-      {required BuildContext context, required String value}) {
+  static validatePrimaryEmail({
+    required BuildContext context,
+    required String value,
+  }) {
     RegExp regExp = RegExpressions.validEmail;
     if (value.isEmpty) {
       return TocLocalizations.of(context)!.mProfilePrimaryEmailMandatory;
@@ -50,8 +59,10 @@ class Validations {
     return null;
   }
 
-  static bool isValidEmail(
-      {required BuildContext context, required String value}) {
+  static bool isValidEmail({
+    required BuildContext context,
+    required String value,
+  }) {
     bool isValid = false;
     RegExp regExp = RegExpressions.validEmail;
 
@@ -66,8 +77,10 @@ class Validations {
     return isValid;
   }
 
-  static bool isValidMobile(
-      {required BuildContext context, required String value}) {
+  static bool isValidMobile({
+    required BuildContext context,
+    required String value,
+  }) {
     bool isValid = false;
     RegExp regExp = RegExpressions.validPhone;
 
@@ -104,8 +117,10 @@ class Validations {
       return null;
   }
 
-  static validateMobile(
-      {required BuildContext context, required String value}) {
+  static validateMobile({
+    required BuildContext context,
+    required String value,
+  }) {
     if (value.trim().isEmpty) {
       return null;
     } else if (value.trim().length != 10 ||
@@ -115,16 +130,20 @@ class Validations {
       return null;
   }
 
-  static validateDesignation(
-      {required BuildContext context, required String value}) {
+  static validateDesignation({
+    required BuildContext context,
+    required String value,
+  }) {
     if (value.trim().isEmpty) {
       return TocLocalizations.of(context)!.mDesignationMandatory;
     } else
       return null;
   }
 
-  static String? validateGroup(
-      {required BuildContext context, required String value}) {
+  static String? validateGroup({
+    required BuildContext context,
+    required String value,
+  }) {
     if (value.trim().isEmpty) {
       return TocLocalizations.of(context)!.mGroupMandatory;
     } else

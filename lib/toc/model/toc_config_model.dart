@@ -6,7 +6,9 @@ class TocConfigModel {
   final String wid;
   final String orgId;
   final String apiKey;
-  final Widget tipsForLearners;
+  final Widget Function(BuildContext) tipsForLearners;
+  final Widget Function(BuildContext) notificationIcon;
+  final GlobalKey<NavigatorState> navigatorKey;
 
   TocConfigModel({
     required this.baseUrl,
@@ -15,5 +17,7 @@ class TocConfigModel {
     required this.orgId,
     required this.apiKey,
     required this.tipsForLearners,
+    required this.notificationIcon,
+    required this.navigatorKey,
   });
 }

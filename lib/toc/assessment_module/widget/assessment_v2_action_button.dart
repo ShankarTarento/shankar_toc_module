@@ -2,7 +2,8 @@ import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/constants/toc_constants.dart';
 
@@ -12,12 +13,13 @@ class AssessmentV2ActionButton extends StatelessWidget {
   final String assessmentType;
   final int questionIndex;
   final bool isLastQuestion;
-  AssessmentV2ActionButton(
-      {required this.onButtonPressed,
-      required this.isLastSection,
-      required this.assessmentType,
-      required this.questionIndex,
-      required this.isLastQuestion});
+  AssessmentV2ActionButton({
+    required this.onButtonPressed,
+    required this.isLastSection,
+    required this.assessmentType,
+    required this.questionIndex,
+    required this.isLastQuestion,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -34,17 +36,20 @@ class AssessmentV2ActionButton extends StatelessWidget {
                   children: [
                     ElevatedButton(
                       onPressed: () => onButtonPressed(
-                          AssessmentQuestionStatus.markForReviewAndNext),
+                        AssessmentQuestionStatus.markForReviewAndNext,
+                      ),
                       style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(horizontal: 16),
-                          backgroundColor: TocModuleColors.whiteGradientOne,
-                          side: BorderSide(color: TocModuleColors.darkBlue),
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(63)).r)),
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        backgroundColor: TocModuleColors.whiteGradientOne,
+                        side: BorderSide(color: TocModuleColors.darkBlue),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(63)).r,
+                        ),
+                      ),
                       child: Text(
-                        TocLocalizations.of(context)!
-                            .mStaticMarkForReviewAndNext,
+                        TocLocalizations.of(
+                          context,
+                        )!.mStaticMarkForReviewAndNext,
                         style: GoogleFonts.lato(
                           color: TocModuleColors.greys,
                           fontSize: 14.0.sp,
@@ -55,14 +60,16 @@ class AssessmentV2ActionButton extends StatelessWidget {
                     SizedBox(width: 4),
                     ElevatedButton(
                       onPressed: () => onButtonPressed(
-                          AssessmentQuestionStatus.clearResponse),
+                        AssessmentQuestionStatus.clearResponse,
+                      ),
                       style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(horizontal: 16),
-                          backgroundColor: TocModuleColors.whiteGradientOne,
-                          side: BorderSide(color: TocModuleColors.darkBlue),
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(63)).r)),
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        backgroundColor: TocModuleColors.whiteGradientOne,
+                        side: BorderSide(color: TocModuleColors.darkBlue),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(63)).r,
+                        ),
+                      ),
                       child: Text(
                         TocLocalizations.of(context)!.mStaticClearResponse,
                         style: GoogleFonts.lato(
@@ -85,11 +92,14 @@ class AssessmentV2ActionButton extends StatelessWidget {
                         onPressed: () =>
                             onButtonPressed(AssessmentQuestionStatus.previous),
                         style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.symmetric(horizontal: 16),
-                            backgroundColor: TocModuleColors.darkBlue,
-                            shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(63)).r)),
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          backgroundColor: TocModuleColors.darkBlue,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(63),
+                            ).r,
+                          ),
+                        ),
                         child: Text(
                           TocLocalizations.of(context)!.mStaticPrevious,
                           style: GoogleFonts.lato(
@@ -104,18 +114,20 @@ class AssessmentV2ActionButton extends StatelessWidget {
               ElevatedButton(
                 onPressed: () =>
                     assessmentType == AssessmentType.optionalWeightage &&
-                            isLastQuestion
-                        ? null
-                        : onButtonPressed(AssessmentQuestionStatus.saveAndNext),
+                        isLastQuestion
+                    ? null
+                    : onButtonPressed(AssessmentQuestionStatus.saveAndNext),
                 style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    backgroundColor:
-                        assessmentType == AssessmentType.optionalWeightage &&
-                                isLastQuestion
-                            ? TocModuleColors.grey40
-                            : TocModuleColors.darkBlue,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(63)).r)),
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  backgroundColor:
+                      assessmentType == AssessmentType.optionalWeightage &&
+                          isLastQuestion
+                      ? TocModuleColors.grey40
+                      : TocModuleColors.darkBlue,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(63)).r,
+                  ),
+                ),
                 child: Text(
                   TocLocalizations.of(context)!.mStaticSavenNext,
                   style: GoogleFonts.lato(
@@ -135,11 +147,12 @@ class AssessmentV2ActionButton extends StatelessWidget {
                       onPressed: () =>
                           onButtonPressed(AssessmentQuestionStatus.nextSection),
                       style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(horizontal: 16),
-                          backgroundColor: TocModuleColors.darkBlue,
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(63)).r)),
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        backgroundColor: TocModuleColors.darkBlue,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(63)).r,
+                        ),
+                      ),
                       child: Text(
                         TocLocalizations.of(context)!.mNextSection,
                         style: GoogleFonts.lato(

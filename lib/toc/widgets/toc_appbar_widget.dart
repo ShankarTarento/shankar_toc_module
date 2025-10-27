@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/repository/toc_repository.dart';
+import 'package:toc_module/toc/services/toc_module_service.dart';
 
 class TocAppbarWidget extends StatelessWidget {
   final bool isOverview;
@@ -57,11 +58,8 @@ class TocAppbarWidget extends StatelessWidget {
         children: [
           Spacer(),
           Padding(
-            padding: const EdgeInsets.only(right: 16.0).r,
-            child: NotificationIcon(
-              iconColor: TocModuleColors.appBarBackground,
-            ),
-          ),
+              padding: const EdgeInsets.only(right: 16.0).r,
+              child: TocModuleService.config.notificationIcon(context)),
           showCourseShareOption!
               ? GestureDetector(
                   child: Icon(

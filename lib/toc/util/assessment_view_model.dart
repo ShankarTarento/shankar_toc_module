@@ -13,20 +13,21 @@ import 'package:toc_module/toc/repository/assessment_repository.dart';
 
 import '../model/assessment_response_data_model.dart';
 import '../model/navigation_model.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
 
 class AssessmentViewModel {
   AssessmentRepository assessmentRepository = AssessmentRepository();
-  Future<AssessmentResponseDataModel?> getAssessmentData(
-      {required BuildContext context,
-      NavigationModel? resourceInfo,
-      required String courseCategory,
-      required String courseId,
-      required String parentCourseId,
-      required String identifier,
-      required int compatibilityLevel,
-      GuestDataModel? guestUserData,
-      bool isFeatured = false}) async {
+  Future<AssessmentResponseDataModel?> getAssessmentData({
+    required BuildContext context,
+    NavigationModel? resourceInfo,
+    required String courseCategory,
+    required String courseId,
+    required String parentCourseId,
+    required String identifier,
+    required int compatibilityLevel,
+    GuestDataModel? guestUserData,
+    bool isFeatured = false,
+  }) async {
     try {
       if (resourceInfo == null) return null;
 
@@ -39,20 +40,25 @@ class AssessmentViewModel {
                   context: context,
                   identifier: identifier,
                   parentContextId: parentCourseId,
-                  guestUserData: guestUserData)
+                  guestUserData: guestUserData,
+                )
               : await _fetchAdvancedAssessmentData(
-                  identifier: identifier, parentContextId: parentCourseId);
+                  identifier: identifier,
+                  parentContextId: parentCourseId,
+                );
         } else {
           return isFeatured
               ? await _fetchPublicAssessmentData(
                   context: context,
                   identifier: identifier,
                   parentContextId: parentCourseId,
-                  guestUserData: guestUserData)
+                  guestUserData: guestUserData,
+                )
               : await _fetchBasicAssessmentData(
                   identifier: identifier,
                   resourceInfo: resourceInfo,
-                  parentContextId: parentCourseId);
+                  parentContextId: parentCourseId,
+                );
         }
       }
     } catch (e) {
@@ -70,13 +76,15 @@ class AssessmentViewModel {
   Future<dynamic> _handleAssessmentWithURL(NavigationModel resourceInfo) async {
     String? fileUri =
         resourceInfo.artifactUrl!.contains('static.karmayogiprod.nic.in')
-            ? TocHelper.generateCdnUri(resourceInfo.artifactUrl)
-            : resourceInfo.artifactUrl;
+        ? TocHelper.generateCdnUri(resourceInfo.artifactUrl)
+        : resourceInfo.artifactUrl;
 
     if (fileUri != null) {
       final response = await assessmentRepository.getAssessmentData(fileUri);
       return AssessmentResponseDataModel(
-          questionSet: [], assessmentResponse: response);
+        questionSet: [],
+        assessmentResponse: response,
+      );
     } else {
       return null;
     }
@@ -89,8 +97,10 @@ class AssessmentViewModel {
   }
 
   /// Advanced assessment
-  Future<AssessmentResponseDataModel> _fetchAdvancedAssessmentData(
-      {required String identifier, required String parentContextId}) async {
+  Future<AssessmentResponseDataModel> _fetchAdvancedAssessmentData({
+    required String identifier,
+    required String parentContextId,
+  }) async {
     AssessmentInfo? assessmentInfo;
     List questionSet = [];
     var retakeInfo = await assessmentRepository
@@ -98,28 +108,33 @@ class AssessmentViewModel {
     if ((!(retakeInfo is int)) &&
         retakeInfo['attemptsMade'] < retakeInfo['attemptsAllowed']) {
       assessmentInfo = await assessmentRepository.getStandaloneAssessmentInfo(
-          identifier,
-          parentContextId: parentContextId);
+        identifier,
+        parentContextId: parentContextId,
+      );
     }
     if (assessmentInfo != null && assessmentInfo.errMessage == null) {
       for (var i = 0; i < assessmentInfo.questions.length; i++) {
-        final response =
-            await assessmentRepository.getStandaloneAssessmentQuestions(
-                identifier, assessmentInfo.questions[i].childNodes);
+        final response = await assessmentRepository
+            .getStandaloneAssessmentQuestions(
+              identifier,
+              assessmentInfo.questions[i].childNodes,
+            );
         questionSet.add(response);
       }
     }
     return AssessmentResponseDataModel(
-        assessmentInfo: assessmentInfo,
-        questionSet: questionSet,
-        retakeInfo: !(retakeInfo is int) ? retakeInfo : null);
+      assessmentInfo: assessmentInfo,
+      questionSet: questionSet,
+      retakeInfo: !(retakeInfo is int) ? retakeInfo : null,
+    );
   }
 
   /// Basic assessment
-  Future<dynamic> _fetchBasicAssessmentData(
-      {required String identifier,
-      required NavigationModel resourceInfo,
-      required String parentContextId}) async {
+  Future<dynamic> _fetchBasicAssessmentData({
+    required String identifier,
+    required NavigationModel resourceInfo,
+    required String parentContextId,
+  }) async {
     List questionSet = [];
     var retakeInfo;
     AssessmentInfo? assessmentInfo = await assessmentRepository
@@ -127,64 +142,72 @@ class AssessmentViewModel {
     if (resourceInfo.primaryCategory == PrimaryCategory.finalAssessment &&
         assessmentInfo != null &&
         assessmentInfo.errMessage == null) {
-      retakeInfo =
-          await assessmentRepository.getRetakeAssessmentInfo(identifier);
+      retakeInfo = await assessmentRepository.getRetakeAssessmentInfo(
+        identifier,
+      );
     }
 
     if (assessmentInfo != null && assessmentInfo.errMessage == null) {
       for (var i = 0; i < assessmentInfo.questions.length; i++) {
         final response = await assessmentRepository.getAssessmentQuestions(
-            identifier, assessmentInfo.questions[i].childNodes);
+          identifier,
+          assessmentInfo.questions[i].childNodes,
+        );
         questionSet.add(response);
       }
     }
 
     return AssessmentResponseDataModel(
-        assessmentInfo: assessmentInfo,
-        questionSet: questionSet,
-        retakeInfo: !(retakeInfo is int) ? retakeInfo : null);
+      assessmentInfo: assessmentInfo,
+      questionSet: questionSet,
+      retakeInfo: !(retakeInfo is int) ? retakeInfo : null,
+    );
   }
 
   /// public assessment
-  Future<AssessmentResponseDataModel> _fetchPublicAssessmentData(
-      {required BuildContext context,
-      required String identifier,
-      required String parentContextId,
-      GuestDataModel? guestUserData}) async {
+  Future<AssessmentResponseDataModel> _fetchPublicAssessmentData({
+    required BuildContext context,
+    required String identifier,
+    required String parentContextId,
+    GuestDataModel? guestUserData,
+  }) async {
     AssessmentInfo? assessmentInfo;
     List questionSet = [];
-    final publicAssessmentData =
-        await assessmentRepository.getPublicAssessmentInfo(
-            assessmentId: identifier,
-            parentContextId: parentContextId,
-            guestUserData: guestUserData);
+    final publicAssessmentData = await assessmentRepository
+        .getPublicAssessmentInfo(
+          assessmentId: identifier,
+          parentContextId: parentContextId,
+          guestUserData: guestUserData,
+        );
 
     // Check if already submitted
     if (publicAssessmentData is Map &&
-        ((publicAssessmentData['response'] ?? '')
-            .toString()
-            .contains("submitted"))) {
+        ((publicAssessmentData['response'] ?? '').toString().contains(
+          "submitted",
+        ))) {
       showDialog(
-          context: context,
-          builder: (BuildContext cxt) {
-            return AlertDialogWidget(
-              dialogRadius: 8,
-              subtitle: TocLocalizations.of(context)!
-                  .mAssessmentAlreadySubmittedGuestMessage,
-              primaryButtonText: TocLocalizations.of(context)!.mStaticOk,
-              onPrimaryButtonPressed: () async {
-                Navigator.of(cxt).pop();
-                Navigator.of(context).pop();
-              },
-              primaryButtonTextStyle: GoogleFonts.lato(
-                color: TocModuleColors.appBarBackground,
-                fontWeight: FontWeight.w700,
-                fontSize: 14.0.sp,
-                height: 1.5.w,
-              ),
-              primaryButtonBgColor: TocModuleColors.darkBlue,
-            );
-          });
+        context: context,
+        builder: (BuildContext cxt) {
+          return AlertDialogWidget(
+            dialogRadius: 8,
+            subtitle: TocLocalizations.of(
+              context,
+            )!.mAssessmentAlreadySubmittedGuestMessage,
+            primaryButtonText: TocLocalizations.of(context)!.mStaticOk,
+            onPrimaryButtonPressed: () async {
+              Navigator.of(cxt).pop();
+              Navigator.of(context).pop();
+            },
+            primaryButtonTextStyle: GoogleFonts.lato(
+              color: TocModuleColors.appBarBackground,
+              fontWeight: FontWeight.w700,
+              fontSize: 14.0.sp,
+              height: 1.5.w,
+            ),
+            primaryButtonBgColor: TocModuleColors.darkBlue,
+          );
+        },
+      );
     }
 
     if (publicAssessmentData is Map &&
@@ -195,25 +218,29 @@ class AssessmentViewModel {
 
     if (assessmentInfo != null && assessmentInfo.errMessage == null) {
       for (var i = 0; i < assessmentInfo.questions.length; i++) {
-        final response =
-            await assessmentRepository.getPublicAssessmentQuestions(
-                identifier,
-                parentContextId,
-                assessmentInfo.questions[i].childNodes,
-                guestUserData);
+        final response = await assessmentRepository
+            .getPublicAssessmentQuestions(
+              identifier,
+              parentContextId,
+              assessmentInfo.questions[i].childNodes,
+              guestUserData,
+            );
         questionSet.add(response);
       }
     }
 
     return AssessmentResponseDataModel(
-        assessmentInfo: assessmentInfo,
-        questionSet: questionSet,
-        retakeInfo: null);
+      assessmentInfo: assessmentInfo,
+      questionSet: questionSet,
+      retakeInfo: null,
+    );
   }
 
   /// get pre-requisite assessment data
-  Future<AssessmentChild?> getPreRequisiteAssessmentData(
-      {required String identifier, bool isFeatured = false}) async {
+  Future<AssessmentChild?> getPreRequisiteAssessmentData({
+    required String identifier,
+    bool isFeatured = false,
+  }) async {
     AssessmentChild? assessmentChild;
     try {
       AssessmentInfo? assessmentInfo = await assessmentRepository

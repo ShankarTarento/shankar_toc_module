@@ -5,7 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 import 'package:toc_module/toc/pages/toc_skeleton/toc_player_skeleton.dart';
 import 'package:toc_module/toc/widgets/new_animation_widget.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
@@ -101,27 +102,29 @@ class _TocPlayerScreenState extends State<TocPlayerScreen>
           .toList();
 
       if (AppConfiguration.mentorshipEnabled) {
-        bool isMentor =
-            await Provider.of<ProfileRepository>(context, listen: false)
-                .profileDetails!
-                .roles!
-                .contains(Roles.mentor.toUpperCase());
+        bool isMentor = await Provider.of<ProfileRepository>(
+          context,
+          listen: false,
+        ).profileDetails!.roles!.contains(Roles.mentor.toUpperCase());
 
         if (isMentor) {
           teachersResource = course!.referenceNodes!
               .where(
-                  (e) => e.resourceCategory == PrimaryCategory.teachersResource)
+                (e) => e.resourceCategory == PrimaryCategory.teachersResource,
+              )
               .toList();
 
           if (teachersResource.isNotEmpty) {
             tabItems.add(
-                LearnTab(title: TocLocalizations.of(context)!.mTeachersNotes));
+              LearnTab(title: TocLocalizations.of(context)!.mTeachersNotes),
+            );
           }
         }
       }
       if (referenceResource.isNotEmpty) {
         tabItems.add(
-            LearnTab(title: TocLocalizations.of(context)!.mReferenceNotes));
+          LearnTab(title: TocLocalizations.of(context)!.mReferenceNotes),
+        );
       }
     }
     learnTabController = TabController(
@@ -143,9 +146,11 @@ class _TocPlayerScreenState extends State<TocPlayerScreen>
     Provider.of<TocRepository>(context);
     if (Provider.of<TocRepository>(context).courseRating != null) {
       _numberOfCourseRating = TocHelper.getTotalNumberOfRatings(
-          Provider.of<TocRepository>(context).courseRating);
-      _courseRating =
-          TocHelper.getRating(Provider.of<TocRepository>(context).courseRating);
+        Provider.of<TocRepository>(context).courseRating,
+      );
+      _courseRating = TocHelper.getRating(
+        Provider.of<TocRepository>(context).courseRating,
+      );
     }
     return PopScope(
       canPop: false,
@@ -160,336 +165,322 @@ class _TocPlayerScreenState extends State<TocPlayerScreen>
         });
       },
       child: Scaffold(
-          body: DefaultTabController(
-            length: tabItems.length,
-            child: Selector<TocRepository, CourseStructure>(
-                selector: (_, repo) =>
-                    CourseStructure(repo.contentRead, repo.courseHierarchyInfo),
-                builder: (context, value, child) {
-                  if (course == null && value.contentRead.isNotEmpty) {
-                    course = Course.fromJson(value.contentRead);
+        body: DefaultTabController(
+          length: tabItems.length,
+          child: Selector<TocRepository, CourseStructure>(
+            selector: (_, repo) =>
+                CourseStructure(repo.contentRead, repo.courseHierarchyInfo),
+            builder: (context, value, child) {
+              if (course == null && value.contentRead.isNotEmpty) {
+                course = Course.fromJson(value.contentRead);
+              }
+              if (courseHierarchyData == null &&
+                  value.courseHierarchyInfo.isNotEmpty) {
+                courseHierarchyData = CourseHierarchyModel.fromJson(
+                  value.courseHierarchyInfo,
+                );
+                setTabItems();
+              }
+              if (course != null &&
+                  courseHierarchyData != null &&
+                  courseId == course!.id &&
+                  courseId == courseHierarchyData!.identifier) {
+                if (navigationItems.isEmpty) {
+                  if (course!.courseCategory ==
+                      PrimaryCategory.curatedProgram) {
+                    isCuratedProgram = true;
+                  } else {
+                    isCuratedProgram = false;
                   }
-                  if (courseHierarchyData == null &&
-                      value.courseHierarchyInfo.isNotEmpty) {
-                    courseHierarchyData = CourseHierarchyModel.fromJson(
-                        value.courseHierarchyInfo);
-                    setTabItems();
+                  if (!isContentProgressRead) {
+                    isContentProgressRead = true;
+                    getContentAndProgress();
+                    getReviews();
+                    getYourRatingAndReview();
                   }
-                  if (course != null &&
-                      courseHierarchyData != null &&
-                      courseId == course!.id &&
-                      courseId == courseHierarchyData!.identifier) {
-                    if (navigationItems.isEmpty) {
-                      if (course!.courseCategory ==
-                          PrimaryCategory.curatedProgram) {
-                        isCuratedProgram = true;
-                      } else {
-                        isCuratedProgram = false;
-                      }
-                      if (!isContentProgressRead) {
-                        isContentProgressRead = true;
-                        getContentAndProgress();
-                        getReviews();
-                        getYourRatingAndReview();
-                      }
-                    }
-                    if (resourceNavigateItems.isEmpty) {
-                      return TocPlayerSkeleton(
-                          showCourseShareOption: false,
-                          isFeatured: isFeatured,
-                          courseShareOptionCallback:
-                              _shareModalBottomSheetMenu);
-                    }
+                }
+                if (resourceNavigateItems.isEmpty) {
+                  return TocPlayerSkeleton(
+                    showCourseShareOption: false,
+                    isFeatured: isFeatured,
+                    courseShareOptionCallback: _shareModalBottomSheetMenu,
+                  );
+                }
 
-                    if (course.runtimeType == String) {
-                      return NoDataWidget(message: 'No course');
-                    } else {
-                      return NotificationListener<
-                          OverscrollIndicatorNotification>(
-                        onNotification: (overscroll) {
-                          overscroll.disallowIndicator();
-                          return true;
-                        },
-                        child: SafeArea(
-                          child: NestedScrollView(
-                              headerSliverBuilder:
-                                  (BuildContext context, innerBoxIsScrolled) {
-                                return <Widget>[
-                                  TocAppbarWidget(
-                                      isOverview: false,
-                                      showCourseShareOption:
-                                          _showCourseShareOption(),
-                                      courseShareOptionCallback:
-                                          _shareModalBottomSheetMenu,
-                                      isPlayer: true,
-                                      courseId: courseId!),
-                                ];
+                if (course.runtimeType == String) {
+                  return NoDataWidget(message: 'No course');
+                } else {
+                  return NotificationListener<OverscrollIndicatorNotification>(
+                    onNotification: (overscroll) {
+                      overscroll.disallowIndicator();
+                      return true;
+                    },
+                    child: SafeArea(
+                      child: NestedScrollView(
+                        headerSliverBuilder:
+                            (BuildContext context, innerBoxIsScrolled) {
+                              return <Widget>[
+                                TocAppbarWidget(
+                                  isOverview: false,
+                                  showCourseShareOption:
+                                      _showCourseShareOption(),
+                                  courseShareOptionCallback:
+                                      _shareModalBottomSheetMenu,
+                                  isPlayer: true,
+                                  courseId: courseId!,
+                                ),
+                              ];
+                            },
+                        body: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ValueListenableBuilder<bool>(
+                              valueListenable: updatePlayerProgress,
+                              builder: (context, value, _) {
+                                return (resourceNavigateItems[courseIndex]
+                                            .mimeType !=
+                                        EMimeTypes.offline)
+                                    ? TocContentPlayer(
+                                        startAt: startAt,
+                                        courseHierarchyData:
+                                            courseHierarchyData!,
+                                        batchId:
+                                            enrolledCourse != null &&
+                                                enrolledCourse!.batchId != null
+                                            ? enrolledCourse!.batchId!
+                                            : '',
+                                        changeLayout: manageScreen,
+                                        fullScreen: fullScreen,
+                                        isCuratedProgram:
+                                            course?.cumulativeTracking !=
+                                                null &&
+                                            course!.cumulativeTracking,
+                                        isFeatured: isFeatured,
+                                        resourceNavigateItems:
+                                            resourceNavigateItems[courseIndex],
+                                        showLatestProgress:
+                                            updateContentProgress,
+                                        primaryCategory:
+                                            resourceNavigateItems[courseIndex]
+                                                    is! List &&
+                                                resourceNavigateItems[courseIndex]
+                                                    .primaryCategory
+                                                    .isNotEmpty
+                                            ? resourceNavigateItems[courseIndex]
+                                                  .primaryCategory
+                                            : course!.courseCategory,
+                                        navigationItems: resourceNavigateItems,
+                                        playNextResource: (value) {
+                                          _playNextResource(context);
+                                        },
+                                        updatePlayerProgress: value,
+                                        courseCategory: course!.courseCategory,
+                                      )
+                                    : Consumer<TocRepository>(
+                                        builder: (context, tocServices, _) {
+                                          return TocOfflinePlayer(
+                                            batch: tocServices.batch,
+                                            batches: course?.batches ?? [],
+                                          );
+                                        },
+                                      );
                               },
-                              body: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  ValueListenableBuilder<bool>(
-                                      valueListenable: updatePlayerProgress,
-                                      builder: (context, value, _) {
-                                        return (resourceNavigateItems[courseIndex]
-                                                    .mimeType !=
-                                                EMimeTypes.offline)
-                                            ? TocContentPlayer(
-                                                startAt: startAt,
-                                                courseHierarchyData:
-                                                    courseHierarchyData!,
-                                                batchId: enrolledCourse != null &&
-                                                        enrolledCourse!.batchId !=
-                                                            null
-                                                    ? enrolledCourse!.batchId!
-                                                    : '',
-                                                changeLayout: manageScreen,
-                                                fullScreen: fullScreen,
-                                                isCuratedProgram: course
-                                                            ?.cumulativeTracking !=
-                                                        null &&
-                                                    course!.cumulativeTracking,
-                                                isFeatured: isFeatured,
-                                                resourceNavigateItems:
-                                                    resourceNavigateItems[
-                                                        courseIndex],
-                                                showLatestProgress:
-                                                    updateContentProgress,
-                                                primaryCategory: resourceNavigateItems[courseIndex]
-                                                            is! List &&
-                                                        resourceNavigateItems[courseIndex]
-                                                            .primaryCategory
-                                                            .isNotEmpty
-                                                    ? resourceNavigateItems[
-                                                            courseIndex]
-                                                        .primaryCategory
-                                                    : course!.courseCategory,
-                                                navigationItems:
-                                                    resourceNavigateItems,
-                                                playNextResource: (value) {
-                                                  _playNextResource(context);
-                                                },
-                                                updatePlayerProgress: value,
-                                                courseCategory:
-                                                    course!.courseCategory)
-                                            : Consumer<TocRepository>(
-                                                builder:
-                                                    (context, tocServices, _) {
-                                                  return TocOfflinePlayer(
-                                                    batch: tocServices.batch,
-                                                    batches:
-                                                        course?.batches ?? [],
-                                                  );
-                                                },
-                                              );
-                                      }),
-                                  !fullScreen
-                                      ? Column(children: [
-                                          if (!isFeatured)
-                                            TocOverallProgress(
-                                                course: course!,
-                                                enrolledCourse:
-                                                    enrolledCourse!),
-                                          Container(
-                                            color: TocModuleColors.greys87,
-                                            width: 1.sw,
-                                            child: ClipRRect(
-                                              borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(16.0),
-                                                topRight: Radius.circular(16.0),
-                                              ).r,
-                                              child: Container(
-                                                padding:
-                                                    EdgeInsets.only(top: 4).r,
-                                                color: TocModuleColors
-                                                    .appBarBackground,
-                                                child: TabBar(
-                                                  tabAlignment:
-                                                      TabAlignment.start,
-                                                  isScrollable: true,
-                                                  indicator: BoxDecoration(
-                                                    border: Border(
-                                                      bottom: BorderSide(
-                                                        color: TocModuleColors
-                                                            .darkBlue,
-                                                        width: 2.0.w,
-                                                      ),
-                                                    ),
+                            ),
+                            !fullScreen
+                                ? Column(
+                                    children: [
+                                      if (!isFeatured)
+                                        TocOverallProgress(
+                                          course: course!,
+                                          enrolledCourse: enrolledCourse!,
+                                        ),
+                                      Container(
+                                        color: TocModuleColors.greys87,
+                                        width: 1.sw,
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(16.0),
+                                            topRight: Radius.circular(16.0),
+                                          ).r,
+                                          child: Container(
+                                            padding: EdgeInsets.only(top: 4).r,
+                                            color: TocModuleColors
+                                                .appBarBackground,
+                                            child: TabBar(
+                                              tabAlignment: TabAlignment.start,
+                                              isScrollable: true,
+                                              indicator: BoxDecoration(
+                                                border: Border(
+                                                  bottom: BorderSide(
+                                                    color: TocModuleColors
+                                                        .darkBlue,
+                                                    width: 2.0.w,
                                                   ),
-                                                  indicatorColor:
-                                                      TocModuleColors
-                                                          .appBarBackground,
-                                                  labelPadding:
-                                                      EdgeInsets.only(top: 0.0)
-                                                          .r,
-                                                  unselectedLabelColor:
-                                                      TocModuleColors.greys60,
-                                                  labelColor:
-                                                      TocModuleColors.darkBlue,
-                                                  labelStyle: Theme.of(context)
-                                                      .textTheme
-                                                      .titleSmall!
-                                                      .copyWith(
-                                                          fontSize: 10.sp,
-                                                          fontWeight:
-                                                              FontWeight.w600),
-                                                  unselectedLabelStyle:
-                                                      Theme.of(context)
-                                                          .textTheme
-                                                          .headlineSmall!
-                                                          .copyWith(
-                                                              fontSize: 10.sp,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400),
-                                                  tabs: getTabItems(),
-                                                  controller:
-                                                      learnTabController,
                                                 ),
                                               ),
+                                              indicatorColor: TocModuleColors
+                                                  .appBarBackground,
+                                              labelPadding: EdgeInsets.only(
+                                                top: 0.0,
+                                              ).r,
+                                              unselectedLabelColor:
+                                                  TocModuleColors.greys60,
+                                              labelColor:
+                                                  TocModuleColors.darkBlue,
+                                              labelStyle: Theme.of(context)
+                                                  .textTheme
+                                                  .titleSmall!
+                                                  .copyWith(
+                                                    fontSize: 10.sp,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                              unselectedLabelStyle:
+                                                  Theme.of(context)
+                                                      .textTheme
+                                                      .headlineSmall!
+                                                      .copyWith(
+                                                        fontSize: 10.sp,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                      ),
+                                              tabs: getTabItems(),
+                                              controller: learnTabController,
                                             ),
                                           ),
-                                          SizedBox(
-                                            height: 8.w,
-                                          )
-                                        ])
-                                      : Center(),
-                                  !fullScreen
-                                      ? Expanded(
-                                          child: TabBarView(
-                                              physics:
-                                                  NeverScrollableScrollPhysics(),
-                                              controller: learnTabController,
-                                              children: [
-                                                resourceNavigateItems[
-                                                                    courseIndex]
-                                                                .mimeType ==
-                                                            EMimeTypes.mp4 &&
-                                                        AppConfiguration
-                                                            .iGOTAiConfig
-                                                            .transcription
-                                                    ? SingleChildScrollView(
-                                                        child: Transcript(
-                                                        resourceId:
-                                                            resourceNavigateItems[
-                                                                    courseIndex]
-                                                                .identifier,
-                                                        startAt: (value) {
-                                                          startAt = value;
-                                                          setState(() {});
-                                                        },
-                                                      ))
-                                                    : SizedBox.shrink(),
-                                                ValueListenableBuilder<bool>(
-                                                    valueListenable:
-                                                        isCourseCompleted,
-                                                    builder:
-                                                        (context, value, _) {
-                                                      return AboutTab(
-                                                          courseRead: course!,
-                                                          enrolledCourse:
-                                                              enrolledCourse,
-                                                          courseHierarchy:
-                                                              courseHierarchyData!,
-                                                          isBlendedProgram:
-                                                              false,
-                                                          showCertificate:
-                                                              value);
-                                                    }),
-                                                ((course!.courseCategory ==
-                                                        PrimaryCategory
-                                                            .blendedProgram))
-                                                    ? Consumer<TocRepository>(
-                                                        builder: (context,
-                                                            tocServices, _) {
-                                                          return BlendedProgramContent(
-                                                              courseDetails:
-                                                                  course!,
-                                                              batch: tocServices
-                                                                  .batch,
-                                                              course: course,
-                                                              courseHierarchyData:
-                                                                  courseHierarchyData,
-                                                              courseId:
-                                                                  courseId!,
-                                                              lastAccessContentId:
-                                                                  lastAccessContentId,
-                                                              navigationItems:
-                                                                  navigationItems,
-                                                              enrolledCourse:
-                                                                  enrolledCourse,
-                                                              batches: course
-                                                                      ?.batches ??
-                                                                  [],
-                                                              enrollmentList: widget
-                                                                  .arguments
-                                                                  .enrollmentList,
-                                                              isPlayer: true,
-                                                              showLatestProgress:
-                                                                  () async =>
-                                                                      await generateNavigation(),
-                                                              startNewResourse:
-                                                                  startNewResourse);
-                                                        },
-                                                      )
-                                                    : TocContentPage(
-                                                        courseId: courseId!,
-                                                        course: course!,
-                                                        enrolledCourse:
-                                                            enrolledCourse,
-                                                        courseHierarchy:
-                                                            courseHierarchyData!,
-                                                        navigationItems:
-                                                            navigationItems,
-                                                        lastAccessContentId:
-                                                            lastAccessContentId,
-                                                        startNewResourse:
-                                                            startNewResourse,
-                                                        isPlayer: true,
-                                                        isFeatured: isFeatured,
-                                                        enrollmentList: widget
-                                                            .arguments
-                                                            .enrollmentList,
-                                                      ),
-                                                if (!isFeatured)
-                                                  CourseComments(
-                                                    courseId: courseId ?? '',
-                                                    isEnrolled: true,
-                                                    bottomMargin: 0,
-                                                  ),
-                                                if (teachersResource.isNotEmpty)
-                                                  TeachersNotes(
-                                                      referenceNodes:
-                                                          teachersResource),
-                                                if (referenceResource
-                                                    .isNotEmpty)
-                                                  TeachersNotes(
-                                                      referenceNodes:
-                                                          referenceResource),
-                                              ]),
-                                        )
-                                      : Center(),
-                                ],
-                              )),
+                                        ),
+                                      ),
+                                      SizedBox(height: 8.w),
+                                    ],
+                                  )
+                                : Center(),
+                            !fullScreen
+                                ? Expanded(
+                                    child: TabBarView(
+                                      physics: NeverScrollableScrollPhysics(),
+                                      controller: learnTabController,
+                                      children: [
+                                        resourceNavigateItems[courseIndex]
+                                                        .mimeType ==
+                                                    EMimeTypes.mp4 &&
+                                                AppConfiguration
+                                                    .iGOTAiConfig
+                                                    .transcription
+                                            ? SingleChildScrollView(
+                                                child: Transcript(
+                                                  resourceId:
+                                                      resourceNavigateItems[courseIndex]
+                                                          .identifier,
+                                                  startAt: (value) {
+                                                    startAt = value;
+                                                    setState(() {});
+                                                  },
+                                                ),
+                                              )
+                                            : SizedBox.shrink(),
+                                        ValueListenableBuilder<bool>(
+                                          valueListenable: isCourseCompleted,
+                                          builder: (context, value, _) {
+                                            return AboutTab(
+                                              courseRead: course!,
+                                              enrolledCourse: enrolledCourse,
+                                              courseHierarchy:
+                                                  courseHierarchyData!,
+                                              isBlendedProgram: false,
+                                              showCertificate: value,
+                                            );
+                                          },
+                                        ),
+                                        ((course!.courseCategory ==
+                                                PrimaryCategory.blendedProgram))
+                                            ? Consumer<TocRepository>(
+                                                builder: (context, tocServices, _) {
+                                                  return BlendedProgramContent(
+                                                    courseDetails: course!,
+                                                    batch: tocServices.batch,
+                                                    course: course,
+                                                    courseHierarchyData:
+                                                        courseHierarchyData,
+                                                    courseId: courseId!,
+                                                    lastAccessContentId:
+                                                        lastAccessContentId,
+                                                    navigationItems:
+                                                        navigationItems,
+                                                    enrolledCourse:
+                                                        enrolledCourse,
+                                                    batches:
+                                                        course?.batches ?? [],
+                                                    enrollmentList: widget
+                                                        .arguments
+                                                        .enrollmentList,
+                                                    isPlayer: true,
+                                                    showLatestProgress: () async =>
+                                                        await generateNavigation(),
+                                                    startNewResourse:
+                                                        startNewResourse,
+                                                  );
+                                                },
+                                              )
+                                            : TocContentPage(
+                                                courseId: courseId!,
+                                                course: course!,
+                                                enrolledCourse: enrolledCourse,
+                                                courseHierarchy:
+                                                    courseHierarchyData!,
+                                                navigationItems:
+                                                    navigationItems,
+                                                lastAccessContentId:
+                                                    lastAccessContentId,
+                                                startNewResourse:
+                                                    startNewResourse,
+                                                isPlayer: true,
+                                                isFeatured: isFeatured,
+                                                enrollmentList: widget
+                                                    .arguments
+                                                    .enrollmentList,
+                                              ),
+                                        if (!isFeatured)
+                                          CourseComments(
+                                            courseId: courseId ?? '',
+                                            isEnrolled: true,
+                                            bottomMargin: 0,
+                                          ),
+                                        if (teachersResource.isNotEmpty)
+                                          TeachersNotes(
+                                            referenceNodes: teachersResource,
+                                          ),
+                                        if (referenceResource.isNotEmpty)
+                                          TeachersNotes(
+                                            referenceNodes: referenceResource,
+                                          ),
+                                      ],
+                                    ),
+                                  )
+                                : Center(),
+                          ],
                         ),
-                      );
-                    }
-                  } else {
-                    // If content read or hierarchy is not called in one step resume of player call the content read and hierarchy API and get the data
-                    if (!isFetchDataCalled) {
-                      clearCourse(context);
-                      fetchCourseData();
-                      isFetchDataCalled = true;
-                    }
-                    return TocPlayerSkeleton(
-                        showCourseShareOption: false,
-                        courseShareOptionCallback: _shareModalBottomSheetMenu);
-                  }
-                }),
+                      ),
+                    ),
+                  );
+                }
+              } else {
+                // If content read or hierarchy is not called in one step resume of player call the content read and hierarchy API and get the data
+                if (!isFetchDataCalled) {
+                  clearCourse(context);
+                  fetchCourseData();
+                  isFetchDataCalled = true;
+                }
+                return TocPlayerSkeleton(
+                  showCourseShareOption: false,
+                  courseShareOptionCallback: _shareModalBottomSheetMenu,
+                );
+              }
+            },
           ),
-          bottomNavigationBar: BottomAppBar(
-              child: TocPlayerButton(
-            aiTutorButton: AppConfiguration.iGOTAiConfig.aiTutor &&
+        ),
+        bottomNavigationBar: BottomAppBar(
+          child: TocPlayerButton(
+            aiTutorButton:
+                AppConfiguration.iGOTAiConfig.aiTutor &&
                     !TocHelper.hasScromContent(resourceNavigateItems)
                 ? AiTutorButton(
                     tocContext: context,
@@ -498,10 +489,12 @@ class _TocPlayerScreenState extends State<TocPlayerScreen>
                         ? lastAccessContentId ?? ""
                         : courseId ?? "",
                     onTap: (value) {
-                      startAt = int.parse(value.contentStart != null &&
-                              value.contentStart!.trim().isNotEmpty
-                          ? value.contentStart!.trim()
-                          : "0");
+                      startAt = int.parse(
+                        value.contentStart != null &&
+                                value.contentStart!.trim().isNotEmpty
+                            ? value.contentStart!.trim()
+                            : "0",
+                      );
                       lastAccessContentId = value.identifier;
                       if (value.mimeType == EMimeTypes.pdf) {
                         startNewResourse(value.identifier);
@@ -541,7 +534,9 @@ class _TocPlayerScreenState extends State<TocPlayerScreen>
                 Navigator.pop(context);
               }
             },
-          ))),
+          ),
+        ),
+      ),
     );
   }
 
@@ -575,8 +570,8 @@ class _TocPlayerScreenState extends State<TocPlayerScreen>
               data['completionPercentage'];
           resourceNavigateItems[i].currentProgress =
               data['mimeType'] == EMimeTypes.assessment
-                  ? data['completionPercentage'].toString()
-                  : data['current'].toString();
+              ? data['completionPercentage'].toString()
+              : data['current'].toString();
           if ((data['mimeType'] == EMimeTypes.youtubeLink &&
                   data['completionPercentage'].toString() == '1') ||
               data['completionPercentage'] == 1) {
@@ -584,7 +579,9 @@ class _TocPlayerScreenState extends State<TocPlayerScreen>
           }
           double totalProgress = 0;
           totalProgress = TocHelper.getCourseOverallProgress(
-              totalProgress, resourceNavigateItems);
+            totalProgress,
+            resourceNavigateItems,
+          );
           if ((totalProgress / resourceNavigateItems.length) >
                   courseOverallProgress &&
               (totalProgress / resourceNavigateItems.length) -
@@ -597,31 +594,41 @@ class _TocPlayerScreenState extends State<TocPlayerScreen>
           }
           if (course != null &&
               TocHelper().isResourceLocked(
-                  courseCategory: course!.courseCategory,
-                  contextLockingType: course!.contextLockingType,
-                  compatibilityLevel: course!.compatibilityLevel)) {
+                courseCategory: course!.courseCategory,
+                contextLockingType: course!.contextLockingType,
+                compatibilityLevel: course!.compatibilityLevel,
+              )) {
             TocHelper.updateLock(
-                resourceNavigateItems, widget.arguments.courseId);
+              resourceNavigateItems,
+              widget.arguments.courseId,
+            );
           }
           final context = navigatorKey.currentContext!;
-          Provider.of<TocRepository>(context, listen: false).setCourseProgress(
-              (totalProgress / resourceNavigateItems.length));
+          Provider.of<TocRepository>(
+            context,
+            listen: false,
+          ).setCourseProgress((totalProgress / resourceNavigateItems.length));
           isCourseCompleted.value =
               totalProgress / resourceNavigateItems.length == 1;
           await updateNavigationItems(navigationItems, data);
 
-          Map<String, dynamic> languageProgress =
-              Provider.of<TocRepository>(context, listen: false)
-                  .languageProgress;
+          Map<String, dynamic> languageProgress = Provider.of<TocRepository>(
+            context,
+            listen: false,
+          ).languageProgress;
           if (languageProgress.isNotEmpty &&
               languageProgress[course!.language.toLowerCase()] < 50 &&
               totalProgress / resourceNavigateItems.length >= 0.5) {
-            Provider.of<TocRepository>(context, listen: false)
-                .readContentProgress(
-                    enrolledCourse!.id, enrolledCourse!.batch!.batchId,
-                    contentIds: course!.leafNodes,
-                    language: course!.language,
-                    forceUpdateOverallProgress: true);
+            Provider.of<TocRepository>(
+              context,
+              listen: false,
+            ).readContentProgress(
+              enrolledCourse!.id,
+              enrolledCourse!.batch!.batchId,
+              contentIds: course!.leafNodes,
+              language: course!.language,
+              forceUpdateOverallProgress: true,
+            );
           }
           break;
         }
@@ -641,16 +648,20 @@ class _TocPlayerScreenState extends State<TocPlayerScreen>
       getCurrentResourceIndex();
     }
     double totalProgress = 0;
-    totalProgress = TocHelper()
-        .getCourseOverallProgress(totalProgress, resourceNavigateItems);
+    totalProgress = TocHelper().getCourseOverallProgress(
+      totalProgress,
+      resourceNavigateItems,
+    );
 
     courseOverallProgress = totalProgress / resourceNavigateItems.length;
     prevCourseOverallProgress = courseOverallProgress;
   }
 
   void getCurrentResourceIndex() {
-    courseIndex = resourceNavigateItems.indexWhere((element) =>
-        (element is! List && element.contentId == lastAccessContentId));
+    courseIndex = resourceNavigateItems.indexWhere(
+      (element) =>
+          (element is! List && element.contentId == lastAccessContentId),
+    );
     if (courseIndex < 0) {
       courseIndex = 0;
     }
@@ -669,28 +680,31 @@ class _TocPlayerScreenState extends State<TocPlayerScreen>
         resourceNavigateItems[courseIndex].mimeType != EMimeTypes.mp3) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         await Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => OpenResource(
-                    startAt: startAt,
-                    courseHierarchyData: courseHierarchyData!,
-                    batchId: batchId!,
-                    changeLayout: manageScreen,
-                    isCuratedProgram: course?.cumulativeTracking != null &&
-                        course!.cumulativeTracking,
-                    isFeatured: isFeatured,
-                    resourceNavigateItem: resourceNavigateItems[courseIndex],
-                    navigationItems: resourceNavigateItems,
-                    showLatestProgress: updateContentProgress,
-                    primaryCategory: resourceNavigateItems[courseIndex]
-                            .primaryCategory
-                            .isNotEmpty
-                        ? resourceNavigateItems[courseIndex].primaryCategory
-                        : course!.courseCategory,
-                    playNextResource: (value) {
-                      _playNextResource(context);
-                    },
-                    courseCategory: course!.courseCategory)));
+          context,
+          MaterialPageRoute(
+            builder: (context) => OpenResource(
+              startAt: startAt,
+              courseHierarchyData: courseHierarchyData!,
+              batchId: batchId!,
+              changeLayout: manageScreen,
+              isCuratedProgram:
+                  course?.cumulativeTracking != null &&
+                  course!.cumulativeTracking,
+              isFeatured: isFeatured,
+              resourceNavigateItem: resourceNavigateItems[courseIndex],
+              navigationItems: resourceNavigateItems,
+              showLatestProgress: updateContentProgress,
+              primaryCategory:
+                  resourceNavigateItems[courseIndex].primaryCategory.isNotEmpty
+                  ? resourceNavigateItems[courseIndex].primaryCategory
+                  : course!.courseCategory,
+              playNextResource: (value) {
+                _playNextResource(context);
+              },
+              courseCategory: course!.courseCategory,
+            ),
+          ),
+        );
       });
     }
   }
@@ -711,13 +725,15 @@ class _TocPlayerScreenState extends State<TocPlayerScreen>
       backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
         return Container(
-            child: CourseSharingPage(
-                courseId: course!.id,
-                courseName: course!.name,
-                coursePosterImageUrl: course!.appIcon,
-                courseProvider: course!.source ?? "",
-                primaryCategory: course!.courseCategory,
-                callback: receiveShareResponse));
+          child: CourseSharingPage(
+            courseId: course!.id,
+            courseName: course!.name,
+            coursePosterImageUrl: course!.appIcon,
+            courseProvider: course!.source ?? "",
+            primaryCategory: course!.courseCategory,
+            callback: receiveShareResponse,
+          ),
+        );
       },
     );
   }
@@ -727,67 +743,68 @@ class _TocPlayerScreenState extends State<TocPlayerScreen>
   }
 
   _showSuccessDialogBox() => {
-        showDialog(
-            barrierDismissible: true,
-            context: context,
-            builder: (BuildContext contxt) => FutureBuilder(
-                future:
-                    Future.delayed(Duration(seconds: 3)).then((value) => true),
-                builder: (BuildContext futureContext, AsyncSnapshot snapshot) {
-                  if (snapshot.hasData) {
-                    Navigator.of(contxt).pop();
-                  }
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      AlertDialog(
-                          insetPadding: EdgeInsets.symmetric(horizontal: 16).r,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12).r),
-                          actionsPadding: EdgeInsets.zero.r,
-                          actions: [
-                            Container(
-                              padding: EdgeInsets.all(16).r,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12).r,
-                                  color: TocModuleColors.positiveLight),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      child: Text(
-                                        TocLocalizations.of(context)!
-                                            .mContentSharePageSuccessMessage,
-                                        style: GoogleFonts.lato(
-                                          fontSize: 14.sp,
-                                          color:
-                                              TocModuleColors.appBarBackground,
-                                        ),
-                                        maxLines: 3,
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(16, 4, 4, 0)
-                                            .r,
-                                    child: Icon(
-                                      Icons.check,
-                                      color: TocModuleColors.appBarBackground,
-                                      size: 24.sp,
-                                    ),
-                                  ),
-                                ],
+    showDialog(
+      barrierDismissible: true,
+      context: context,
+      builder: (BuildContext contxt) => FutureBuilder(
+        future: Future.delayed(Duration(seconds: 3)).then((value) => true),
+        builder: (BuildContext futureContext, AsyncSnapshot snapshot) {
+          if (snapshot.hasData) {
+            Navigator.of(contxt).pop();
+          }
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              AlertDialog(
+                insetPadding: EdgeInsets.symmetric(horizontal: 16).r,
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12).r,
+                ),
+                actionsPadding: EdgeInsets.zero.r,
+                actions: [
+                  Container(
+                    padding: EdgeInsets.all(16).r,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12).r,
+                      color: TocModuleColors.positiveLight,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Expanded(
+                          child: Container(
+                            child: Text(
+                              TocLocalizations.of(
+                                context,
+                              )!.mContentSharePageSuccessMessage,
+                              style: GoogleFonts.lato(
+                                fontSize: 14.sp,
+                                color: TocModuleColors.appBarBackground,
                               ),
+                              maxLines: 3,
                             ),
-                          ]),
-                    ],
-                  );
-                }))
-      };
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 4, 4, 0).r,
+                          child: Icon(
+                            Icons.check,
+                            color: TocModuleColors.appBarBackground,
+                            size: 24.sp,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          );
+        },
+      ),
+    ),
+  };
 
   updateNavigationItems(navigationItem, data) {
     for (var child in navigationItem) {
@@ -809,27 +826,32 @@ class _TocPlayerScreenState extends State<TocPlayerScreen>
   Future<dynamic> generateNavigation() async {
     try {
       Map response = await TocHelper.generateNavigationItem(
-          course: course!,
-          courseHierarchyData: courseHierarchyData!,
-          enrolledCourse: enrolledCourse,
-          isPlayer: true,
-          courseCategory: course!.courseCategory,
-          isFeatured: widget.arguments.isFeatured ?? false,
-          context: context,
-          enrollmentList: widget.arguments.enrollmentList);
+        course: course!,
+        courseHierarchyData: courseHierarchyData!,
+        enrolledCourse: enrolledCourse,
+        isPlayer: true,
+        courseCategory: course!.courseCategory,
+        isFeatured: widget.arguments.isFeatured ?? false,
+        context: context,
+        enrollmentList: widget.arguments.enrollmentList,
+      );
       navigationItems = response['navItems'];
       resourceNavigateItems = response['resourceNavItems'];
       double totalProgress = 0;
       totalProgress = TocHelper.getCourseOverallProgress(
-          totalProgress, response['resourceNavItems']);
+        totalProgress,
+        response['resourceNavItems'],
+      );
       if (totalProgress / resourceNavigateItems.length == 1) {
         isCourseCompleted.value = true;
       }
       Future.delayed(
-          Duration(milliseconds: 500),
-          () => Provider.of<TocRepository>(context, listen: false)
-              .setCourseProgress(
-                  (totalProgress / resourceNavigateItems.length)));
+        Duration(milliseconds: 500),
+        () => Provider.of<TocRepository>(
+          context,
+          listen: false,
+        ).setCourseProgress((totalProgress / resourceNavigateItems.length)),
+      );
     } catch (e) {
       print(e);
     }
@@ -842,13 +864,17 @@ class _TocPlayerScreenState extends State<TocPlayerScreen>
 
   // Content read api - To get all course details including batch info
   Future<void> getCourseInfo() async {
-    await Provider.of<TocRepository>(context, listen: false)
-        .getCourseData(courseId);
+    await Provider.of<TocRepository>(
+      context,
+      listen: false,
+    ).getCourseData(courseId);
   }
 
   Future<void> getCourseHierarchyDetails() async {
-    await Provider.of<TocRepository>(context, listen: false)
-        .getCourseDetails(courseId, isFeatured: isFeatured);
+    await Provider.of<TocRepository>(
+      context,
+      listen: false,
+    ).getCourseDetails(courseId, isFeatured: isFeatured);
   }
 
   void clearCourse(BuildContext context) {
@@ -862,15 +888,21 @@ class _TocPlayerScreenState extends State<TocPlayerScreen>
 
   Future<void> getReviews() async {
     if (isFeatured) return;
-    await Provider.of<TocRepository>(context, listen: false)
-        .getCourseReviewSummery(
-            courseId: courseId!, primaryCategory: course!.primaryCategory);
+    await Provider.of<TocRepository>(
+      context,
+      listen: false,
+    ).getCourseReviewSummery(
+      courseId: courseId!,
+      primaryCategory: course!.primaryCategory,
+    );
   }
 
   Future<void> getYourRatingAndReview() async {
     if (!isFeatured)
-      await Provider.of<TocRepository>(context, listen: false).getYourReview(
-          id: course!.id, primaryCategory: course!.primaryCategory);
+      await Provider.of<TocRepository>(
+        context,
+        listen: false,
+      ).getYourReview(id: course!.id, primaryCategory: course!.primaryCategory);
   }
 
   Future<void> trackCourseCompleted() async {
@@ -904,7 +936,7 @@ class _TocPlayerScreenState extends State<TocPlayerScreen>
   List<Widget> getTabItems() {
     final isMp4 =
         resourceNavigateItems[courseIndex].mimeType == EMimeTypes.mp4 &&
-            AppConfiguration.iGOTAiConfig.transcription;
+        AppConfiguration.iGOTAiConfig.transcription;
 
     return tabItems.map((tabItem) {
       final isTranscription =
@@ -933,11 +965,7 @@ class _TocPlayerScreenState extends State<TocPlayerScreen>
                     ),
                   ),
                 ),
-                Positioned(
-                  right: 5,
-                  top: 0,
-                  child: NewWidgetAnimation(),
-                ),
+                Positioned(right: 5, top: 0, child: NewWidgetAnimation()),
               ],
             )
           : Container(

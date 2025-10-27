@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 // For localization
 import 'package:intl/intl.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
@@ -16,13 +17,14 @@ class CustomDatePicker extends StatefulWidget {
   final TextEditingController controller;
   final bool showNA;
   final GlobalKey<FormState> formKey;
-  const CustomDatePicker(
-      {super.key,
-      required this.controller,
-      required this.title,
-      required this.formKey,
-      this.showNA = false,
-      required this.isMandatory});
+  const CustomDatePicker({
+    super.key,
+    required this.controller,
+    required this.title,
+    required this.formKey,
+    this.showNA = false,
+    required this.isMandatory,
+  });
 
   @override
   State<CustomDatePicker> createState() => _CustomDatePickerState();
@@ -46,9 +48,10 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
       setState(() {
         _dobDate = pickedDate;
         widget.controller.text = DateTimeHelper.convertDateFormat(
-            pickedDate.toString(),
-            inputFormat: IntentType.dateFormat4,
-            desiredFormat: IntentType.dateFormat);
+          pickedDate.toString(),
+          inputFormat: IntentType.dateFormat4,
+          desiredFormat: IntentType.dateFormat,
+        );
       });
     }
   }
@@ -69,50 +72,46 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
         SizedBox(
           width: 0.85.sw,
           child: FieldNameWidget(
-              isMandatory: widget.isMandatory, fieldName: widget.title),
+            isMandatory: widget.isMandatory,
+            fieldName: widget.title,
+          ),
         ),
-        SizedBox(
-          height: 8.w,
-        ),
+        SizedBox(height: 8.w),
         SizedBox(
           child: TextInputField(
-              controller: widget.controller,
-              keyboardType: TextInputType.datetime,
-              readOnly: true,
-              isDate: true,
-              hintText: widget.controller.text.isNotEmpty
-                  ? widget.controller.text
-                  : TocLocalizations.of(context)!.mEditProfileChooseDate,
-              suffixIcon: Icon(
-                Icons.date_range,
-                size: 24.sp,
-              ),
-              validatorFuntion: (value) {
-                if (widget.isMandatory) {
-                  if (enableNA) {
-                    return null;
-                  }
-                  if (value == null || value.isEmpty) {
-                    return TocLocalizations.of(context)!.mThisFieldIsRequired;
-                  }
+            controller: widget.controller,
+            keyboardType: TextInputType.datetime,
+            readOnly: true,
+            isDate: true,
+            hintText: widget.controller.text.isNotEmpty
+                ? widget.controller.text
+                : TocLocalizations.of(context)!.mEditProfileChooseDate,
+            suffixIcon: Icon(Icons.date_range, size: 24.sp),
+            validatorFuntion: (value) {
+              if (widget.isMandatory) {
+                if (enableNA) {
                   return null;
                 }
-                return null;
-              },
-              onTap: () {
-                if (enableNA) {
-                  enableNA = !enableNA;
+                if (value == null || value.isEmpty) {
+                  return TocLocalizations.of(context)!.mThisFieldIsRequired;
                 }
-                _selectDate(context);
-                setState(() {});
-              }),
+                return null;
+              }
+              return null;
+            },
+            onTap: () {
+              if (enableNA) {
+                enableNA = !enableNA;
+              }
+              _selectDate(context);
+              setState(() {});
+            },
+          ),
         ),
         widget.showNA
             ? Column(
                 children: [
-                  SizedBox(
-                    height: 12.w,
-                  ),
+                  SizedBox(height: 12.w),
                   InkWell(
                     onTap: () {
                       setState(() {
@@ -136,14 +135,14 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
                                 widget.controller.clear();
                               });
                             },
-                            fillColor: WidgetStateProperty.resolveWith<Color>(
-                              (Set<WidgetState> states) {
-                                if (states.contains(WidgetState.selected)) {
-                                  return TocModuleColors.darkBlue;
-                                }
-                                return TocModuleColors.black40;
-                              },
-                            ),
+                            fillColor: WidgetStateProperty.resolveWith<Color>((
+                              Set<WidgetState> states,
+                            ) {
+                              if (states.contains(WidgetState.selected)) {
+                                return TocModuleColors.darkBlue;
+                              }
+                              return TocModuleColors.black40;
+                            }),
                           ),
                           Text(
                             "N/A",
@@ -156,7 +155,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
                         ],
                       ),
                     ),
-                  )
+                  ),
                 ],
               )
             : SizedBox(),

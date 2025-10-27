@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -39,14 +39,18 @@ class CourseAssessmentPlayer extends StatefulWidget {
   final String courseCategory;
   final bool isPreRequisite;
   CourseAssessmentPlayer(
-      this.course, this.identifier, this.parentAction, this.batchId,
-      {required this.parentCourseId,
-      required this.resourceNavigateItems,
-      this.playNextResource,
-      this.compatibilityLevel = 0,
-      this.isFeatured = false,
-      required this.courseCategory,
-      this.isPreRequisite = false});
+    this.course,
+    this.identifier,
+    this.parentAction,
+    this.batchId, {
+    required this.parentCourseId,
+    required this.resourceNavigateItems,
+    this.playNextResource,
+    this.compatibilityLevel = 0,
+    this.isFeatured = false,
+    required this.courseCategory,
+    this.isPreRequisite = false,
+  });
   @override
   _CourseAssessmentPlayerState createState() => _CourseAssessmentPlayerState();
 }
@@ -73,10 +77,11 @@ class _CourseAssessmentPlayerState extends State<CourseAssessmentPlayer> {
 
   Future<dynamic> _loadData() async {
     resourceInfo = await TocHelper.getResourceInfo(
-        context: context,
-        resourceId: widget.identifier,
-        isFeatured: widget.isFeatured,
-        resourceNavigateItems: widget.resourceNavigateItems);
+      context: context,
+      resourceId: widget.identifier,
+      isFeatured: widget.isFeatured,
+      resourceNavigateItems: widget.resourceNavigateItems,
+    );
 
     if (widget.isFeatured) {
       return await _loadPublicAssessmentData();
@@ -93,27 +98,29 @@ class _CourseAssessmentPlayerState extends State<CourseAssessmentPlayer> {
                 PrimaryCategory.practiceAssessment ||
             AssessmentViewModel().isAssessmentWithFileURL(resourceInfo!)) {
           showDialog(
-              context: context,
-              builder: (BuildContext cxt) {
-                return AlertDialogWidget(
-                  dialogRadius: 8,
-                  subtitle:
-                      TocLocalizations.of(context)!.mStaticLoginToAccessContent,
-                  primaryButtonText: TocLocalizations.of(context)!.mStaticOk,
-                  onPrimaryButtonPressed: () async {
-                    Navigator.of(cxt).pop();
-                    Navigator.of(context).pop();
-                    completer.complete();
-                  },
-                  primaryButtonTextStyle: GoogleFonts.lato(
-                    color: TocModuleColors.appBarBackground,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 14.0.sp,
-                    height: 1.5.w,
-                  ),
-                  primaryButtonBgColor: TocModuleColors.darkBlue,
-                );
-              });
+            context: context,
+            builder: (BuildContext cxt) {
+              return AlertDialogWidget(
+                dialogRadius: 8,
+                subtitle: TocLocalizations.of(
+                  context,
+                )!.mStaticLoginToAccessContent,
+                primaryButtonText: TocLocalizations.of(context)!.mStaticOk,
+                onPrimaryButtonPressed: () async {
+                  Navigator.of(cxt).pop();
+                  Navigator.of(context).pop();
+                  completer.complete();
+                },
+                primaryButtonTextStyle: GoogleFonts.lato(
+                  color: TocModuleColors.appBarBackground,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 14.0.sp,
+                  height: 1.5.w,
+                ),
+                primaryButtonBgColor: TocModuleColors.darkBlue,
+              );
+            },
+          );
         } else {
           showModalBottomSheet(
             context: context,
@@ -152,42 +159,45 @@ class _CourseAssessmentPlayerState extends State<CourseAssessmentPlayer> {
     try {
       AssessmentResponseDataModel? assessmentData;
       if (widget.isPreRequisite) {
-        AssessmentChild? assessmentChild =
-            await AssessmentViewModel().getPreRequisiteAssessmentData(
-          identifier: widget.identifier,
-          isFeatured: widget.isFeatured,
-        );
+        AssessmentChild? assessmentChild = await AssessmentViewModel()
+            .getPreRequisiteAssessmentData(
+              identifier: widget.identifier,
+              isFeatured: widget.isFeatured,
+            );
         if (assessmentChild != null) {
           _preRequisiteCollectionIdentifier = assessmentChild.identifier;
           assessmentData = await AssessmentViewModel().getAssessmentData(
-              context: context,
-              resourceInfo: resourceInfo,
-              parentCourseId: widget.parentCourseId,
-              courseCategory: widget.courseCategory,
-              courseId: widget.course.identifier,
-              identifier: assessmentChild.identifier,
-              compatibilityLevel: widget.compatibilityLevel,
-              isFeatured: widget.isFeatured,
-              guestUserData: _guestUserData);
-        } else {
-          TocHelper.showSnackBarMessage(
-              textColor: Colors.white,
-              context: context,
-              text: TocLocalizations.of(context)!.mStaticSomethingWrongTryLater,
-              bgColor: TocModuleColors.blackLegend,
-              durationInSec: 5);
-        }
-      } else {
-        assessmentData = await AssessmentViewModel().getAssessmentData(
             context: context,
             resourceInfo: resourceInfo,
             parentCourseId: widget.parentCourseId,
             courseCategory: widget.courseCategory,
             courseId: widget.course.identifier,
-            identifier: widget.identifier,
+            identifier: assessmentChild.identifier,
             compatibilityLevel: widget.compatibilityLevel,
             isFeatured: widget.isFeatured,
-            guestUserData: _guestUserData);
+            guestUserData: _guestUserData,
+          );
+        } else {
+          TocHelper.showSnackBarMessage(
+            textColor: Colors.white,
+            context: context,
+            text: TocLocalizations.of(context)!.mStaticSomethingWrongTryLater,
+            bgColor: TocModuleColors.blackLegend,
+            durationInSec: 5,
+          );
+        }
+      } else {
+        assessmentData = await AssessmentViewModel().getAssessmentData(
+          context: context,
+          resourceInfo: resourceInfo,
+          parentCourseId: widget.parentCourseId,
+          courseCategory: widget.courseCategory,
+          courseId: widget.course.identifier,
+          identifier: widget.identifier,
+          compatibilityLevel: widget.compatibilityLevel,
+          isFeatured: widget.isFeatured,
+          guestUserData: _guestUserData,
+        );
       }
 
       _questionSet.clear();
@@ -198,13 +208,16 @@ class _CourseAssessmentPlayerState extends State<CourseAssessmentPlayer> {
         } else if (assessmentData.assessmentInfo != null &&
             assessmentData.assessmentInfo!.errMessage != null) {
           TocHelper.showSnackBarMessage(
-              context: context,
-              textColor: Colors.white,
-              text: assessmentData.assessmentInfo!.errMessage ?? "",
-              bgColor: TocModuleColors.blackLegend,
-              durationInSec: 5);
+            context: context,
+            textColor: Colors.white,
+            text: assessmentData.assessmentInfo!.errMessage ?? "",
+            bgColor: TocModuleColors.blackLegend,
+            durationInSec: 5,
+          );
           Future.delayed(
-              Duration(seconds: 5), (() => Navigator.of(context).pop()));
+            Duration(seconds: 5),
+            (() => Navigator.of(context).pop()),
+          );
         }
         _questionSet = assessmentData.questionSet;
         _retakeInfo = assessmentData.retakeInfo;
@@ -212,8 +225,8 @@ class _CourseAssessmentPlayerState extends State<CourseAssessmentPlayer> {
       }
       return _retakeInfo != null
           ? _retakeInfo['attemptsMade'] >= _retakeInfo['attemptsAllowed']
-              ? AssessmentQuestionStatus.retakeNotAllowed
-              : response
+                ? AssessmentQuestionStatus.retakeNotAllowed
+                : response
           : response;
     } catch (e) {
       print("Error fetching assessment data: $e");
@@ -227,140 +240,136 @@ class _CourseAssessmentPlayerState extends State<CourseAssessmentPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: TocModuleColors.primaryBlue,
-    ));
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(statusBarColor: TocModuleColors.primaryBlue),
+    );
     return SafeArea(
       child: FutureBuilder(
-          future: futureGetAssessmentData,
-          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-            if (snapshot.data != null &&
-                snapshot.data != AssessmentQuestionStatus.retakeNotAllowed) {
-              _microSurvey = snapshot.data;
-            }
-            if (snapshot.hasData || _assessmentInfo != null) {
-              if (widget.compatibilityLevel >=
-                  AssessmentCompatibility.multimediaCompatibility.version) {
-                if (snapshot.data != null &&
-                    snapshot.data ==
-                        AssessmentQuestionStatus.retakeNotAllowed &&
-                    _assessmentInfo == null) {
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    _limitExceededCallback(context);
-                  });
-                  return Scaffold(
-                    body: Center(
-                        child: Container(
-                      padding: EdgeInsets.all(32).r,
-                    )),
-                  );
-                } else {
-                  return Scaffold(
-                    appBar: PreferredSize(
-                      preferredSize:
-                          Size.fromHeight(70.w), // Set the preferred height
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: TocModuleColors.scaffoldBackground,
-                          border: Border(
-                            bottom: BorderSide(
-                              color: TocModuleColors.grey16,
-                              width: 2.0.w,
-                            ),
+        future: futureGetAssessmentData,
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          if (snapshot.data != null &&
+              snapshot.data != AssessmentQuestionStatus.retakeNotAllowed) {
+            _microSurvey = snapshot.data;
+          }
+          if (snapshot.hasData || _assessmentInfo != null) {
+            if (widget.compatibilityLevel >=
+                AssessmentCompatibility.multimediaCompatibility.version) {
+              if (snapshot.data != null &&
+                  snapshot.data == AssessmentQuestionStatus.retakeNotAllowed &&
+                  _assessmentInfo == null) {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  _limitExceededCallback(context);
+                });
+                return Scaffold(
+                  body: Center(child: Container(padding: EdgeInsets.all(32).r)),
+                );
+              } else {
+                return Scaffold(
+                  appBar: PreferredSize(
+                    preferredSize: Size.fromHeight(
+                      70.w,
+                    ), // Set the preferred height
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: TocModuleColors.scaffoldBackground,
+                        border: Border(
+                          bottom: BorderSide(
+                            color: TocModuleColors.grey16,
+                            width: 2.0.w,
                           ),
                         ),
-                        child: AppBar(
-                          backgroundColor: TocModuleColors.scaffoldBackground,
-                          automaticallyImplyLeading: false,
-                          shadowColor: Colors.transparent,
-                          toolbarHeight: 70.w,
-                          leading: InkWell(
-                            onTap: () => Navigator.of(context).pop(),
-                            child: Icon(
-                              Icons.arrow_back_ios,
-                              color: TocModuleColors.grey40,
-                              size: 24.w,
-                            ),
+                      ),
+                      child: AppBar(
+                        backgroundColor: TocModuleColors.scaffoldBackground,
+                        automaticallyImplyLeading: false,
+                        shadowColor: Colors.transparent,
+                        toolbarHeight: 70.w,
+                        leading: InkWell(
+                          onTap: () => Navigator.of(context).pop(),
+                          child: Icon(
+                            Icons.arrow_back_ios,
+                            color: TocModuleColors.grey40,
+                            size: 24.w,
                           ),
-                          title: Padding(
-                              padding: EdgeInsets.symmetric(vertical: 20).r,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Expanded(child: _cardHeadingItems()),
-                                  SizedBox(
-                                      width: 1.0.sw / 2.3,
-                                      child: AssessmentStartBtnWidget(
-                                        assessmentInfo: _assessmentInfo!,
-                                        batchId: widget.batchId,
-                                        course: widget.course,
-                                        identifier: (widget.isPreRequisite)
-                                            ? (_preRequisiteCollectionIdentifier ??
-                                                '')
-                                            : widget.identifier,
-                                        microSurvey: _microSurvey,
-                                        parentAction: widget.parentAction,
-                                        parentCourseId: widget.parentCourseId,
-                                        playNextResource:
-                                            widget.playNextResource,
-                                        questionSet: _questionSet,
-                                        retakeInfo: _retakeInfo,
-                                        isConfirmed: isConfirmed,
-                                        compatibilityLevel:
-                                            widget.compatibilityLevel,
-                                        savePointInfo: savePointInfo,
-                                        resourceInfo: resourceInfo!,
-                                        isFeatured: widget.isFeatured,
-                                        courseCategory: widget.courseCategory,
-                                        guestUserData: _guestUserData,
-                                        isPreRequisite: widget.isPreRequisite,
-                                        preEnrolmentAssessmentId:
-                                            (widget.isPreRequisite)
-                                                ? widget.identifier
-                                                : null,
-                                        preRequisiteMimeType:
-                                            (widget.isPreRequisite)
-                                                ? (widget.resourceNavigateItems
-                                                        .mimeType ??
-                                                    '')
-                                                : "",
-                                      ))
-                                ],
-                              )),
+                        ),
+                        title: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 20).r,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(child: _cardHeadingItems()),
+                              SizedBox(
+                                width: 1.0.sw / 2.3,
+                                child: AssessmentStartBtnWidget(
+                                  assessmentInfo: _assessmentInfo!,
+                                  batchId: widget.batchId,
+                                  course: widget.course,
+                                  identifier: (widget.isPreRequisite)
+                                      ? (_preRequisiteCollectionIdentifier ??
+                                            '')
+                                      : widget.identifier,
+                                  microSurvey: _microSurvey,
+                                  parentAction: widget.parentAction,
+                                  parentCourseId: widget.parentCourseId,
+                                  playNextResource: widget.playNextResource,
+                                  questionSet: _questionSet,
+                                  retakeInfo: _retakeInfo,
+                                  isConfirmed: isConfirmed,
+                                  compatibilityLevel: widget.compatibilityLevel,
+                                  savePointInfo: savePointInfo,
+                                  resourceInfo: resourceInfo!,
+                                  isFeatured: widget.isFeatured,
+                                  courseCategory: widget.courseCategory,
+                                  guestUserData: _guestUserData,
+                                  isPreRequisite: widget.isPreRequisite,
+                                  preEnrolmentAssessmentId:
+                                      (widget.isPreRequisite)
+                                      ? widget.identifier
+                                      : null,
+                                  preRequisiteMimeType: (widget.isPreRequisite)
+                                      ? (widget
+                                                .resourceNavigateItems
+                                                .mimeType ??
+                                            '')
+                                      : "",
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                    body: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                                    horizontal: 16, vertical: 20)
-                                .r,
-                            child: SingleChildScrollView(
-                                child: Column(
+                  ),
+                  body: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 20,
+                          ).r,
+                          child: SingleChildScrollView(
+                            child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(resourceInfo!.name ?? '',
-                                    style: GoogleFonts.lato(
-                                      color: TocModuleColors.greys87,
-                                      fontSize: 20.0.sp,
-                                      fontWeight: FontWeight.w400,
-                                    )),
-                                SizedBox(
-                                  height: 32.w,
+                                Text(
+                                  resourceInfo!.name ?? '',
+                                  style: GoogleFonts.lato(
+                                    color: TocModuleColors.greys87,
+                                    fontSize: 20.0.sp,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
+                                SizedBox(height: 32.w),
                                 _assessmentInfo != null
                                     ? HtmlWidget(
                                         TocHelper.decodeHtmlEntities(
-                                            _assessmentInfo!.description),
+                                          _assessmentInfo!.description,
+                                        ),
                                         textStyle: TextStyle(fontSize: 14.sp),
                                       )
                                     : Center(),
-                                SizedBox(
-                                  height: 32.w,
-                                ),
+                                SizedBox(height: 32.w),
                                 Row(
                                   children: [
                                     SizedBox(
@@ -384,8 +393,8 @@ class _CourseAssessmentPlayerState extends State<CourseAssessmentPlayer> {
                                           RichText(
                                             text: TextSpan(
                                               text: TocLocalizations.of(
-                                                      context)!
-                                                  .mAssessmentInstructionAgreeStatemetPrefix,
+                                                context,
+                                              )!.mAssessmentInstructionAgreeStatemetPrefix,
                                               style: GoogleFonts.lato(
                                                 color: TocModuleColors.greys,
                                                 fontSize: 16.0.sp,
@@ -395,8 +404,8 @@ class _CourseAssessmentPlayerState extends State<CourseAssessmentPlayer> {
                                               children: <TextSpan>[
                                                 TextSpan(
                                                   text: TocLocalizations.of(
-                                                          context)!
-                                                      .mAssessmentInstructionAgreeStatemetMiddle,
+                                                    context,
+                                                  )!.mAssessmentInstructionAgreeStatemetMiddle,
                                                   style: GoogleFonts.lato(
                                                     color:
                                                         TocModuleColors.greys,
@@ -406,17 +415,17 @@ class _CourseAssessmentPlayerState extends State<CourseAssessmentPlayer> {
                                                   ),
                                                 ),
                                                 TextSpan(
-                                                    text: TocLocalizations.of(
-                                                            context)!
-                                                        .mAssessmentInstructionAgreeStatemetSuffix,
-                                                    style: GoogleFonts.lato(
-                                                      color:
-                                                          TocModuleColors.greys,
-                                                      fontSize: 16.0.sp,
-                                                      height: 1.5.w,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                    )),
+                                                  text: TocLocalizations.of(
+                                                    context,
+                                                  )!.mAssessmentInstructionAgreeStatemetSuffix,
+                                                  style: GoogleFonts.lato(
+                                                    color:
+                                                        TocModuleColors.greys,
+                                                    fontSize: 16.0.sp,
+                                                    height: 1.5.w,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
                                               ],
                                             ),
                                           ),
@@ -426,76 +435,78 @@ class _CourseAssessmentPlayerState extends State<CourseAssessmentPlayer> {
                                   ],
                                 ),
                               ],
-                            )),
+                            ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  );
-                }
-              } else {
-                return Scaffold(
-                  body: SafeArea(
-                    child: _buildLayout(),
-                  ),
-                  bottomSheet: AssessmentStartBtnWidget(
-                    assessmentInfo: _assessmentInfo,
-                    batchId: widget.batchId,
-                    course: widget.course,
-                    identifier: (widget.isPreRequisite)
-                        ? (_preRequisiteCollectionIdentifier ?? '')
-                        : widget.identifier,
-                    microSurvey: _microSurvey,
-                    parentAction: widget.parentAction,
-                    parentCourseId: widget.parentCourseId,
-                    playNextResource: widget.playNextResource,
-                    questionSet: _questionSet,
-                    retakeInfo: _retakeInfo,
-                    compatibilityLevel: widget.compatibilityLevel,
-                    resourceInfo: resourceInfo!,
-                    isFeatured: widget.isFeatured,
-                    courseCategory: widget.courseCategory,
-                    guestUserData: _guestUserData,
-                    isPreRequisite: widget.isPreRequisite,
-                    preEnrolmentAssessmentId:
-                        (widget.isPreRequisite) ? widget.identifier : null,
-                    preRequisiteMimeType: (widget.isPreRequisite)
-                        ? (widget.resourceNavigateItems.mimeType ?? '')
-                        : "",
                   ),
                 );
               }
             } else {
-              return widget.compatibilityLevel >=
-                      AssessmentCompatibility.multimediaCompatibility.version
-                  ? AssessmentInstructionSkeleton(
-                      primaryCategory:
-                          widget.resourceNavigateItems.primaryCategory,
-                    )
-                  : Scaffold(
-                      appBar: AppBar(
-                          elevation: 0,
-                          leading: IconButton(
-                              icon: Icon(
-                                Icons.close,
-                                color: TocModuleColors.greys87,
-                              ),
-                              onPressed: () {
-                                Navigator.pop(context);
-                              }),
-                          title: Padding(
-                              padding: const EdgeInsets.only(left: 0).r,
-                              child: Text(
-                                '',
-                                style: GoogleFonts.lato(
-                                  color: TocModuleColors.greys87,
-                                  fontSize: 16.0.sp,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ))),
-                      body: PageLoader());
+              return Scaffold(
+                body: SafeArea(child: _buildLayout()),
+                bottomSheet: AssessmentStartBtnWidget(
+                  assessmentInfo: _assessmentInfo,
+                  batchId: widget.batchId,
+                  course: widget.course,
+                  identifier: (widget.isPreRequisite)
+                      ? (_preRequisiteCollectionIdentifier ?? '')
+                      : widget.identifier,
+                  microSurvey: _microSurvey,
+                  parentAction: widget.parentAction,
+                  parentCourseId: widget.parentCourseId,
+                  playNextResource: widget.playNextResource,
+                  questionSet: _questionSet,
+                  retakeInfo: _retakeInfo,
+                  compatibilityLevel: widget.compatibilityLevel,
+                  resourceInfo: resourceInfo!,
+                  isFeatured: widget.isFeatured,
+                  courseCategory: widget.courseCategory,
+                  guestUserData: _guestUserData,
+                  isPreRequisite: widget.isPreRequisite,
+                  preEnrolmentAssessmentId: (widget.isPreRequisite)
+                      ? widget.identifier
+                      : null,
+                  preRequisiteMimeType: (widget.isPreRequisite)
+                      ? (widget.resourceNavigateItems.mimeType ?? '')
+                      : "",
+                ),
+              );
             }
-          }),
+          } else {
+            return widget.compatibilityLevel >=
+                    AssessmentCompatibility.multimediaCompatibility.version
+                ? AssessmentInstructionSkeleton(
+                    primaryCategory:
+                        widget.resourceNavigateItems.primaryCategory,
+                  )
+                : Scaffold(
+                    appBar: AppBar(
+                      elevation: 0,
+                      leading: IconButton(
+                        icon: Icon(Icons.close, color: TocModuleColors.greys87),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                      title: Padding(
+                        padding: const EdgeInsets.only(left: 0).r,
+                        child: Text(
+                          '',
+                          style: GoogleFonts.lato(
+                            color: TocModuleColors.greys87,
+                            fontSize: 16.0.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ),
+                    body: PageLoader(),
+                  );
+          }
+        },
+      ),
     );
   }
 
@@ -508,23 +519,27 @@ class _CourseAssessmentPlayerState extends State<CourseAssessmentPlayer> {
           titleSpacing: 0,
           elevation: 0,
           leading: IconButton(
-            icon: Icon(Icons.close,
-                size: 20.sp, color: TocModuleColors.appBarBackground),
+            icon: Icon(
+              Icons.close,
+              size: 20.sp,
+              color: TocModuleColors.appBarBackground,
+            ),
             onPressed: () {
               Navigator.pop(context);
             },
           ),
         ),
         Padding(
-            padding: const EdgeInsets.fromLTRB(16, 8, 16, 32).r,
-            child: Text(
-              resourceInfo!.name ?? '',
-              style: GoogleFonts.montserrat(
-                color: TocModuleColors.appBarBackground,
-                fontSize: 24.0.sp,
-                fontWeight: FontWeight.w600,
-              ),
-            )),
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 32).r,
+          child: Text(
+            resourceInfo!.name ?? '',
+            style: GoogleFonts.montserrat(
+              color: TocModuleColors.appBarBackground,
+              fontSize: 24.0.sp,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -541,14 +556,18 @@ class _CourseAssessmentPlayerState extends State<CourseAssessmentPlayer> {
 
   Widget _containerBody() {
     return Expanded(
-        child: ClipRRect(
-      borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(16.0),
-        topRight: Radius.circular(16.0),
-      ).r,
-      child: Container(
-          padding:
-              const EdgeInsets.only(left: 24, top: 24, right: 24, bottom: 90).r,
+      child: ClipRRect(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(16.0),
+          topRight: Radius.circular(16.0),
+        ).r,
+        child: Container(
+          padding: const EdgeInsets.only(
+            left: 24,
+            top: 24,
+            right: 24,
+            bottom: 90,
+          ).r,
           color: TocModuleColors.appBarBackground,
           child: SingleChildScrollView(
             physics: BouncingScrollPhysics(),
@@ -556,10 +575,7 @@ class _CourseAssessmentPlayerState extends State<CourseAssessmentPlayer> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _cardHeadingItems(),
-                Divider(
-                  thickness: 1,
-                  color: TocModuleColors.grey16,
-                ),
+                Divider(thickness: 1, color: TocModuleColors.grey16),
                 Padding(
                   padding: EdgeInsets.only(top: 16, bottom: 16).r,
                   child: Text(
@@ -574,8 +590,10 @@ class _CourseAssessmentPlayerState extends State<CourseAssessmentPlayer> {
                 _informationCard(),
               ],
             ),
-          )),
-    ));
+          ),
+        ),
+      ),
+    );
   }
 
   Widget _cardHeadingItems() {
@@ -588,37 +606,45 @@ class _CourseAssessmentPlayerState extends State<CourseAssessmentPlayer> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: (resourceInfo!.primaryCategory ==
-                      PrimaryCategory.practiceAssessment &&
-                  widget.compatibilityLevel <
-                      AssessmentCompatibility.multimediaCompatibility.version
-              ? practiceScenario4summary(context)
-              : scenario4summary(context))
-          .map(
-            (informationCard) => _headingItem(
-                informationCard.icon,
-                informationCard.scenarioNumber == 1
-                    ? '${_microSurvey != null ? _microSurvey!['questions'].length : _questionSet.isNotEmpty ? questionCount : _assessmentInfo!.maxQuestions} ${TocLocalizations.of(context)!.mCommonQuestions}'
-                    : informationCard.scenarioNumber == 2
-                        ? (_retakeInfo != null
+      children:
+          (resourceInfo!.primaryCategory ==
+                          PrimaryCategory.practiceAssessment &&
+                      widget.compatibilityLevel <
+                          AssessmentCompatibility
+                              .multimediaCompatibility
+                              .version
+                  ? practiceScenario4summary(context)
+                  : scenario4summary(context))
+              .map(
+                (informationCard) => _headingItem(
+                  informationCard.icon,
+                  informationCard.scenarioNumber == 1
+                      ? '${_microSurvey != null
+                            ? _microSurvey!['questions'].length
+                            : _questionSet.isNotEmpty
+                            ? questionCount
+                            : _assessmentInfo!.maxQuestions} ${TocLocalizations.of(context)!.mCommonQuestions}'
+                      : informationCard.scenarioNumber == 2
+                      ? (_retakeInfo != null
                             ? '${TocLocalizations.of(context)!.mStaticMaximum} ${_retakeInfo['attemptsAllowed']} ${TocLocalizations.of(context)!.mStaticRetakeAssesmentMessage} ${_retakeInfo['attemptsMade']} ${TocLocalizations.of(context)!.mStaticTime}'
-                            : TocLocalizations.of(context)!
-                                .mStaticUnlimitedRetakes)
-                        : (_assessmentInfo != null &&
+                            : TocLocalizations.of(
+                                context,
+                              )!.mStaticUnlimitedRetakes)
+                      : (_assessmentInfo != null &&
                                 _assessmentInfo!.expectedDuration != null
                             ? DateTimeHelper.getFullTimeFormat(
                                 _assessmentInfo!.expectedDuration.toString(),
-                                timelyDurationFlag: true)
+                                timelyDurationFlag: true,
+                              )
                             : resourceInfo!.duration.toString().contains('-')
-                                ? resourceInfo!.duration
-                                    .toString()
-                                    .split('-')
-                                    .last
-                                : DateTimeHelper.getFullTimeFormat(
-                                    resourceInfo!.duration.toString())),
-                informationCard.iconColor),
-          )
-          .toList(),
+                            ? resourceInfo!.duration.toString().split('-').last
+                            : DateTimeHelper.getFullTimeFormat(
+                                resourceInfo!.duration.toString(),
+                              )),
+                  informationCard.iconColor,
+                ),
+              )
+              .toList(),
     );
   }
 
@@ -640,10 +666,11 @@ class _CourseAssessmentPlayerState extends State<CourseAssessmentPlayer> {
                   child: Text(
                     information,
                     style: GoogleFonts.lato(
-                        color: TocModuleColors.greys87,
-                        fontSize: 14.0.sp,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: 0.12),
+                      color: TocModuleColors.greys87,
+                      fontSize: 14.0.sp,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 0.12,
+                    ),
                   ),
                 ),
               ),
@@ -659,25 +686,24 @@ class _CourseAssessmentPlayerState extends State<CourseAssessmentPlayer> {
       width: double.infinity.w,
       padding: EdgeInsets.only(bottom: 24).r,
       margin: EdgeInsets.only(bottom: 16).r,
-      decoration: BoxDecoration(
-        color: TocModuleColors.appBarBackground,
-      ),
+      decoration: BoxDecoration(color: TocModuleColors.appBarBackground),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Column(
-            children: (resourceInfo!.primaryCategory ==
-                        PrimaryCategory.practiceAssessment
-                    ? practiceScenario4Info(context)
-                    : isV2Assessment
+            children:
+                (resourceInfo!.primaryCategory ==
+                            PrimaryCategory.practiceAssessment
+                        ? practiceScenario4Info(context)
+                        : isV2Assessment
                         ? scenarioV2Info(context)
                         : scenario4Info(context))
-                .map(
-                  (informationCard) =>
-                      _informationItem(informationCard.information),
-                )
-                .toList(),
-          )
+                    .map(
+                      (informationCard) =>
+                          _informationItem(informationCard.information),
+                    )
+                    .toList(),
+          ),
         ],
       ),
     );
@@ -691,8 +717,11 @@ class _CourseAssessmentPlayerState extends State<CourseAssessmentPlayer> {
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 6).r,
-            child: Icon(Icons.circle,
-                size: 6.sp, color: TocModuleColors.primaryOne),
+            child: Icon(
+              Icons.circle,
+              size: 6.sp,
+              color: TocModuleColors.primaryOne,
+            ),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 16).r,
@@ -715,33 +744,35 @@ class _CourseAssessmentPlayerState extends State<CourseAssessmentPlayer> {
 
   Future _limitExceededCallback(BuildContext context) async {
     return showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext cxt) {
-          return AlertDialogWidget(
-            dialogRadius: 8,
-            icon: SvgPicture.asset(
-              'assets/img/file_info_icon.svg',
-              colorFilter:
-                  ColorFilter.mode(TocModuleColors.darkBlue, BlendMode.srcIn),
-              width: 38.0.w,
-              height: 40.0.w,
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext cxt) {
+        return AlertDialogWidget(
+          dialogRadius: 8,
+          icon: SvgPicture.asset(
+            'assets/img/file_info_icon.svg',
+            colorFilter: ColorFilter.mode(
+              TocModuleColors.darkBlue,
+              BlendMode.srcIn,
             ),
-            subtitle:
-                TocLocalizations.of(context)!.mAssessmentRetakeLimitExceed,
-            primaryButtonText: TocLocalizations.of(context)!.mStaticOk,
-            onPrimaryButtonPressed: () async {
-              Navigator.of(cxt).pop();
-              Navigator.of(context).pop();
-            },
-            primaryButtonTextStyle: GoogleFonts.lato(
-              color: TocModuleColors.appBarBackground,
-              fontWeight: FontWeight.w700,
-              fontSize: 14.0.sp,
-              height: 1.5.w,
-            ),
-            primaryButtonBgColor: TocModuleColors.darkBlue,
-          );
-        });
+            width: 38.0.w,
+            height: 40.0.w,
+          ),
+          subtitle: TocLocalizations.of(context)!.mAssessmentRetakeLimitExceed,
+          primaryButtonText: TocLocalizations.of(context)!.mStaticOk,
+          onPrimaryButtonPressed: () async {
+            Navigator.of(cxt).pop();
+            Navigator.of(context).pop();
+          },
+          primaryButtonTextStyle: GoogleFonts.lato(
+            color: TocModuleColors.appBarBackground,
+            fontWeight: FontWeight.w700,
+            fontSize: 14.0.sp,
+            height: 1.5.w,
+          ),
+          primaryButtonBgColor: TocModuleColors.darkBlue,
+        );
+      },
+    );
   }
 }

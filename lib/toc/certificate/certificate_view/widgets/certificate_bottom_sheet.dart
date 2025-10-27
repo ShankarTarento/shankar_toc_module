@@ -3,7 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/helper/toc_helper.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 import 'package:open_file_plus/open_file_plus.dart';
 
 class CertificateBottomSheet extends StatelessWidget {
@@ -35,8 +36,8 @@ class CertificateBottomSheet extends StatelessWidget {
               child: Text(
                 TocLocalizations.of(context)!.mStaticFileDownloadingCompleted,
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      fontFamily: GoogleFonts.montserrat().fontFamily,
-                    ),
+                  fontFamily: GoogleFonts.montserrat().fontFamily,
+                ),
               ),
             ),
             Padding(
@@ -55,9 +56,10 @@ class CertificateBottomSheet extends StatelessWidget {
               child: GestureDetector(
                 onTap: () => Navigator.of(context).pop(false),
                 child: roundedButton(
-                    TocLocalizations.of(context)!.mStaticClose,
-                    TocModuleColors.appBarBackground,
-                    TocModuleColors.customBlue),
+                  TocLocalizations.of(context)!.mStaticClose,
+                  TocModuleColors.appBarBackground,
+                  TocModuleColors.customBlue,
+                ),
               ),
             ),
           ],
@@ -66,16 +68,19 @@ class CertificateBottomSheet extends StatelessWidget {
     );
   }
 
-  Future<dynamic> openFile(
-      {required String filePath, required BuildContext context}) async {
+  Future<dynamic> openFile({
+    required String filePath,
+    required BuildContext context,
+  }) async {
     OpenResult openRes = await OpenFile.open(filePath);
     if (openRes.type == ResultType.done) {
     } else {
       TocHelper.showSnackBarMessage(
-          context: context,
-          text: openRes.message,
-          textColor: Colors.white,
-          bgColor: TocModuleColors.negativeLight);
+        context: context,
+        text: openRes.message,
+        textColor: Colors.white,
+        bgColor: TocModuleColors.negativeLight,
+      );
     }
   }
 
@@ -94,10 +99,11 @@ class CertificateBottomSheet extends StatelessWidget {
       child: Text(
         buttonLabel,
         style: GoogleFonts.montserrat(
-            decoration: TextDecoration.none,
-            color: textColor,
-            fontSize: 14.sp,
-            fontWeight: FontWeight.w500),
+          decoration: TextDecoration.none,
+          color: textColor,
+          fontSize: 14.sp,
+          fontWeight: FontWeight.w500,
+        ),
       ),
     );
     return loginBtn;

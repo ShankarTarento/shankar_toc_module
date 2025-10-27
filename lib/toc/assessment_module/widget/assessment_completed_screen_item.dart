@@ -4,12 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:igot_ui_components/constants/color_constants.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
 import 'package:toc_module/toc/assessment_module/widget/html_webview_widget.dart';
 
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/constants/toc_constants.dart';
-
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
 
 import 'package:html/parser.dart' as html_parser;
 import 'package:html/dom.dart' as dom;
@@ -44,16 +43,17 @@ class _AssessmentCompletedScreenItemState
     return Container(
       padding: EdgeInsets.zero.r,
       decoration: BoxDecoration(
-          color: expanded
-              ? widget.color.withValues(alpha: 0.05)
-              : TocModuleColors.appBarBackground,
-          border: Border(
-            top: BorderSide(color: TocModuleColors.grey04),
-            bottom: BorderSide(color: TocModuleColors.grey04),
-            left: expanded
-                ? BorderSide(color: widget.color, width: 4)
-                : BorderSide(color: TocModuleColors.appBarBackground, width: 0),
-          )),
+        color: expanded
+            ? widget.color.withValues(alpha: 0.05)
+            : TocModuleColors.appBarBackground,
+        border: Border(
+          top: BorderSide(color: TocModuleColors.grey04),
+          bottom: BorderSide(color: TocModuleColors.grey04),
+          left: expanded
+              ? BorderSide(color: widget.color, width: 4)
+              : BorderSide(color: TocModuleColors.appBarBackground, width: 0),
+        ),
+      ),
       child: ExpansionTile(
         title: Row(
           children: [
@@ -63,18 +63,24 @@ class _AssessmentCompletedScreenItemState
               SvgPicture.asset(
                 'assets/img/close_black.svg',
                 colorFilter: ColorFilter.mode(
-                    TocModuleColors.primaryBlue, BlendMode.srcIn),
+                  TocModuleColors.primaryBlue,
+                  BlendMode.srcIn,
+                ),
               ),
             if (widget.type.toString() == 'blank')
               SvgPicture.asset(
                 'assets/img/unanswered.svg',
                 colorFilter: ColorFilter.mode(
-                    TocModuleColors.primaryBlue, BlendMode.srcIn),
+                  TocModuleColors.primaryBlue,
+                  BlendMode.srcIn,
+                ),
               ),
             Padding(
               padding: const EdgeInsets.only(left: 8).r,
-              child: Text(widget.title,
-                  style: Theme.of(context).textTheme.bodyMedium),
+              child: Text(
+                widget.title,
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
             ),
           ],
         ),
@@ -89,25 +95,27 @@ class _AssessmentCompletedScreenItemState
           size: 20.sp,
         ),
         children: [
-          for (var k = 0;
-              k <
-                  (widget.apiResponse['children'][widget.itemIndex]
-                              ['children'] !=
-                          null
-                      ? widget
+          for (
+            var k = 0;
+            k <
+                (widget.apiResponse['children'][widget.itemIndex]['children'] !=
+                        null
+                    ? widget
                           .apiResponse['children'][widget.itemIndex]['children']
                           .length
-                      : 0);
-              k++)
-            widget.apiResponse['children'][widget.itemIndex]['children'][k]
-                        ['result'] ==
+                    : 0);
+            k++
+          )
+            widget.apiResponse['children'][widget
+                        .itemIndex]['children'][k]['result'] ==
                     widget.type
                 ? QuestionItem(
-                    question: widget.apiResponse['children'][widget.itemIndex]
-                        ['children'][k]['question'],
+                    question:
+                        widget.apiResponse['children'][widget
+                            .itemIndex]['children'][k]['question'],
                     questionIndex: k + 1,
                   )
-                : Container()
+                : Container(),
         ],
       ),
     );
@@ -133,52 +141,59 @@ class _QuestionItemState extends State<QuestionItem> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: double.infinity.w,
-        margin: const EdgeInsets.only(left: 4, right: 4, bottom: 2).r,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ExpansionTile(
-              expandedAlignment: Alignment.centerLeft,
-              onExpansionChanged: (value) {
-                setState(() {
-                  expanded = !value;
-                });
-              },
-              trailing: Icon(
-                expanded ? Icons.add : Icons.remove,
-                color: TocModuleColors.darkBlue,
-                size: 20.sp,
-              ),
-              title: Text(
-                '${TocLocalizations.of(context)!.mStaticQuestion} ${widget.questionIndex}',
-                style: GoogleFonts.lato(
-                    decoration: TextDecoration.none,
-                    color: TocModuleColors.greys87,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400),
-              ),
-              children: [
-                Container(
-                  padding: const EdgeInsets.only(bottom: 15),
-                  child: RegExpressions.inputTagRegExp.hasMatch(
-                          TocHelper.decodeHtmlEntities(widget.question))
-                      ? Wrap(
-                          children: renderHtmlContent(
-                              TocHelper.decodeHtmlEntities(widget.question)),
-                        )
-                      : HtmlWebviewWidget(
-                          htmlText: widget.question,
-                          textStyle: GoogleFonts.lato(
-                              color: ModuleColors.black40,
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14.0.sp,
-                              height: 1.5)),
-                )
-              ],
+      width: double.infinity.w,
+      margin: const EdgeInsets.only(left: 4, right: 4, bottom: 2).r,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ExpansionTile(
+            expandedAlignment: Alignment.centerLeft,
+            onExpansionChanged: (value) {
+              setState(() {
+                expanded = !value;
+              });
+            },
+            trailing: Icon(
+              expanded ? Icons.add : Icons.remove,
+              color: TocModuleColors.darkBlue,
+              size: 20.sp,
             ),
-          ],
-        ));
+            title: Text(
+              '${TocLocalizations.of(context)!.mStaticQuestion} ${widget.questionIndex}',
+              style: GoogleFonts.lato(
+                decoration: TextDecoration.none,
+                color: TocModuleColors.greys87,
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            children: [
+              Container(
+                padding: const EdgeInsets.only(bottom: 15),
+                child:
+                    RegExpressions.inputTagRegExp.hasMatch(
+                      TocHelper.decodeHtmlEntities(widget.question),
+                    )
+                    ? Wrap(
+                        children: renderHtmlContent(
+                          TocHelper.decodeHtmlEntities(widget.question),
+                        ),
+                      )
+                    : HtmlWebviewWidget(
+                        htmlText: widget.question,
+                        textStyle: GoogleFonts.lato(
+                          color: ModuleColors.black40,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14.0.sp,
+                          height: 1.5,
+                        ),
+                      ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
   List<Widget> renderHtmlContent(String html) {

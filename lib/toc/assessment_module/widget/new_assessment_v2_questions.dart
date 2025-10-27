@@ -4,7 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:igot_ui_components/ui/widgets/alert_dialog/alert_dialog.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 import 'package:toc_module/toc/assessment_module/widget/assessment_v2_action_button.dart';
 import 'package:toc_module/toc/assessment_module/widget/assessment_v2_appbar.dart';
 import 'package:toc_module/toc/assessment_module/widget/assessment_widget.dart';
@@ -54,33 +55,39 @@ class NewAssessmentV2Questions extends StatefulWidget {
   final bool showMarks;
   final NavigationModel resourceInfo;
   final bool isFeatured;
-  NewAssessmentV2Questions(this.course, this.identifier, this.microSurvey,
-      this.parentAction, this.batchId, this.duration, this.sectionalDuration,
-      {Key? key,
-      this.isNewAssessment = false,
-      required this.primaryCategory,
-      this.objectType,
-      required this.assessmentInfo,
-      required this.sectionIndex,
-      this.getAnsweredQuestions,
-      this.answeredQuestions,
-      this.isLastSection = false,
-      this.navigateToNextSection,
-      this.currentRunningTime,
-      this.isFullAnswered,
-      this.submitSurvey,
-      required this.assessmentSection,
-      this.selectedSection,
-      this.generateInteractTelemetryData,
-      this.assessmentDetails,
-      required this.parentCourseId,
-      required this.compatibilityLevel,
-      this.savePointInfo,
-      this.assessmentType = '',
-      this.showMarks = false,
-      required this.resourceInfo,
-      this.isFeatured = false})
-      : super(key: key);
+  NewAssessmentV2Questions(
+    this.course,
+    this.identifier,
+    this.microSurvey,
+    this.parentAction,
+    this.batchId,
+    this.duration,
+    this.sectionalDuration, {
+    Key? key,
+    this.isNewAssessment = false,
+    required this.primaryCategory,
+    this.objectType,
+    required this.assessmentInfo,
+    required this.sectionIndex,
+    this.getAnsweredQuestions,
+    this.answeredQuestions,
+    this.isLastSection = false,
+    this.navigateToNextSection,
+    this.currentRunningTime,
+    this.isFullAnswered,
+    this.submitSurvey,
+    required this.assessmentSection,
+    this.selectedSection,
+    this.generateInteractTelemetryData,
+    this.assessmentDetails,
+    required this.parentCourseId,
+    required this.compatibilityLevel,
+    this.savePointInfo,
+    this.assessmentType = '',
+    this.showMarks = false,
+    required this.resourceInfo,
+    this.isFeatured = false,
+  }) : super(key: key);
 
   @override
   _NewAssessmentV2QuestionsState createState() =>
@@ -114,15 +121,18 @@ class _NewAssessmentV2QuestionsState extends State<NewAssessmentV2Questions> {
   void initState() {
     super.initState();
     if (widget.sectionalDuration != null) {
-      timeLimit = double.parse('${widget.sectionalDuration}').round() -
-          int.parse(widget
-              .assessmentDetails[widget.sectionIndex].sectionalTimeTaken
-              .toString());
+      timeLimit =
+          double.parse('${widget.sectionalDuration}').round() -
+          int.parse(
+            widget.assessmentDetails[widget.sectionIndex].sectionalTimeTaken
+                .toString(),
+          );
       _startSectionalTimer =
           double.parse('${widget.sectionalDuration}').round() -
-              int.parse(widget
-                  .assessmentDetails[widget.sectionIndex].sectionalTimeTaken
-                  .toString());
+          int.parse(
+            widget.assessmentDetails[widget.sectionIndex].sectionalTimeTaken
+                .toString(),
+          );
       startSectionalTimer();
     } else {
       timeLimit = widget.currentRunningTime != null
@@ -156,64 +166,65 @@ class _NewAssessmentV2QuestionsState extends State<NewAssessmentV2Questions> {
 
   void startSectionalTimer() {
     const oneSec = const Duration(seconds: 1);
-    _timer = new Timer.periodic(
-      oneSec,
-      (Timer timer) {
-        if (_startSectionalTimer == 0) {
-          setState(() {
-            timer.cancel();
-            if (widget.isLastSection) {
-              updateTimeToAssessmentDetails();
-              updateSectionWiseTimeToAssessmentDetails();
-              widget.assessmentDetails[widget.sectionIndex].submitted = true;
-              widget.submitSurvey();
-              if (widget.assessmentSection.length > 1) {
-                int visitedAssessmentCount = 0;
-                widget.assessmentDetails.forEach((item) {
-                  if (item.childStatus != null) {
-                    visitedAssessmentCount++;
-                  }
-                });
-                for (int i = 1; i < visitedAssessmentCount; i++) {
-                  Navigator.pop(context);
+    _timer = new Timer.periodic(oneSec, (Timer timer) {
+      if (_startSectionalTimer == 0) {
+        setState(() {
+          timer.cancel();
+          if (widget.isLastSection) {
+            updateTimeToAssessmentDetails();
+            updateSectionWiseTimeToAssessmentDetails();
+            widget.assessmentDetails[widget.sectionIndex].submitted = true;
+            widget.submitSurvey();
+            if (widget.assessmentSection.length > 1) {
+              int visitedAssessmentCount = 0;
+              widget.assessmentDetails.forEach((item) {
+                if (item.childStatus != null) {
+                  visitedAssessmentCount++;
                 }
+              });
+              for (int i = 1; i < visitedAssessmentCount; i++) {
+                Navigator.pop(context);
               }
-            } else {
-              if (widget.assessmentDetails[widget.sectionIndex + 1].submitted ==
-                      null ||
-                  !widget
-                      .assessmentDetails[widget.sectionIndex + 1].submitted) {
-                setState(() {
-                  Provider.of<TocRepository>(context, listen: false)
-                      .destroyWebView();
-                  updateTimeToAssessmentDetails();
-                  updateSectionWiseTimeToAssessmentDetails();
-                  widget.getAnsweredQuestions(
-                      widget.sectionIndex, _questionAnswers,
-                      status: AssessmentQuestionStatus.notAnswered,
-                      id: _microSurvey[_questionIndex]['identifier']);
+            }
+          } else {
+            if (widget.assessmentDetails[widget.sectionIndex + 1].submitted ==
+                    null ||
+                !widget.assessmentDetails[widget.sectionIndex + 1].submitted) {
+              setState(() {
+                Provider.of<TocRepository>(
+                  context,
+                  listen: false,
+                ).destroyWebView();
+                updateTimeToAssessmentDetails();
+                updateSectionWiseTimeToAssessmentDetails();
+                widget.getAnsweredQuestions(
+                  widget.sectionIndex,
+                  _questionAnswers,
+                  status: AssessmentQuestionStatus.notAnswered,
+                  id: _microSurvey[_questionIndex]['identifier'],
+                );
 
-                  widget.navigateToNextSection(widget.sectionIndex + 1,
-                      sectionalTimeTaken: widget
-                          .assessmentDetails[widget.sectionIndex]
-                          .sectionalTimeTaken,
-                      prevSectionIndex: widget.sectionIndex,
-                      isSubmitted: true);
-                  widget.assessmentDetails[widget.sectionIndex].submitted =
-                      true;
-                });
-              }
+                widget.navigateToNextSection(
+                  widget.sectionIndex + 1,
+                  sectionalTimeTaken: widget
+                      .assessmentDetails[widget.sectionIndex]
+                      .sectionalTimeTaken,
+                  prevSectionIndex: widget.sectionIndex,
+                  isSubmitted: true,
+                );
+                widget.assessmentDetails[widget.sectionIndex].submitted = true;
+              });
             }
-          });
-        } else {
-          setState(() {
-            if (_startSectionalTimer != null) {
-              _startSectionalTimer = _startSectionalTimer! - 1;
-            }
-          });
-        }
-      },
-    );
+          }
+        });
+      } else {
+        setState(() {
+          if (_startSectionalTimer != null) {
+            _startSectionalTimer = _startSectionalTimer! - 1;
+          }
+        });
+      }
+    });
   }
 
   _loadInitialData() {
@@ -224,8 +235,9 @@ class _NewAssessmentV2QuestionsState extends State<NewAssessmentV2Questions> {
       _savedQuestions.clear();
       _notAnsweredQuestions.clear();
       widget.answeredQuestions.forEach((element) {
-        int qstnIndex = widget.microSurvey
-            .indexWhere((item) => item['identifier'] == element['index']);
+        int qstnIndex = widget.microSurvey.indexWhere(
+          (item) => item['identifier'] == element['index'],
+        );
         switch (element['status']) {
           case AssessmentQuestionStatus.markForReviewAndNext:
             _flaggedQuestions.add(qstnIndex);
@@ -244,9 +256,12 @@ class _NewAssessmentV2QuestionsState extends State<NewAssessmentV2Questions> {
     if (!_notAnsweredQuestions.contains(_questionIndex)) {
       _notAnsweredQuestions.add(_questionIndex);
     }
-    widget.getAnsweredQuestions(widget.sectionIndex, _questionAnswers,
-        status: AssessmentQuestionStatus.notAnswered,
-        id: _microSurvey[_questionIndex]['identifier']);
+    widget.getAnsweredQuestions(
+      widget.sectionIndex,
+      _questionAnswers,
+      status: AssessmentQuestionStatus.notAnswered,
+      id: _microSurvey[_questionIndex]['identifier'],
+    );
   }
 
   @override
@@ -313,8 +328,9 @@ class _NewAssessmentV2QuestionsState extends State<NewAssessmentV2Questions> {
                 ),
               ),
               body: NoDataWidget(
-                message:
-                    TocLocalizations.of(context)!.mAssessmentQuestionsNotFound,
+                message: TocLocalizations.of(
+                  context,
+                )!.mAssessmentQuestionsNotFound,
                 paddingTop: 150.w,
               ),
             ),
@@ -324,85 +340,94 @@ class _NewAssessmentV2QuestionsState extends State<NewAssessmentV2Questions> {
             child: PopScope(
               canPop: false,
               child: Scaffold(
-                  key: _scaffoldKey,
-                  backgroundColor: TocModuleColors.appBarBackground,
-                  resizeToAvoidBottomInset: false,
-                  appBar: AssessmentAppBar(
-                      title: widget.resourceInfo.name ?? '',
-                      duration: widget.duration,
-                      totalQuestionCount: totalQuestionCount,
-                      primaryCategory: widget.primaryCategory),
-                  body: (_start == 0 && timeLimit != null && timeLimit! > 0)
-                      ? Center(
-                          child: Text(
-                              TocLocalizations.of(context)!.mTimeLimitExceeded))
-                      : SingleChildScrollView(
-                          child: Container(
-                              width: 1.0.sw,
-                              child: Column(children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 16),
-                                  child: widget.assessmentType !=
-                                          AssessmentType.optionalWeightage
-                                      ? Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            widget.assessmentSection.length > 1
-                                                ? SizedBox(
-                                                    width: 0.5.sw,
-                                                    child:
-                                                        SectionSelectionWidgetV2(
-                                                            assessmentDetails:
-                                                                widget
-                                                                    .assessmentDetails,
-                                                            sectionIndex: widget
-                                                                .sectionIndex,
-                                                            changeSection:
-                                                                (value) {
-                                                              Provider.of<TocRepository>(
-                                                                      context,
-                                                                      listen:
-                                                                          false)
-                                                                  .destroyWebView();
-                                                              updateQuestionStatusNotAnswered();
-                                                              updateSectionWiseTimeToAssessmentDetails();
-                                                              widget.navigateToNextSection(
-                                                                  value,
-                                                                  sectionalTimeTaken: widget
-                                                                      .assessmentDetails[
-                                                                          widget
-                                                                              .sectionIndex]
-                                                                      .sectionalTimeTaken,
-                                                                  prevSectionIndex:
-                                                                      widget
-                                                                          .sectionIndex);
-                                                            }),
-                                                  )
-                                                : Center(),
-                                            submitButtonWidget(context)
-                                          ],
-                                        )
-                                      : Container(
-                                          width: 1.0.sw,
-                                          child: submitButtonWidget(context)),
-                                ),
-                                _buildLayout()
-                              ])),
+                key: _scaffoldKey,
+                backgroundColor: TocModuleColors.appBarBackground,
+                resizeToAvoidBottomInset: false,
+                appBar: AssessmentAppBar(
+                  title: widget.resourceInfo.name ?? '',
+                  duration: widget.duration,
+                  totalQuestionCount: totalQuestionCount,
+                  primaryCategory: widget.primaryCategory,
+                ),
+                body: (_start == 0 && timeLimit != null && timeLimit! > 0)
+                    ? Center(
+                        child: Text(
+                          TocLocalizations.of(context)!.mTimeLimitExceeded,
                         ),
-                  bottomSheet: (_questionIndex < _microSurvey.length)
-                      ? AssessmentV2ActionButton(
-                          isLastSection: widget.isLastSection,
-                          assessmentType: widget.assessmentType,
-                          questionIndex: _questionIndex,
-                          isLastQuestion:
-                              (_microSurvey.length - 1) == _questionIndex,
-                          onButtonPressed: (value) async {
-                            await updateQuestionStatus(value, context);
-                          },
-                        )
-                      : PageLoader()),
+                      )
+                    : SingleChildScrollView(
+                        child: Container(
+                          width: 1.0.sw,
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                ),
+                                child:
+                                    widget.assessmentType !=
+                                        AssessmentType.optionalWeightage
+                                    ? Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          widget.assessmentSection.length > 1
+                                              ? SizedBox(
+                                                  width: 0.5.sw,
+                                                  child: SectionSelectionWidgetV2(
+                                                    assessmentDetails: widget
+                                                        .assessmentDetails,
+                                                    sectionIndex:
+                                                        widget.sectionIndex,
+                                                    changeSection: (value) {
+                                                      Provider.of<
+                                                            TocRepository
+                                                          >(
+                                                            context,
+                                                            listen: false,
+                                                          )
+                                                          .destroyWebView();
+                                                      updateQuestionStatusNotAnswered();
+                                                      updateSectionWiseTimeToAssessmentDetails();
+                                                      widget.navigateToNextSection(
+                                                        value,
+                                                        sectionalTimeTaken: widget
+                                                            .assessmentDetails[widget
+                                                                .sectionIndex]
+                                                            .sectionalTimeTaken,
+                                                        prevSectionIndex:
+                                                            widget.sectionIndex,
+                                                      );
+                                                    },
+                                                  ),
+                                                )
+                                              : Center(),
+                                          submitButtonWidget(context),
+                                        ],
+                                      )
+                                    : Container(
+                                        width: 1.0.sw,
+                                        child: submitButtonWidget(context),
+                                      ),
+                              ),
+                              _buildLayout(),
+                            ],
+                          ),
+                        ),
+                      ),
+                bottomSheet: (_questionIndex < _microSurvey.length)
+                    ? AssessmentV2ActionButton(
+                        isLastSection: widget.isLastSection,
+                        assessmentType: widget.assessmentType,
+                        questionIndex: _questionIndex,
+                        isLastQuestion:
+                            (_microSurvey.length - 1) == _questionIndex,
+                        onButtonPressed: (value) async {
+                          await updateQuestionStatus(value, context);
+                        },
+                      )
+                    : PageLoader(),
+              ),
             ),
           );
   }
@@ -422,17 +447,21 @@ class _NewAssessmentV2QuestionsState extends State<NewAssessmentV2Questions> {
         }
       },
       style: ElevatedButton.styleFrom(
-          padding: EdgeInsets.symmetric(horizontal: 16).r,
-          backgroundColor: widget.assessmentType != '' &&
-                  widget.assessmentType == AssessmentType.optionalWeightage &&
-                  (_questionIndex != _microSurvey.length - 1 ||
-                      (!_answerGiven(
-                              _microSurvey[_questionIndex]['identifier']) &&
-                          _questionIndex == _microSurvey.length - 1))
-              ? TocModuleColors.grey40
-              : TocModuleColors.darkBlue,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(63)).r)),
+        padding: EdgeInsets.symmetric(horizontal: 16).r,
+        backgroundColor:
+            widget.assessmentType != '' &&
+                widget.assessmentType == AssessmentType.optionalWeightage &&
+                (_questionIndex != _microSurvey.length - 1 ||
+                    (!_answerGiven(
+                          _microSurvey[_questionIndex]['identifier'],
+                        ) &&
+                        _questionIndex == _microSurvey.length - 1))
+            ? TocModuleColors.grey40
+            : TocModuleColors.darkBlue,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(63)).r,
+        ),
+      ),
       child: Text(
         TocLocalizations.of(context)!.mAssessmentSubmitTheTest,
         style: GoogleFonts.roboto(
@@ -449,9 +478,12 @@ class _NewAssessmentV2QuestionsState extends State<NewAssessmentV2Questions> {
     if (!_flaggedQuestions.contains(_questionIndex) &&
         !_savedQuestions.contains(_questionIndex)) {
       setState(() {
-        widget.getAnsweredQuestions(widget.sectionIndex, _questionAnswers,
-            status: AssessmentQuestionStatus.notAnswered,
-            id: _microSurvey[_questionIndex]['identifier']);
+        widget.getAnsweredQuestions(
+          widget.sectionIndex,
+          _questionAnswers,
+          status: AssessmentQuestionStatus.notAnswered,
+          id: _microSurvey[_questionIndex]['identifier'],
+        );
         if (!_notAnsweredQuestions.contains(_questionIndex)) {
           _notAnsweredQuestions.add(_questionIndex);
         }
@@ -461,137 +493,156 @@ class _NewAssessmentV2QuestionsState extends State<NewAssessmentV2Questions> {
   }
 
   Widget _buildLayout() {
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Container(
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 16).r,
-        margin: EdgeInsets.only(top: 16, bottom: 16).r,
-        color: TocModuleColors.grey08,
-        child: Row(
-          children: [
-            Text(
-              '${TocLocalizations.of(context)!.mStaticQuestionNo} ${_questionIndex + 1}',
-              style: GoogleFonts.lato(
-                fontWeight: FontWeight.w700,
-                fontSize: 16.0.sp,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 16).r,
+          margin: EdgeInsets.only(top: 16, bottom: 16).r,
+          color: TocModuleColors.grey08,
+          child: Row(
+            children: [
+              Text(
+                '${TocLocalizations.of(context)!.mStaticQuestionNo} ${_questionIndex + 1}',
+                style: GoogleFonts.lato(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 16.0.sp,
+                ),
               ),
-            ),
-            Spacer(),
-            widget.showMarks &&
-                    widget.microSurvey[_questionIndex]['questionLevel'] !=
-                        null &&
-                    widget.microSurvey[_questionIndex]['questionLevel'] != '' &&
-                    widget.assessmentInfo.sectionLevelDefinition != null &&
-                    widget.assessmentInfo.sectionLevelDefinition![
-                            widget.microSurvey[_questionIndex]
-                                ['questionLevel']]['marksForQuestion'] !=
-                        0
-                ? Row(
-                    children: [
-                      Text(
-                        TocHelper.handleNumber(
-                                widget.assessmentInfo.sectionLevelDefinition![
-                                    widget.microSurvey[_questionIndex]
-                                        ['questionLevel']]['marksForQuestion'])
-                            .toString(),
-                        style: GoogleFonts.lato(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 16.0.sp,
-                        ),
-                      ),
-                      Text(
-                        TocHelper.handleNumber(widget.assessmentInfo
-                                    .sectionLevelDefinition![widget
-                                        .microSurvey[_questionIndex]
-                                    ['questionLevel']]['marksForQuestion']) >
-                                1
-                            ? ' ${TocLocalizations.of(context)!.mStaticMarks}'
-                            : ' ${TocLocalizations.of(context)!.mStaticMark}',
-                        style: GoogleFonts.openSans(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 16.0.sp,
-                        ),
-                      ),
-                    ],
-                  )
-                : Center()
-          ],
-        ),
-      ),
-      (widget.assessmentType != '' &&
-              widget.assessmentType != AssessmentType.optionalWeightage)
-          ? QuestionCountSummaryWidget(
-              microSurvey: _microSurvey,
-              start: widget.sectionalDuration == null
-                  ? widget.currentRunningTime
-                  : _start,
-              assessmentSectionLength: widget.assessmentSection.length,
-              selectedSection: widget.selectedSection,
-              answeredQuestions: _answeredQuestion,
-              submitSurvey: widget.submitSurvey,
-              primaryCategory: widget.primaryCategory,
-              generateInteractTelemetryData:
-                  widget.generateInteractTelemetryData,
-              questionIndex: _questionIndex,
-              flaggedQuestions: _flaggedQuestions,
-              savedQuestions: _savedQuestions,
-              notAnsweredQuestions: _notAnsweredQuestions,
-              sectionInstruction: widget.assessmentInfo.additionalInstructions,
-              changeQuestion: changeQuestionIndex,
-              sectionalDuration: widget.sectionalDuration ?? widget.duration)
-          : Center(),
-      Container(
-        margin: EdgeInsets.fromLTRB(16, 8, 16, 120).r,
-        decoration: BoxDecoration(
-            border: Border(
-                bottom: BorderSide(color: TocModuleColors.grey16),
-                left: BorderSide(color: TocModuleColors.grey16),
-                right: BorderSide(color: TocModuleColors.grey16))),
-        child: Column(
-          children: [
-            _assessmentProgress(),
-            widget.assessmentInfo.sectionType == AssessmentSectionType.paragraph
-                ? Container(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+              Spacer(),
+              widget.showMarks &&
+                      widget.microSurvey[_questionIndex]['questionLevel'] !=
+                          null &&
+                      widget.microSurvey[_questionIndex]['questionLevel'] !=
+                          '' &&
+                      widget.assessmentInfo.sectionLevelDefinition != null &&
+                      widget.assessmentInfo.sectionLevelDefinition![widget
+                              .microSurvey[_questionIndex]['questionLevel']]['marksForQuestion'] !=
+                          0
+                  ? Row(
                       children: [
                         Text(
-                            TocLocalizations.of(context)!
-                                .mAssessmentParagraphQustionDescription,
-                            style: GoogleFonts.lato(
-                                color: TocModuleColors.greys87,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 16.sp)),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8),
-                          child: HtmlWebviewWidget(
-                            htmlText:
-                                widget.assessmentInfo.questionParagraph ?? '',
-                            textStyle: GoogleFonts.lato(
-                                color: TocModuleColors.black87,
-                                fontWeight: FontWeight.w400,
-                                fontSize: 14.0.sp,
-                                height: 1.5),
+                          TocHelper.handleNumber(
+                            widget.assessmentInfo.sectionLevelDefinition![widget
+                                .microSurvey[_questionIndex]['questionLevel']]['marksForQuestion'],
+                          ).toString(),
+                          style: GoogleFonts.lato(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 16.0.sp,
+                          ),
+                        ),
+                        Text(
+                          TocHelper.handleNumber(
+                                    widget
+                                        .assessmentInfo
+                                        .sectionLevelDefinition![widget
+                                        .microSurvey[_questionIndex]['questionLevel']]['marksForQuestion'],
+                                  ) >
+                                  1
+                              ? ' ${TocLocalizations.of(context)!.mStaticMarks}'
+                              : ' ${TocLocalizations.of(context)!.mStaticMark}',
+                          style: GoogleFonts.openSans(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 16.0.sp,
                           ),
                         ),
                       ],
-                    ))
-                : Center(),
-            Consumer<TocRepository>(builder: (context, tocServices, child) {
-              return AssessmentWidget(
-                  answeredQuestion: _answeredQuestion,
-                  getAnsweredQuestions: widget.getAnsweredQuestions,
-                  microSurvey: _microSurvey,
-                  primaryCategory: widget.primaryCategory,
-                  questionAnswers: _questionAnswers,
-                  questionIndex: _questionIndex,
-                  sectionIndex: widget.sectionIndex);
-            }),
-          ],
+                    )
+                  : Center(),
+            ],
+          ),
         ),
-      )
-    ]);
+        (widget.assessmentType != '' &&
+                widget.assessmentType != AssessmentType.optionalWeightage)
+            ? QuestionCountSummaryWidget(
+                microSurvey: _microSurvey,
+                start: widget.sectionalDuration == null
+                    ? widget.currentRunningTime
+                    : _start,
+                assessmentSectionLength: widget.assessmentSection.length,
+                selectedSection: widget.selectedSection,
+                answeredQuestions: _answeredQuestion,
+                submitSurvey: widget.submitSurvey,
+                primaryCategory: widget.primaryCategory,
+                generateInteractTelemetryData:
+                    widget.generateInteractTelemetryData,
+                questionIndex: _questionIndex,
+                flaggedQuestions: _flaggedQuestions,
+                savedQuestions: _savedQuestions,
+                notAnsweredQuestions: _notAnsweredQuestions,
+                sectionInstruction:
+                    widget.assessmentInfo.additionalInstructions,
+                changeQuestion: changeQuestionIndex,
+                sectionalDuration: widget.sectionalDuration ?? widget.duration,
+              )
+            : Center(),
+        Container(
+          margin: EdgeInsets.fromLTRB(16, 8, 16, 120).r,
+          decoration: BoxDecoration(
+            border: Border(
+              bottom: BorderSide(color: TocModuleColors.grey16),
+              left: BorderSide(color: TocModuleColors.grey16),
+              right: BorderSide(color: TocModuleColors.grey16),
+            ),
+          ),
+          child: Column(
+            children: [
+              _assessmentProgress(),
+              widget.assessmentInfo.sectionType ==
+                      AssessmentSectionType.paragraph
+                  ? Container(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 8,
+                        horizontal: 16,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            TocLocalizations.of(
+                              context,
+                            )!.mAssessmentParagraphQustionDescription,
+                            style: GoogleFonts.lato(
+                              color: TocModuleColors.greys87,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 16.sp,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            child: HtmlWebviewWidget(
+                              htmlText:
+                                  widget.assessmentInfo.questionParagraph ?? '',
+                              textStyle: GoogleFonts.lato(
+                                color: TocModuleColors.black87,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14.0.sp,
+                                height: 1.5,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  : Center(),
+              Consumer<TocRepository>(
+                builder: (context, tocServices, child) {
+                  return AssessmentWidget(
+                    answeredQuestion: _answeredQuestion,
+                    getAnsweredQuestions: widget.getAnsweredQuestions,
+                    microSurvey: _microSurvey,
+                    primaryCategory: widget.primaryCategory,
+                    questionAnswers: _questionAnswers,
+                    questionIndex: _questionIndex,
+                    sectionIndex: widget.sectionIndex,
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 
   Widget _assessmentProgress() {
@@ -610,12 +661,16 @@ class _NewAssessmentV2QuestionsState extends State<NewAssessmentV2Questions> {
         value != AssessmentQuestionStatus.saveAndNext) {
       switch (value) {
         case AssessmentQuestionStatus.markForReviewAndNext:
-          _flaggedQuestions =
-              await updateCategorizedList(value, _flaggedQuestions);
+          _flaggedQuestions = await updateCategorizedList(
+            value,
+            _flaggedQuestions,
+          );
           break;
         case AssessmentQuestionStatus.clearResponse:
-          _questionAnswers.removeWhere((item) =>
-              item['index'] == _microSurvey[_questionIndex]['identifier']);
+          _questionAnswers.removeWhere(
+            (item) =>
+                item['index'] == _microSurvey[_questionIndex]['identifier'],
+          );
           if (_flaggedQuestions.contains(_questionIndex)) {
             _flaggedQuestions.remove(_questionIndex);
           } else if (_savedQuestions.contains(_questionIndex)) {
@@ -639,28 +694,33 @@ class _NewAssessmentV2QuestionsState extends State<NewAssessmentV2Questions> {
       if (!_notAnsweredQuestions.contains(_questionIndex)) {
         _notAnsweredQuestions.add(_questionIndex);
       }
-      widget.getAnsweredQuestions(widget.sectionIndex, _questionAnswers,
-          status: AssessmentQuestionStatus.notAnswered,
-          id: _microSurvey[_questionIndex]['identifier']);
+      widget.getAnsweredQuestions(
+        widget.sectionIndex,
+        _questionAnswers,
+        status: AssessmentQuestionStatus.notAnswered,
+        id: _microSurvey[_questionIndex]['identifier'],
+      );
       if (widget.assessmentType != '' &&
           widget.assessmentType == AssessmentType.optionalWeightage) {
         showDialog(
-            context: contxt,
-            barrierDismissible: false,
-            builder: (BuildContext cxt) {
-              return AlertDialogWidget(
-                subtitle: TocLocalizations.of(context)!
-                    .mAssessmentPleaseAttemptAndMoveNext,
-                primaryButtonText: TocLocalizations.of(context)!.mStaticBack,
-                onPrimaryButtonPressed: () => Navigator.of(cxt).pop(),
-                primaryButtonTextStyle: GoogleFonts.lato(
-                  color: TocModuleColors.appBarBackground,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 14.0.sp,
-                  height: 1.5.w,
-                ),
-              );
-            });
+          context: contxt,
+          barrierDismissible: false,
+          builder: (BuildContext cxt) {
+            return AlertDialogWidget(
+              subtitle: TocLocalizations.of(
+                context,
+              )!.mAssessmentPleaseAttemptAndMoveNext,
+              primaryButtonText: TocLocalizations.of(context)!.mStaticBack,
+              onPrimaryButtonPressed: () => Navigator.of(cxt).pop(),
+              primaryButtonTextStyle: GoogleFonts.lato(
+                color: TocModuleColors.appBarBackground,
+                fontWeight: FontWeight.w700,
+                fontSize: 14.0.sp,
+                height: 1.5.w,
+              ),
+            );
+          },
+        );
       } else {
         if (_questionIndex == _microSurvey.length - 1) {
           _onSubmitAssessment(context);
@@ -688,8 +748,12 @@ class _NewAssessmentV2QuestionsState extends State<NewAssessmentV2Questions> {
     // if (widget.compatibilityLevel >= AppCompatibility.assessmentLevel) {
     //   await saveQuestionAnswer();
     // }
-    widget.getAnsweredQuestions(widget.sectionIndex, _questionAnswers,
-        status: value, id: _microSurvey[_questionIndex]['identifier']);
+    widget.getAnsweredQuestions(
+      widget.sectionIndex,
+      _questionAnswers,
+      status: value,
+      id: _microSurvey[_questionIndex]['identifier'],
+    );
     if (_questionIndex == _microSurvey.length - 1 &&
         widget.assessmentType != AssessmentType.optionalWeightage) {
       _onSubmitAssessment(context);
@@ -709,14 +773,18 @@ class _NewAssessmentV2QuestionsState extends State<NewAssessmentV2Questions> {
           _flaggedQuestions.contains(_questionIndex)) {
         if (!_flaggedQuestions.contains(_questionIndex) &&
             !_savedQuestions.contains(_questionIndex)) {
-          _questionAnswers.removeWhere((item) =>
-              item['index'] == _microSurvey[_questionIndex]['identifier']);
+          _questionAnswers.removeWhere(
+            (item) =>
+                item['index'] == _microSurvey[_questionIndex]['identifier'],
+          );
           if (!_notAnsweredQuestions.contains(_questionIndex)) {
             _notAnsweredQuestions.add(_questionIndex);
           }
         } else if (_savedQuestions.contains(_questionIndex)) {
-          int index = _questionAnswers.indexWhere((element) =>
-              element['index'] == _microSurvey[_questionIndex]['identifier']);
+          int index = _questionAnswers.indexWhere(
+            (element) =>
+                element['index'] == _microSurvey[_questionIndex]['identifier'],
+          );
           _questionAnswers[index]['value'] = _questionAnswers[index]['value'];
           _questionAnswers[index]['isCorrect'] =
               _questionAnswers[index]['status'];
@@ -737,12 +805,16 @@ class _NewAssessmentV2QuestionsState extends State<NewAssessmentV2Questions> {
     });
   }
 
-  Future<void> _onSubmitAssessment(BuildContext cxt,
-      {bool submitAssessment = false}) async {
+  Future<void> _onSubmitAssessment(
+    BuildContext cxt, {
+    bool submitAssessment = false,
+  }) async {
     sectionNo.value = widget.sectionIndex + 1;
     List<Map<String, dynamic>> sectionSummaryList = [];
     widget.generateInteractTelemetryData(
-        widget.identifier, TelemetrySubType.submit);
+      widget.identifier,
+      TelemetrySubType.submit,
+    );
     return showDialog<void>(
       context: cxt,
       barrierDismissible: false,
@@ -780,81 +852,108 @@ class _NewAssessmentV2QuestionsState extends State<NewAssessmentV2Questions> {
                     scrollDirection: Axis.horizontal,
                     controller: _horizontalScrollController,
                     child: ValueListenableBuilder(
-                        valueListenable: sectionNo,
-                        builder: (cxt, int value, child) {
-                          if (submitAssessment) {
-                            for (int index = 0;
-                                index < widget.assessmentDetails.length;
-                                index++) {
-                              sectionSummaryList
-                                  .add(updateSectionSummaryList(index));
-                            }
-                          } else {
-                            Provider.of<TocRepository>(context, listen: false)
-                                .destroyWebView();
+                      valueListenable: sectionNo,
+                      builder: (cxt, int value, child) {
+                        if (submitAssessment) {
+                          for (
+                            int index = 0;
+                            index < widget.assessmentDetails.length;
+                            index++
+                          ) {
                             sectionSummaryList.add(
-                                updateSectionSummaryList(sectionNo.value - 1));
+                              updateSectionSummaryList(index),
+                            );
                           }
-                          return Container(
-                            margin: EdgeInsets.only(bottom: 16).r,
-                            padding: EdgeInsets.symmetric(horizontal: 16.r),
-                            child: Table(
-                              columnWidths: {
-                                0: FixedColumnWidth(
-                                    widget.assessmentSection.length > 1
-                                        ? 186.w
-                                        : 0.w),
-                                1: FixedColumnWidth(186.w),
-                                2: FixedColumnWidth(186.w),
-                                3: FixedColumnWidth(186.w),
-                                4: FixedColumnWidth(186.w),
-                                5: FixedColumnWidth(186.w)
-                              },
-                              children: [
+                        } else {
+                          Provider.of<TocRepository>(
+                            context,
+                            listen: false,
+                          ).destroyWebView();
+                          sectionSummaryList.add(
+                            updateSectionSummaryList(sectionNo.value - 1),
+                          );
+                        }
+                        return Container(
+                          margin: EdgeInsets.only(bottom: 16).r,
+                          padding: EdgeInsets.symmetric(horizontal: 16.r),
+                          child: Table(
+                            columnWidths: {
+                              0: FixedColumnWidth(
+                                widget.assessmentSection.length > 1
+                                    ? 186.w
+                                    : 0.w,
+                              ),
+                              1: FixedColumnWidth(186.w),
+                              2: FixedColumnWidth(186.w),
+                              3: FixedColumnWidth(186.w),
+                              4: FixedColumnWidth(186.w),
+                              5: FixedColumnWidth(186.w),
+                            },
+                            children: [
+                              TableRow(
+                                decoration: BoxDecoration(
+                                  color: TocModuleColors.darkBlue,
+                                ),
+                                children: [
+                                  widget.assessmentSection.length > 1
+                                      ? getTableHeader(
+                                          TocLocalizations.of(
+                                            context,
+                                          )!.mAssessmentSection,
+                                        )
+                                      : Center(),
+                                  getTableHeader(
+                                    TocLocalizations.of(
+                                      context,
+                                    )!.mAssessmentNoOfQuestions,
+                                  ),
+                                  getTableHeader(
+                                    TocLocalizations.of(
+                                      context,
+                                    )!.mStaticAnswered,
+                                  ),
+                                  getTableHeader(
+                                    TocLocalizations.of(
+                                      context,
+                                    )!.mStaticNotAnswered,
+                                  ),
+                                  getTableHeader(
+                                    TocLocalizations.of(
+                                      context,
+                                    )!.mAssessmentMarkedForReview,
+                                  ),
+                                  getTableHeader(
+                                    TocLocalizations.of(
+                                      context,
+                                    )!.mStaticNotVisited,
+                                  ),
+                                ],
+                              ),
+                              for (var summary in sectionSummaryList)
                                 TableRow(
                                   decoration: BoxDecoration(
-                                      color: TocModuleColors.darkBlue),
-                                  children: [
-                                    widget.assessmentSection.length > 1
-                                        ? getTableHeader(
-                                            TocLocalizations.of(context)!
-                                                .mAssessmentSection)
-                                        : Center(),
-                                    getTableHeader(TocLocalizations.of(context)!
-                                        .mAssessmentNoOfQuestions),
-                                    getTableHeader(TocLocalizations.of(context)!
-                                        .mStaticAnswered),
-                                    getTableHeader(TocLocalizations.of(context)!
-                                        .mStaticNotAnswered),
-                                    getTableHeader(TocLocalizations.of(context)!
-                                        .mAssessmentMarkedForReview),
-                                    getTableHeader(TocLocalizations.of(context)!
-                                        .mStaticNotVisited),
-                                  ],
-                                ),
-                                for (var summary in sectionSummaryList)
-                                  TableRow(
-                                    decoration: BoxDecoration(
-                                      border: Border(
-                                        bottom: BorderSide(
-                                            color: TocModuleColors.grey16),
+                                    border: Border(
+                                      bottom: BorderSide(
+                                        color: TocModuleColors.grey16,
                                       ),
                                     ),
-                                    children: [
-                                      widget.assessmentSection.length > 1
-                                          ? getTableData(summary['title'])
-                                          : Center(),
-                                      getTableData(summary['totalCount']),
-                                      getTableData(summary['answeredCount']),
-                                      getTableData(summary['notAnswered']),
-                                      getTableData(summary['markForReview']),
-                                      getTableData(summary['notVisited']),
-                                    ],
                                   ),
-                              ],
-                            ),
-                          );
-                        }),
+                                  children: [
+                                    widget.assessmentSection.length > 1
+                                        ? getTableData(summary['title'])
+                                        : Center(),
+                                    getTableData(summary['totalCount']),
+                                    getTableData(summary['answeredCount']),
+                                    getTableData(summary['notAnswered']),
+                                    getTableData(summary['markForReview']),
+                                    getTableData(summary['notVisited']),
+                                  ],
+                                ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ),
                 submitAssessment
@@ -862,8 +961,9 @@ class _NewAssessmentV2QuestionsState extends State<NewAssessmentV2Questions> {
                         children: [
                           Container(
                             padding: EdgeInsets.symmetric(
-                                    horizontal: 16, vertical: 20)
-                                .r,
+                              horizontal: 16,
+                              vertical: 20,
+                            ).r,
                             child: Row(
                               children: [
                                 Icon(
@@ -877,16 +977,18 @@ class _NewAssessmentV2QuestionsState extends State<NewAssessmentV2Questions> {
                                   child: Wrap(
                                     children: [
                                       Text(
-                                        TocLocalizations.of(context)!
-                                            .mAssessmentSubmitWarning,
+                                        TocLocalizations.of(
+                                          context,
+                                        )!.mAssessmentSubmitWarning,
                                         style: GoogleFonts.lato(
-                                            color: TocModuleColors.greys,
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 16.sp),
+                                          color: TocModuleColors.greys,
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 16.sp,
+                                        ),
                                       ),
                                     ],
                                   ),
-                                )
+                                ),
                               ],
                             ),
                           ),
@@ -913,9 +1015,11 @@ class _NewAssessmentV2QuestionsState extends State<NewAssessmentV2Questions> {
                                           visitedAssessmentCount++;
                                         }
                                       });
-                                      for (int i = 1;
-                                          i < visitedAssessmentCount;
-                                          i++) {
+                                      for (
+                                        int i = 1;
+                                        i < visitedAssessmentCount;
+                                        i++
+                                      ) {
                                         Navigator.pop(context);
                                       }
                                     } else {
@@ -923,17 +1027,21 @@ class _NewAssessmentV2QuestionsState extends State<NewAssessmentV2Questions> {
                                     }
                                   },
                                   style: ElevatedButton.styleFrom(
-                                      backgroundColor:
-                                          TocModuleColors.appBarBackground,
-                                      padding: EdgeInsets.symmetric(
-                                              horizontal: 20, vertical: 5)
-                                          .r,
-                                      side: BorderSide(
-                                          color: TocModuleColors.darkBlue),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.all(
-                                                  Radius.circular(5))
-                                              .r)),
+                                    backgroundColor:
+                                        TocModuleColors.appBarBackground,
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 20,
+                                      vertical: 5,
+                                    ).r,
+                                    side: BorderSide(
+                                      color: TocModuleColors.darkBlue,
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(5),
+                                      ).r,
+                                    ),
+                                  ),
                                   child: Text(
                                     TocLocalizations.of(context)!.mStaticYes,
                                     style: GoogleFonts.roboto(
@@ -950,14 +1058,17 @@ class _NewAssessmentV2QuestionsState extends State<NewAssessmentV2Questions> {
                                     Navigator.of(cxt).pop();
                                   },
                                   style: ElevatedButton.styleFrom(
-                                      backgroundColor: TocModuleColors.darkBlue,
-                                      padding: EdgeInsets.symmetric(
-                                              horizontal: 20, vertical: 5)
-                                          .r,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.all(
-                                                  Radius.circular(5))
-                                              .r)),
+                                    backgroundColor: TocModuleColors.darkBlue,
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 20,
+                                      vertical: 5,
+                                    ).r,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(5),
+                                      ).r,
+                                    ),
+                                  ),
                                   child: Text(
                                     TocLocalizations.of(context)!.mStaticNo,
                                     style: GoogleFonts.roboto(
@@ -967,10 +1078,10 @@ class _NewAssessmentV2QuestionsState extends State<NewAssessmentV2Questions> {
                                       letterSpacing: 0.25,
                                     ),
                                   ),
-                                )
+                                ),
                               ],
                             ),
-                          )
+                          ),
                         ],
                       )
                     : Container(
@@ -982,134 +1093,137 @@ class _NewAssessmentV2QuestionsState extends State<NewAssessmentV2Questions> {
                         ),
                         child: Center(
                           child: ValueListenableBuilder(
-                              valueListenable: sectionNo,
-                              builder: (cxt, int value, child) {
-                                return Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      widget.assessmentSection.length > 1 &&
-                                              value <
-                                                  widget
-                                                      .assessmentSection.length
-                                          ? ElevatedButton(
-                                              onPressed: () {
-                                                Provider.of<TocRepository>(
-                                                        context,
-                                                        listen: false)
-                                                    .destroyWebView();
-                                                Navigator.of(cxt).pop();
-                                                _timer?.cancel();
-                                                widget.navigateToNextSection(
-                                                    widget.sectionIndex + 1,
-                                                    isSubmitted: true);
-                                              },
-                                              style: ElevatedButton.styleFrom(
-                                                  padding: EdgeInsets.symmetric(
-                                                          horizontal: 20,
-                                                          vertical: 5)
-                                                      .r,
-                                                  backgroundColor:
-                                                      TocModuleColors
-                                                          .lightBlueShade,
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius: BorderRadius
-                                                              .all(Radius
-                                                                  .circular(5))
-                                                          .r)),
-                                              child: Text(
-                                                TocLocalizations.of(context)!
-                                                    .mNewAssessmentNextSection,
-                                                style: GoogleFonts.roboto(
-                                                  color: TocModuleColors
-                                                      .darkBrownShade,
-                                                  fontSize: 16.0.sp,
-                                                  fontWeight: FontWeight.w400,
-                                                  letterSpacing: 0.25,
-                                                ),
-                                              ),
-                                            )
-                                          : Center(),
-                                      Padding(
-                                        padding: widget.isLastSection
-                                            ? EdgeInsets.only(right: 6).r
-                                            : EdgeInsets.only(left: 6).r,
-                                        child: ElevatedButton(
+                            valueListenable: sectionNo,
+                            builder: (cxt, int value, child) {
+                              return Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  widget.assessmentSection.length > 1 &&
+                                          value <
+                                              widget.assessmentSection.length
+                                      ? ElevatedButton(
                                           onPressed: () {
+                                            Provider.of<TocRepository>(
+                                              context,
+                                              listen: false,
+                                            ).destroyWebView();
                                             Navigator.of(cxt).pop();
+                                            _timer?.cancel();
+                                            widget.navigateToNextSection(
+                                              widget.sectionIndex + 1,
+                                              isSubmitted: true,
+                                            );
                                           },
                                           style: ElevatedButton.styleFrom(
-                                              padding: EdgeInsets.symmetric(
-                                                      horizontal: 20,
-                                                      vertical: 5)
-                                                  .r,
-                                              backgroundColor: TocModuleColors
-                                                  .blackBgShade,
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                              Radius.circular(
-                                                                  5))
-                                                          .r)),
+                                            padding: EdgeInsets.symmetric(
+                                              horizontal: 20,
+                                              vertical: 5,
+                                            ).r,
+                                            backgroundColor:
+                                                TocModuleColors.lightBlueShade,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(5),
+                                              ).r,
+                                            ),
+                                          ),
                                           child: Text(
-                                            TocLocalizations.of(context)!
-                                                .mStaticBack,
+                                            TocLocalizations.of(
+                                              context,
+                                            )!.mNewAssessmentNextSection,
                                             style: GoogleFonts.roboto(
                                               color: TocModuleColors
-                                                  .appBarBackground,
+                                                  .darkBrownShade,
                                               fontSize: 16.0.sp,
                                               fontWeight: FontWeight.w400,
                                               letterSpacing: 0.25,
                                             ),
                                           ),
+                                        )
+                                      : Center(),
+                                  Padding(
+                                    padding: widget.isLastSection
+                                        ? EdgeInsets.only(right: 6).r
+                                        : EdgeInsets.only(left: 6).r,
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.of(cxt).pop();
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 20,
+                                          vertical: 5,
+                                        ).r,
+                                        backgroundColor:
+                                            TocModuleColors.blackBgShade,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(5),
+                                          ).r,
                                         ),
                                       ),
-                                      value == widget.assessmentSection.length
-                                          ? Padding(
-                                              padding:
-                                                  const EdgeInsets.only(left: 6)
-                                                      .r,
-                                              child: ElevatedButton(
-                                                onPressed: () {
-                                                  updateTimeToAssessmentDetails();
-                                                  updateSectionWiseTimeToAssessmentDetails();
-                                                  Navigator.of(cxt).pop();
-                                                  _onSubmitAssessment(context,
-                                                      submitAssessment: true);
-                                                },
-                                                style: ElevatedButton.styleFrom(
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                                horizontal: 20,
-                                                                vertical: 5)
-                                                            .r,
-                                                    backgroundColor:
-                                                        TocModuleColors
-                                                            .lightBlueShade,
-                                                    shape: RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                                    Radius
-                                                                        .circular(
-                                                                            5))
-                                                                .r)),
-                                                child: Text(
-                                                  TocLocalizations.of(context)!
-                                                      .mAssessmentSubmitTest,
-                                                  style: GoogleFonts.roboto(
-                                                    color: TocModuleColors
-                                                        .darkBrownShade,
-                                                    fontSize: 16.0.sp,
-                                                    fontWeight: FontWeight.w400,
-                                                    letterSpacing: 0.25,
-                                                  ),
-                                                ),
+                                      child: Text(
+                                        TocLocalizations.of(
+                                          context,
+                                        )!.mStaticBack,
+                                        style: GoogleFonts.roboto(
+                                          color:
+                                              TocModuleColors.appBarBackground,
+                                          fontSize: 16.0.sp,
+                                          fontWeight: FontWeight.w400,
+                                          letterSpacing: 0.25,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  value == widget.assessmentSection.length
+                                      ? Padding(
+                                          padding: const EdgeInsets.only(
+                                            left: 6,
+                                          ).r,
+                                          child: ElevatedButton(
+                                            onPressed: () {
+                                              updateTimeToAssessmentDetails();
+                                              updateSectionWiseTimeToAssessmentDetails();
+                                              Navigator.of(cxt).pop();
+                                              _onSubmitAssessment(
+                                                context,
+                                                submitAssessment: true,
+                                              );
+                                            },
+                                            style: ElevatedButton.styleFrom(
+                                              padding: EdgeInsets.symmetric(
+                                                horizontal: 20,
+                                                vertical: 5,
+                                              ).r,
+                                              backgroundColor: TocModuleColors
+                                                  .lightBlueShade,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(5),
+                                                ).r,
                                               ),
-                                            )
-                                          : Center()
-                                    ]);
-                              }),
+                                            ),
+                                            child: Text(
+                                              TocLocalizations.of(
+                                                context,
+                                              )!.mAssessmentSubmitTest,
+                                              style: GoogleFonts.roboto(
+                                                color: TocModuleColors
+                                                    .darkBrownShade,
+                                                fontSize: 16.0.sp,
+                                                fontWeight: FontWeight.w400,
+                                                letterSpacing: 0.25,
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      : Center(),
+                                ],
+                              );
+                            },
+                          ),
                         ),
                       ),
               ],
@@ -1151,7 +1265,7 @@ class _NewAssessmentV2QuestionsState extends State<NewAssessmentV2Questions> {
       'markForReview': markForReview.toString(),
       'answeredCount': answeredCount.toString(),
       'notAnswered': notAnswered.toString(),
-      'notVisited': notVisited.toString()
+      'notVisited': notVisited.toString(),
     };
   }
 
@@ -1204,8 +1318,9 @@ class _NewAssessmentV2QuestionsState extends State<NewAssessmentV2Questions> {
   }
 
   void updateTimeToAssessmentDetails() {
-    int spentTime =
-        (DateTime.now().difference(questionStartTime!)).inMilliseconds;
+    int spentTime = (DateTime.now().difference(
+      questionStartTime!,
+    )).inMilliseconds;
     bool isTimeUpdated = false;
     for (var map in widget.assessmentDetails[widget.sectionIndex].timeSpent) {
       if (map['questionId'] == _microSurvey[_questionIndex]['identifier']) {
@@ -1216,17 +1331,20 @@ class _NewAssessmentV2QuestionsState extends State<NewAssessmentV2Questions> {
     if (!isTimeUpdated) {
       widget.assessmentDetails[widget.sectionIndex].timeSpent.add({
         'questionId': _microSurvey[_questionIndex]['identifier'],
-        'timeSpent': spentTime
+        'timeSpent': spentTime,
       });
     }
   }
 
   void updateSectionWiseTimeToAssessmentDetails() {
-    int spentTime = (((DateTime.now().millisecondsSinceEpoch -
-                    sectionStartTime!.millisecondsSinceEpoch) /
-                1000) +
-            widget.assessmentDetails[widget.sectionIndex].sectionalTimeTaken)
-        .toInt();
+    int spentTime =
+        (((DateTime.now().millisecondsSinceEpoch -
+                        sectionStartTime!.millisecondsSinceEpoch) /
+                    1000) +
+                widget
+                    .assessmentDetails[widget.sectionIndex]
+                    .sectionalTimeTaken)
+            .toInt();
     widget.assessmentDetails[widget.sectionIndex].sectionalTimeTaken =
         spentTime;
     _timer?.cancel();
@@ -1236,17 +1354,18 @@ class _NewAssessmentV2QuestionsState extends State<NewAssessmentV2Questions> {
     List options = [];
     if (_microSurvey[_questionIndex]['editorState'] != null ||
         _microSurvey[_questionIndex]['choices'] != null) {
-      for (int index = 0;
-          index <
-              (widget.primaryCategory == PrimaryCategory.practiceAssessment
-                  ? _microSurvey[_questionIndex]['editorState']['options']
-                      .length
-                  : _microSurvey[_questionIndex]['choices']['options'].length);
-          index++) {
+      for (
+        int index = 0;
+        index <
+            (widget.primaryCategory == PrimaryCategory.practiceAssessment
+                ? _microSurvey[_questionIndex]['editorState']['options'].length
+                : _microSurvey[_questionIndex]['choices']['options'].length);
+        index++
+      ) {
         var option =
             widget.primaryCategory == PrimaryCategory.practiceAssessment
-                ? _microSurvey[_questionIndex]['editorState']['options']
-                : _microSurvey[_questionIndex]['choices']['options'];
+            ? _microSurvey[_questionIndex]['editorState']['options']
+            : _microSurvey[_questionIndex]['choices']['options'];
         if (AssessmentQuestionType.matchCase.toUpperCase() ==
                 _microSurvey[_questionIndex]['qType']
                     .toString()
@@ -1258,14 +1377,18 @@ class _NewAssessmentV2QuestionsState extends State<NewAssessmentV2Questions> {
           _questionAnswers.forEach((element) {
             if (element['index'] ==
                 _microSurvey[_questionIndex]['identifier']) {
-              for (int optIndex = 0;
-                  optIndex < element['value'].length;
-                  optIndex++) {
-                if (!options.any((item) =>
-                    (item['selectedAnswer'] == element['value'][optIndex]))) {
+              for (
+                int optIndex = 0;
+                optIndex < element['value'].length;
+                optIndex++
+              ) {
+                if (!options.any(
+                  (item) =>
+                      (item['selectedAnswer'] == element['value'][optIndex]),
+                )) {
                   options.add({
                     'selectedOptionIndex': optIndex.toString(),
-                    'selectedAnswer': element['value'][optIndex]
+                    'selectedAnswer': element['value'][optIndex],
                   });
                 }
               }
@@ -1276,21 +1399,25 @@ class _NewAssessmentV2QuestionsState extends State<NewAssessmentV2Questions> {
           _questionAnswers.forEach((element) {
             if (element['index'] ==
                     _microSurvey[_questionIndex]['identifier'] &&
-                element['value']
-                    .any((item) => item == option[index]['value']['value'])) {
+                element['value'].any(
+                  (item) => item == option[index]['value']['value'],
+                )) {
               options.add({
                 'selectedOptionIndex': index.toString(),
-                'selectedAnswer': true
+                'selectedAnswer': true,
               });
             }
           });
         } else {
-          if (_questionAnswers.any((element) =>
-              element['index'] == _microSurvey[_questionIndex]['identifier'] &&
-              element['value'] == option[index]['value']['body'])) {
+          if (_questionAnswers.any(
+            (element) =>
+                element['index'] ==
+                    _microSurvey[_questionIndex]['identifier'] &&
+                element['value'] == option[index]['value']['body'],
+          )) {
             options.add({
               'selectedOptionIndex': index.toString(),
-              'selectedAnswer': true
+              'selectedAnswer': true,
             });
           }
         }
@@ -1300,14 +1427,18 @@ class _NewAssessmentV2QuestionsState extends State<NewAssessmentV2Questions> {
           _microSurvey[_questionIndex]['qType'].toString().toUpperCase()) {
         _questionAnswers.forEach((element) {
           if (element['index'] == _microSurvey[_questionIndex]['identifier']) {
-            for (int optIndex = 0;
-                optIndex < element['value'].length;
-                optIndex++) {
-              if (!options.any((item) =>
-                  (item['selectedAnswer'] == element['value'][optIndex]))) {
+            for (
+              int optIndex = 0;
+              optIndex < element['value'].length;
+              optIndex++
+            ) {
+              if (!options.any(
+                (item) =>
+                    (item['selectedAnswer'] == element['value'][optIndex]),
+              )) {
                 options.add({
                   'selectedOptionIndex': optIndex.toString(),
-                  'selectedAnswer': element['value'][optIndex]
+                  'selectedAnswer': element['value'][optIndex],
                 });
               }
             }
@@ -1316,17 +1447,20 @@ class _NewAssessmentV2QuestionsState extends State<NewAssessmentV2Questions> {
       }
     }
     Map<String, dynamic> questionTimeSpentData = widget
-        .assessmentDetails[widget.sectionIndex].timeSpent
-        .firstWhere((element) =>
-            element['questionId'] ==
-            _microSurvey[_questionIndex]['identifier']);
+        .assessmentDetails[widget.sectionIndex]
+        .timeSpent
+        .firstWhere(
+          (element) =>
+              element['questionId'] ==
+              _microSurvey[_questionIndex]['identifier'],
+        );
 
     List<Map<String, dynamic>> submittedAnswer = [
       {
         'identifier': _microSurvey[_questionIndex]['identifier'],
         'editorState': {'options': options},
-        'timeSpent': questionTimeSpentData['timeSpent']
-      }
+        'timeSpent': questionTimeSpentData['timeSpent'],
+      },
     ];
 
     Map surveyData;
@@ -1337,12 +1471,13 @@ class _NewAssessmentV2QuestionsState extends State<NewAssessmentV2Questions> {
       'result': [
         {
           'sectionId': widget.assessmentInfo.identifier,
-          'timeSpentOnSection': DateTime.now().millisecondsSinceEpoch -
+          'timeSpentOnSection':
+              DateTime.now().millisecondsSinceEpoch -
               sectionStartTime!.millisecondsSinceEpoch +
               widget.assessmentDetails[widget.sectionIndex].sectionalTimeTaken,
           'children': submittedAnswer,
-        }
-      ]
+        },
+      ],
     };
 
     await assessmentService.saveAssessmentQuestion(surveyData);
@@ -1351,9 +1486,12 @@ class _NewAssessmentV2QuestionsState extends State<NewAssessmentV2Questions> {
   void submitAssessment(BuildContext context, {bool submitAssessment = false}) {
     updateTimeToAssessmentDetails();
     if (!_answerGiven(_microSurvey[_questionIndex]['identifier'])) {
-      widget.getAnsweredQuestions(widget.sectionIndex, _questionAnswers,
-          status: AssessmentQuestionStatus.notAnswered,
-          id: _microSurvey[_questionIndex]['identifier']);
+      widget.getAnsweredQuestions(
+        widget.sectionIndex,
+        _questionAnswers,
+        status: AssessmentQuestionStatus.notAnswered,
+        id: _microSurvey[_questionIndex]['identifier'],
+      );
       setState(() {
         if (!_notAnsweredQuestions.contains(_questionIndex)) {
           _notAnsweredQuestions.add(_questionIndex);

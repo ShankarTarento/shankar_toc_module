@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
 
@@ -108,11 +109,12 @@ class _FormDropDownState<T> extends State<FormDropDown<T>> {
                   title: Text(
                     option.toString(),
                     style: GoogleFonts.lato(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 14.sp,
-                        color: option == _controller.text
-                            ? TocModuleColors.darkBlue
-                            : TocModuleColors.greys),
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14.sp,
+                      color: option == _controller.text
+                          ? TocModuleColors.darkBlue
+                          : TocModuleColors.greys,
+                    ),
                   ),
                   onTap: () => _onOptionSelected(option),
                 );

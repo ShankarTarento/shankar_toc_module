@@ -3,7 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:igot_ui_components/utils/helper.dart';
 import 'package:igot_ui_components/utils/module_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/model/filter_model.dart';
 import 'package:toc_module/toc/util/field_name_widget.dart';
@@ -47,7 +48,9 @@ class _CustomFilterCheckBoxState extends State<CustomFilterCheckBox> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         FieldNameWidget(
-            isMandatory: widget.isMandatory, fieldName: widget.title),
+          isMandatory: widget.isMandatory,
+          fieldName: widget.title,
+        ),
         Column(
           children: List.generate(filteredItems.length, (index) {
             return InkWell(
@@ -115,9 +118,7 @@ class _CustomFilterCheckBoxState extends State<CustomFilterCheckBox> {
         widget.showNA
             ? Column(
                 children: [
-                  SizedBox(
-                    height: 32.w,
-                  ),
+                  SizedBox(height: 32.w),
                   InkWell(
                     onTap: () {
                       setState(() {
@@ -167,14 +168,14 @@ class _CustomFilterCheckBoxState extends State<CustomFilterCheckBox> {
                               });
                               widget.onChanged(selectedItems);
                             },
-                            fillColor: WidgetStateProperty.resolveWith<Color>(
-                              (Set<WidgetState> states) {
-                                if (states.contains(WidgetState.selected)) {
-                                  return TocModuleColors.darkBlue;
-                                }
-                                return TocModuleColors.black40;
-                              },
-                            ),
+                            fillColor: WidgetStateProperty.resolveWith<Color>((
+                              Set<WidgetState> states,
+                            ) {
+                              if (states.contains(WidgetState.selected)) {
+                                return TocModuleColors.darkBlue;
+                              }
+                              return TocModuleColors.black40;
+                            }),
                           ),
                           Text(
                             "N/A",
@@ -187,7 +188,7 @@ class _CustomFilterCheckBoxState extends State<CustomFilterCheckBox> {
                         ],
                       ),
                     ),
-                  )
+                  ),
                 ],
               )
             : SizedBox(),

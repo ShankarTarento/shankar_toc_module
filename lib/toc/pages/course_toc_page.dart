@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
@@ -20,10 +21,10 @@ import 'package:toc_module/toc/screen/toc_player_screen.dart';
 import 'package:toc_module/toc/services/toc_services.dart';
 import 'package:toc_module/toc/util/fade_route.dart';
 import 'package:toc_module/toc/widgets/course_sharing_page/course_sharing_page.dart';
+import 'package:toc_module/toc/widgets/rate_now.dart';
 import 'package:toc_module/toc/widgets/toc_appbar_widget.dart';
 import 'package:toc_module/toc/widgets/toc_content_header/toc_content_header.dart';
 import '../view_model/course_toc_view_model.dart';
-import '../../../rate_now_pop_up.dart';
 import '../widgets/toc_button_widget.dart';
 import 'about_tab/widgets/blended_program/enroll_blended_program_button.dart';
 import 'about_tab/widgets/blended_program/blended_program_content/blended_program_content.dart';
@@ -78,9 +79,9 @@ class _CourseTocPageState extends State<CourseTocPage>
         viewModel.lastAccessContentId != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         Navigator.push(
-            context,
-            FadeRoute(
-                page: TocPlayerScreen(
+          context,
+          FadeRoute(
+            page: TocPlayerScreen(
               arguments: TocPlayerModel(
                 enrolledCourse: viewModel.enrolledCourse.value!,
                 batchId: viewModel.enrolledCourse.value!.batchId ?? '',
@@ -89,7 +90,9 @@ class _CourseTocPageState extends State<CourseTocPage>
                 isFeatured: viewModel.isFeaturedCourse,
                 enrollmentList: viewModel.enrollmentList,
               ),
-            ))).then((result) {
+            ),
+          ),
+        ).then((result) {
           // Handle post-player result if needed
           if (result is Map<String, bool> && result['isFinished'] == true) {
             showModalBottomSheet(
@@ -98,9 +101,9 @@ class _CourseTocPageState extends State<CourseTocPage>
               backgroundColor: TocModuleColors.greys60,
               builder: (_) => RateNowPopUp(courseDetails: viewModel.course!),
             ).whenComplete(() {
-              context
-                  .read<InAppReviewRespository>()
-                  .triggerInAppReviewPopup(context);
+              // context
+              //     .read<InAppReviewRespository>()
+              //     .triggerInAppReviewPopup(context);
             });
           }
         });
@@ -154,8 +157,9 @@ class _CourseTocPageState extends State<CourseTocPage>
               _doPopAction();
             },
             child: Scaffold(
-              resizeToAvoidBottomInset:
-                  viewModel.isBlendedProgram ? false : true,
+              resizeToAvoidBottomInset: viewModel.isBlendedProgram
+                  ? false
+                  : true,
               body: _buildBody(viewModel),
             ),
           ),
@@ -216,12 +220,12 @@ class _CourseTocPageState extends State<CourseTocPage>
               child: NestedScrollView(
                 headerSliverBuilder:
                     (BuildContext context, innerBoxIsScrolled) {
-                  return <Widget>[
-                    _buildAppBar(viewModel),
-                    _buildContentHeader(viewModel),
-                    _buildTabBar(viewModel),
-                  ];
-                },
+                      return <Widget>[
+                        _buildAppBar(viewModel),
+                        _buildContentHeader(viewModel),
+                        _buildTabBar(viewModel),
+                      ];
+                    },
                 body: _buildTabBarView(viewModel),
               ),
             ),
@@ -288,32 +292,31 @@ class _CourseTocPageState extends State<CourseTocPage>
               unselectedLabelColor: TocModuleColors.greys60,
               labelColor: TocModuleColors.darkBlue,
               labelStyle: Theme.of(context).textTheme.titleSmall!.copyWith(
-                    fontSize: 10.sp,
-                    fontWeight: FontWeight.w600,
-                  ),
-              unselectedLabelStyle:
-                  Theme.of(context).textTheme.headlineSmall!.copyWith(
-                        fontSize: 10.sp,
-                        fontWeight: FontWeight.w400,
-                      ),
+                fontSize: 10.sp,
+                fontWeight: FontWeight.w600,
+              ),
+              unselectedLabelStyle: Theme.of(context).textTheme.headlineSmall!
+                  .copyWith(fontSize: 10.sp, fontWeight: FontWeight.w400),
               onTap: (value) => viewModel.onTabTap(value, context),
               tabs: viewModel.tabItems
-                  .map((tabItem) => Container(
-                        padding: EdgeInsets.symmetric(horizontal: 16).r,
-                        child: Tab(
-                          child: Padding(
-                            padding: EdgeInsets.all(5.0).r,
-                            child: Text(
-                              tabItem.title,
-                              style: GoogleFonts.lato(
-                                color: TocModuleColors.greys87,
-                                fontSize: 14.0.sp,
-                                fontWeight: FontWeight.w700,
-                              ),
+                  .map(
+                    (tabItem) => Container(
+                      padding: EdgeInsets.symmetric(horizontal: 16).r,
+                      child: Tab(
+                        child: Padding(
+                          padding: EdgeInsets.all(5.0).r,
+                          child: Text(
+                            tabItem.title,
+                            style: GoogleFonts.lato(
+                              color: TocModuleColors.greys87,
+                              fontSize: 14.0.sp,
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
                         ),
-                      ))
+                      ),
+                    ),
+                  )
                   .toList(),
               controller: _tabController,
             ),
@@ -356,11 +359,10 @@ class _CourseTocPageState extends State<CourseTocPage>
   }
 
   Widget _buildAiTutorStrip(CourseTocViewModel viewModel) {
-    if (AppConfiguration.iGOTAiConfig.aiTutor &&
-        !TocHelper.hasScromContent(viewModel.resourceNavigateItems)) {
+    if (!TocHelper.hasScromContent(viewModel.resourceNavigateItems)) {
       return SizedBox();
     } else {
-      return Selector<TocServices, Batch?>(
+      return Selector<TocRepository, Batch?>(
         selector: (context, tocServices) => tocServices.batch,
         builder: (context, batch, _) {
           return IgotTutorAtrip(
@@ -498,7 +500,7 @@ class _CourseTocPageState extends State<CourseTocPage>
   }
 
   Widget _buildTocButton(CourseTocViewModel viewModel) {
-    return Selector<TocServices, Batch?>(
+    return Selector<TocRepository, Batch?>(
       selector: (context, tocServices) => tocServices.batch,
       builder: (context, batch, _) {
         if (viewModel.batches.isNotEmpty) {
@@ -506,26 +508,28 @@ class _CourseTocPageState extends State<CourseTocPage>
         }
 
         return TocButtonWidget(
-            isStandAloneAssesment: viewModel.course!.courseCategory ==
-                PrimaryCategory.standaloneAssessment,
-            isModerated: viewModel.isModeratedContent,
-            courseDetails: viewModel.course!,
-            enrolledCourse: viewModel.enrolledCourse.value,
-            navigationItems: viewModel.navigationItems.value,
-            isCuratedProgram: viewModel.isCuratedProgram,
-            batchId: viewModel.batchId,
-            courseId: viewModel.courseId!,
-            lastAccessContentId: viewModel.lastAccessContentId,
-            selectedBatch: batch,
-            readCourseProgress: () => viewModel.readCourseProgress(context),
-            updateEnrolmentList: () => viewModel.updateEnrolmentList(context),
-            resourceNavigateItems: viewModel.resourceNavigateItems,
-            numberOfCourseRating: viewModel.numberOfCourseRating,
-            isLearningPathContent: viewModel.isLearningPathContent,
-            courseRating: viewModel.courseRating,
-            isFeatured: viewModel.isFeaturedCourse,
-            enrollmentList: viewModel.enrollmentList,
-            recommendationId: widget.arguments.recommendationId);
+          isStandAloneAssesment:
+              viewModel.course!.courseCategory ==
+              PrimaryCategory.standaloneAssessment,
+          isModerated: viewModel.isModeratedContent,
+          courseDetails: viewModel.course!,
+          enrolledCourse: viewModel.enrolledCourse.value,
+          navigationItems: viewModel.navigationItems.value,
+          isCuratedProgram: viewModel.isCuratedProgram,
+          batchId: viewModel.batchId,
+          courseId: viewModel.courseId!,
+          lastAccessContentId: viewModel.lastAccessContentId,
+          selectedBatch: batch,
+          readCourseProgress: () => viewModel.readCourseProgress(context),
+          updateEnrolmentList: () => viewModel.updateEnrolmentList(context),
+          resourceNavigateItems: viewModel.resourceNavigateItems,
+          numberOfCourseRating: viewModel.numberOfCourseRating,
+          isLearningPathContent: viewModel.isLearningPathContent,
+          courseRating: viewModel.courseRating,
+          isFeatured: viewModel.isFeaturedCourse,
+          enrollmentList: viewModel.enrollmentList,
+          recommendationId: widget.arguments.recommendationId,
+        );
       },
     );
   }
@@ -598,8 +602,9 @@ class _CourseTocPageState extends State<CourseTocPage>
                         Expanded(
                           child: Container(
                             child: Text(
-                              TocLocalizations.of(context)!
-                                  .mContentSharePageSuccessMessage,
+                              TocLocalizations.of(
+                                context,
+                              )!.mContentSharePageSuccessMessage,
                               style: GoogleFonts.lato(
                                 fontSize: 14.sp,
                                 color: TocModuleColors.appBarBackground,

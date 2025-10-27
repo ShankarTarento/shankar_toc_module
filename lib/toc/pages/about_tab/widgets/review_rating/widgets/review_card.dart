@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/helper/toc_helper.dart';
 
@@ -60,24 +61,19 @@ class ReviewCard extends StatelessWidget {
               const Spacer(),
               Row(
                 children: [
-                  Icon(
-                    Icons.star,
-                    color: TocModuleColors.primaryOne,
-                  ),
+                  Icon(Icons.star, color: TocModuleColors.primaryOne),
                   Text(
                     rating,
                     style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w600,
-                        ),
-                  )
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 ],
               ),
             ],
           ),
-          SizedBox(
-            height: 16.w,
-          ),
+          SizedBox(height: 16.w),
           Row(
             children: [
               CircleAvatar(
@@ -91,9 +87,7 @@ class ReviewCard extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(
-                width: 8.w,
-              ),
+              SizedBox(width: 8.w),
               Flexible(
                 child: Text(
                   name,
@@ -120,7 +114,7 @@ class ReviewCard extends StatelessWidget {
                 ),
               ),
             ],
-          )
+          ),
         ],
       ),
     );

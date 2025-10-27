@@ -4,7 +4,8 @@ import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:html/parser.dart' as html_parser;
 import 'package:html/dom.dart' as dom;
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 import 'package:toc_module/toc/assessment_module/widget/audio_video_webView.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/helper/toc_helper.dart';
@@ -13,8 +14,11 @@ class DisplayQuestionWidget extends StatefulWidget {
   final String htmlText;
   final TextStyle? textStyle;
 
-  const DisplayQuestionWidget(
-      {super.key, required this.htmlText, this.textStyle});
+  const DisplayQuestionWidget({
+    super.key,
+    required this.htmlText,
+    this.textStyle,
+  });
   @override
   State<DisplayQuestionWidget> createState() => _DisplayQuestionWidgetState();
 }
@@ -63,12 +67,14 @@ class _DisplayQuestionWidgetState extends State<DisplayQuestionWidget> {
           )
         : HtmlWidget(
             TocHelper.decodeHtmlEntities(widget.htmlText),
-            textStyle: widget.textStyle ??
+            textStyle:
+                widget.textStyle ??
                 GoogleFonts.lato(
-                    color: TocModuleColors.black87,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14.0.sp,
-                    height: 1.5),
+                  color: TocModuleColors.black87,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14.0.sp,
+                  height: 1.5,
+                ),
             customStylesBuilder: (element) {
               if (element.localName == 'strong') {
                 return {'font-weight': 'bold'};

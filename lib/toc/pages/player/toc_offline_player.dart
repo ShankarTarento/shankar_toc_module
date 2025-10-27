@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 import 'package:igot_ui_components/ui/components/microsite_image_view.dart';
 import 'package:igot_ui_components/ui/widgets/microsite_icon_button/microsite_icon_button.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -14,7 +15,7 @@ class TocOfflinePlayer extends StatefulWidget {
   final List<Batch> batches;
   final Batch? batch;
   const TocOfflinePlayer({Key? key, this.batch, required this.batches})
-      : super(key: key);
+    : super(key: key);
 
   @override
   State<TocOfflinePlayer> createState() => TocOfflinePlayerState();
@@ -50,9 +51,9 @@ class TocOfflinePlayerState extends State<TocOfflinePlayer> {
   void getBatchAttributes() {
     if (widget.batch != null) {
       Batch? batch = widget.batches.cast<Batch?>().firstWhere(
-            (element) => element!.batchId == widget.batch!.id,
-            orElse: () => null,
-          );
+        (element) => element!.batchId == widget.batch!.id,
+        orElse: () => null,
+      );
       if (batch != null) {
         sessionList = batch.batchAttributes!.sessionDetailsV2;
       }
@@ -63,11 +64,12 @@ class TocOfflinePlayerState extends State<TocOfflinePlayer> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 250.w,
-        width: 1.sw,
-        color: TocModuleColors.grey40,
-        padding: EdgeInsets.symmetric(horizontal: 16).r,
-        child: sessionItemWidgetSlider());
+      height: 250.w,
+      width: 1.sw,
+      color: TocModuleColors.grey40,
+      padding: EdgeInsets.symmetric(horizontal: 16).r,
+      child: sessionItemWidgetSlider(),
+    );
   }
 
   Widget sessionItemWidgetSlider() {
@@ -109,36 +111,37 @@ class TocOfflinePlayerState extends State<TocOfflinePlayer> {
                 ),
               ),
               Align(
-                  alignment: FractionalOffset.centerRight,
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 8),
-                    child: MicroSiteIconButton(
-                      onTap: () {
-                        if (_currentPage < sessionList.length - 1) {
-                          _currentPage++;
-                          if (_bannerPageController.hasClients && mounted) {
-                            _bannerPageController.animateToPage(
-                              _currentPage,
-                              duration: const Duration(milliseconds: 500),
-                              curve: Curves.easeInOut,
-                            );
-                          }
-                        } else {
-                          _currentPage = 0;
-                          if (_bannerPageController.hasClients && mounted) {
-                            _bannerPageController.animateToPage(
-                              _currentPage,
-                              duration: const Duration(milliseconds: 500),
-                              curve: Curves.easeInOut,
-                            );
-                          }
+                alignment: FractionalOffset.centerRight,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: MicroSiteIconButton(
+                    onTap: () {
+                      if (_currentPage < sessionList.length - 1) {
+                        _currentPage++;
+                        if (_bannerPageController.hasClients && mounted) {
+                          _bannerPageController.animateToPage(
+                            _currentPage,
+                            duration: const Duration(milliseconds: 500),
+                            curve: Curves.easeInOut,
+                          );
                         }
-                      },
-                      backgroundColor: TocModuleColors.black,
-                      icon: Icons.arrow_forward_ios_sharp,
-                      iconColor: Colors.white,
-                    ),
-                  ))
+                      } else {
+                        _currentPage = 0;
+                        if (_bannerPageController.hasClients && mounted) {
+                          _bannerPageController.animateToPage(
+                            _currentPage,
+                            duration: const Duration(milliseconds: 500),
+                            curve: Curves.easeInOut,
+                          );
+                        }
+                      }
+                    },
+                    backgroundColor: TocModuleColors.black,
+                    icon: Icons.arrow_forward_ios_sharp,
+                    iconColor: Colors.white,
+                  ),
+                ),
+              ),
             ],
           ),
         sessionList.length > 1
@@ -152,16 +155,17 @@ class TocOfflinePlayerState extends State<TocOfflinePlayer> {
                       controller: _bannerPageController,
                       count: sessionList.length,
                       effect: ExpandingDotsEffect(
-                          activeDotColor: TocModuleColors.orangeTourText,
-                          dotColor: TocModuleColors.profilebgGrey20,
-                          dotHeight: 4,
-                          dotWidth: 4,
-                          spacing: 4),
+                        activeDotColor: TocModuleColors.orangeTourText,
+                        dotColor: TocModuleColors.profilebgGrey20,
+                        dotHeight: 4,
+                        dotWidth: 4,
+                        spacing: 4,
+                      ),
                     ),
                   ),
                 ),
               )
-            : const SizedBox.shrink()
+            : const SizedBox.shrink(),
       ],
     );
   }
@@ -171,16 +175,18 @@ class TocOfflinePlayerState extends State<TocOfflinePlayer> {
         ? SizedBox(
             height: 250.w,
             child: PageView.builder(
-                controller: _bannerPageController,
-                onPageChanged: (int page) {
-                  setState(() {
-                    _currentPage = page;
-                  });
-                },
-                itemCount: sessionList.length,
-                itemBuilder: (context, pageIndex) {
-                  return sessionItemWidget(sessionList[pageIndex]);
-                }))
+              controller: _bannerPageController,
+              onPageChanged: (int page) {
+                setState(() {
+                  _currentPage = page;
+                });
+              },
+              itemCount: sessionList.length,
+              itemBuilder: (context, pageIndex) {
+                return sessionItemWidget(sessionList[pageIndex]);
+              },
+            ),
+          )
         : const SizedBox.shrink();
   }
 
@@ -188,71 +194,78 @@ class TocOfflinePlayerState extends State<TocOfflinePlayer> {
     return (sessionDetailV2.attachLinks.isNotEmpty)
         ? Center(
             child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              if ((sessionDetailV2.attachLinks[0].logo ?? '').isNotEmpty)
-                MicroSiteImageView(
-                  imgUrl: sessionDetailV2.attachLinks[0].logo ?? '',
-                  height: 60.w,
-                  width: 60.w,
-                  fit: BoxFit.fill,
-                ),
-              SizedBox(
-                height: 8.w,
-              ),
-              Text(
-                sessionDetailV2.attachLinks[0].title ?? '',
-                style: GoogleFonts.lato(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if ((sessionDetailV2.attachLinks[0].logo ?? '').isNotEmpty)
+                  MicroSiteImageView(
+                    imgUrl: sessionDetailV2.attachLinks[0].logo ?? '',
+                    height: 60.w,
+                    width: 60.w,
+                    fit: BoxFit.fill,
+                  ),
+                SizedBox(height: 8.w),
+                Text(
+                  sessionDetailV2.attachLinks[0].title ?? '',
+                  style: GoogleFonts.lato(
                     color: TocModuleColors.appBarBackground,
                     fontWeight: FontWeight.w700,
                     fontSize: 14.sp,
-                    letterSpacing: 0.25),
-                maxLines: 4,
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(
-                height: 8.w,
-              ),
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
+                    letterSpacing: 0.25,
+                  ),
+                  maxLines: 4,
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 8.w),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
                         builder: (context) => InAppWebViewPage(
-                            parentContext: context,
-                            url: sessionDetailV2.attachLinks[0].url ?? '')),
-                  );
-                },
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6).r,
-                  decoration: BoxDecoration(
-                      color: TocModuleColors.orangeTourText,
-                      borderRadius: BorderRadius.circular(63).r),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SvgPicture.asset(
-                        'assets/img/link.svg',
-                        height: 24.w,
-                        width: 24.w,
-                        colorFilter: ColorFilter.mode(
-                            TocModuleColors.greys87, BlendMode.srcIn),
+                          parentContext: context,
+                          url: sessionDetailV2.attachLinks[0].url ?? '',
+                        ),
                       ),
-                      SizedBox(width: 6.w),
-                      Text(
-                        TocLocalizations.of(context)!.mStaticOpen,
-                        style: GoogleFonts.lato(
+                    );
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 6,
+                    ).r,
+                    decoration: BoxDecoration(
+                      color: TocModuleColors.orangeTourText,
+                      borderRadius: BorderRadius.circular(63).r,
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SvgPicture.asset(
+                          'assets/img/link.svg',
+                          height: 24.w,
+                          width: 24.w,
+                          colorFilter: ColorFilter.mode(
+                            TocModuleColors.greys87,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                        SizedBox(width: 6.w),
+                        Text(
+                          TocLocalizations.of(context)!.mStaticOpen,
+                          style: GoogleFonts.lato(
                             color: TocModuleColors.deepBlue,
                             fontWeight: FontWeight.w700,
                             fontSize: 14.sp,
-                            letterSpacing: 0.25),
-                      )
-                    ],
+                            letterSpacing: 0.25,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ))
+              ],
+            ),
+          )
         : SizedBox.shrink();
   }
 }

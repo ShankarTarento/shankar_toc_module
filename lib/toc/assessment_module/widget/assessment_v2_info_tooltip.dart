@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
 
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/widgets/tool_tips_widget.dart';
@@ -9,7 +9,7 @@ import 'package:toc_module/toc/widgets/tool_tips_widget.dart';
 class AssessmentV2InfoToolTip extends StatelessWidget {
   final String? sectionInstruction;
   AssessmentV2InfoToolTip({Key? key, this.sectionInstruction})
-      : super(key: key);
+    : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -18,9 +18,10 @@ class AssessmentV2InfoToolTip extends StatelessWidget {
         Text(
           TocLocalizations.of(context)!.mStaticQuestions,
           style: GoogleFonts.lato(
-              fontWeight: FontWeight.w700,
-              fontSize: 12.sp,
-              color: TocModuleColors.greys87),
+            fontWeight: FontWeight.w700,
+            fontSize: 12.sp,
+            color: TocModuleColors.greys87,
+          ),
         ),
         sectionInstruction != null && sectionInstruction != ''
             ? TooltipWidget(

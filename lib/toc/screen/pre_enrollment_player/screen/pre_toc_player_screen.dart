@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/constants/toc_constants.dart';
 import 'package:toc_module/toc/helper/toc_helper.dart';
@@ -101,7 +102,9 @@ class _PreTocPlayerScreenState extends State<PreTocPlayerScreen>
         });
       },
       child: Scaffold(
-          body: buildBody(), bottomNavigationBar: bottomNavigationView()),
+        body: buildBody(),
+        bottomNavigationBar: bottomNavigationView(),
+      ),
     );
   }
 
@@ -109,58 +112,61 @@ class _PreTocPlayerScreenState extends State<PreTocPlayerScreen>
     return DefaultTabController(
       length: tabItems.length,
       child: Selector<TocRepository, CourseStructure>(
-          selector: (_, repo) =>
-              CourseStructure(repo.contentRead, repo.courseHierarchyInfo),
-          builder: (context, value, child) {
-            if (course == null && value.contentRead.isNotEmpty) {
-              course = Course.fromJson(value.contentRead);
-            }
-            if (courseHierarchyData == null &&
-                course?.preEnrolmentResources != null) {
-              courseHierarchyData = course?.preEnrolmentResources;
-              courseHierarchyData?.identifier = course?.id ?? '';
-              courseHierarchyData?.name = course?.name ?? '';
-              setTabItems();
-            }
-            if (course != null &&
-                courseHierarchyData != null &&
-                courseId == course!.id &&
-                courseId == courseHierarchyData!.identifier) {
-              if (navigationItems.isEmpty) {
-                if (course!.courseCategory == PrimaryCategory.curatedProgram) {
-                  isCuratedProgram = true;
-                } else {
-                  isCuratedProgram = false;
-                }
-                if (!isContentProgressRead) {
-                  isContentProgressRead = true;
-                  getContentAndProgress();
-                }
-              }
-              if (resourceNavigateItems.isEmpty) {
-                return TocPlayerSkeleton(
-                    showCourseShareOption: false,
-                    isFeatured: isFeatured,
-                    courseShareOptionCallback: _shareModalBottomSheetMenu);
-              }
-
-              if (course.runtimeType == String) {
-                return NoDataWidget(message: 'No course');
+        selector: (_, repo) =>
+            CourseStructure(repo.contentRead, repo.courseHierarchyInfo),
+        builder: (context, value, child) {
+          if (course == null && value.contentRead.isNotEmpty) {
+            course = Course.fromJson(value.contentRead);
+          }
+          if (courseHierarchyData == null &&
+              course?.preEnrolmentResources != null) {
+            courseHierarchyData = course?.preEnrolmentResources;
+            courseHierarchyData?.identifier = course?.id ?? '';
+            courseHierarchyData?.name = course?.name ?? '';
+            setTabItems();
+          }
+          if (course != null &&
+              courseHierarchyData != null &&
+              courseId == course!.id &&
+              courseId == courseHierarchyData!.identifier) {
+            if (navigationItems.isEmpty) {
+              if (course!.courseCategory == PrimaryCategory.curatedProgram) {
+                isCuratedProgram = true;
               } else {
-                return buildPlayerView();
+                isCuratedProgram = false;
               }
-            } else {
-              // If content read or hierarchy is not called in one step resume of player call the content read and hierarchy API and get the data
-              if (!isFetchDataCalled) {
-                clearCourse(context);
-                fetchCourseData();
-                isFetchDataCalled = true;
+              if (!isContentProgressRead) {
+                isContentProgressRead = true;
+                getContentAndProgress();
               }
-              return TocPlayerSkeleton(
-                  showCourseShareOption: false,
-                  courseShareOptionCallback: _shareModalBottomSheetMenu);
             }
-          }),
+            if (resourceNavigateItems.isEmpty) {
+              return TocPlayerSkeleton(
+                showCourseShareOption: false,
+                isFeatured: isFeatured,
+                courseShareOptionCallback: _shareModalBottomSheetMenu,
+              );
+            }
+
+            if (course.runtimeType == String) {
+              return NoDataWidget(message: 'No course');
+            } else {
+              return buildPlayerView();
+            }
+          } else {
+            // If content read or hierarchy is not called in one step resume of player call the content read and hierarchy API and get the data
+            if (!isFetchDataCalled) {
+              clearCourse(context);
+              fetchCourseData();
+              isFetchDataCalled = true;
+            }
+            return TocPlayerSkeleton(
+              showCourseShareOption: false,
+              courseShareOptionCallback: _shareModalBottomSheetMenu,
+            );
+          }
+        },
+      ),
     );
   }
 
@@ -172,64 +178,68 @@ class _PreTocPlayerScreenState extends State<PreTocPlayerScreen>
       },
       child: SafeArea(
         child: NestedScrollView(
-            headerSliverBuilder: (BuildContext context, innerBoxIsScrolled) {
-              return <Widget>[
-                TocAppbarWidget(
-                    isOverview: false,
-                    showCourseShareOption: _showCourseShareOption(),
-                    courseShareOptionCallback: _shareModalBottomSheetMenu,
-                    isPlayer: true,
-                    courseId: courseId!),
-              ];
-            },
-            body: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ValueListenableBuilder<bool>(
-                    valueListenable: updatePlayerProgress,
-                    builder: (context, value, _) {
-                      return (resourceNavigateItems[courseIndex].mimeType !=
-                              EMimeTypes.offline)
-                          ? TocContentPlayer(
-                              startAt: startAt,
-                              courseHierarchyData: courseHierarchyData!,
-                              batchId: '',
-                              changeLayout: manageScreen,
-                              fullScreen: fullScreen,
-                              isCuratedProgram:
-                                  course?.cumulativeTracking != null &&
-                                      course!.cumulativeTracking,
-                              isFeatured: isFeatured,
-                              resourceNavigateItems:
-                                  resourceNavigateItems[courseIndex],
-                              showLatestProgress: updateContentProgress,
-                              primaryCategory:
-                                  resourceNavigateItems[courseIndex] is! List &&
-                                          resourceNavigateItems[courseIndex]
-                                              .primaryCategory
-                                              .isNotEmpty
-                                      ? resourceNavigateItems[courseIndex]
-                                          .primaryCategory
-                                      : course!.courseCategory,
-                              navigationItems: resourceNavigateItems,
-                              playNextResource: (value) {
-                                _playNextResource(context);
-                              },
-                              updatePlayerProgress: value,
-                              courseCategory: course!.courseCategory,
-                              isPreRequisite: true)
-                          : Consumer<TocRepository>(
-                              builder: (context, tocServices, _) {
-                                return TocOfflinePlayer(
-                                  batch: tocServices.batch,
-                                  batches: course?.batches ?? [],
-                                );
-                              },
+          headerSliverBuilder: (BuildContext context, innerBoxIsScrolled) {
+            return <Widget>[
+              TocAppbarWidget(
+                isOverview: false,
+                showCourseShareOption: _showCourseShareOption(),
+                courseShareOptionCallback: _shareModalBottomSheetMenu,
+                isPlayer: true,
+                courseId: courseId!,
+              ),
+            ];
+          },
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ValueListenableBuilder<bool>(
+                valueListenable: updatePlayerProgress,
+                builder: (context, value, _) {
+                  return (resourceNavigateItems[courseIndex].mimeType !=
+                          EMimeTypes.offline)
+                      ? TocContentPlayer(
+                          startAt: startAt,
+                          courseHierarchyData: courseHierarchyData!,
+                          batchId: '',
+                          changeLayout: manageScreen,
+                          fullScreen: fullScreen,
+                          isCuratedProgram:
+                              course?.cumulativeTracking != null &&
+                              course!.cumulativeTracking,
+                          isFeatured: isFeatured,
+                          resourceNavigateItems:
+                              resourceNavigateItems[courseIndex],
+                          showLatestProgress: updateContentProgress,
+                          primaryCategory:
+                              resourceNavigateItems[courseIndex] is! List &&
+                                  resourceNavigateItems[courseIndex]
+                                      .primaryCategory
+                                      .isNotEmpty
+                              ? resourceNavigateItems[courseIndex]
+                                    .primaryCategory
+                              : course!.courseCategory,
+                          navigationItems: resourceNavigateItems,
+                          playNextResource: (value) {
+                            _playNextResource(context);
+                          },
+                          updatePlayerProgress: value,
+                          courseCategory: course!.courseCategory,
+                          isPreRequisite: true,
+                        )
+                      : Consumer<TocRepository>(
+                          builder: (context, tocServices, _) {
+                            return TocOfflinePlayer(
+                              batch: tocServices.batch,
+                              batches: course?.batches ?? [],
                             );
-                    }),
-                if (!fullScreen && !isFeatured) progressView(),
-                !fullScreen
-                    ? Column(children: [
+                          },
+                        );
+                },
+              ),
+              if (!fullScreen && !isFeatured) progressView(),
+              !fullScreen
+                  ? Column(
+                      children: [
                         Container(
                           color: TocModuleColors.greys87,
                           width: 1.sw,
@@ -261,20 +271,22 @@ class _PreTocPlayerScreenState extends State<PreTocPlayerScreen>
                                     .textTheme
                                     .titleSmall!
                                     .copyWith(
-                                        fontSize: 10.sp,
-                                        fontWeight: FontWeight.w600),
+                                      fontSize: 10.sp,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                 unselectedLabelStyle: Theme.of(context)
                                     .textTheme
                                     .headlineSmall!
                                     .copyWith(
-                                        fontSize: 10.sp,
-                                        fontWeight: FontWeight.w400),
+                                      fontSize: 10.sp,
+                                      fontWeight: FontWeight.w400,
+                                    ),
                                 tabs: [
                                   for (var tabItem in tabItems)
                                     Container(
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 16)
-                                              .r,
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 16,
+                                      ).r,
                                       child: Tab(
                                         child: Padding(
                                           padding: EdgeInsets.all(5.0).r,
@@ -288,99 +300,104 @@ class _PreTocPlayerScreenState extends State<PreTocPlayerScreen>
                                           ),
                                         ),
                                       ),
-                                    )
+                                    ),
                                 ],
                                 controller: learnTabController,
                               ),
                             ),
                           ),
                         ),
-                        SizedBox(
-                          height: 8.w,
-                        )
-                      ])
-                    : Center(),
-                !fullScreen
-                    ? Expanded(
-                        child: TabBarView(
-                            controller: learnTabController,
-                            children: [
-                              ValueListenableBuilder<bool>(
-                                  valueListenable: isCourseCompleted,
-                                  builder: (context, value, _) {
-                                    return AboutTab(
-                                        courseRead: course!,
-                                        courseHierarchy: courseHierarchyData!,
-                                        isBlendedProgram: false,
-                                        showCertificate: value);
-                                  }),
-                              TocContentPage(
-                                courseId: courseId!,
-                                course: course!,
+                        SizedBox(height: 8.w),
+                      ],
+                    )
+                  : Center(),
+              !fullScreen
+                  ? Expanded(
+                      child: TabBarView(
+                        controller: learnTabController,
+                        children: [
+                          ValueListenableBuilder<bool>(
+                            valueListenable: isCourseCompleted,
+                            builder: (context, value, _) {
+                              return AboutTab(
+                                courseRead: course!,
                                 courseHierarchy: courseHierarchyData!,
-                                navigationItems: navigationItems,
-                                lastAccessContentId: lastAccessContentId,
-                                startNewResourse: startNewResource,
-                                isPlayer: true,
-                                isFeatured: isFeatured,
-                                enrollmentList: widget.arguments.enrollmentList,
-                              )
-                            ]),
-                      )
-                    : Center(),
-              ],
-            )),
+                                isBlendedProgram: false,
+                                showCertificate: value,
+                              );
+                            },
+                          ),
+                          TocContentPage(
+                            courseId: courseId!,
+                            course: course!,
+                            courseHierarchy: courseHierarchyData!,
+                            navigationItems: navigationItems,
+                            lastAccessContentId: lastAccessContentId,
+                            startNewResourse: startNewResource,
+                            isPlayer: true,
+                            isFeatured: isFeatured,
+                            enrollmentList: widget.arguments.enrollmentList,
+                          ),
+                        ],
+                      ),
+                    )
+                  : Center(),
+            ],
+          ),
+        ),
       ),
     );
   }
 
   Widget progressView() {
     double progress = 0;
-    return Consumer<TocRepository>(builder: (context, tocServices, _) {
-      var courseProgress = tocServices.courseProgress;
-      if (courseProgress != null) {
-        progress = courseProgress;
-      }
-      return Container(
+    return Consumer<TocRepository>(
+      builder: (context, tocServices, _) {
+        var courseProgress = tocServices.courseProgress;
+        if (courseProgress != null) {
+          progress = courseProgress;
+        }
+        return Container(
           height: 50.w,
-          padding: EdgeInsets.only(
-            left: 16,
-            right: 16,
-          ).r,
+          padding: EdgeInsets.only(left: 16, right: 16).r,
           width: 1.sw,
-          color: (progress * 100).toInt() ==
+          color:
+              (progress * 100).toInt() ==
                   TocConstants.COURSE_COMPLETION_PERCENTAGE
               ? TocModuleColors.deepBlue
               : TocModuleColors.appBarBackground,
-          child: CourseProgressWidget(progress: progress, width: 200.w));
-    });
+          child: CourseProgressWidget(progress: progress, width: 200.w),
+        );
+      },
+    );
   }
 
   Widget bottomNavigationView() {
     return BottomAppBar(
-        child: TocPlayerButton(
-      aiTutorButton: SizedBox(),
-      courseIndex: courseIndex,
-      resourceNavigateItems: resourceNavigateItems,
-      clickedPrevious: () {
-        startAt = null;
-        setState(() {
-          courseIndex--;
-          lastAccessContentId = resourceNavigateItems[courseIndex].contentId;
-        });
-      },
-      clickedNext: () {
-        startAt = null;
+      child: TocPlayerButton(
+        aiTutorButton: SizedBox(),
+        courseIndex: courseIndex,
+        resourceNavigateItems: resourceNavigateItems,
+        clickedPrevious: () {
+          startAt = null;
+          setState(() {
+            courseIndex--;
+            lastAccessContentId = resourceNavigateItems[courseIndex].contentId;
+          });
+        },
+        clickedNext: () {
+          startAt = null;
 
-        setState(() {
-          courseIndex++;
-          lastAccessContentId = resourceNavigateItems[courseIndex].contentId;
-        });
-      },
-      clickedFinish: () {
-        Navigator.of(context).pop({'isFinished': true});
-      },
-    ));
+          setState(() {
+            courseIndex++;
+            lastAccessContentId = resourceNavigateItems[courseIndex].contentId;
+          });
+        },
+        clickedFinish: () {
+          Navigator.of(context).pop({'isFinished': true});
+        },
+      ),
+    );
   }
 
   void _playNextResource(BuildContext context) {
@@ -413,8 +430,8 @@ class _PreTocPlayerScreenState extends State<PreTocPlayerScreen>
               data['completionPercentage'];
           resourceNavigateItems[i].currentProgress =
               data['mimeType'] == EMimeTypes.assessment
-                  ? data['completionPercentage'].toString()
-                  : data['current'].toString();
+              ? data['completionPercentage'].toString()
+              : data['current'].toString();
           if ((data['mimeType'] == EMimeTypes.youtubeLink &&
                   data['completionPercentage'].toString() == '1') ||
               data['completionPercentage'] == 1) {
@@ -422,7 +439,9 @@ class _PreTocPlayerScreenState extends State<PreTocPlayerScreen>
           }
           double totalProgress = 0;
           totalProgress = TocHelper.getCourseOverallProgress(
-              totalProgress, resourceNavigateItems);
+            totalProgress,
+            resourceNavigateItems,
+          );
           if ((totalProgress / resourceNavigateItems.length) >
                   courseOverallProgress &&
               (totalProgress / resourceNavigateItems.length) -
@@ -433,15 +452,20 @@ class _PreTocPlayerScreenState extends State<PreTocPlayerScreen>
           }
           if (course != null &&
               TocHelper().isResourceLocked(
-                  courseCategory: course!.courseCategory,
-                  contextLockingType: course!.contextLockingType,
-                  compatibilityLevel: course!.compatibilityLevel)) {
+                courseCategory: course!.courseCategory,
+                contextLockingType: course!.contextLockingType,
+                compatibilityLevel: course!.compatibilityLevel,
+              )) {
             TocHelper.updateLock(
-                resourceNavigateItems, widget.arguments.courseId);
+              resourceNavigateItems,
+              widget.arguments.courseId,
+            );
           }
 
-          Provider.of<TocRepository>(context, listen: false).setCourseProgress(
-              (totalProgress / resourceNavigateItems.length));
+          Provider.of<TocRepository>(
+            context,
+            listen: false,
+          ).setCourseProgress((totalProgress / resourceNavigateItems.length));
           isCourseCompleted.value =
               totalProgress / resourceNavigateItems.length == 1;
           await updateNavigationItems(navigationItems, data);
@@ -464,15 +488,19 @@ class _PreTocPlayerScreenState extends State<PreTocPlayerScreen>
     }
     double totalProgress = 0;
     totalProgress = TocHelper.getCourseOverallProgress(
-        totalProgress, resourceNavigateItems);
+      totalProgress,
+      resourceNavigateItems,
+    );
 
     courseOverallProgress = totalProgress / resourceNavigateItems.length;
     prevCourseOverallProgress = courseOverallProgress;
   }
 
   void getCurrentResourceIndex() {
-    courseIndex = resourceNavigateItems.indexWhere((element) =>
-        (element is! List && element.contentId == lastAccessContentId));
+    courseIndex = resourceNavigateItems.indexWhere(
+      (element) =>
+          (element is! List && element.contentId == lastAccessContentId),
+    );
     if (courseIndex < 0) {
       courseIndex = 0;
     }
@@ -492,29 +520,32 @@ class _PreTocPlayerScreenState extends State<PreTocPlayerScreen>
         resourceNavigateItems[courseIndex].mimeType != EMimeTypes.collection) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         await Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => OpenResource(
-                    startAt: startAt,
-                    courseHierarchyData: courseHierarchyData!,
-                    batchId: '',
-                    changeLayout: manageScreen,
-                    isCuratedProgram: course?.cumulativeTracking != null &&
-                        course!.cumulativeTracking,
-                    isFeatured: isFeatured,
-                    resourceNavigateItem: resourceNavigateItems[courseIndex],
-                    navigationItems: resourceNavigateItems,
-                    showLatestProgress: updateContentProgress,
-                    primaryCategory: resourceNavigateItems[courseIndex]
-                            .primaryCategory
-                            .isNotEmpty
-                        ? resourceNavigateItems[courseIndex].primaryCategory
-                        : course!.courseCategory,
-                    playNextResource: (value) {
-                      _playNextResource(context);
-                    },
-                    courseCategory: course!.courseCategory,
-                    isPreRequisite: true)));
+          context,
+          MaterialPageRoute(
+            builder: (context) => OpenResource(
+              startAt: startAt,
+              courseHierarchyData: courseHierarchyData!,
+              batchId: '',
+              changeLayout: manageScreen,
+              isCuratedProgram:
+                  course?.cumulativeTracking != null &&
+                  course!.cumulativeTracking,
+              isFeatured: isFeatured,
+              resourceNavigateItem: resourceNavigateItems[courseIndex],
+              navigationItems: resourceNavigateItems,
+              showLatestProgress: updateContentProgress,
+              primaryCategory:
+                  resourceNavigateItems[courseIndex].primaryCategory.isNotEmpty
+                  ? resourceNavigateItems[courseIndex].primaryCategory
+                  : course!.courseCategory,
+              playNextResource: (value) {
+                _playNextResource(context);
+              },
+              courseCategory: course!.courseCategory,
+              isPreRequisite: true,
+            ),
+          ),
+        );
       });
     }
   }
@@ -535,8 +566,15 @@ class _PreTocPlayerScreenState extends State<PreTocPlayerScreen>
       backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
         return Container(
-            child: CourseSharingPage(course!.id, course!.name, course!.appIcon,
-                course!.source, course!.courseCategory, receiveShareResponse));
+          child: CourseSharingPage(
+            course!.id,
+            course!.name,
+            course!.appIcon,
+            course!.source,
+            course!.courseCategory,
+            receiveShareResponse,
+          ),
+        );
       },
     );
   }
@@ -546,67 +584,68 @@ class _PreTocPlayerScreenState extends State<PreTocPlayerScreen>
   }
 
   _showSuccessDialogBox() => {
-        showDialog(
-            barrierDismissible: true,
-            context: context,
-            builder: (BuildContext contxt) => FutureBuilder(
-                future:
-                    Future.delayed(Duration(seconds: 3)).then((value) => true),
-                builder: (BuildContext futureContext, AsyncSnapshot snapshot) {
-                  if (snapshot.hasData) {
-                    Navigator.of(contxt).pop();
-                  }
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      AlertDialog(
-                          insetPadding: EdgeInsets.symmetric(horizontal: 16).r,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12).r),
-                          actionsPadding: EdgeInsets.zero.r,
-                          actions: [
-                            Container(
-                              padding: EdgeInsets.all(16).r,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12).r,
-                                  color: TocModuleColors.positiveLight),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      child: Text(
-                                        TocLocalizations.of(context)!
-                                            .mContentSharePageSuccessMessage,
-                                        style: TextStyle(
-                                          fontSize: 14.sp,
-                                          color:
-                                              TocModuleColors.appBarBackground,
-                                        ),
-                                        maxLines: 3,
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(16, 4, 4, 0)
-                                            .r,
-                                    child: Icon(
-                                      Icons.check,
-                                      color: TocModuleColors.appBarBackground,
-                                      size: 24.sp,
-                                    ),
-                                  ),
-                                ],
+    showDialog(
+      barrierDismissible: true,
+      context: context,
+      builder: (BuildContext contxt) => FutureBuilder(
+        future: Future.delayed(Duration(seconds: 3)).then((value) => true),
+        builder: (BuildContext futureContext, AsyncSnapshot snapshot) {
+          if (snapshot.hasData) {
+            Navigator.of(contxt).pop();
+          }
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              AlertDialog(
+                insetPadding: EdgeInsets.symmetric(horizontal: 16).r,
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12).r,
+                ),
+                actionsPadding: EdgeInsets.zero.r,
+                actions: [
+                  Container(
+                    padding: EdgeInsets.all(16).r,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12).r,
+                      color: TocModuleColors.positiveLight,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Expanded(
+                          child: Container(
+                            child: Text(
+                              TocLocalizations.of(
+                                context,
+                              )!.mContentSharePageSuccessMessage,
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                                color: TocModuleColors.appBarBackground,
                               ),
+                              maxLines: 3,
                             ),
-                          ]),
-                    ],
-                  );
-                }))
-      };
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 4, 4, 0).r,
+                          child: Icon(
+                            Icons.check,
+                            color: TocModuleColors.appBarBackground,
+                            size: 24.sp,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          );
+        },
+      ),
+    ),
+  };
 
   updateNavigationItems(navigationItem, data) {
     for (var child in navigationItem) {
@@ -627,24 +666,30 @@ class _PreTocPlayerScreenState extends State<PreTocPlayerScreen>
 
   Future<dynamic> generateNavigation() async {
     Map response = await TocHelper.generatePreEnrollNavigationItem(
-        course: course!,
-        courseHierarchyData: courseHierarchyData!,
-        isPlayer: true,
-        courseCategory: course!.courseCategory,
-        isFeatured: widget.arguments.isFeatured ?? false,
-        context: context);
+      course: course!,
+      courseHierarchyData: courseHierarchyData!,
+      isPlayer: true,
+      courseCategory: course!.courseCategory,
+      isFeatured: widget.arguments.isFeatured ?? false,
+      context: context,
+    );
     navigationItems = response['navItems'];
     resourceNavigateItems = response['resourceNavItems'];
     double totalProgress = 0;
     totalProgress = TocHelper.getCourseOverallProgress(
-        totalProgress, response['resourceNavItems']);
+      totalProgress,
+      response['resourceNavItems'],
+    );
     if (totalProgress / resourceNavigateItems.length == 1) {
       isCourseCompleted.value = true;
     }
     Future.delayed(
-        Duration(milliseconds: 500),
-        () => Provider.of<TocRepository>(context, listen: false)
-            .setCourseProgress((totalProgress / resourceNavigateItems.length)));
+      Duration(milliseconds: 500),
+      () => Provider.of<TocRepository>(
+        context,
+        listen: false,
+      ).setCourseProgress((totalProgress / resourceNavigateItems.length)),
+    );
   }
 
   Future<void> fetchCourseData() async {
@@ -654,13 +699,17 @@ class _PreTocPlayerScreenState extends State<PreTocPlayerScreen>
 
   // Content read api - To get all course details including batch info
   Future<void> getCourseInfo() async {
-    await Provider.of<TocRepository>(context, listen: false)
-        .getCourseData(courseId);
+    await Provider.of<TocRepository>(
+      context,
+      listen: false,
+    ).getCourseData(courseId);
   }
 
   Future<void> getCourseHierarchyDetails() async {
-    await Provider.of<TocRepository>(context, listen: false)
-        .getCourseDetails(courseId, isFeatured: isFeatured);
+    await Provider.of<TocRepository>(
+      context,
+      listen: false,
+    ).getCourseDetails(courseId, isFeatured: isFeatured);
   }
 
   void clearCourse(BuildContext context) {

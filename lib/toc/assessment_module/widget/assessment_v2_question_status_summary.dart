@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
@@ -17,9 +17,11 @@ import 'package:toc_module/toc/util/no_data_widget.dart';
 class QuestionStatusSummaryV2 extends StatefulWidget {
   final Map apiResponse;
   final List assessmentsInfo;
-  const QuestionStatusSummaryV2(
-      {Key? key, required this.apiResponse, required this.assessmentsInfo})
-      : super(key: key);
+  const QuestionStatusSummaryV2({
+    Key? key,
+    required this.apiResponse,
+    required this.assessmentsInfo,
+  }) : super(key: key);
 
   @override
   State<QuestionStatusSummaryV2> createState() =>
@@ -31,7 +33,7 @@ class _QuestionStatusSummaryV2State extends State<QuestionStatusSummaryV2> {
     {'name': AssessmentQuestionStatus.all, 'status': true},
     {'name': AssessmentQuestionStatus.correct, 'status': false},
     {'name': AssessmentQuestionStatus.wrong, 'status': false},
-    {'name': AssessmentQuestionStatus.unattempted, 'status': false}
+    {'name': AssessmentQuestionStatus.unattempted, 'status': false},
   ];
 
   List<Map<String, dynamic>> sectionList = [];
@@ -58,9 +60,10 @@ class _QuestionStatusSummaryV2State extends State<QuestionStatusSummaryV2> {
               ? Container(
                   padding: EdgeInsets.symmetric(horizontal: 16, vertical: 5).r,
                   decoration: BoxDecoration(
-                      color: TocModuleColors.appBarBackground,
-                      border: Border.all(color: TocModuleColors.darkBlue),
-                      borderRadius: BorderRadius.circular(6).r),
+                    color: TocModuleColors.appBarBackground,
+                    border: Border.all(color: TocModuleColors.darkBlue),
+                    borderRadius: BorderRadius.circular(6).r,
+                  ),
                   child: DropdownButton<String>(
                     isDense: true,
                     value: selectedItem['identifier'],
@@ -70,13 +73,15 @@ class _QuestionStatusSummaryV2State extends State<QuestionStatusSummaryV2> {
                     onChanged: (String? newValue) {
                       setState(() {
                         selectedItem = sectionList.firstWhere(
-                            (element) => element['identifier'] == newValue);
+                          (element) => element['identifier'] == newValue,
+                        );
                         getSectionWiseQuestionSet(newValue!);
                         _updateQuestionSet(
-                            status: status,
-                            identifier: newValue == AssessmentQuestionStatus.all
-                                ? null
-                                : newValue);
+                          status: status,
+                          identifier: newValue == AssessmentQuestionStatus.all
+                              ? null
+                              : newValue,
+                        );
                       });
                     },
                     items: sectionList.map<DropdownMenuItem<String>>((value) {
@@ -101,49 +106,51 @@ class _QuestionStatusSummaryV2State extends State<QuestionStatusSummaryV2> {
                 )
               : Center(),
           Wrap(
-              alignment: WrapAlignment.start,
-              children: questionStatusList.asMap().entries.map((entry) {
-                int index = entry.key;
-                Map<String, dynamic> item = entry.value;
-                return Padding(
-                  padding: const EdgeInsets.only(right: 4),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      _updateStatus(index);
-                      status = item['name'];
-                      _updateQuestionSet(
-                          status: item['name'],
-                          identifier: selectedItem != null &&
-                                  selectedItem['identifier'] !=
-                                      AssessmentQuestionStatus.all
-                              ? selectedItem['identifier']
-                              : null);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-                      backgroundColor: item['status']
-                          ? TocModuleColors.darkBlue
-                          : TocModuleColors.appBarBackground,
-                      shape: RoundedRectangleBorder(
-                        side: BorderSide(color: TocModuleColors.darkBlue),
-                        borderRadius: BorderRadius.all(Radius.circular(5)).r,
-                      ),
-                    ),
-                    child: Text(
-                      getText(item['name']),
-                      style: GoogleFonts.roboto(
-                        color: item['status']
-                            ? TocModuleColors.appBarBackground
-                            : TocModuleColors.darkBlue,
-                        fontSize: 16.0.sp,
-                        fontWeight: FontWeight.w400,
-                        letterSpacing: 0.25,
-                      ),
+            alignment: WrapAlignment.start,
+            children: questionStatusList.asMap().entries.map((entry) {
+              int index = entry.key;
+              Map<String, dynamic> item = entry.value;
+              return Padding(
+                padding: const EdgeInsets.only(right: 4),
+                child: ElevatedButton(
+                  onPressed: () {
+                    _updateStatus(index);
+                    status = item['name'];
+                    _updateQuestionSet(
+                      status: item['name'],
+                      identifier:
+                          selectedItem != null &&
+                              selectedItem['identifier'] !=
+                                  AssessmentQuestionStatus.all
+                          ? selectedItem['identifier']
+                          : null,
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+                    backgroundColor: item['status']
+                        ? TocModuleColors.darkBlue
+                        : TocModuleColors.appBarBackground,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(color: TocModuleColors.darkBlue),
+                      borderRadius: BorderRadius.all(Radius.circular(5)).r,
                     ),
                   ),
-                );
-              }).toList()),
+                  child: Text(
+                    getText(item['name']),
+                    style: GoogleFonts.roboto(
+                      color: item['status']
+                          ? TocModuleColors.appBarBackground
+                          : TocModuleColors.darkBlue,
+                      fontSize: 16.0.sp,
+                      fontWeight: FontWeight.w400,
+                      letterSpacing: 0.25,
+                    ),
+                  ),
+                ),
+              );
+            }).toList(),
+          ),
           SizedBox(height: 8.w),
           questionSet.isNotEmpty
               ? Container(
@@ -151,13 +158,12 @@ class _QuestionStatusSummaryV2State extends State<QuestionStatusSummaryV2> {
                   child: Scrollbar(
                     thumbVisibility: true,
                     controller: _horizontalScrollController,
-                    child:
-                        NotificationListener<OverscrollIndicatorNotification>(
+                    child: NotificationListener<OverscrollIndicatorNotification>(
                       onNotification:
                           (OverscrollIndicatorNotification overscroll) {
-                        overscroll.disallowIndicator();
-                        return true;
-                      },
+                            overscroll.disallowIndicator();
+                            return true;
+                          },
                       child: SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         controller: _horizontalScrollController,
@@ -178,12 +184,14 @@ class _QuestionStatusSummaryV2State extends State<QuestionStatusSummaryV2> {
                                       padding: EdgeInsets.all(16).r,
                                       color: TocModuleColors.grey04,
                                       child: Text(
-                                        TocLocalizations.of(context)!
-                                            .mStaticQuestions,
+                                        TocLocalizations.of(
+                                          context,
+                                        )!.mStaticQuestions,
                                         style: GoogleFonts.lato(
-                                            color: TocModuleColors.greys60,
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.w400),
+                                          color: TocModuleColors.greys60,
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.w400,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -192,12 +200,14 @@ class _QuestionStatusSummaryV2State extends State<QuestionStatusSummaryV2> {
                                       color: TocModuleColors.grey04,
                                       padding: EdgeInsets.all(16.0).r,
                                       child: Text(
-                                        TocLocalizations.of(context)!
-                                            .mAssessmentStatus,
+                                        TocLocalizations.of(
+                                          context,
+                                        )!.mAssessmentStatus,
                                         style: GoogleFonts.lato(
-                                            color: TocModuleColors.greys60,
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.w400),
+                                          color: TocModuleColors.greys60,
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.w400,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -206,12 +216,14 @@ class _QuestionStatusSummaryV2State extends State<QuestionStatusSummaryV2> {
                                       color: TocModuleColors.grey04,
                                       padding: EdgeInsets.all(16.0).r,
                                       child: Text(
-                                        TocLocalizations.of(context)!
-                                            .mAssessmentQuestionTagging,
+                                        TocLocalizations.of(
+                                          context,
+                                        )!.mAssessmentQuestionTagging,
                                         style: GoogleFonts.lato(
-                                            color: TocModuleColors.greys60,
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.w400),
+                                          color: TocModuleColors.greys60,
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.w400,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -220,12 +232,14 @@ class _QuestionStatusSummaryV2State extends State<QuestionStatusSummaryV2> {
                                       color: TocModuleColors.grey04,
                                       padding: EdgeInsets.all(16.0).r,
                                       child: Text(
-                                        TocLocalizations.of(context)!
-                                            .mAssessmentTimeTaken,
+                                        TocLocalizations.of(
+                                          context,
+                                        )!.mAssessmentTimeTaken,
                                         style: GoogleFonts.lato(
-                                            color: TocModuleColors.greys60,
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.w400),
+                                          color: TocModuleColors.greys60,
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.w400,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -236,31 +250,37 @@ class _QuestionStatusSummaryV2State extends State<QuestionStatusSummaryV2> {
                                   decoration: BoxDecoration(
                                     border: Border(
                                       bottom: BorderSide(
-                                          color: TocModuleColors.grey16),
+                                        color: TocModuleColors.grey16,
+                                      ),
                                     ),
                                   ),
                                   children: [
                                     TableCell(
                                       child: Container(
                                         padding: EdgeInsets.all(16.0),
-                                        child: RegExpressions.inputTagRegExp
-                                                .hasMatch(TocHelper
-                                                    .decodeHtmlEntities(
-                                                        row['question']))
+                                        child:
+                                            RegExpressions.inputTagRegExp
+                                                .hasMatch(
+                                                  TocHelper.decodeHtmlEntities(
+                                                    row['question'],
+                                                  ),
+                                                )
                                             ? Wrap(
                                                 children: renderHtmlContent(
-                                                    TocHelper
-                                                        .decodeHtmlEntities(
-                                                            row['question'])),
+                                                  TocHelper.decodeHtmlEntities(
+                                                    row['question'],
+                                                  ),
+                                                ),
                                               )
                                             : DisplayQuestionWidget(
                                                 htmlText: row['question'],
                                                 textStyle: GoogleFonts.lato(
-                                                    color:
-                                                        TocModuleColors.black87,
-                                                    fontWeight: FontWeight.w400,
-                                                    fontSize: 14.0.sp,
-                                                    height: 1.5),
+                                                  color:
+                                                      TocModuleColors.black87,
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 14.0.sp,
+                                                  height: 1.5,
+                                                ),
                                               ),
                                       ),
                                     ),
@@ -268,16 +288,48 @@ class _QuestionStatusSummaryV2State extends State<QuestionStatusSummaryV2> {
                                       child: Container(
                                         padding: EdgeInsets.all(16.0),
                                         child: Text(
-                                            row['status'] != null
-                                                ? row['status']
+                                          row['status'] != null
+                                              ? row['status']
                                                             .toString()
                                                             .toLowerCase() ==
                                                         AssessmentQuestionStatus
                                                             .correct
                                                             .toLowerCase()
                                                     ? TocHelper.capitalizeFirstLetter(
-                                                        row['status'])
+                                                        row['status'],
+                                                      )
                                                     : row['status']
+                                                                  .toString()
+                                                                  .toLowerCase() ==
+                                                              AssessmentQuestionStatus
+                                                                  .wrong
+                                                                  .toLowerCase() ||
+                                                          row['status']
+                                                                  .toString()
+                                                                  .toLowerCase() ==
+                                                              AssessmentQuestionStatus
+                                                                  .incorrect
+                                                                  .toLowerCase()
+                                                    ? TocHelper.capitalizeFirstLetter(
+                                                        AssessmentQuestionStatus
+                                                            .wrong,
+                                                      )
+                                                    : TocHelper.capitalizeFirstLetter(
+                                                        AssessmentQuestionStatus
+                                                            .unattempted,
+                                                      )
+                                              : '',
+                                          style: GoogleFonts.lato(
+                                            color: row['status'] != null
+                                                ? row['status']
+                                                              .toString()
+                                                              .toLowerCase() ==
+                                                          AssessmentQuestionStatus
+                                                              .correct
+                                                              .toLowerCase()
+                                                      ? TocModuleColors
+                                                            .positiveLight
+                                                      : row['status']
                                                                     .toString()
                                                                     .toLowerCase() ==
                                                                 AssessmentQuestionStatus
@@ -289,54 +341,48 @@ class _QuestionStatusSummaryV2State extends State<QuestionStatusSummaryV2> {
                                                                 AssessmentQuestionStatus
                                                                     .incorrect
                                                                     .toLowerCase()
-                                                        ? TocHelper.capitalizeFirstLetter(
-                                                            AssessmentQuestionStatus
-                                                                .wrong)
-                                                        : TocHelper.capitalizeFirstLetter(
-                                                            AssessmentQuestionStatus
-                                                                .unattempted)
-                                                : '',
-                                            style: GoogleFonts.lato(
-                                                color: row['status'] != null
-                                                    ? row['status'].toString().toLowerCase() == AssessmentQuestionStatus.correct.toLowerCase()
-                                                        ? TocModuleColors.positiveLight
-                                                        : row['status'].toString().toLowerCase() == AssessmentQuestionStatus.wrong.toLowerCase() || row['status'].toString().toLowerCase() == AssessmentQuestionStatus.incorrect.toLowerCase()
-                                                            ? TocModuleColors.negativeLight
-                                                            : TocModuleColors.blackLegend
-                                                    : TocModuleColors.blackLegend,
-                                                fontSize: 14.sp,
-                                                fontWeight: FontWeight.w400)),
+                                                      ? TocModuleColors
+                                                            .negativeLight
+                                                      : TocModuleColors
+                                                            .blackLegend
+                                                : TocModuleColors.blackLegend,
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
                                       ),
                                     ),
                                     TableCell(
                                       child: Container(
                                         padding: EdgeInsets.all(16.0),
                                         child: Text(
-                                            row['tagging'] != null &&
-                                                    row['tagging'] != ''
-                                                ? TocHelper
-                                                    .capitalizeFirstCharacter(
-                                                        row['tagging'])
-                                                : 'N/A',
-                                            style: GoogleFonts.lato(
-                                                color:
-                                                    TocModuleColors.blackLegend,
-                                                fontSize: 14.sp,
-                                                fontWeight: FontWeight.w400)),
+                                          row['tagging'] != null &&
+                                                  row['tagging'] != ''
+                                              ? TocHelper.capitalizeFirstCharacter(
+                                                  row['tagging'],
+                                                )
+                                              : 'N/A',
+                                          style: GoogleFonts.lato(
+                                            color: TocModuleColors.blackLegend,
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
                                       ),
                                     ),
                                     TableCell(
                                       child: Container(
                                         padding: EdgeInsets.all(16.0),
                                         child: Text(
-                                            row['time'] != null
-                                                ? row['time'].toString()
-                                                : '00:00:00',
-                                            style: GoogleFonts.lato(
-                                                color:
-                                                    TocModuleColors.blackLegend,
-                                                fontSize: 14.sp,
-                                                fontWeight: FontWeight.w400)),
+                                          row['time'] != null
+                                              ? row['time'].toString()
+                                              : '00:00:00',
+                                          style: GoogleFonts.lato(
+                                            color: TocModuleColors.blackLegend,
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -356,7 +402,7 @@ class _QuestionStatusSummaryV2State extends State<QuestionStatusSummaryV2> {
                       message: TocLocalizations.of(context)!.mDiscussNodata,
                     ),
                   ),
-                )
+                ),
         ],
       ),
     );
@@ -378,9 +424,9 @@ class _QuestionStatusSummaryV2State extends State<QuestionStatusSummaryV2> {
       return TocLocalizations.of(context)!.mAssessmentCorrect;
     } else if (item.toString().compareTo(AssessmentQuestionStatus.wrong) == 0) {
       return TocLocalizations.of(context)!.mAssessmentWrong;
-    } else if (item
-            .toString()
-            .compareTo(AssessmentQuestionStatus.unattempted) ==
+    } else if (item.toString().compareTo(
+          AssessmentQuestionStatus.unattempted,
+        ) ==
         0) {
       return TocLocalizations.of(context)!.mAssessmentUnattempted;
     } else {
@@ -401,13 +447,17 @@ class _QuestionStatusSummaryV2State extends State<QuestionStatusSummaryV2> {
             questionSet.add({
               'question': item['question'],
               'status': item['result'],
-              'tagging':
-                  item['questionLevel'] != null ? item['questionLevel'] : '',
+              'tagging': item['questionLevel'] != null
+                  ? item['questionLevel']
+                  : '',
               'time': item['timeSpent'] != null
                   ? DateFormat('HH:mm:ss').format(
-                      DateTime.fromMillisecondsSinceEpoch(item['timeSpent'],
-                          isUtc: true))
-                  : '00:00:00'
+                      DateTime.fromMillisecondsSinceEpoch(
+                        item['timeSpent'],
+                        isUtc: true,
+                      ),
+                    )
+                  : '00:00:00',
             });
           });
         }
@@ -422,13 +472,17 @@ class _QuestionStatusSummaryV2State extends State<QuestionStatusSummaryV2> {
               questionSet.add({
                 'question': item['question'],
                 'status': item['result'],
-                'tagging':
-                    item['questionLevel'] != null ? item['questionLevel'] : '',
+                'tagging': item['questionLevel'] != null
+                    ? item['questionLevel']
+                    : '',
                 'time': item['timeSpent'] == null
                     ? '00:00:00'
                     : DateFormat('HH:mm:ss').format(
-                        DateTime.fromMillisecondsSinceEpoch(item['timeSpent'],
-                            isUtc: true))
+                        DateTime.fromMillisecondsSinceEpoch(
+                          item['timeSpent'],
+                          isUtc: true,
+                        ),
+                      ),
               });
             }
           });
@@ -444,13 +498,17 @@ class _QuestionStatusSummaryV2State extends State<QuestionStatusSummaryV2> {
               questionSet.add({
                 'question': item['question'],
                 'status': item['result'],
-                'tagging':
-                    item['questionLevel'] != null ? item['questionLevel'] : '',
+                'tagging': item['questionLevel'] != null
+                    ? item['questionLevel']
+                    : '',
                 'time': item['timeSpent'] == null
                     ? '00:00:00'
                     : DateFormat('HH:mm:ss').format(
-                        DateTime.fromMillisecondsSinceEpoch(item['timeSpent'],
-                            isUtc: true))
+                        DateTime.fromMillisecondsSinceEpoch(
+                          item['timeSpent'],
+                          isUtc: true,
+                        ),
+                      ),
               });
             }
           });
@@ -466,13 +524,17 @@ class _QuestionStatusSummaryV2State extends State<QuestionStatusSummaryV2> {
               questionSet.add({
                 'question': item['question'],
                 'status': getStatus(item['result']),
-                'tagging':
-                    item['questionLevel'] != null ? item['questionLevel'] : '',
+                'tagging': item['questionLevel'] != null
+                    ? item['questionLevel']
+                    : '',
                 'time': item['timeSpent'] == null
                     ? '00:00:00'
                     : DateFormat('HH:mm:ss').format(
-                        DateTime.fromMillisecondsSinceEpoch(item['timeSpent'],
-                            isUtc: true))
+                        DateTime.fromMillisecondsSinceEpoch(
+                          item['timeSpent'],
+                          isUtc: true,
+                        ),
+                      ),
               });
             }
           });
@@ -495,12 +557,14 @@ class _QuestionStatusSummaryV2State extends State<QuestionStatusSummaryV2> {
     if (widget.assessmentsInfo.length > 1) {
       sectionList.add({
         'category': AssessmentQuestionStatus.all,
-        'identifier': AssessmentQuestionStatus.all
+        'identifier': AssessmentQuestionStatus.all,
       });
       selectedItem = sectionList.first;
       widget.assessmentsInfo.forEach((element) {
-        sectionList
-            .add({'category': element.name, 'identifier': element.identifier});
+        sectionList.add({
+          'category': element.name,
+          'identifier': element.identifier,
+        });
       });
     }
   }

@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/constants/toc_constants.dart';
@@ -12,12 +13,13 @@ class VerifyEmailField extends StatefulWidget {
   final Function(bool) onChanged;
   final Function(String) email;
 
-  const VerifyEmailField(
-      {super.key,
-      required this.onChanged,
-      required this.email,
-      required this.emailController,
-      required this.isEmailVerified});
+  const VerifyEmailField({
+    super.key,
+    required this.onChanged,
+    required this.email,
+    required this.emailController,
+    required this.isEmailVerified,
+  });
 
   @override
   _VerifyEmailFieldState createState() => _VerifyEmailFieldState();
@@ -69,9 +71,7 @@ class _VerifyEmailFieldState extends State<VerifyEmailField> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildEmailLabel(),
-        SizedBox(
-          height: 8,
-        ),
+        SizedBox(height: 8),
         _buildEmailInput(),
         if (_isEmailVerified) _buildChangeEmailAddress(),
         if (!_isEmailVerified &&
@@ -101,9 +101,10 @@ class _VerifyEmailFieldState extends State<VerifyEmailField> {
               TextSpan(
                 text: ' *',
                 style: TextStyle(
-                    color: TocModuleColors.mandatoryRed,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 14.sp),
+                  color: TocModuleColors.mandatoryRed,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 14.sp,
+                ),
               ),
             ],
           ),
@@ -137,11 +138,14 @@ class _VerifyEmailFieldState extends State<VerifyEmailField> {
               color: TocModuleColors.darkBlue,
             ),
           ),
-          Text(TocLocalizations.of(context)!.mStaticEdit,
-              style: GoogleFonts.lato(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w600,
-                  color: TocModuleColors.darkBlue)),
+          Text(
+            TocLocalizations.of(context)!.mStaticEdit,
+            style: GoogleFonts.lato(
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w600,
+              color: TocModuleColors.darkBlue,
+            ),
+          ),
         ],
       ),
     );
@@ -159,7 +163,8 @@ class _VerifyEmailFieldState extends State<VerifyEmailField> {
       keyboardType: TextInputType.emailAddress,
       focusNode: _emailFocus,
       decoration: _inputDecoration(
-          TocLocalizations.of(context)!.mRegisterenterYourEmailAddress),
+        TocLocalizations.of(context)!.mRegisterenterYourEmailAddress,
+      ),
     );
   }
 
@@ -193,34 +198,37 @@ class _VerifyEmailFieldState extends State<VerifyEmailField> {
       errorMaxLines: 3,
       contentPadding: EdgeInsets.fromLTRB(16.0, 14.0, 0.0, 14.0).r,
       border: OutlineInputBorder(
-          borderSide: BorderSide(color: TocModuleColors.grey08, width: 1.0)),
+        borderSide: BorderSide(color: TocModuleColors.grey08, width: 1.0),
+      ),
       enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: TocModuleColors.grey16, width: 1.0)),
+        borderSide: BorderSide(color: TocModuleColors.grey16, width: 1.0),
+      ),
       hintText: hintText,
       hintStyle: GoogleFonts.lato(
-          color: TocModuleColors.grey40,
-          fontSize: 14.0.sp,
-          fontWeight: FontWeight.w400),
+        color: TocModuleColors.grey40,
+        fontSize: 14.0.sp,
+        fontWeight: FontWeight.w400,
+      ),
       focusedBorder: OutlineInputBorder(
-          borderSide:
-              const BorderSide(color: TocModuleColors.darkBlue, width: 1.0)),
+        borderSide: const BorderSide(
+          color: TocModuleColors.darkBlue,
+          width: 1.0,
+        ),
+      ),
       suffixIcon: _isEmailVerified || _emailFocus.hasFocus
           ? _emailFocus.hasFocus
-              ? InkWell(
-                  onTap: () {
-                    _emailFocus.unfocus();
-                    _freezeEmailField = false;
-                    _emailController.text = widget.emailController.text;
-                    _hasSendEmailOTPRequest = false;
-                    _isEmailVerified = widget.isEmailVerified;
-                    setState(() {});
-                  },
-                  child: Icon(
-                    Icons.close,
-                    color: TocModuleColors.greys60,
-                  ),
-                )
-              : Icon(Icons.check_circle, color: TocModuleColors.positiveLight)
+                ? InkWell(
+                    onTap: () {
+                      _emailFocus.unfocus();
+                      _freezeEmailField = false;
+                      _emailController.text = widget.emailController.text;
+                      _hasSendEmailOTPRequest = false;
+                      _isEmailVerified = widget.isEmailVerified;
+                      setState(() {});
+                    },
+                    child: Icon(Icons.close, color: TocModuleColors.greys60),
+                  )
+                : Icon(Icons.check_circle, color: TocModuleColors.positiveLight)
           : null,
     );
   }
@@ -240,9 +248,10 @@ class _VerifyEmailFieldState extends State<VerifyEmailField> {
           child: Text(
             TocLocalizations.of(context)!.mStaticChangeEmailAddress,
             style: GoogleFonts.lato(
-                fontWeight: FontWeight.w700,
-                fontSize: 14.sp,
-                color: TocModuleColors.darkBlue),
+              fontWeight: FontWeight.w700,
+              fontSize: 14.sp,
+              color: TocModuleColors.darkBlue,
+            ),
           ),
         ),
       ),
@@ -263,15 +272,17 @@ class _VerifyEmailFieldState extends State<VerifyEmailField> {
         ElevatedButton(
           onPressed: _canSendOtp() ? _sendOTPToVerifyEmail : null,
           style: ElevatedButton.styleFrom(
-              backgroundColor: TocModuleColors.darkBlue),
+            backgroundColor: TocModuleColors.darkBlue,
+          ),
           child: Text(
             TocLocalizations.of(context)!.mRegistersendOTP,
             style: GoogleFonts.lato(
-                height: 1.429.w,
-                letterSpacing: 0.5,
-                fontSize: 14.sp,
-                color: TocModuleColors.appBarBackground,
-                fontWeight: FontWeight.w700),
+              height: 1.429.w,
+              letterSpacing: 0.5,
+              fontSize: 14.sp,
+              color: TocModuleColors.appBarBackground,
+              fontWeight: FontWeight.w700,
+            ),
           ),
         ),
       ],
@@ -284,11 +295,14 @@ class _VerifyEmailFieldState extends State<VerifyEmailField> {
   }
 
   Future<void> _sendOTPToVerifyEmail() async {
-    final String response =
-        await profileRepository.generatePrimaryEmailOTP(_emailController.text);
+    final String response = await profileRepository.generatePrimaryEmailOTP(
+      _emailController.text,
+    );
     if (response.isEmpty) {
-      _showSnackBar(TocLocalizations.of(context)!.mStaticOtpSentToEmail,
-          TocModuleColors.positiveLight);
+      _showSnackBar(
+        TocLocalizations.of(context)!.mStaticOtpSentToEmail,
+        TocModuleColors.positiveLight,
+      );
       setState(() {
         _hasSendEmailOTPRequest = true;
         _freezeEmailField = true;
@@ -308,8 +322,10 @@ class _VerifyEmailFieldState extends State<VerifyEmailField> {
         bottom: MediaQuery.of(context).viewInsets.bottom + 20,
         child: Container(
           width: 1.sw,
-          padding:
-              const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0).r,
+          padding: const EdgeInsets.symmetric(
+            vertical: 12.0,
+            horizontal: 8.0,
+          ).r,
           decoration: BoxDecoration(
             color: backgroundColor,
             borderRadius: BorderRadius.circular(3.0).r,
@@ -317,9 +333,10 @@ class _VerifyEmailFieldState extends State<VerifyEmailField> {
           child: Text(
             message,
             style: GoogleFonts.lato(
-                color: TocModuleColors.appBarBackground,
-                fontSize: 13.sp,
-                decoration: TextDecoration.none),
+              color: TocModuleColors.appBarBackground,
+              fontSize: 13.sp,
+              decoration: TextDecoration.none,
+            ),
             textAlign: TextAlign.center,
           ),
         ),
@@ -343,47 +360,53 @@ class _VerifyEmailFieldState extends State<VerifyEmailField> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                  width: 0.475.sw,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4).r,
-                  ),
-                  child: Focus(
-                    child: TextFormField(
-                      obscureText: true,
-                      textInputAction: TextInputAction.next,
-                      focusNode: _emailOtpFocus,
-                      controller: _emailOTPController,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: (String? value) {
-                        if (value != null && value.isEmpty) {
-                          return TocLocalizations.of(context)!
-                              .mRegisterenterOTP;
-                        } else
-                          return null;
-                      },
-                      style: GoogleFonts.lato(fontSize: 14.0.sp),
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: TocModuleColors.appBarBackground,
-                        contentPadding:
-                            EdgeInsets.fromLTRB(16.0, 0.0, 20.0, 0.0).r,
-                        border: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: TocModuleColors.grey16)),
-                        hintText:
-                            TocLocalizations.of(context)!.mRegisterenterOTP,
-                        hintStyle: GoogleFonts.lato(
-                            color: TocModuleColors.grey40,
-                            fontSize: 14.0.sp,
-                            fontWeight: FontWeight.w400),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                              color: TocModuleColors.darkBlue, width: 1.0),
+                width: 0.475.sw,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4).r,
+                ),
+                child: Focus(
+                  child: TextFormField(
+                    obscureText: true,
+                    textInputAction: TextInputAction.next,
+                    focusNode: _emailOtpFocus,
+                    controller: _emailOTPController,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (String? value) {
+                      if (value != null && value.isEmpty) {
+                        return TocLocalizations.of(context)!.mRegisterenterOTP;
+                      } else
+                        return null;
+                    },
+                    style: GoogleFonts.lato(fontSize: 14.0.sp),
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: TocModuleColors.appBarBackground,
+                      contentPadding: EdgeInsets.fromLTRB(
+                        16.0,
+                        0.0,
+                        20.0,
+                        0.0,
+                      ).r,
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: TocModuleColors.grey16),
+                      ),
+                      hintText: TocLocalizations.of(context)!.mRegisterenterOTP,
+                      hintStyle: GoogleFonts.lato(
+                        color: TocModuleColors.grey40,
+                        fontSize: 14.0.sp,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(
+                          color: TocModuleColors.darkBlue,
+                          width: 1.0,
                         ),
                       ),
                     ),
-                  )),
+                  ),
+                ),
+              ),
               Container(
                 width: 0.4.sw,
                 child: ElevatedButton(
@@ -397,11 +420,12 @@ class _VerifyEmailFieldState extends State<VerifyEmailField> {
                   child: Text(
                     TocLocalizations.of(context)!.mRegisterverifyOTP,
                     style: GoogleFonts.lato(
-                        height: 1.429.w,
-                        letterSpacing: 0.5,
-                        fontSize: 14.sp,
-                        color: TocModuleColors.appBarBackground,
-                        fontWeight: FontWeight.w700),
+                      height: 1.429.w,
+                      letterSpacing: 0.5,
+                      fontSize: 14.sp,
+                      color: TocModuleColors.appBarBackground,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
               ),
@@ -420,21 +444,23 @@ class _VerifyEmailFieldState extends State<VerifyEmailField> {
                   alignment: Alignment.topLeft,
                   // padding: EdgeInsets.only(top: 8),
                   child: TextButton(
-                      style: TextButton.styleFrom(
-                        padding: EdgeInsets.zero.r,
-                        minimumSize: Size(50, 50),
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      ),
-                      onPressed: () {
-                        _sendOTPToVerifyEmail();
-                        setState(() {
-                          _showEmailResendOption = false;
-                          _resendEmailOTPTime =
-                              RegistrationType.resendEmailOtpTimeLimit;
-                        });
-                      },
-                      child: Text(
-                          TocLocalizations.of(context)!.mRegisterresendOTP)),
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.zero.r,
+                      minimumSize: Size(50, 50),
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                    onPressed: () {
+                      _sendOTPToVerifyEmail();
+                      setState(() {
+                        _showEmailResendOption = false;
+                        _resendEmailOTPTime =
+                            RegistrationType.resendEmailOtpTimeLimit;
+                      });
+                    },
+                    child: Text(
+                      TocLocalizations.of(context)!.mRegisterresendOTP,
+                    ),
+                  ),
                 ),
         ],
       ),
@@ -443,10 +469,14 @@ class _VerifyEmailFieldState extends State<VerifyEmailField> {
 
   Future<void> _verifyEmailOTP(String otp) async {
     final String response = await profileRepository.verifyPrimaryEmailOTP(
-        _emailController.text, otp);
+      _emailController.text,
+      otp,
+    );
     if (response.isEmpty) {
-      _showSnackBar(TocLocalizations.of(context)!.mStaticEmailVerifiedMessage,
-          TocModuleColors.positiveLight);
+      _showSnackBar(
+        TocLocalizations.of(context)!.mStaticEmailVerifiedMessage,
+        TocModuleColors.positiveLight,
+      );
       setState(() {
         _hasSendEmailOTPRequest = false;
         _isEmailVerified = true;

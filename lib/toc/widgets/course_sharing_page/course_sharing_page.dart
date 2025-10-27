@@ -4,7 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 import 'package:toc_module/toc/constants/toc_constants.dart';
 import 'package:toc_module/toc/helper/toc_helper.dart';
 import 'package:toc_module/toc/model/course_sharing_model.dart';
@@ -22,14 +23,15 @@ class CourseSharingPage extends StatefulWidget {
   final Function(String) callback;
   final bool isCourse;
 
-  CourseSharingPage(
-      {required this.courseId,
-      required this.courseName,
-      required this.coursePosterImageUrl,
-      required this.courseProvider,
-      required this.primaryCategory,
-      required this.callback,
-      this.isCourse = true});
+  CourseSharingPage({
+    required this.courseId,
+    required this.courseName,
+    required this.coursePosterImageUrl,
+    required this.courseProvider,
+    required this.primaryCategory,
+    required this.callback,
+    this.isCourse = true,
+  });
   @override
   _CourseSharingPageState createState() => _CourseSharingPageState();
 }
@@ -78,26 +80,27 @@ class _CourseSharingPageState extends State<CourseSharingPage>
               Padding(
                 padding: const EdgeInsets.only(right: 16, top: 16).r,
                 child: Align(
-                    alignment: Alignment.topRight,
-                    child: InkWell(
-                      onTap: () async {
-                        Navigator.of(context).pop();
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        height: 36.w,
-                        width: 36.w,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: TocModuleColors.grey40,
-                        ),
-                        child: Icon(
-                          Icons.close,
-                          color: TocModuleColors.whiteGradientOne,
-                          size: 16.sp,
-                        ),
+                  alignment: Alignment.topRight,
+                  child: InkWell(
+                    onTap: () async {
+                      Navigator.of(context).pop();
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: 36.w,
+                      width: 36.w,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: TocModuleColors.grey40,
                       ),
-                    )),
+                      child: Icon(
+                        Icons.close,
+                        color: TocModuleColors.whiteGradientOne,
+                        size: 16.sp,
+                      ),
+                    ),
+                  ),
+                ),
               ),
               Container(
                 alignment: Alignment.topLeft,
@@ -116,161 +119,179 @@ class _CourseSharingPageState extends State<CourseSharingPage>
             decoration: BoxDecoration(
               color: TocModuleColors.appBarBackground,
               borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(15),
-                      topRight: Radius.circular(15))
-                  .r,
+                topLeft: Radius.circular(15),
+                topRight: Radius.circular(15),
+              ).r,
             ),
             child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 16).r,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      TocLocalizations.of(context)!.mContentSharePageHeading,
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                            letterSpacing: 0.12,
-                          ),
-                      textAlign: TextAlign.start,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 16).r,
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                            child: ChipsInput<CourseSharingUserDataModel>(
-                              decoration: InputDecoration(
-                                contentPadding:
-                                    EdgeInsets.only(top: 4.0, left: 46)
-                                        .r, // Move hint text to the top
-                                border: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8.0)),
-                                  borderSide: BorderSide(
-                                    color: TocModuleColors.darkBlue
-                                        .withValues(alpha: 1.0), // Border color
-                                    width: 1.0.w, // Border width
-                                  ),
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 16).r,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    TocLocalizations.of(context)!.mContentSharePageHeading,
+                    style: Theme.of(
+                      context,
+                    ).textTheme.titleLarge!.copyWith(letterSpacing: 0.12),
+                    textAlign: TextAlign.start,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16).r,
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          child: ChipsInput<CourseSharingUserDataModel>(
+                            decoration: InputDecoration(
+                              contentPadding: EdgeInsets.only(
+                                top: 4.0,
+                                left: 46,
+                              ).r, // Move hint text to the top
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(8.0),
                                 ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8.0)).r,
-                                  borderSide: BorderSide(
-                                    color: TocModuleColors.darkBlue
-                                        .withValues(alpha: 1.0), // Border color
-                                    width: 1.0.w, // Border width
-                                  ),
+                                borderSide: BorderSide(
+                                  color: TocModuleColors.darkBlue.withValues(
+                                    alpha: 1.0,
+                                  ), // Border color
+                                  width: 1.0.w, // Border width
                                 ),
-
-                                prefixStyle: Theme.of(context)
-                                    .textTheme
-                                    .titleSmall!
-                                    .copyWith(
-                                      letterSpacing: 0.25,
-                                    ),
-                                hintStyle: GoogleFonts.lato(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 12.sp,
-                                    letterSpacing: 0.25),
                               ),
-                              findSuggestions: _findSuggestions,
-                              onChanged: _onChanged,
-                              chipBuilder: (BuildContext context,
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(8.0),
+                                ).r,
+                                borderSide: BorderSide(
+                                  color: TocModuleColors.darkBlue.withValues(
+                                    alpha: 1.0,
+                                  ), // Border color
+                                  width: 1.0.w, // Border width
+                                ),
+                              ),
+
+                              prefixStyle: Theme.of(context)
+                                  .textTheme
+                                  .titleSmall!
+                                  .copyWith(letterSpacing: 0.25),
+                              hintStyle: GoogleFonts.lato(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 12.sp,
+                                letterSpacing: 0.25,
+                              ),
+                            ),
+                            findSuggestions: _findSuggestions,
+                            onChanged: _onChanged,
+                            chipBuilder:
+                                (
+                                  BuildContext context,
                                   ChipsInputState<CourseSharingUserDataModel>
-                                      state,
-                                  CourseSharingUserDataModel profile) {
-                                return Container(
-                                  // alignment: Alignment.centerLeft,
-                                  child: InputChip(
+                                  state,
+                                  CourseSharingUserDataModel profile,
+                                ) {
+                                  return Container(
+                                    // alignment: Alignment.centerLeft,
+                                    child: InputChip(
+                                      key: ObjectKey(profile),
+                                      label: Text(
+                                        profile.firstName ?? "",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall!
+                                            .copyWith(letterSpacing: 0.25),
+                                      ),
+                                      deleteIcon: Icon(
+                                        Icons.close_sharp,
+                                        color: TocModuleColors.darkBlue
+                                            .withValues(alpha: 1.0),
+                                        size: 24.0.sp, // Adjust icon size
+                                      ),
+                                      backgroundColor: TocModuleColors.grey08,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                          16.0,
+                                        ).r, // Adjust border radius
+                                      ),
+                                      padding: EdgeInsets.only(
+                                        left: 16.0,
+                                        right: 16.0,
+                                      ).r,
+                                      onDeleted: () {
+                                        setState(() {
+                                          selectedRecipients.remove(profile);
+                                          state.deleteChip(selectedRecipients);
+                                        });
+                                      },
+                                      onSelected: (_) => _onChipTapped(profile),
+                                      materialTapTargetSize:
+                                          MaterialTapTargetSize.shrinkWrap,
+                                    ),
+                                  );
+                                },
+                            suggestionBuilder:
+                                (
+                                  BuildContext context,
+                                  ChipsInputState<CourseSharingUserDataModel>
+                                  state,
+                                  CourseSharingUserDataModel profile,
+                                ) {
+                                  return ListTile(
                                     key: ObjectKey(profile),
-                                    label: Text(
-                                      profile.firstName ?? "",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodySmall!
-                                          .copyWith(
-                                            letterSpacing: 0.25,
-                                          ),
-                                    ),
-                                    deleteIcon: Icon(
-                                      Icons.close_sharp,
-                                      color: TocModuleColors.darkBlue
-                                          .withValues(alpha: 1.0),
-                                      size: 24.0.sp, // Adjust icon size
-                                    ),
-                                    backgroundColor: TocModuleColors.grey08,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(16.0)
-                                          .r, // Adjust border radius
-                                    ),
-                                    padding:
-                                        EdgeInsets.only(left: 16.0, right: 16.0)
-                                            .r,
-                                    onDeleted: () {
-                                      setState(() {
-                                        selectedRecipients.remove(profile);
-                                        state.deleteChip(selectedRecipients);
-                                      });
-                                    },
-                                    onSelected: (_) => _onChipTapped(profile),
-                                    materialTapTargetSize:
-                                        MaterialTapTargetSize.shrinkWrap,
-                                  ),
-                                );
-                              },
-                              suggestionBuilder: (BuildContext context,
-                                  ChipsInputState<CourseSharingUserDataModel>
-                                      state,
-                                  CourseSharingUserDataModel profile) {
-                                return ListTile(
-                                  key: ObjectKey(profile),
-                                  leading: (((profile
-                                                  .profileDetails!
-                                                  .personalDetails!
-                                                  .profileImageUrl) ??
-                                              "") !=
-                                          '')
-                                      ? ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(63).r,
-                                          child: Image(
+                                    leading:
+                                        (((profile
+                                                    .profileDetails!
+                                                    .personalDetails!
+                                                    .profileImageUrl) ??
+                                                "") !=
+                                            '')
+                                        ? ClipRRect(
+                                            borderRadius: BorderRadius.circular(
+                                              63,
+                                            ).r,
+                                            child: Image(
+                                              height: 32.w,
+                                              width: 32.w,
+                                              fit: BoxFit.fitWidth,
+                                              image: NetworkImage(
+                                                profile
+                                                            .profileDetails!
+                                                            .personalDetails!
+                                                            .profileImageUrl !=
+                                                        null
+                                                    ? TocHelper.convertGCPImageUrl(
+                                                        profile
+                                                            .profileDetails!
+                                                            .personalDetails!
+                                                            .profileImageUrl!,
+                                                      )
+                                                    : '',
+                                              ),
+                                              errorBuilder:
+                                                  (
+                                                    context,
+                                                    error,
+                                                    stackTrace,
+                                                  ) => SizedBox.shrink(),
+                                            ),
+                                          )
+                                        : Container(
                                             height: 32.w,
                                             width: 32.w,
-                                            fit: BoxFit.fitWidth,
-                                            image: NetworkImage(profile
-                                                        .profileDetails!
-                                                        .personalDetails!
-                                                        .profileImageUrl !=
-                                                    null
-                                                ? TocHelper.convertGCPImageUrl(
-                                                    profile
-                                                        .profileDetails!
-                                                        .personalDetails!
-                                                        .profileImageUrl!)
-                                                : ''),
-                                            errorBuilder:
-                                                (context, error, stackTrace) =>
-                                                    SizedBox.shrink(),
-                                          ),
-                                        )
-                                      : Container(
-                                          height: 32.w,
-                                          width: 32.w,
-                                          decoration: BoxDecoration(
-                                            color: TocModuleColors.deepBlue,
-                                            shape: BoxShape.circle,
-                                          ),
-                                          child: Center(
-                                            child: Text(
+                                            decoration: BoxDecoration(
+                                              color: TocModuleColors.deepBlue,
+                                              shape: BoxShape.circle,
+                                            ),
+                                            child: Center(
+                                              child: Text(
                                                 TocHelper.getInitialsNew(
-                                                    (profile.firstName != null
-                                                            ? profile.firstName!
-                                                            : '') +
-                                                        ' ' +
-                                                        (profile.firstName !=
-                                                                null
-                                                            ? profile.firstName!
-                                                            : '')),
+                                                  (profile.firstName != null
+                                                          ? profile.firstName!
+                                                          : '') +
+                                                      ' ' +
+                                                      (profile.firstName != null
+                                                          ? profile.firstName!
+                                                          : ''),
+                                                ),
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .labelSmall!
@@ -278,233 +299,241 @@ class _CourseSharingPageState extends State<CourseSharingPage>
                                                       fontSize: 12.sp,
                                                       fontWeight:
                                                           FontWeight.w600,
-                                                    )),
+                                                    ),
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                  title: Text(
-                                    profile.firstName!,
-                                    style: GoogleFonts.lato(
+                                    title: Text(
+                                      profile.firstName!,
+                                      style: GoogleFonts.lato(
                                         fontWeight: FontWeight.w400,
                                         fontSize: 16.sp,
-                                        letterSpacing: 0.25),
-                                  ),
-                                  subtitle: Text(
-                                    profile.maskedEmail!,
-                                    style: GoogleFonts.lato(
+                                        letterSpacing: 0.25,
+                                      ),
+                                    ),
+                                    subtitle: Text(
+                                      profile.maskedEmail!,
+                                      style: GoogleFonts.lato(
                                         fontWeight: FontWeight.w400,
                                         fontSize: 14.sp,
-                                        letterSpacing: 0.25),
-                                  ),
-                                  onTap: () {
-                                    FocusManager.instance.primaryFocus
-                                        ?.unfocus();
-                                    state.resetSuggestion();
-                                    if (alreadyInList(profile.userId!)) {
-                                      setState(() {
-                                        showDialogWidget = true;
-                                        dialogType = "warning";
-                                        dialogMessage = TocLocalizations.of(
-                                                context)!
-                                            .mContentSharePageSimilarEmailWarning;
-                                      });
-                                      Future.delayed(Duration(seconds: 3), () {
-                                        if (mounted)
-                                          setState(() {
-                                            showDialogWidget = false;
-                                          });
-                                      });
-                                    } else {
-                                      if (selectedRecipients.length.toInt() <
-                                          maxRecipient.toInt()) {
-                                        setState(() {
-                                          selectedRecipients.add(profile);
-                                        });
-                                        state.selectSuggestion(
-                                            selectedRecipients);
-                                      } else {
+                                        letterSpacing: 0.25,
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      FocusManager.instance.primaryFocus
+                                          ?.unfocus();
+                                      state.resetSuggestion();
+                                      if (alreadyInList(profile.userId!)) {
                                         setState(() {
                                           showDialogWidget = true;
                                           dialogType = "warning";
                                           dialogMessage = TocLocalizations.of(
-                                                  context)!
-                                              .mContentSharePageEmailLimitWarning;
+                                            context,
+                                          )!.mContentSharePageSimilarEmailWarning;
                                         });
-                                        Future.delayed(Duration(seconds: 3),
+                                        Future.delayed(
+                                          Duration(seconds: 3),
+                                          () {
+                                            if (mounted)
+                                              setState(() {
+                                                showDialogWidget = false;
+                                              });
+                                          },
+                                        );
+                                      } else {
+                                        if (selectedRecipients.length.toInt() <
+                                            maxRecipient.toInt()) {
+                                          setState(() {
+                                            selectedRecipients.add(profile);
+                                          });
+                                          state.selectSuggestion(
+                                            selectedRecipients,
+                                          );
+                                        } else {
+                                          setState(() {
+                                            showDialogWidget = true;
+                                            dialogType = "warning";
+                                            dialogMessage = TocLocalizations.of(
+                                              context,
+                                            )!.mContentSharePageEmailLimitWarning;
+                                          });
+                                          Future.delayed(
+                                            Duration(seconds: 3),
                                             () {
-                                          if (mounted)
-                                            setState(() {
-                                              showDialogWidget = false;
-                                            });
-                                        });
+                                              if (mounted)
+                                                setState(() {
+                                                  showDialogWidget = false;
+                                                });
+                                            },
+                                          );
+                                        }
                                       }
-                                    }
-                                  },
-                                );
-                              },
-                              onPerformAction: (TextInputAction action,
+                                    },
+                                  );
+                                },
+                            onPerformAction:
+                                (
+                                  TextInputAction action,
                                   String text,
                                   ChipsInputState<CourseSharingUserDataModel>
-                                      state) {
-                                if (action == TextInputAction.done) {
-                                  _validateEmail(text, state);
-                                }
-                              },
-                            ),
+                                  state,
+                                ) {
+                                  if (action == TextInputAction.done) {
+                                    _validateEmail(text, state);
+                                  }
+                                },
                           ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                width: 0.7.sw,
-                                child: Text(
-                                  TocLocalizations.of(context)!
-                                      .mContentSharePageNote,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .labelMedium!
-                                      .copyWith(
-                                        letterSpacing: 0.25,
-                                      ),
-                                  textAlign: TextAlign.start,
-                                ),
-                              ),
-                              Text(
-                                "${selectedRecipients.length}/$maxRecipient emails",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .labelMedium!
-                                    .copyWith(
-                                      letterSpacing: 0.25,
-                                    ),
+                        ),
+                        SizedBox(height: 8),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: 0.7.sw,
+                              child: Text(
+                                TocLocalizations.of(
+                                  context,
+                                )!.mContentSharePageNote,
+                                style: Theme.of(context).textTheme.labelMedium!
+                                    .copyWith(letterSpacing: 0.25),
                                 textAlign: TextAlign.start,
-                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            Text(
+                              "${selectedRecipients.length}/$maxRecipient emails",
+                              style: Theme.of(context).textTheme.labelMedium!
+                                  .copyWith(letterSpacing: 0.25),
+                              textAlign: TextAlign.start,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
+                        if (showDialogWidget) _showDialog(),
+                      ],
+                    ),
+                  ),
+                  Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 4).r,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        GestureDetector(
+                          onTap: () async {
+                            await Clipboard.setData(
+                              ClipboardData(
+                                text: widget.isCourse
+                                    ? "${TocModuleService.config.baseUrl}/app/toc/${widget.courseId}"
+                                    : "${TocModuleService.config.baseUrl}/app/event-hub/home/${widget.courseId}",
+                              ),
+                            );
+                            setState(() {
+                              showDialogWidget = true;
+                              dialogType = "success";
+                              dialogMessage = TocLocalizations.of(
+                                context,
+                              )!.mContentSharePageLinkCopied;
+                            });
+                            Future.delayed(Duration(seconds: 3), () {
+                              if (mounted)
+                                setState(() {
+                                  showDialogWidget = false;
+                                });
+                            });
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                TocLocalizations.of(context)!.mCopyLink,
+                                style: Theme.of(context).textTheme.titleSmall!
+                                    .copyWith(letterSpacing: 0.5),
+                              ),
+                              SizedBox(width: 8.w),
+                              Icon(
+                                Icons.link,
+                                color: TocModuleColors.darkBlue.withValues(
+                                  alpha: 1.0,
+                                ),
+                                size: 20.sp,
                               ),
                             ],
                           ),
-                          if (showDialogWidget) _showDialog(),
-                        ],
-                      ),
-                    ),
-                    Spacer(),
-                    Padding(
-                        padding: const EdgeInsets.only(bottom: 4).r,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            GestureDetector(
-                              onTap: () async {
-                                await Clipboard.setData(ClipboardData(
-                                    text: widget.isCourse
-                                        ? "${TocModuleService.config.baseUrl}/app/toc/${widget.courseId}"
-                                        : "${TocModuleService.config.baseUrl}/app/event-hub/home/${widget.courseId}"));
-                                setState(() {
-                                  showDialogWidget = true;
-                                  dialogType = "success";
-                                  dialogMessage = TocLocalizations.of(context)!
-                                      .mContentSharePageLinkCopied;
-                                });
-                                Future.delayed(Duration(seconds: 3), () {
-                                  if (mounted)
-                                    setState(() {
-                                      showDialogWidget = false;
-                                    });
-                                });
-                              },
-                              child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                        TocLocalizations.of(context)!.mCopyLink,
+                        ),
+                        SizedBox(width: 26.w),
+                        ButtonClickEffect(
+                          onTap: () async {
+                            if ((selectedRecipients).isNotEmpty) {
+                              if (isLoading) return;
+                              setState(() {
+                                isLoading = true;
+                              });
+                              await submitForm();
+                            } else {
+                              setState(() {
+                                showDialogWidget = true;
+                                dialogType = "warning";
+                                dialogMessage = TocLocalizations.of(
+                                  context,
+                                )!.mContentSharePageEmptyEmailWarning;
+                              });
+                              Future.delayed(Duration(seconds: 3), () {
+                                if (mounted)
+                                  setState(() {
+                                    showDialogWidget = false;
+                                  });
+                              });
+                            }
+                          },
+                          opacity: 1.0,
+                          child: Container(
+                            width: 80.w,
+                            child: isLoading
+                                ? Padding(
+                                    padding: const EdgeInsets.all(8.0).r,
+                                    child: Container(
+                                      padding: EdgeInsets.only(
+                                        left: 20,
+                                        right: 20,
+                                      ).r,
+                                      child: PageLoader(
+                                        strokeWidth: 2,
+                                        isLightTheme: false,
+                                      ),
+                                    ),
+                                  )
+                                : Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        TocLocalizations.of(
+                                          context,
+                                        )!.mStaticSend,
                                         style: Theme.of(context)
                                             .textTheme
-                                            .titleSmall!
-                                            .copyWith(
-                                              letterSpacing: 0.5,
-                                            )),
-                                    SizedBox(width: 8.w),
-                                    Icon(
-                                      Icons.link,
-                                      color: TocModuleColors.darkBlue
-                                          .withValues(alpha: 1.0),
-                                      size: 20.sp,
-                                    )
-                                  ]),
-                            ),
-                            SizedBox(
-                              width: 26.w,
-                            ),
-                            ButtonClickEffect(
-                                onTap: () async {
-                                  if ((selectedRecipients).isNotEmpty) {
-                                    if (isLoading) return;
-                                    setState(() {
-                                      isLoading = true;
-                                    });
-                                    await submitForm();
-                                  } else {
-                                    setState(() {
-                                      showDialogWidget = true;
-                                      dialogType = "warning";
-                                      dialogMessage = TocLocalizations.of(
-                                              context)!
-                                          .mContentSharePageEmptyEmailWarning;
-                                    });
-                                    Future.delayed(Duration(seconds: 3), () {
-                                      if (mounted)
-                                        setState(() {
-                                          showDialogWidget = false;
-                                        });
-                                    });
-                                  }
-                                },
-                                opacity: 1.0,
-                                child: Container(
-                                  width: 80.w,
-                                  child: isLoading
-                                      ? Padding(
-                                          padding: const EdgeInsets.all(8.0).r,
-                                          child: Container(
-                                              padding: EdgeInsets.only(
-                                                      left: 20, right: 20)
-                                                  .r,
-                                              child: PageLoader(
-                                                  strokeWidth: 2,
-                                                  isLightTheme: false)),
-                                        )
-                                      : Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              TocLocalizations.of(context)!
-                                                  .mStaticSend,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .displaySmall!
-                                                  .copyWith(
-                                                    letterSpacing: 0.5,
-                                                  ),
-                                            ),
-                                            SizedBox(width: 8.w),
-                                            Icon(
-                                              Icons.send,
-                                              color: TocModuleColors.avatarText,
-                                              size: 20.sp,
-                                            )
-                                          ],
-                                        ),
-                                )),
-                          ],
-                        ))
-                  ],
-                )),
+                                            .displaySmall!
+                                            .copyWith(letterSpacing: 0.5),
+                                      ),
+                                      SizedBox(width: 8.w),
+                                      Icon(
+                                        Icons.send,
+                                        color: TocModuleColors.avatarText,
+                                        size: 20.sp,
+                                      ),
+                                    ],
+                                  ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
       ],
@@ -512,7 +541,9 @@ class _CourseSharingPageState extends State<CourseSharingPage>
   }
 
   void _validateEmail(
-      String value, ChipsInputState<CourseSharingUserDataModel> state) {
+    String value,
+    ChipsInputState<CourseSharingUserDataModel> state,
+  ) {
     RegExp regExp = RegExpressions.validEmail;
     if (value.isNotEmpty) {
       String matchedString = regExp.stringMatch(value) ?? "";
@@ -521,8 +552,9 @@ class _CourseSharingPageState extends State<CourseSharingPage>
           setState(() {
             showDialogWidget = true;
             dialogType = "warning";
-            dialogMessage = TocLocalizations.of(context)!
-                .mContentSharePageSimilarEmailWarning;
+            dialogMessage = TocLocalizations.of(
+              context,
+            )!.mContentSharePageSimilarEmailWarning;
           });
           Future.delayed(Duration(seconds: 3), () {
             if (mounted)
@@ -533,12 +565,16 @@ class _CourseSharingPageState extends State<CourseSharingPage>
         } else {
           if (selectedRecipients.length.toInt() < maxRecipient.toInt()) {
             CourseSharingUserDataModel profile = CourseSharingUserDataModel(
-                firstName: value,
-                profileDetails: ProfileDetails(
-                    personalDetails: PersonalDetails(
-                        profileImageUrl: "", primaryEmail: value)),
-                maskedEmail: value,
-                userId: value);
+              firstName: value,
+              profileDetails: ProfileDetails(
+                personalDetails: PersonalDetails(
+                  profileImageUrl: "",
+                  primaryEmail: value,
+                ),
+              ),
+              maskedEmail: value,
+              userId: value,
+            );
 
             setState(() {
               selectedRecipients.add(profile);
@@ -548,8 +584,9 @@ class _CourseSharingPageState extends State<CourseSharingPage>
             setState(() {
               showDialogWidget = true;
               dialogType = "warning";
-              dialogMessage = TocLocalizations.of(context)!
-                  .mContentSharePageEmailLimitWarning;
+              dialogMessage = TocLocalizations.of(
+                context,
+              )!.mContentSharePageEmailLimitWarning;
             });
             Future.delayed(Duration(seconds: 3), () {
               if (mounted)
@@ -563,8 +600,9 @@ class _CourseSharingPageState extends State<CourseSharingPage>
         setState(() {
           showDialogWidget = true;
           dialogType = "warning";
-          dialogMessage =
-              TocLocalizations.of(context)!.mContentSharePageInvalidEmailError;
+          dialogMessage = TocLocalizations.of(
+            context,
+          )!.mContentSharePageInvalidEmailError;
         });
         Future.delayed(Duration(seconds: 3), () {
           if (mounted)
@@ -581,7 +619,8 @@ class _CourseSharingPageState extends State<CourseSharingPage>
   void _onChanged(List<CourseSharingUserDataModel> data) {}
 
   Future<List<CourseSharingUserDataModel>> _findSuggestions(
-      String query) async {
+    String query,
+  ) async {
     if (selectedRecipients.length.toInt() < maxRecipient.toInt()) {
       if (query.length != 0 && query.length >= 1) {
         await _getRecipientList(query, searchSize);
@@ -594,8 +633,9 @@ class _CourseSharingPageState extends State<CourseSharingPage>
       setState(() {
         showDialogWidget = true;
         dialogType = "warning";
-        dialogMessage =
-            TocLocalizations.of(context)!.mContentSharePageEmailLimitWarning;
+        dialogMessage = TocLocalizations.of(
+          context,
+        )!.mContentSharePageEmailLimitWarning;
       });
       Future.delayed(Duration(seconds: 3), () {
         if (mounted)
@@ -619,16 +659,17 @@ class _CourseSharingPageState extends State<CourseSharingPage>
   @override
   Widget build(BuildContext context) {
     return AnimatedSize(
-        duration: Duration(seconds: 1), // Duration for the animation
-        curve: Curves.fastOutSlowIn, // Animation curve (e.g., ease-in-out)
-        child: SingleChildScrollView(
-          child: Container(
-            height: MediaQuery.of(context).orientation == Orientation.portrait
-                ? 1.sh
-                : 1.sw,
-            child: getAnimatedWidget(),
-          ),
-        ));
+      duration: Duration(seconds: 1), // Duration for the animation
+      curve: Curves.fastOutSlowIn, // Animation curve (e.g., ease-in-out)
+      child: SingleChildScrollView(
+        child: Container(
+          height: MediaQuery.of(context).orientation == Orientation.portrait
+              ? 1.sh
+              : 1.sw,
+          child: getAnimatedWidget(),
+        ),
+      ),
+    );
   }
 
   submitForm() async {
@@ -642,12 +683,13 @@ class _CourseSharingPageState extends State<CourseSharingPage>
       recipients.add(_recipient);
     }
     var formResponse = await profileService.shareCourse(
-        recipients,
-        widget.courseId,
-        widget.courseName,
-        widget.coursePosterImageUrl,
-        widget.courseProvider,
-        widget.primaryCategory);
+      recipients,
+      widget.courseId,
+      widget.courseName,
+      widget.coursePosterImageUrl,
+      widget.courseProvider,
+      widget.primaryCategory,
+    );
     if (formResponse == "success") {
       widget.callback(formResponse);
       Navigator.of(context).pop();
@@ -655,8 +697,9 @@ class _CourseSharingPageState extends State<CourseSharingPage>
       setState(() {
         showDialogWidget = true;
         dialogType = "error";
-        dialogMessage =
-            TocLocalizations.of(context)!.mContentSharePageSharingError;
+        dialogMessage = TocLocalizations.of(
+          context,
+        )!.mContentSharePageSharingError;
       });
       Future.delayed(Duration(seconds: 3), () {
         if (mounted)
@@ -675,10 +718,11 @@ class _CourseSharingPageState extends State<CourseSharingPage>
       margin: EdgeInsets.only(top: 16).r,
       padding: EdgeInsets.all(16).r,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12).r,
-          color: (dialogType == "success")
-              ? TocModuleColors.positiveLight
-              : TocModuleColors.negativeLight),
+        borderRadius: BorderRadius.circular(12).r,
+        color: (dialogType == "success")
+            ? TocModuleColors.positiveLight
+            : TocModuleColors.negativeLight,
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [

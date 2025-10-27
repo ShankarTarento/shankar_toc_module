@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
 
 import 'package:intl/intl.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
@@ -16,12 +16,13 @@ class AssessmentV2OverallPerformanceSummary extends StatefulWidget {
   final VoidCallback? popBack;
   final bool showBack;
 
-  AssessmentV2OverallPerformanceSummary(
-      {required this.timeSpent,
-      required this.apiResponse,
-      required this.primaryCategory,
-      this.popBack,
-      this.showBack = false});
+  AssessmentV2OverallPerformanceSummary({
+    required this.timeSpent,
+    required this.apiResponse,
+    required this.primaryCategory,
+    this.popBack,
+    this.showBack = false,
+  });
 
   @override
   State<AssessmentV2OverallPerformanceSummary> createState() =>
@@ -48,7 +49,8 @@ class _AssessmentV2OverallPerformanceSummaryState
               imagePath: 'assets/img/speed.svg',
               summaryText:
                   '${TocHelper.handleNumber(widget.apiResponse['totalSectionMarks'])}/${widget.apiResponse['totalMarks']}',
-              description: TocLocalizations.of(context)!.mAssessmentScore)
+              description: TocLocalizations.of(context)!.mAssessmentScore,
+            )
           : null,
       widget.primaryCategory != PrimaryCategory.practiceAssessment &&
               widget.apiResponse['timeTakenForAssessment'] != null
@@ -56,38 +58,45 @@ class _AssessmentV2OverallPerformanceSummaryState
               bgColor: TocModuleColors.timeGreenShade,
               imagePath: 'assets/img/nest_clock_farsight_analog.svg',
               summaryText: DateFormat('HH:mm:ss').format(
-                  DateTime.fromMillisecondsSinceEpoch(
-                      widget.apiResponse['timeTakenForAssessment'],
-                      isUtc: true)),
-              description: TocLocalizations.of(context)!.mAssessmentTimeTaken)
+                DateTime.fromMillisecondsSinceEpoch(
+                  widget.apiResponse['timeTakenForAssessment'],
+                  isUtc: true,
+                ),
+              ),
+              description: TocLocalizations.of(context)!.mAssessmentTimeTaken,
+            )
           : null,
       summaryWidget(
-          bgColor: TocModuleColors.pinkBgShade,
-          imagePath: 'assets/img/assignment.svg',
-          summaryText: widget.apiResponse['total'] == null
-              ? '${widget.apiResponse['correct'] + widget.apiResponse['incorrect']}/${widget.apiResponse['correct'] + widget.apiResponse['incorrect'] + widget.apiResponse['blank']}'
-              : '${widget.apiResponse['total'] - widget.apiResponse['blank']}/${widget.apiResponse['total']}',
-          description: TocLocalizations.of(context)!.mAssessmentAttempted),
+        bgColor: TocModuleColors.pinkBgShade,
+        imagePath: 'assets/img/assignment.svg',
+        summaryText: widget.apiResponse['total'] == null
+            ? '${widget.apiResponse['correct'] + widget.apiResponse['incorrect']}/${widget.apiResponse['correct'] + widget.apiResponse['incorrect'] + widget.apiResponse['blank']}'
+            : '${widget.apiResponse['total'] - widget.apiResponse['blank']}/${widget.apiResponse['total']}',
+        description: TocLocalizations.of(context)!.mAssessmentAttempted,
+      ),
       summaryWidget(
-          bgColor: TocModuleColors.orangeCorrectShade,
-          imagePath: 'assets/img/check_circle.svg',
-          summaryText: widget.apiResponse['total'] == null
-              ? '${widget.apiResponse['correct']}/${widget.apiResponse['correct'] + widget.apiResponse['incorrect'] + widget.apiResponse['blank']}'
-              : '${widget.apiResponse['correct']}/${widget.apiResponse['total']}',
-          description: TocLocalizations.of(context)!.mAssessmentCorrect),
+        bgColor: TocModuleColors.orangeCorrectShade,
+        imagePath: 'assets/img/check_circle.svg',
+        summaryText: widget.apiResponse['total'] == null
+            ? '${widget.apiResponse['correct']}/${widget.apiResponse['correct'] + widget.apiResponse['incorrect'] + widget.apiResponse['blank']}'
+            : '${widget.apiResponse['correct']}/${widget.apiResponse['total']}',
+        description: TocLocalizations.of(context)!.mAssessmentCorrect,
+      ),
       summaryWidget(
-          bgColor: TocModuleColors.redBgShade,
-          imagePath: 'assets/img/assessment_cancel.svg',
-          summaryText: widget.apiResponse['incorrect'].toString(),
-          description: TocLocalizations.of(context)!.mAssessmentWrong),
+        bgColor: TocModuleColors.redBgShade,
+        imagePath: 'assets/img/assessment_cancel.svg',
+        summaryText: widget.apiResponse['incorrect'].toString(),
+        description: TocLocalizations.of(context)!.mAssessmentWrong,
+      ),
       widget.apiResponse['overallResult'] != null
           ? summaryWidget(
               bgColor: TocModuleColors.greenBgShade,
               imagePath: 'assets/img/target.svg',
               summaryText:
                   '${double.parse(widget.apiResponse['overallResult'].toString()).toStringAsFixed(2)}%',
-              description: TocLocalizations.of(context)!.mAssessmentAccuracy)
-          : null
+              description: TocLocalizations.of(context)!.mAssessmentAccuracy,
+            )
+          : null,
     ];
     overallSummaryData.removeWhere((item) => item == null);
   }
@@ -114,11 +123,12 @@ class _AssessmentV2OverallPerformanceSummaryState
                       ),
                     ),
                   )
-                : SizedBox(
-                    width: 16,
-                  ),
-            summaryScreenHeader(TocLocalizations.of(context)!
-                .mAssessmentMyOverallPerformanceSummary),
+                : SizedBox(width: 16),
+            summaryScreenHeader(
+              TocLocalizations.of(
+                context,
+              )!.mAssessmentMyOverallPerformanceSummary,
+            ),
           ],
         ),
         ...overallSummaryData.take(overallSummaryDisplayCount).toList(),
@@ -133,19 +143,20 @@ class _AssessmentV2OverallPerformanceSummaryState
                           !showFullOverallPerformanceSummary;
                       overallSummaryDisplayCount =
                           showFullOverallPerformanceSummary
-                              ? overallSummaryData.length
-                              : 3;
+                          ? overallSummaryData.length
+                          : 3;
                     });
                   },
                   style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(horizontal: 16).r,
-                      backgroundColor: showFullOverallPerformanceSummary
-                          ? TocModuleColors.darkBlue
-                          : TocModuleColors.appBarBackground,
-                      side: BorderSide(color: TocModuleColors.darkBlue),
-                      shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(63)).r)),
+                    padding: EdgeInsets.symmetric(horizontal: 16).r,
+                    backgroundColor: showFullOverallPerformanceSummary
+                        ? TocModuleColors.darkBlue
+                        : TocModuleColors.appBarBackground,
+                    side: BorderSide(color: TocModuleColors.darkBlue),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(63)).r,
+                    ),
+                  ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -171,7 +182,7 @@ class _AssessmentV2OverallPerformanceSummaryState
                         color: showFullOverallPerformanceSummary
                             ? TocModuleColors.appBarBackground
                             : TocModuleColors.darkBlue,
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -181,11 +192,12 @@ class _AssessmentV2OverallPerformanceSummaryState
     );
   }
 
-  Container summaryWidget(
-      {required Color bgColor,
-      required String imagePath,
-      required String summaryText,
-      required String description}) {
+  Container summaryWidget({
+    required Color bgColor,
+    required String imagePath,
+    required String summaryText,
+    required String description,
+  }) {
     return Container(
       margin: EdgeInsets.only(top: 20, left: 16, right: 16).r,
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4).r,
@@ -201,14 +213,18 @@ class _AssessmentV2OverallPerformanceSummaryState
                 width: 45.w,
                 height: 45.w,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(63).r, color: bgColor),
+                  borderRadius: BorderRadius.circular(63).r,
+                  color: bgColor,
+                ),
               ),
               Positioned.fill(
                 child: Center(
                   child: SvgPicture.asset(
                     imagePath,
                     colorFilter: ColorFilter.mode(
-                        TocModuleColors.appBarBackground, BlendMode.srcIn),
+                      TocModuleColors.appBarBackground,
+                      BlendMode.srcIn,
+                    ),
                     height: 30.w,
                     width: 30.w,
                   ),
@@ -223,24 +239,26 @@ class _AssessmentV2OverallPerformanceSummaryState
               Text(
                 summaryText,
                 style: GoogleFonts.robotoSlab(
-                    decoration: TextDecoration.none,
-                    color: TocModuleColors.greys87,
-                    fontSize: 18.4.sp,
-                    fontWeight: FontWeight.w400,
-                    letterSpacing: 0.25),
+                  decoration: TextDecoration.none,
+                  color: TocModuleColors.greys87,
+                  fontSize: 18.4.sp,
+                  fontWeight: FontWeight.w400,
+                  letterSpacing: 0.25,
+                ),
               ),
               SizedBox(height: 4.0.w),
               Text(
                 description,
                 style: GoogleFonts.robotoSlab(
-                    decoration: TextDecoration.none,
-                    color: TocModuleColors.greys87,
-                    fontSize: 18.4.sp,
-                    fontWeight: FontWeight.w400,
-                    letterSpacing: 0.25),
+                  decoration: TextDecoration.none,
+                  color: TocModuleColors.greys87,
+                  fontSize: 18.4.sp,
+                  fontWeight: FontWeight.w400,
+                  letterSpacing: 0.25,
+                ),
               ),
             ],
-          )
+          ),
         ],
       ),
     );
@@ -248,26 +266,28 @@ class _AssessmentV2OverallPerformanceSummaryState
 
   Padding summaryScreenHeader(String text) {
     return Padding(
-        padding: const EdgeInsets.fromLTRB(0, 8, 16, 8).r,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              text,
-              style: GoogleFonts.robotoSlab(
-                color: TocModuleColors.darkBlue,
-                fontSize: 20.0.sp,
-                fontWeight: FontWeight.w500,
-              ),
+      padding: const EdgeInsets.fromLTRB(0, 8, 16, 8).r,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            text,
+            style: GoogleFonts.robotoSlab(
+              color: TocModuleColors.darkBlue,
+              fontSize: 20.0.sp,
+              fontWeight: FontWeight.w500,
             ),
-            Container(
-                padding: EdgeInsets.only(top: 8).r,
-                width: 100.w,
-                child: Divider(
-                  thickness: 4.w,
-                  color: TocModuleColors.orangeDividerShade,
-                )),
-          ],
-        ));
+          ),
+          Container(
+            padding: EdgeInsets.only(top: 8).r,
+            width: 100.w,
+            child: Divider(
+              thickness: 4.w,
+              color: TocModuleColors.orangeDividerShade,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

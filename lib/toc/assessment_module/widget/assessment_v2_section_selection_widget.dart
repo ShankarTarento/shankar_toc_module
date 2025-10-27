@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 import 'package:toc_module/toc/constants/color_constants.dart';
 
 typedef IntCallback = void Function(int value);
@@ -10,12 +11,12 @@ class SectionSelectionWidgetV2 extends StatefulWidget {
   final List<dynamic> assessmentDetails;
   final IntCallback changeSection;
   final int sectionIndex;
-  SectionSelectionWidgetV2(
-      {Key? key,
-      required this.assessmentDetails,
-      required this.changeSection,
-      required this.sectionIndex})
-      : super(key: key);
+  SectionSelectionWidgetV2({
+    Key? key,
+    required this.assessmentDetails,
+    required this.changeSection,
+    required this.sectionIndex,
+  }) : super(key: key);
   @override
   State<SectionSelectionWidgetV2> createState() =>
       _SectionSelectionWidgetV2State();
@@ -46,16 +47,17 @@ class _SectionSelectionWidgetV2State extends State<SectionSelectionWidgetV2> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 5).r,
       decoration: BoxDecoration(
-          color:
-              widget.assessmentDetails[widget.sectionIndex].expectedDuration !=
-                      null
-                  ? TocModuleColors.grey40
-                  : TocModuleColors.darkBlue,
-          borderRadius: BorderRadius.circular(63)),
+        color:
+            widget.assessmentDetails[widget.sectionIndex].expectedDuration !=
+                null
+            ? TocModuleColors.grey40
+            : TocModuleColors.darkBlue,
+        borderRadius: BorderRadius.circular(63),
+      ),
       child: IgnorePointer(
         ignoring:
             widget.assessmentDetails[widget.sectionIndex].expectedDuration !=
-                null,
+            null,
         child: DropdownButton<String>(
           isExpanded: true,
           value: selectedItem.identifier,
@@ -64,29 +66,37 @@ class _SectionSelectionWidgetV2State extends State<SectionSelectionWidgetV2> {
           iconEnabledColor: TocModuleColors.appBarBackground,
           onChanged: (String? newValue) {
             if (widget
-                    .assessmentDetails[widget.sectionIndex].expectedDuration ==
+                    .assessmentDetails[widget.sectionIndex]
+                    .expectedDuration ==
                 null) {
-              int selectedIndex = _dropdownItems
-                  .indexWhere((element) => element['identifier'] == newValue);
+              int selectedIndex = _dropdownItems.indexWhere(
+                (element) => element['identifier'] == newValue,
+              );
               if (widget.assessmentDetails[selectedIndex].submitted == null ||
                   !widget.assessmentDetails[selectedIndex].submitted) {
                 setState(() {
                   widget.changeSection(selectedIndex);
                   selectedItem = _dropdownItems.firstWhere(
-                      (element) => element['identifier'] == newValue);
+                    (element) => element['identifier'] == newValue,
+                  );
                 });
               } else if (widget.assessmentDetails[selectedIndex].submitted !=
                       null ||
                   widget.assessmentDetails[selectedIndex].submitted) {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
                     content: Column(
-                  children: [
-                    Text(
-                      TocLocalizations.of(context)!.mAssessmentResponseAddedMsg,
-                      textAlign: TextAlign.center,
+                      children: [
+                        Text(
+                          TocLocalizations.of(
+                            context,
+                          )!.mAssessmentResponseAddedMsg,
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
                     ),
-                  ],
-                )));
+                  ),
+                );
               }
             }
             // else {

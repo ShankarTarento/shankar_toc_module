@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
@@ -12,7 +13,7 @@ class Reviews extends StatelessWidget {
   final OverallRating reviewAndRating;
   final Course course;
   const Reviews({Key? key, required this.reviewAndRating, required this.course})
-      : super(key: key);
+    : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,9 +36,7 @@ class Reviews extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: ((context) => ViewAllReviews(
-                            course: course,
-                          )),
+                      builder: ((context) => ViewAllReviews(course: course)),
                     ),
                   );
                 },
@@ -49,7 +48,7 @@ class Reviews extends StatelessWidget {
                     fontWeight: FontWeight.w400,
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -60,13 +59,15 @@ class Reviews extends StatelessWidget {
             ? SizedBox(
                 height: 112.w,
                 child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    shrinkWrap: true,
-                    itemCount: reviewAndRating.reviews!.length,
-                    itemBuilder: (context, index) => reviewCard(
-                        index: index,
-                        review: reviewAndRating.reviews![index],
-                        context: context)),
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  itemCount: reviewAndRating.reviews!.length,
+                  itemBuilder: (context, index) => reviewCard(
+                    index: index,
+                    review: reviewAndRating.reviews![index],
+                    context: context,
+                  ),
+                ),
               )
             : Container(
                 padding: EdgeInsets.all(16).r,
@@ -85,17 +86,16 @@ class Reviews extends StatelessWidget {
                   ),
                 ),
               ),
-        SizedBox(
-          height: 16.w,
-        ),
+        SizedBox(height: 16.w),
       ],
     );
   }
 
-  Widget reviewCard(
-      {required Review review,
-      required BuildContext context,
-      required int index}) {
+  Widget reviewCard({
+    required Review review,
+    required BuildContext context,
+    required int index,
+  }) {
     return Container(
       height: 112.w,
       width: 1.sw / 1.2,
@@ -121,9 +121,7 @@ class Reviews extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(
-                width: 8.w,
-              ),
+              SizedBox(width: 8.w),
               Flexible(
                 child: Text(
                   review.firstName ?? "",
@@ -157,9 +155,7 @@ class Reviews extends StatelessWidget {
                 color: TocModuleColors.verifiedBadgeIconColor,
                 size: 16.sp,
               ),
-              SizedBox(
-                width: 2.w,
-              ),
+              SizedBox(width: 2.w),
               Text(
                 review.rating.toString(),
                 style: GoogleFonts.lato(
@@ -170,21 +166,20 @@ class Reviews extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(
-            height: 8.w,
-          ),
+          SizedBox(height: 8.w),
           Flexible(
             child: Text(
               review.review ?? '',
               style: GoogleFonts.lato(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w400,
-                  color: TocModuleColors.greys,
-                  height: 1.5.w),
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w400,
+                color: TocModuleColors.greys,
+                height: 1.5.w,
+              ),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
-          )
+          ),
         ],
       ),
     );

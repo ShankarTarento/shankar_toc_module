@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:karmayogi_mobile/constants/_constants/color_constants.dart';

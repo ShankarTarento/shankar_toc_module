@@ -9,15 +9,12 @@ import 'package:toc_module/toc/model/resource_details.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:html/parser.dart' as html_parser;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
 
 class ResourceDetailsScreenHeader extends StatefulWidget {
   final ResourceDetails resourceDetails;
 
-  const ResourceDetailsScreenHeader({
-    super.key,
-    required this.resourceDetails,
-  });
+  const ResourceDetailsScreenHeader({super.key, required this.resourceDetails});
 
   @override
   State<ResourceDetailsScreenHeader> createState() =>
@@ -36,7 +33,7 @@ class _ResourceDetailsScreenHeaderV2State
     try {
       htmlContent =
           html_parser.parse(widget.resourceDetails.instructions).body?.text ??
-              '';
+          '';
       var links = html_parser
           .parse(widget.resourceDetails.instructions)
           .querySelector('a');
@@ -66,19 +63,16 @@ class _ResourceDetailsScreenHeaderV2State
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            height: 8.w,
-          ),
+          SizedBox(height: 8.w),
           Text(
             widget.resourceDetails.name ?? '',
             style: GoogleFonts.lato(
-                fontSize: 20.sp,
-                fontWeight: FontWeight.w600,
-                color: ModuleColors.white),
+              fontSize: 20.sp,
+              fontWeight: FontWeight.w600,
+              color: ModuleColors.white,
+            ),
           ),
-          SizedBox(
-            height: 8.w,
-          ),
+          SizedBox(height: 8.w),
           htmlContent != null && widget.resourceDetails.instructions != null
               ? InkWell(
                   onTap: () async {
@@ -103,21 +97,18 @@ class _ResourceDetailsScreenHeaderV2State
                   ),
                 )
               : const SizedBox(),
-          SizedBox(
-            height: 16.w,
-          ),
+          SizedBox(height: 16.w),
           widget.resourceDetails.lastPublishedOn != null
               ? Text(
                   "${TocLocalizations.of(context)!.mPublishedOn} ${ModuleHelper.getDateTimeInFormat(dateTime: widget.resourceDetails.lastPublishedOn!, desiredDateFormat: ModuleConstants.dateFormat2)}",
                   style: GoogleFonts.lato(
-                      fontSize: 13.sp,
-                      fontWeight: FontWeight.w400,
-                      color: ModuleColors.white),
+                    fontSize: 13.sp,
+                    fontWeight: FontWeight.w400,
+                    color: ModuleColors.white,
+                  ),
                 )
               : SizedBox.shrink(),
-          SizedBox(
-            height: 16.w,
-          ),
+          SizedBox(height: 16.w),
           Wrap(
             runAlignment: WrapAlignment.start,
             crossAxisAlignment: WrapCrossAlignment.start,
@@ -126,15 +117,17 @@ class _ResourceDetailsScreenHeaderV2State
             spacing: 16,
             children: [
               titleSubtitle(
-                  context: context,
-                  title: TocLocalizations.of(context)!.mStaticCategory,
-                  subtitle: widget.resourceDetails.resourceCategory ?? "-"),
+                context: context,
+                title: TocLocalizations.of(context)!.mStaticCategory,
+                subtitle: widget.resourceDetails.resourceCategory ?? "-",
+              ),
               titleSubtitle(
-                  context: context,
-                  title: TocLocalizations.of(context)!.mStaticResourceType,
-                  subtitle: resourceType() ?? "-")
+                context: context,
+                title: TocLocalizations.of(context)!.mStaticResourceType,
+                subtitle: resourceType() ?? "-",
+              ),
             ],
-          )
+          ),
         ],
       ),
     );
@@ -155,10 +148,11 @@ class _ResourceDetailsScreenHeaderV2State
     }
   }
 
-  Widget titleSubtitle(
-      {required BuildContext context,
-      required String title,
-      required String subtitle}) {
+  Widget titleSubtitle({
+    required BuildContext context,
+    required String title,
+    required String subtitle,
+  }) {
     return SizedBox(
       width: MediaQuery.of(context).size.width / 3.6,
       child: Column(
@@ -167,22 +161,22 @@ class _ResourceDetailsScreenHeaderV2State
           Text(
             title,
             style: GoogleFonts.lato(
-                fontSize: 13.sp,
-                fontWeight: FontWeight.w400,
-                color: ModuleColors.white),
+              fontSize: 13.sp,
+              fontWeight: FontWeight.w400,
+              color: ModuleColors.white,
+            ),
           ),
-          SizedBox(
-            height: 4.w,
-          ),
+          SizedBox(height: 4.w),
           Text(
             subtitle,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.lato(
-                fontSize: 15.sp,
-                fontWeight: FontWeight.w400,
-                color: ModuleColors.white),
-          )
+              fontSize: 15.sp,
+              fontWeight: FontWeight.w400,
+              color: ModuleColors.white,
+            ),
+          ),
         ],
       ),
     );

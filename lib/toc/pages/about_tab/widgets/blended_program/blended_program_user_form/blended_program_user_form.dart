@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
 
 import 'package:provider/provider.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
@@ -25,14 +25,15 @@ class BlendedProgramUserForm extends StatefulWidget {
   final String courseId;
   final String title;
   final List<Map<String, dynamic>> bpEnrolMandatoryProfileFields;
-  const BlendedProgramUserForm(
-      {super.key,
-      required this.isCadreProgram,
-      required this.courseId,
-      required this.title,
-      required this.selectedBatch,
-      required this.saveAndNext,
-      required this.bpEnrolMandatoryProfileFields});
+  const BlendedProgramUserForm({
+    super.key,
+    required this.isCadreProgram,
+    required this.courseId,
+    required this.title,
+    required this.selectedBatch,
+    required this.saveAndNext,
+    required this.bpEnrolMandatoryProfileFields,
+  });
 
   @override
   State<BlendedProgramUserForm> createState() => _BlendedProgramUserFormState();
@@ -85,9 +86,10 @@ class _BlendedProgramUserFormState extends State<BlendedProgramUserForm> {
   }
 
   Future<CadreDetailsDataModel> _fetchCadreData() async {
-    final responseData =
-        await Provider.of<ProfileRepository>(context, listen: false)
-            .getCadreConfigData();
+    final responseData = await Provider.of<ProfileRepository>(
+      context,
+      listen: false,
+    ).getCadreConfigData();
     return CadreDetailsDataModel.fromJson(responseData);
   }
 
@@ -128,9 +130,7 @@ class _BlendedProgramUserFormState extends State<BlendedProgramUserForm> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ...formWidgets,
-                  SizedBox(
-                    height: 40.w,
-                  ),
+                  SizedBox(height: 40.w),
                   Row(
                     children: [
                       Expanded(
@@ -142,32 +142,33 @@ class _BlendedProgramUserFormState extends State<BlendedProgramUserForm> {
                               Navigator.pop(context);
                             },
                             style: ButtonStyle(
-                              shape: WidgetStateProperty.all<
-                                      RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(4.0).r,
+                              shape:
+                                  WidgetStateProperty.all<
+                                    RoundedRectangleBorder
+                                  >(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(
+                                        4.0,
+                                      ).r,
                                       side: BorderSide(
-                                          color: TocModuleColors.darkBlue,
-                                          width: 1.5.w))),
+                                        color: TocModuleColors.darkBlue,
+                                        width: 1.5.w,
+                                      ),
+                                    ),
+                                  ),
                               backgroundColor: WidgetStateProperty.all<Color>(
-                                  TocModuleColors.appBarBackground),
+                                TocModuleColors.appBarBackground,
+                              ),
                             ),
                             child: Text(
                               "Cancel",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleSmall!
-                                  .copyWith(
-                                    letterSpacing: 1,
-                                  ),
+                              style: Theme.of(context).textTheme.titleSmall!
+                                  .copyWith(letterSpacing: 1),
                             ),
                           ),
                         ),
                       ),
-                      SizedBox(
-                        width: 16.w,
-                      ),
+                      SizedBox(width: 16.w),
                       Expanded(
                         flex: 1,
                         child: SizedBox(
@@ -179,16 +180,23 @@ class _BlendedProgramUserFormState extends State<BlendedProgramUserForm> {
                                   }
                                 : null,
                             style: ButtonStyle(
-                              shape: WidgetStateProperty.all<
-                                      RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(4.0).r,
+                              shape:
+                                  WidgetStateProperty.all<
+                                    RoundedRectangleBorder
+                                  >(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(
+                                        4.0,
+                                      ).r,
                                       side: BorderSide(
-                                          color: TocModuleColors.darkBlue,
-                                          width: 1.5.w))),
+                                        color: TocModuleColors.darkBlue,
+                                        width: 1.5.w,
+                                      ),
+                                    ),
+                                  ),
                               backgroundColor: WidgetStateProperty.all<Color>(
-                                  TocModuleColors.darkBlue),
+                                TocModuleColors.darkBlue,
+                              ),
                             ),
                             child: _savePressed.value
                                 ? CircularProgressIndicator(
@@ -200,18 +208,14 @@ class _BlendedProgramUserFormState extends State<BlendedProgramUserForm> {
                                     style: Theme.of(context)
                                         .textTheme
                                         .displaySmall!
-                                        .copyWith(
-                                          letterSpacing: 1,
-                                        ),
+                                        .copyWith(letterSpacing: 1),
                                   ),
                           ),
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: 16.w,
-                  ),
+                  SizedBox(height: 16.w),
                 ],
               ),
             ),
@@ -222,8 +226,10 @@ class _BlendedProgramUserFormState extends State<BlendedProgramUserForm> {
   }
 
   void getFormWidgets(Map<String, dynamic> fieldData) {
-    Profile? profileDetails =
-        Provider.of<ProfileRepository>(context, listen: false).profileDetails;
+    Profile? profileDetails = Provider.of<ProfileRepository>(
+      context,
+      listen: false,
+    ).profileDetails;
     switch (fieldData['displayName']) {
       case SurveyFormConstants.name:
         formWidgets.addAll([
@@ -232,26 +238,31 @@ class _BlendedProgramUserFormState extends State<BlendedProgramUserForm> {
             isMandatory: true,
           ),
           TextInputField(
-              minLines: 1,
-              keyboardType: TextInputType.text,
-              readOnly: true,
-              controller: _nameController,
-              hintText: TocLocalizations.of(context)!.mProfileEnterFullName,
-              onChanged: (p0) {},
-              validatorFuntion: (String? value) {
-                return Validations.validateFullName(
-                    context: context, value: value ?? '');
-              })
+            minLines: 1,
+            keyboardType: TextInputType.text,
+            readOnly: true,
+            controller: _nameController,
+            hintText: TocLocalizations.of(context)!.mProfileEnterFullName,
+            onChanged: (p0) {},
+            validatorFuntion: (String? value) {
+              return Validations.validateFullName(
+                context: context,
+                value: value ?? '',
+              );
+            },
+          ),
         ]);
         break;
       case SurveyFormConstants.organisation:
         formWidgets.addAll([
           FieldNameWidget(
-              isMandatory: true,
-              fieldName: widget.isCadreProgram
-                  ? TocLocalizations.of(context)!
-                      .mPresentMinistryDepartmentStateUT
-                  : TocLocalizations.of(context)!.mStaticOrganisation),
+            isMandatory: true,
+            fieldName: widget.isCadreProgram
+                ? TocLocalizations.of(
+                    context,
+                  )!.mPresentMinistryDepartmentStateUT
+                : TocLocalizations.of(context)!.mStaticOrganisation,
+          ),
           TextInputField(
             readOnly: true,
             minLines: 1,
@@ -271,23 +282,20 @@ class _BlendedProgramUserFormState extends State<BlendedProgramUserForm> {
               debugPrint(value);
             },
           ),
-          SizedBox(
-            height: 8.w,
-          )
+          SizedBox(height: 8.w),
         ]);
 
         break;
       case SurveyFormConstants.designation:
         formWidgets.addAll([
           EditDesignationDetails(
-              isCadreProgram: widget.isCadreProgram,
-              designationDetails: (value) {
-                _designationController.text = value;
-              },
-              isOrgBasedDesignation: isDesignationMasterEnabled),
-          SizedBox(
-            height: 8.w,
-          )
+            isCadreProgram: widget.isCadreProgram,
+            designationDetails: (value) {
+              _designationController.text = value;
+            },
+            isOrgBasedDesignation: isDesignationMasterEnabled,
+          ),
+          SizedBox(height: 8.w),
         ]);
 
         break;
@@ -295,30 +303,30 @@ class _BlendedProgramUserFormState extends State<BlendedProgramUserForm> {
       case SurveyFormConstants.employeeId:
         formWidgets.addAll([
           FieldNameWidget(
-              isMandatory: true,
-              fieldName: TocLocalizations.of(context)!.mProfileEmployeeId),
+            isMandatory: true,
+            fieldName: TocLocalizations.of(context)!.mProfileEmployeeId,
+          ),
           TextInputField(
-              minLines: 1,
-              keyboardType: TextInputType.text,
-              controller: _employeeIdController,
-              hintText: TocLocalizations.of(context)!.mEditProfileTypeHere,
-              onChanged: (p0) {},
-              validatorFuntion: (String? value) {
-                return Validations.validateEmployeeIdBLendedProgramForm(
-                    context: context, value: value ?? '');
-              }),
-          SizedBox(
-            height: 16.w,
-          )
+            minLines: 1,
+            keyboardType: TextInputType.text,
+            controller: _employeeIdController,
+            hintText: TocLocalizations.of(context)!.mEditProfileTypeHere,
+            onChanged: (p0) {},
+            validatorFuntion: (String? value) {
+              return Validations.validateEmployeeIdBLendedProgramForm(
+                context: context,
+                value: value ?? '',
+              );
+            },
+          ),
+          SizedBox(height: 16.w),
         ]);
 
         break;
       case SurveyFormConstants.email:
         _isEmailVerified = ValueNotifier(true);
         formWidgets.addAll([
-          SizedBox(
-            height: 16,
-          ),
+          SizedBox(height: 16),
           VerifyEmailField(
             onChanged: (value) {
               _isEmailVerified?.value = value;
@@ -328,80 +336,83 @@ class _BlendedProgramUserFormState extends State<BlendedProgramUserForm> {
             },
             emailController: _emailController,
             isEmailVerified: _isEmailVerified!.value,
-          )
+          ),
         ]);
         break;
       case SurveyFormConstants.mobileNumber:
         _isMobileVerified = ValueNotifier(
-            profileDetails?.personalDetails['phoneVerified'].toString() ==
-                "true");
+          profileDetails?.personalDetails['phoneVerified'].toString() == "true",
+        );
 
         formWidgets.addAll([
-          SizedBox(
-            height: 16,
-          ),
+          SizedBox(height: 16),
           ValueListenableBuilder(
-              valueListenable: _isMobileVerified!,
-              builder:
-                  (BuildContext context, bool isMobileVerified, Widget? child) {
-                return VerifyPhoneField(
-                  mobileController: _mobileController,
-                  isVerified: _isMobileVerified!.value,
-                  onChanged: (value) {
-                    _isMobileVerified?.value = value;
-                  },
-                  unverifiedPhone: profileDetails != null &&
-                          profileDetails.personalDetails['mobile'] != null &&
-                          profileDetails.personalDetails['phoneVerified'] !=
-                              null &&
-                          profileDetails.personalDetails['phoneVerified']
-                                  .toString() ==
-                              'false'
-                      ? profileDetails.personalDetails['mobile'].toString()
-                      : null,
-                  mobileNumber: (value) {
-                    _mobileController.text = value;
-                  },
-                );
-              })
+            valueListenable: _isMobileVerified!,
+            builder:
+                (BuildContext context, bool isMobileVerified, Widget? child) {
+                  return VerifyPhoneField(
+                    mobileController: _mobileController,
+                    isVerified: _isMobileVerified!.value,
+                    onChanged: (value) {
+                      _isMobileVerified?.value = value;
+                    },
+                    unverifiedPhone:
+                        profileDetails != null &&
+                            profileDetails.personalDetails['mobile'] != null &&
+                            profileDetails.personalDetails['phoneVerified'] !=
+                                null &&
+                            profileDetails.personalDetails['phoneVerified']
+                                    .toString() ==
+                                'false'
+                        ? profileDetails.personalDetails['mobile'].toString()
+                        : null,
+                    mobileNumber: (value) {
+                      _mobileController.text = value;
+                    },
+                  );
+                },
+          ),
         ]);
 
         break;
       case SurveyFormConstants.gender:
         formWidgets.addAll([
           FieldNameWidget(
-              isMandatory: true,
-              fieldName: TocLocalizations.of(context)!.mProfileGender),
+            isMandatory: true,
+            fieldName: TocLocalizations.of(context)!.mProfileGender,
+          ),
           ValueListenableBuilder(
-              valueListenable: _selectedGender,
-              builder: (BuildContext context, dynamic selectedGender,
-                  Widget? child) {
-                return FormDropDown(
+            valueListenable: _selectedGender,
+            builder:
+                (BuildContext context, dynamic selectedGender, Widget? child) {
+                  return FormDropDown(
                     options: EditProfileMandatoryHelper.genderRadio,
                     selectedValue: selectedGender,
                     validator: (value) {
                       if (selectedGender == null || selectedGender == '') {
-                        return TocLocalizations.of(context)!
-                            .mProfileGenderMandatory;
+                        return TocLocalizations.of(
+                          context,
+                        )!.mProfileGenderMandatory;
                       } else {
                         return null;
                       }
                     },
                     onChanged: (value) {
                       _selectedGender.value = value;
-                    });
-              }),
-          SizedBox(
-            height: 16.w,
-          )
+                    },
+                  );
+                },
+          ),
+          SizedBox(height: 16.w),
         ]);
 
         break;
       case SurveyFormConstants.dateOfBirth:
         formWidgets.addAll([
           FieldNameWidget(
-              isMandatory: true,
-              fieldName: TocLocalizations.of(context)!.mProfileDOB),
+            isMandatory: true,
+            fieldName: TocLocalizations.of(context)!.mProfileDOB,
+          ),
           TextInputField(
             focusNode: _dobFocus,
             keyboardType: TextInputType.datetime,
@@ -421,28 +432,29 @@ class _BlendedProgramUserFormState extends State<BlendedProgramUserForm> {
             },
             onTap: () async {
               DateTime? newDate = await showDatePicker(
-                  context: context,
-                  initialEntryMode: DatePickerEntryMode.calendarOnly,
-                  initialDate: _dobDate == null
-                      ? ((_dobController.text != '') &&
+                context: context,
+                initialEntryMode: DatePickerEntryMode.calendarOnly,
+                initialDate: _dobDate == null
+                    ? ((_dobController.text != '') &&
                               !RegExp(r'[a-zA-Z]').hasMatch(_dobController.text)
                           ? DateTimeHelper.convertDDMMYYYYtoDateTime(
-                              _dobController.text)
+                              _dobController.text,
+                            )
                           : DateTime.now())
-                      : _dobDate,
-                  firstDate: DateTime(1900),
-                  lastDate: DateTime.now());
+                    : _dobDate,
+                firstDate: DateTime(1900),
+                lastDate: DateTime.now(),
+              );
               if (newDate == null) {
                 return null;
               }
               _dobDate = newDate;
-              _dobController.text =
-                  DateTimeHelper.convertDatetimetoDDMMYYYY(newDate);
+              _dobController.text = DateTimeHelper.convertDatetimetoDDMMYYYY(
+                newDate,
+              );
             },
           ),
-          SizedBox(
-            height: 12.w,
-          )
+          SizedBox(height: 12.w),
         ]);
 
         break;
@@ -466,9 +478,7 @@ class _BlendedProgramUserFormState extends State<BlendedProgramUserForm> {
             },
             callBack: () {},
           ),
-          SizedBox(
-            height: 12.w,
-          )
+          SizedBox(height: 12.w),
         ]);
 
         break;
@@ -479,49 +489,56 @@ class _BlendedProgramUserFormState extends State<BlendedProgramUserForm> {
             fieldName: TocLocalizations.of(context)!.mStaticCategory,
           ),
           ValueListenableBuilder<String?>(
-              valueListenable: _selectedCategory,
-              builder: (BuildContext context, String? selectedCategory,
-                  Widget? child) {
-                return FormDropDown(
+            valueListenable: _selectedCategory,
+            builder:
+                (
+                  BuildContext context,
+                  String? selectedCategory,
+                  Widget? child,
+                ) {
+                  return FormDropDown(
                     options: EditProfileMandatoryHelper.categoryRadio,
                     selectedValue: selectedCategory,
                     validator: (value) {
                       if (selectedCategory == null || selectedCategory == '') {
-                        return TocLocalizations.of(context)!
-                            .mProfileCategoryMandatory;
+                        return TocLocalizations.of(
+                          context,
+                        )!.mProfileCategoryMandatory;
                       } else {
                         return null;
                       }
                     },
                     onChanged: (value) {
                       _selectedCategory.value = value;
-                    });
-              }),
-          SizedBox(
-            height: 12.w,
-          )
+                    },
+                  );
+                },
+          ),
+          SizedBox(height: 12.w),
         ]);
 
         break;
       case SurveyFormConstants.officePinCode:
         formWidgets.addAll([
           FieldNameWidget(
-              isMandatory: true,
-              fieldName: TocLocalizations.of(context)!.mProfileOfficePincode),
+            isMandatory: true,
+            fieldName: TocLocalizations.of(context)!.mProfileOfficePincode,
+          ),
           TextInputField(
-              readOnly: false,
-              minLines: 1,
-              focusNode: _pinCodeFocus,
-              keyboardType: TextInputType.number,
-              controller: _pinCodeController,
-              hintText: TocLocalizations.of(context)!.mStaticTypeHere,
-              maxLength: 6,
-              onChanged: (p0) {},
-              validatorFuntion: (String? value) =>
-                  Validations.validatePinCodeBlendedProgram(value ?? ''),
-              onFieldSubmitted: (String value) {
-                _pinCodeFocus.unfocus();
-              }),
+            readOnly: false,
+            minLines: 1,
+            focusNode: _pinCodeFocus,
+            keyboardType: TextInputType.number,
+            controller: _pinCodeController,
+            hintText: TocLocalizations.of(context)!.mStaticTypeHere,
+            maxLength: 6,
+            onChanged: (p0) {},
+            validatorFuntion: (String? value) =>
+                Validations.validatePinCodeBlendedProgram(value ?? ''),
+            onFieldSubmitted: (String value) {
+              _pinCodeFocus.unfocus();
+            },
+          ),
         ]);
 
         break;
@@ -529,17 +546,20 @@ class _BlendedProgramUserFormState extends State<BlendedProgramUserForm> {
       case SurveyFormConstants.ehrmsId:
         formWidgets.addAll([
           FieldNameWidget(
-              isMandatory: true,
-              fieldName: TocLocalizations.of(context)!.mEhrmsId),
+            isMandatory: true,
+            fieldName: TocLocalizations.of(context)!.mEhrmsId,
+          ),
           TextInputField(
             readOnly: true,
             minLines: 1,
             keyboardType: TextInputType.number,
             controller: TextEditingController(
-                text: profileDetails?.ehrmsId == null ||
-                        profileDetails?.ehrmsId == ''
-                    ? "NA"
-                    : profileDetails?.ehrmsId),
+              text:
+                  profileDetails?.ehrmsId == null ||
+                      profileDetails?.ehrmsId == ''
+                  ? "NA"
+                  : profileDetails?.ehrmsId,
+            ),
             hintText: TocLocalizations.of(context)!.mStaticTypeHere,
           ),
         ]);
@@ -548,17 +568,20 @@ class _BlendedProgramUserFormState extends State<BlendedProgramUserForm> {
       case SurveyFormConstants.dateOfRetirement:
         formWidgets.addAll([
           FieldNameWidget(
-              isMandatory: true,
-              fieldName: TocLocalizations.of(context)!.mDateOfRetirement),
+            isMandatory: true,
+            fieldName: TocLocalizations.of(context)!.mDateOfRetirement,
+          ),
           TextInputField(
             readOnly: true,
             minLines: 1,
             keyboardType: TextInputType.number,
             controller: TextEditingController(
-                text: profileDetails?.dateOfRetirement == null ||
-                        profileDetails?.dateOfRetirement == ''
-                    ? "NA"
-                    : profileDetails?.dateOfRetirement),
+              text:
+                  profileDetails?.dateOfRetirement == null ||
+                      profileDetails?.dateOfRetirement == ''
+                  ? "NA"
+                  : profileDetails?.dateOfRetirement,
+            ),
             hintText: TocLocalizations.of(context)!.mStaticTypeHere,
           ),
         ]);
@@ -573,9 +596,7 @@ class _BlendedProgramUserFormState extends State<BlendedProgramUserForm> {
         break;
 
       default:
-        formWidgets.add(
-          SizedBox(),
-        );
+        formWidgets.add(SizedBox());
 
         debugPrint("Unknown display name=====${fieldData['displayName']}");
     }
@@ -601,10 +622,11 @@ class _BlendedProgramUserFormState extends State<BlendedProgramUserForm> {
               borderRadius: BorderRadius.all(Radius.circular(16.w)),
             ),
             child: CadreDetailsSection(
-                isMandatory: true,
-                civilServiceType: cadreDetailsDataModel,
-                cadreSectionValueNotifier: _cadreSectionValueNotifier,
-                checkForChangesCallback: () {}),
+              isMandatory: true,
+              civilServiceType: cadreDetailsDataModel,
+              cadreSectionValueNotifier: _cadreSectionValueNotifier,
+              checkForChangesCallback: () {},
+            ),
           );
         }
       },
@@ -638,12 +660,15 @@ class _BlendedProgramUserFormState extends State<BlendedProgramUserForm> {
             if (!widget.isCadreProgram) {
               // Get in-review fields
               List<dynamic> inReviewFields =
-                  await Provider.of<ProfileRepository>(context, listen: false)
-                      .inReview;
+                  await Provider.of<ProfileRepository>(
+                    context,
+                    listen: false,
+                  ).inReview;
               for (var i = 0; i < inReviewFields.length; i++) {
                 if (inReviewFields[i].name == null) {
-                  await ProfileService()
-                      .withdrawProfileField(wfId: inReviewFields[i].wfId);
+                  await ProfileService().withdrawProfileField(
+                    wfId: inReviewFields[i].wfId,
+                  );
                 }
               }
 
@@ -675,20 +700,22 @@ class _BlendedProgramUserFormState extends State<BlendedProgramUserForm> {
           }
 
           try {
-            List<Profile> profileData =
-                await Provider.of<ProfileRepository>(context, listen: false)
-                    .getProfileDetailsById('');
+            List<Profile> profileData = await Provider.of<ProfileRepository>(
+              context,
+              listen: false,
+            ).getProfileDetailsById('');
 
             // Submit profile survey form
-            bool status =
-                await BlendedProgramFormServices().submitProfileSurveyForm(
-              context: context,
-              batch: widget.selectedBatch,
-              courseId: widget.courseId,
-              designation:
-                  widget.isCadreProgram ? _designationController.text : null,
-              updatedProfileData: profileData[0],
-            );
+            bool status = await BlendedProgramFormServices()
+                .submitProfileSurveyForm(
+                  context: context,
+                  batch: widget.selectedBatch,
+                  courseId: widget.courseId,
+                  designation: widget.isCadreProgram
+                      ? _designationController.text
+                      : null,
+                  updatedProfileData: profileData[0],
+                );
             if (status) {
               widget.saveAndNext();
             } else {
@@ -708,12 +735,15 @@ class _BlendedProgramUserFormState extends State<BlendedProgramUserForm> {
         } else {
           debugPrint('********************please verify email');
           _showSnackBar(
-              TocLocalizations.of(context)!.mEditProfilePleaseVerifyYourEmail,
-              TocModuleColors.greys87);
+            TocLocalizations.of(context)!.mEditProfilePleaseVerifyYourEmail,
+            TocModuleColors.greys87,
+          );
         }
       } else {
-        _showSnackBar(TocLocalizations.of(context)!.mRegisterVerifyMobile,
-            TocModuleColors.greys87);
+        _showSnackBar(
+          TocLocalizations.of(context)!.mRegisterVerifyMobile,
+          TocModuleColors.greys87,
+        );
       }
     } else {
       _showSnackBar(_errorMessage, TocModuleColors.greys87);
@@ -732,8 +762,9 @@ class _BlendedProgramUserFormState extends State<BlendedProgramUserForm> {
           values['civilServiceId'] == null ||
           values['civilServiceId'].isEmpty ||
           values['cadreBatch'] == null) {
-        _errorMessage =
-            TocLocalizations.of(context)!.mProfileProvideValidCadreDetails;
+        _errorMessage = TocLocalizations.of(
+          context,
+        )!.mProfileProvideValidCadreDetails;
         return false;
       }
     }
@@ -760,11 +791,14 @@ class _BlendedProgramUserFormState extends State<BlendedProgramUserForm> {
   }
 
   void _populateFields() async {
-    Profile? profileDetails =
-        Provider.of<ProfileRepository>(context, listen: false).profileDetails;
+    Profile? profileDetails = Provider.of<ProfileRepository>(
+      context,
+      listen: false,
+    ).profileDetails;
     dynamic personalDetails = profileDetails?.personalDetails;
     dynamic employmentDetails = profileDetails?.employmentDetails;
-    dynamic professionalDetails = profileDetails != null &&
+    dynamic professionalDetails =
+        profileDetails != null &&
             profileDetails.professionalDetails != null &&
             profileDetails.professionalDetails!.isNotEmpty
         ? profileDetails.professionalDetails![0]
@@ -779,7 +813,8 @@ class _BlendedProgramUserFormState extends State<BlendedProgramUserForm> {
         profileDetails?.personalDetails['domicileMedium'] ?? '';
     _employeeIdController.text =
         profileDetails?.employmentDetails?['employeeCode'] ?? '';
-    _mobileController.text = profileDetails != null &&
+    _mobileController.text =
+        profileDetails != null &&
             profileDetails.personalDetails['mobile'] != null &&
             profileDetails.personalDetails['phoneVerified'] != null &&
             profileDetails.personalDetails['phoneVerified'].toString() == 'true'
@@ -787,35 +822,40 @@ class _BlendedProgramUserFormState extends State<BlendedProgramUserForm> {
         : "";
     _groupController.text =
         profileDetails?.professionalDetails?.isNotEmpty == true
-            ? profileDetails?.professionalDetails![0]['group'] ?? ''
-            : '';
+        ? profileDetails?.professionalDetails![0]['group'] ?? ''
+        : '';
     _emailController.text = profileDetails?.primaryEmail ?? '';
-    _designationController.text = profileDetails?.professionalDetails != null &&
+    _designationController.text =
+        profileDetails?.professionalDetails != null &&
             profileDetails!.professionalDetails!.isNotEmpty &&
             profileDetails.professionalDetails![0]['designation'] != null
         ? profileDetails.professionalDetails![0]['designation']
         : '';
     if (_dobController.text.isNotEmpty &&
-        DateTimeHelper.checkDateFormat(_dobController.text,
-            dateFormatStr: DateFormatString.yyyyMMdd)) {
-      _dobController.text = DateTimeHelper.convertDateFormat(
+        DateTimeHelper.checkDateFormat(
           _dobController.text,
-          inputFormat: DateFormatString.yyyyMMdd,
-          desiredFormat: DateFormatString.ddMMyyyy);
+          dateFormatStr: DateFormatString.yyyyMMdd,
+        )) {
+      _dobController.text = DateTimeHelper.convertDateFormat(
+        _dobController.text,
+        inputFormat: DateFormatString.yyyyMMdd,
+        desiredFormat: DateFormatString.ddMMyyyy,
+      );
     }
     _motherTongueController.text =
         personalDetails != null && personalDetails['domicileMedium'] != null
-            ? personalDetails['domicileMedium']
-            : '';
+        ? personalDetails['domicileMedium']
+        : '';
     _employeeIdController.text =
         employmentDetails != null && employmentDetails['employeeCode'] != null
-            ? employmentDetails['employeeCode']
-            : '';
+        ? employmentDetails['employeeCode']
+        : '';
     _groupController.text =
         professionalDetails != null && professionalDetails['group'] != null
-            ? professionalDetails['group']
-            : '';
-    _designationController.text = professionalDetails != null &&
+        ? professionalDetails['group']
+        : '';
+    _designationController.text =
+        professionalDetails != null &&
             professionalDetails['designation'] != null
         ? professionalDetails['designation']
         : '';
@@ -828,8 +868,10 @@ class _BlendedProgramUserFormState extends State<BlendedProgramUserForm> {
         bottom: MediaQuery.of(context).viewInsets.bottom + 20,
         child: Container(
           width: 1.sw,
-          padding:
-              const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0).r,
+          padding: const EdgeInsets.symmetric(
+            vertical: 12.0,
+            horizontal: 8.0,
+          ).r,
           decoration: BoxDecoration(
             color: backgroundColor,
             borderRadius: BorderRadius.circular(3.0).r,
@@ -837,9 +879,10 @@ class _BlendedProgramUserFormState extends State<BlendedProgramUserForm> {
           child: Text(
             message,
             style: GoogleFonts.lato(
-                color: TocModuleColors.appBarBackground,
-                fontSize: 13.sp,
-                decoration: TextDecoration.none),
+              color: TocModuleColors.appBarBackground,
+              fontSize: 13.sp,
+              decoration: TextDecoration.none,
+            ),
             textAlign: TextAlign.center,
           ),
         ),
@@ -866,7 +909,7 @@ class _BlendedProgramUserFormState extends State<BlendedProgramUserForm> {
 
     isDesignationMasterEnabled =
         data != null && data['updateDesignation'] != null
-            ? data['updateDesignation']!['enabled']
-            : false;
+        ? data['updateDesignation']!['enabled']
+        : false;
   }
 }

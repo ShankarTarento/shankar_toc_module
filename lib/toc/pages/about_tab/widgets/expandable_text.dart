@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:html/parser.dart' as html_parser;
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
 
 class ExpandableTextWidget extends StatefulWidget {
   final String title;
@@ -43,18 +43,15 @@ class _ExpandableTextWidgetState extends State<ExpandableTextWidget> {
     final showText = isExpanded || !isOverflowing
         ? widget.content
         : (widget.isHtml
-            ? _parsedText!.substring(0, widget.maxLength) + "..."
-            : widget.content.substring(0, widget.maxLength) + "...");
+              ? _parsedText!.substring(0, widget.maxLength) + "..."
+              : widget.content.substring(0, widget.maxLength) + "...");
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           widget.title,
-          style: GoogleFonts.lato(
-            fontSize: 16.sp,
-            fontWeight: FontWeight.w700,
-          ),
+          style: GoogleFonts.lato(fontSize: 16.sp, fontWeight: FontWeight.w700),
         ),
         SizedBox(height: 8.w),
         widget.isHtml

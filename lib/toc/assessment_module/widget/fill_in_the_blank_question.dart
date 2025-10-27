@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
 
 import 'package:html/parser.dart' as html_parser;
 import 'package:html/dom.dart' as dom;
@@ -17,17 +17,25 @@ class FillInTheBlankQuestion extends StatefulWidget {
   final bool showAnswer;
   final ValueChanged<Map> parentAction;
   final String id;
-  FillInTheBlankQuestion(this.question, this.questionText, this.currentIndex,
-      this.answerGiven, this.showAnswer, this.parentAction,
-      {required this.id});
+  FillInTheBlankQuestion(
+    this.question,
+    this.questionText,
+    this.currentIndex,
+    this.answerGiven,
+    this.showAnswer,
+    this.parentAction, {
+    required this.id,
+  });
   @override
   _FillInTheBlankQuestionState createState() => _FillInTheBlankQuestionState();
 }
 
 class _FillInTheBlankQuestionState extends State<FillInTheBlankQuestion> {
   String? _qId;
-  List<String> _alphabets =
-      List.generate(10, (index) => String.fromCharCode(index + 65));
+  List<String> _alphabets = List.generate(
+    10,
+    (index) => String.fromCharCode(index + 65),
+  );
   late String _questionWithBlank;
   List<dynamic> _answer = [];
   late int _blankCount;
@@ -47,8 +55,9 @@ class _FillInTheBlankQuestionState extends State<FillInTheBlankQuestion> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (TocHelper.isHtml(_questionWithBlank)) {
-      contentWidgets =
-          renderHtmlContent(TocHelper.decodeHtmlEntities(_questionWithBlank));
+      contentWidgets = renderHtmlContent(
+        TocHelper.decodeHtmlEntities(_questionWithBlank),
+      );
       if (widget.answerGiven.isEmpty) {
         _answer = [];
       }
@@ -61,8 +70,9 @@ class _FillInTheBlankQuestionState extends State<FillInTheBlankQuestion> {
   getData() async {
     await _setText();
     if (TocHelper.isHtml(_questionWithBlank)) {
-      contentWidgets =
-          renderHtmlContent(TocHelper.decodeHtmlEntities(_questionWithBlank));
+      contentWidgets = renderHtmlContent(
+        TocHelper.decodeHtmlEntities(_questionWithBlank),
+      );
       for (var i = 0; i < _answer.length; i++) {
         _optionController[i].text = _answer[i];
       }
@@ -105,16 +115,20 @@ class _FillInTheBlankQuestionState extends State<FillInTheBlankQuestion> {
       _answer = List.from(widget.answerGiven.sublist(0));
     }
     if (!TocHelper.isHtml(_questionWithBlank)) {
-      for (var i = 0;
-          i <
-              ((_question != null && _question['options'] != null)
-                  ? _question['options'].length
-                  : _blankCount);
-          i++) {
+      for (
+        var i = 0;
+        i <
+            ((_question != null && _question['options'] != null)
+                ? _question['options'].length
+                : _blankCount);
+        i++
+      ) {
         _optionController.add(TextEditingController());
         optionFocusNode.add(FocusNode());
         _questionWithBlank = _questionWithBlank.replaceFirst(
-            "_______________", " ___(${_alphabets[i].toLowerCase()})___");
+          "_______________",
+          " ___(${_alphabets[i].toLowerCase()})___",
+        );
       }
       for (var i = 0; i < _answer.length; i++) {
         _optionController[i].text = _answer[i];
@@ -134,201 +148,206 @@ class _FillInTheBlankQuestionState extends State<FillInTheBlankQuestion> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        // height: 1.sh - 30.w,
-        padding: const EdgeInsets.all(32).r,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              padding: const EdgeInsets.only(bottom: 15).r,
-              child: Text(
-                TocLocalizations.of(context)!.mStaticFillInTheBlanks,
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
+      // height: 1.sh - 30.w,
+      padding: const EdgeInsets.all(32).r,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: const EdgeInsets.only(bottom: 15).r,
+            child: Text(
+              TocLocalizations.of(context)!.mStaticFillInTheBlanks,
+              style: Theme.of(context).textTheme.bodyMedium,
             ),
-            Container(
-                margin: const EdgeInsets.only(bottom: 10).r,
-                child: Divider(
-                  color: TocModuleColors.greys60,
-                )),
-            Container(
-              padding: const EdgeInsets.only(bottom: 15).r,
-              child: TocHelper.isHtml(_questionWithBlank)
-                  ? Wrap(
-                      children: contentWidgets!,
+          ),
+          Container(
+            margin: const EdgeInsets.only(bottom: 10).r,
+            child: Divider(color: TocModuleColors.greys60),
+          ),
+          Container(
+            padding: const EdgeInsets.only(bottom: 15).r,
+            child: TocHelper.isHtml(_questionWithBlank)
+                ? Wrap(children: contentWidgets!)
+                : HtmlWidget(
+                    TocHelper.decodeHtmlEntities(_questionWithBlank),
+                    textStyle: Theme.of(
+                      context,
+                    ).textTheme.titleLarge!.copyWith(height: 1.5.w),
+                  ),
+          ),
+          SizedBox(height: 16.w),
+          !TocHelper.isHtml(_questionWithBlank)
+              ? Column(
+                  children: [
+                    for (
+                      var i = 0;
+                      i <
+                          ((_question != null && _question['options'] != null)
+                              ? _question['options'].length
+                              : _blankCount);
+                      i++
                     )
-                  : HtmlWidget(
-                      TocHelper.decodeHtmlEntities(_questionWithBlank),
-                      textStyle: Theme.of(context)
-                          .textTheme
-                          .titleLarge!
-                          .copyWith(height: 1.5.w),
-                    ),
-            ),
-            SizedBox(
-              height: 16.w,
-            ),
-            !TocHelper.isHtml(_questionWithBlank)
-                ? Column(
-                    children: [
-                      for (var i = 0;
-                          i <
-                              ((_question != null &&
-                                      _question['options'] != null)
-                                  ? _question['options'].length
-                                  : _blankCount);
-                          i++)
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Container(
-                                width: 1.sw,
-                                decoration: BoxDecoration(
-                                  color: TocModuleColors.appBarBackground,
-                                  borderRadius: BorderRadius.circular(4).r,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Container(
+                            width: 1.sw,
+                            decoration: BoxDecoration(
+                              color: TocModuleColors.appBarBackground,
+                              borderRadius: BorderRadius.circular(4).r,
+                            ),
+                            child: TextField(
+                              controller: _optionController[i],
+                              focusNode: optionFocusNode[i],
+                              onEditingComplete: () {
+                                widget.parentAction({
+                                  'index': _qId,
+                                  'isCorrect':
+                                      (_question != null &&
+                                          _question['options'] != null)
+                                      ? _question['options'][i]['answer']
+                                      : true,
+                                  'value': _answer.sublist(0),
+                                });
+                              },
+                              onChanged: (value) {
+                                if (_answer.length > i) {
+                                  _answer.insert(i, value);
+                                  _answer.removeAt(i + 1);
+                                } else if (_answer.length < i) {
+                                  for (var j = 0; j < i; j++) {
+                                    _answer.add('');
+                                  }
+                                  _answer.insert(i, value);
+                                } else {
+                                  _answer.insert(i, value);
+                                }
+                                if (_answer.length > 0) {
+                                  widget.parentAction({
+                                    'index': _qId,
+                                    'isCorrect':
+                                        (_question != null &&
+                                            _question['options'] != null)
+                                        ? _question['options'][i]['answer']
+                                        : true,
+                                    'value': _answer,
+                                  });
+                                }
+                              },
+                              onSubmitted: (value) {
+                                optionFocusNode[i].unfocus();
+                                widget.parentAction({
+                                  'index': _qId,
+                                  'isCorrect':
+                                      (_question != null &&
+                                          _question['options'] != null)
+                                      ? _question['options'][i]['answer']
+                                      : true,
+                                  'value': _answer,
+                                });
+                              },
+                              enabled: widget.showAnswer ? false : true,
+                              textInputAction: TextInputAction.done,
+                              style: GoogleFonts.lato(fontSize: 14.0),
+                              keyboardType: TextInputType.name,
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: !widget.showAnswer
+                                    ? TocModuleColors.appBarBackground
+                                    : (_answer.length > i && _answer[i] != null)
+                                    ? (_question['options'][i]['value']['body']
+                                                  .toString() ==
+                                              _answer[i].toString()
+                                          ? TocModuleColors.positiveLightBg
+                                          : TocModuleColors.negativeLightBg)
+                                    : TocModuleColors.negativeLightBg,
+                                contentPadding: EdgeInsets.fromLTRB(
+                                  10.0,
+                                  0.0,
+                                  10.0,
+                                  0.0,
+                                ).r,
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: TocModuleColors.grey16,
+                                  ),
                                 ),
-                                child: TextField(
-                                  controller: _optionController[i],
-                                  focusNode: optionFocusNode[i],
-                                  onEditingComplete: () {
-                                    widget.parentAction({
-                                      'index': _qId,
-                                      'isCorrect': (_question != null &&
-                                              _question['options'] != null)
-                                          ? _question['options'][i]['answer']
-                                          : true,
-                                      'value': _answer.sublist(0),
-                                    });
-                                  },
-                                  onChanged: (value) {
-                                    if (_answer.length > i) {
-                                      _answer.insert(i, value);
-                                      _answer.removeAt(i + 1);
-                                    } else if (_answer.length < i) {
-                                      for (var j = 0; j < i; j++) {
-                                        _answer.add('');
-                                      }
-                                      _answer.insert(i, value);
-                                    } else {
-                                      _answer.insert(i, value);
-                                    }
-                                    if (_answer.length > 0) {
-                                      widget.parentAction({
-                                        'index': _qId,
-                                        'isCorrect': (_question != null &&
-                                                _question['options'] != null)
-                                            ? _question['options'][i]['answer']
-                                            : true,
-                                        'value': _answer,
-                                      });
-                                    }
-                                  },
-                                  onSubmitted: (value) {
-                                    optionFocusNode[i].unfocus();
-                                    widget.parentAction({
-                                      'index': _qId,
-                                      'isCorrect': (_question != null &&
-                                              _question['options'] != null)
-                                          ? _question['options'][i]['answer']
-                                          : true,
-                                      'value': _answer,
-                                    });
-                                  },
-                                  enabled: widget.showAnswer ? false : true,
-                                  textInputAction: TextInputAction.done,
-                                  style: GoogleFonts.lato(fontSize: 14.0),
-                                  keyboardType: TextInputType.name,
-                                  decoration: InputDecoration(
-                                      filled: true,
-                                      fillColor: !widget.showAnswer
-                                          ? TocModuleColors.appBarBackground
-                                          : (_answer.length > i &&
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: TocModuleColors.grey16,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: TocModuleColors.darkBlue,
+                                  ),
+                                ),
+                                disabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: widget.showAnswer
+                                        ? (_answer.length > i &&
                                                   _answer[i] != null)
-                                              ? (_question['options'][i]
-                                                              ['value']['body']
-                                                          .toString() ==
-                                                      _answer[i].toString()
-                                                  ? TocModuleColors
-                                                      .positiveLightBg
-                                                  : TocModuleColors
-                                                      .negativeLightBg)
-                                              : TocModuleColors.negativeLightBg,
-                                      contentPadding: EdgeInsets.fromLTRB(
-                                              10.0, 0.0, 10.0, 0.0)
-                                          .r,
-                                      border: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: TocModuleColors.grey16)),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: TocModuleColors.grey16),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: TocModuleColors.darkBlue),
-                                      ),
-                                      disabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: widget.showAnswer
-                                                ? (_answer.length > i &&
-                                                        _answer[i] != null)
-                                                    ? (_question['options'][i][
-                                                                        'value']
-                                                                    ['body']
-                                                                .toString() ==
-                                                            _answer[i]
-                                                                .toString()
-                                                        ? TocModuleColors
-                                                            .positiveLight
-                                                        : TocModuleColors
-                                                            .negativeLight)
+                                              ? (_question['options'][i]['value']['body']
+                                                            .toString() ==
+                                                        _answer[i].toString()
+                                                    ? TocModuleColors
+                                                          .positiveLight
                                                     : TocModuleColors
-                                                        .negativeLight
-                                                : TocModuleColors.grey16),
+                                                          .negativeLight)
+                                              : TocModuleColors.negativeLight
+                                        : TocModuleColors.grey16,
+                                  ),
+                                ),
+                                helperText: '',
+                                hintStyle: GoogleFonts.lato(
+                                  color: TocModuleColors.grey40,
+                                  fontSize: 14.0.sp,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                                icon: Text(_alphabets[i].toLowerCase()),
+                              ),
+                            ),
+                          ),
+                          (widget.showAnswer &&
+                                  _question['options'][i]['value']['body']
+                                          .toString() !=
+                                      (_answer.length > i ? _answer[i] : ''))
+                              ? Padding(
+                                  padding: const EdgeInsets.only(
+                                    bottom: 20,
+                                    left: 24,
+                                  ),
+                                  child: Row(
+                                    // mainAxisAlignment: MainAxisAlignment.s,
+                                    children: [
+                                      Text(
+                                        TocLocalizations.of(
+                                          context,
+                                        )!.mStaticCorrectAnswer,
+                                        style: GoogleFonts.lato(
+                                          fontWeight: FontWeight.bold,
+                                          color: TocModuleColors.greys87,
+                                        ),
                                       ),
-                                      helperText: '',
-                                      hintStyle: GoogleFonts.lato(
-                                          color: TocModuleColors.grey40,
-                                          fontSize: 14.0.sp,
-                                          fontWeight: FontWeight.w400),
-                                      icon: Text(_alphabets[i].toLowerCase())),
-                                )),
-                            (widget.showAnswer &&
-                                    _question['options'][i]['value']['body']
-                                            .toString() !=
-                                        (_answer.length > i ? _answer[i] : ''))
-                                ? Padding(
-                                    padding: const EdgeInsets.only(
-                                        bottom: 20, left: 24),
-                                    child: Row(
-                                      // mainAxisAlignment: MainAxisAlignment.s,
-                                      children: [
-                                        Text(
-                                          TocLocalizations.of(context)!
-                                              .mStaticCorrectAnswer,
-                                          style: GoogleFonts.lato(
-                                              fontWeight: FontWeight.bold,
-                                              color: TocModuleColors.greys87),
+                                      Text(
+                                        _question['options'][i]['value']['body']
+                                            .toString(),
+                                        style: GoogleFonts.lato(
+                                          color: TocModuleColors.positiveLight,
                                         ),
-                                        Text(
-                                          _question['options'][i]['value']
-                                                  ['body']
-                                              .toString(),
-                                          style: GoogleFonts.lato(
-                                              color: TocModuleColors
-                                                  .positiveLight),
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                : Center()
-                          ],
-                        ),
-                    ],
-                  )
-                : Center(),
-          ],
-        ));
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : Center(),
+                        ],
+                      ),
+                  ],
+                )
+              : Center(),
+        ],
+      ),
+    );
   }
 
   List<Widget> renderHtmlContent(String html) {
@@ -351,14 +370,16 @@ class _FillInTheBlankQuestionState extends State<FillInTheBlankQuestion> {
       if (node is dom.Element) {
         final currentStyle = parentStyle ?? DefaultTextStyle.of(context).style;
         if (node.localName == 'em') {
-          final emStyle =
-              currentStyle.merge(TextStyle(fontStyle: FontStyle.italic));
+          final emStyle = currentStyle.merge(
+            TextStyle(fontStyle: FontStyle.italic),
+          );
           node.nodes.forEach((childNode) {
             processNode(childNode, parentStyle: emStyle);
           });
         } else if (node.localName == 'strong') {
-          final strongStyle =
-              currentStyle.merge(TextStyle(fontWeight: FontWeight.bold));
+          final strongStyle = currentStyle.merge(
+            TextStyle(fontWeight: FontWeight.bold),
+          );
           node.nodes.forEach((childNode) {
             processNode(childNode, parentStyle: strongStyle);
           });
@@ -387,10 +408,7 @@ class _FillInTheBlankQuestionState extends State<FillInTheBlankQuestion> {
           });
         }
       } else if (node is dom.Text) {
-        widgets.add(Text(
-          node.text.trim(),
-          style: parentStyle,
-        ));
+        widgets.add(Text(node.text.trim(), style: parentStyle));
       }
     }
 
@@ -399,7 +417,10 @@ class _FillInTheBlankQuestionState extends State<FillInTheBlankQuestion> {
   }
 
   TextField addTextField(
-      TextEditingController controller, int currentIndex, FocusNode focusNode) {
+    TextEditingController controller,
+    int currentIndex,
+    FocusNode focusNode,
+  ) {
     return TextField(
       controller: controller,
       // focusNode: optionFocusNode[currentIndex],
@@ -456,15 +477,15 @@ class _FillInTheBlankQuestionState extends State<FillInTheBlankQuestion> {
         fillColor: !widget.showAnswer
             ? TocModuleColors.appBarBackground
             : (_answer.length > currentIndex && _answer[currentIndex] != null)
-                ? (_question['options'][currentIndex]['value']['body']
-                            .toString() ==
-                        _answer[currentIndex].toString()
-                    ? TocModuleColors.positiveLightBg
-                    : TocModuleColors.negativeLightBg)
-                : TocModuleColors.negativeLightBg,
+            ? (_question['options'][currentIndex]['value']['body'].toString() ==
+                      _answer[currentIndex].toString()
+                  ? TocModuleColors.positiveLightBg
+                  : TocModuleColors.negativeLightBg)
+            : TocModuleColors.negativeLightBg,
         contentPadding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
         border: OutlineInputBorder(
-            borderSide: BorderSide(color: TocModuleColors.grey16)),
+          borderSide: BorderSide(color: TocModuleColors.grey16),
+        ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: TocModuleColors.grey16),
         ),
@@ -473,22 +494,24 @@ class _FillInTheBlankQuestionState extends State<FillInTheBlankQuestion> {
         ),
         disabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
-              color: widget.showAnswer
-                  ? (_answer.length > currentIndex &&
+            color: widget.showAnswer
+                ? (_answer.length > currentIndex &&
                           _answer[currentIndex] != null)
                       ? (_question['options'][currentIndex]['value']['body']
-                                  .toString() ==
-                              _answer[currentIndex].toString()
-                          ? TocModuleColors.positiveLight
-                          : TocModuleColors.negativeLight)
+                                    .toString() ==
+                                _answer[currentIndex].toString()
+                            ? TocModuleColors.positiveLight
+                            : TocModuleColors.negativeLight)
                       : TocModuleColors.negativeLight
-                  : TocModuleColors.grey16),
+                : TocModuleColors.grey16,
+          ),
         ),
         helperText: '',
         hintStyle: GoogleFonts.lato(
-            color: TocModuleColors.grey40,
-            fontSize: 14.0.sp,
-            fontWeight: FontWeight.w400),
+          color: TocModuleColors.grey40,
+          fontSize: 14.0.sp,
+          fontWeight: FontWeight.w400,
+        ),
       ),
     );
   }

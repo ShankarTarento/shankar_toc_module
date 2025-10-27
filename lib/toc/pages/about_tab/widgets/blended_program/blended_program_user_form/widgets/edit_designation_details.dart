@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/constants/english_lang.dart';
 import 'package:toc_module/toc/util/field_name_widget.dart';
@@ -54,85 +55,102 @@ class _EditDesignationDetailsState extends State<EditDesignationDetails> {
         ),
         SizedBox(height: 8.h),
         ValueListenableBuilder(
-            valueListenable: designationList,
-            builder: (context, designations, _) {
-              return Container(
-                decoration: BoxDecoration(
-                    color: TocModuleColors.appBarBackground,
-                    borderRadius: BorderRadius.circular(4).r),
-                child: DropdownWithSearch(
-                  hintText: TocLocalizations.of(context)!.mStaticSelectHere,
-                  query: designationQuery,
-                  isPaginated: true,
-                  parentContext: context,
-                  optionList: designations,
-                  selectedOption: _designation,
-                  borderRadius: 4,
-                  borderColor: TocModuleColors.grey16,
-                  defaultItem: widget.isCadreProgram ? "OTHERS" : null,
-                  callback: (String designation) {
-                    _designation = designation;
-                    widget.designationDetails(_designation);
-                    setState(() {});
-                  },
-                  onSearchChanged: (String query) async {
-                    if (designationQuery == query) {
-                      pageNo++;
-                    } else {
-                      pageNo = 0;
-                    }
-                    return await ProfilePrimaryDetailsViewModel()
-                        .getDesignations(
-                            context: context,
-                            isOrgBasedDesignation: widget.isOrgBasedDesignation,
-                            offset: pageNo,
-                            query: query);
-                  },
-                ),
-              );
-            }),
+          valueListenable: designationList,
+          builder: (context, designations, _) {
+            return Container(
+              decoration: BoxDecoration(
+                color: TocModuleColors.appBarBackground,
+                borderRadius: BorderRadius.circular(4).r,
+              ),
+              child: DropdownWithSearch(
+                hintText: TocLocalizations.of(context)!.mStaticSelectHere,
+                query: designationQuery,
+                isPaginated: true,
+                parentContext: context,
+                optionList: designations,
+                selectedOption: _designation,
+                borderRadius: 4,
+                borderColor: TocModuleColors.grey16,
+                defaultItem: widget.isCadreProgram ? "OTHERS" : null,
+                callback: (String designation) {
+                  _designation = designation;
+                  widget.designationDetails(_designation);
+                  setState(() {});
+                },
+                onSearchChanged: (String query) async {
+                  if (designationQuery == query) {
+                    pageNo++;
+                  } else {
+                    pageNo = 0;
+                  }
+                  return await ProfilePrimaryDetailsViewModel().getDesignations(
+                    context: context,
+                    isOrgBasedDesignation: widget.isOrgBasedDesignation,
+                    offset: pageNo,
+                    query: query,
+                  );
+                },
+              ),
+            );
+          },
+        ),
         widget.isCadreProgram
             ? Padding(
                 padding: const EdgeInsets.only(top: 8.0).r,
                 child: Text(
-                  TocLocalizations.of(context)!
-                      .mNoteForDoptBlendedProgramDesignation,
+                  TocLocalizations.of(
+                    context,
+                  )!.mNoteForDoptBlendedProgramDesignation,
                 ),
               )
             : SizedBox(),
         _designation == "OTHERS"
-            ? Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                FieldNameWidget(
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  FieldNameWidget(
                     isMandatory: true,
-                    fieldName:
-                        TocLocalizations.of(context)!.mProfileEnterDesignation),
-                TextInputField(
+                    fieldName: TocLocalizations.of(
+                      context,
+                    )!.mProfileEnterDesignation,
+                  ),
+                  TextInputField(
                     minLines: 1,
                     keyboardType: TextInputType.text,
                     controller: _othershController,
-                    hintText:
-                        TocLocalizations.of(context)!.mEditProfileTypeHere,
+                    hintText: TocLocalizations.of(
+                      context,
+                    )!.mEditProfileTypeHere,
                     onChanged: (p0) {
                       widget.designationDetails(_designation);
                     },
                     validatorFuntion: (String? value) {
                       return Validations.validateDesignation(
-                          context: context, value: value ?? '');
-                    }),
-              ])
-            : SizedBox()
+                        context: context,
+                        value: value ?? '',
+                      );
+                    },
+                  ),
+                ],
+              )
+            : SizedBox(),
       ],
     );
   }
 
   void _populateFields() async {
     // Fetching profile data and populating the fields
-    Profile? profileDetails =
-        Provider.of<ProfileRepository>(context, listen: false).profileDetails;
-    List<dynamic> inReviewFields =
-        Provider.of<ProfileRepository>(context, listen: false).inReview;
-    dynamic inReviewDesignation =
-        inReviewFields.where((element) => element.designation != null);
+    Profile? profileDetails = Provider.of<ProfileRepository>(
+      context,
+      listen: false,
+    ).profileDetails;
+    List<dynamic> inReviewFields = Provider.of<ProfileRepository>(
+      context,
+      listen: false,
+    ).inReview;
+    dynamic inReviewDesignation = inReviewFields.where(
+      (element) => element.designation != null,
+    );
     _designation = (inReviewFields.isNotEmpty && inReviewDesignation.isNotEmpty)
         ? inReviewDesignation.first.designation
         : (profileDetails?.designation ?? "");
@@ -140,20 +158,22 @@ class _EditDesignationDetailsState extends State<EditDesignationDetails> {
     setState(() {});
   }
 
-  Future<List<String>> fetchDesignations(
-      {String query = '', int offset = 0}) async {
+  Future<List<String>> fetchDesignations({
+    String query = '',
+    int offset = 0,
+  }) async {
     if (designationQuery != query) {
       designationQuery = query;
       pageNo = 0;
       offset = 0;
     }
-    List<String> newDesignations =
-        await ProfilePrimaryDetailsViewModel().getDesignations(
-      context: context,
-      isOrgBasedDesignation: widget.isOrgBasedDesignation,
-      offset: offset,
-      query: query,
-    );
+    List<String> newDesignations = await ProfilePrimaryDetailsViewModel()
+        .getDesignations(
+          context: context,
+          isOrgBasedDesignation: widget.isOrgBasedDesignation,
+          offset: offset,
+          query: query,
+        );
 
     if (newDesignations.isEmpty) {
       return [];

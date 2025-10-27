@@ -4,15 +4,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
 
 import 'package:toc_module/toc/model/batch_model.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
 
 class BlendedProgramDetails extends StatefulWidget {
   final Batch batch;
 
-  const BlendedProgramDetails({
-    Key? key,
-    required this.batch,
-  }) : super(key: key);
+  const BlendedProgramDetails({Key? key, required this.batch})
+    : super(key: key);
 
   @override
   State<BlendedProgramDetails> createState() => _BlendedProgramDetailsState();
@@ -40,8 +38,9 @@ class _BlendedProgramDetailsState extends State<BlendedProgramDetails> {
 
   Future getCountStatus() async {
     try {
-      countStatus = await LearnService()
-          .getBlendedProgramBatchCount(widget.batch.batchId);
+      countStatus = await LearnService().getBlendedProgramBatchCount(
+        widget.batch.batchId,
+      );
       batch = widget.batch;
       setState(() {});
       print(countStatus);
@@ -62,8 +61,9 @@ class _BlendedProgramDetailsState extends State<BlendedProgramDetails> {
             title: TocLocalizations.of(context)!.mLearnBatchSize,
           ),
           detailsCard(
-            count:
-                countStatus != null ? "${getTotal(count: countStatus!)}" : "0",
+            count: countStatus != null
+                ? "${getTotal(count: countStatus!)}"
+                : "0",
             title: TocLocalizations.of(context)!.mCommonTotalApplied,
           ),
           detailsCard(
@@ -108,9 +108,9 @@ class _BlendedProgramDetailsState extends State<BlendedProgramDetails> {
           Text(
             count,
             style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                  fontSize: 16.sp,
-                  fontFamily: GoogleFonts.montserrat().fontFamily,
-                ),
+              fontSize: 16.sp,
+              fontFamily: GoogleFonts.montserrat().fontFamily,
+            ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
@@ -118,9 +118,9 @@ class _BlendedProgramDetailsState extends State<BlendedProgramDetails> {
           Text(
             title,
             style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.w400,
-                ),
+              fontSize: 12.sp,
+              fontWeight: FontWeight.w400,
+            ),
             overflow: TextOverflow.ellipsis,
             maxLines: 2,
             textAlign: TextAlign.center,

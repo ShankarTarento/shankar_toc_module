@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/constants/toc_constants.dart';
 import 'package:toc_module/toc/helper/date_time_helper.dart';
@@ -11,10 +12,11 @@ class EnrollmentConfirmationForm extends StatelessWidget {
   final Batch selectedBatch;
   final ValueChanged<String> enrollParentAction;
 
-  const EnrollmentConfirmationForm(
-      {super.key,
-      required this.enrollParentAction,
-      required this.selectedBatch});
+  const EnrollmentConfirmationForm({
+    super.key,
+    required this.enrollParentAction,
+    required this.selectedBatch,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,16 +33,12 @@ class EnrollmentConfirmationForm extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
           ),
-          SizedBox(
-            height: 16.w,
-          ),
+          SizedBox(height: 16.w),
           Text(
             "${TocLocalizations.of(context)!.mThisBatchStarting} ${DateTimeHelper.getDateTimeInFormat(selectedBatch.startDate, desiredDateFormat: IntentType.dateFormat2)} - ${DateTimeHelper.getDateTimeInFormat(selectedBatch.endDate, desiredDateFormat: IntentType.dateFormat2)}, ${TocLocalizations.of(context)!.mBatchStartConsent}",
             style: Theme.of(context).textTheme.bodyMedium,
           ),
-          SizedBox(
-            height: 20.w,
-          ),
+          SizedBox(height: 20.w),
           Row(
             children: [
               SizedBox(
@@ -51,7 +49,8 @@ class EnrollmentConfirmationForm extends StatelessWidget {
                   },
                   style: ButtonStyle(
                     backgroundColor: WidgetStateProperty.all<Color>(
-                        TocModuleColors.appBarBackground),
+                      TocModuleColors.appBarBackground,
+                    ),
                     shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         side: BorderSide(color: TocModuleColors.darkBlue),
@@ -75,7 +74,8 @@ class EnrollmentConfirmationForm extends StatelessWidget {
                   },
                   style: ButtonStyle(
                     backgroundColor: WidgetStateProperty.all<Color>(
-                        TocModuleColors.darkBlue),
+                      TocModuleColors.darkBlue,
+                    ),
                     shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(63.0).r,

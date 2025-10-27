@@ -5,7 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 import 'package:toc_module/toc/assessment_module/widget/assessment_completed_screen.dart';
 import 'package:toc_module/toc/assessment_module/widget/assessment_verification_screen.dart';
 import 'package:toc_module/toc/assessment_module/widget/new_assessment_questions.dart';
@@ -42,24 +43,29 @@ class AssessmentSection extends StatefulWidget {
   final String? preEnrolmentAssessmentId;
   final String? preRequisiteMimeType;
 
-  const AssessmentSection(this.course, this.identifier, this.questionSets,
-      this.parentAction, this.batchId, this.duration,
-      {Key? key,
-      this.isNewAssessment = false,
-      required this.primaryCategory,
-      this.objectType,
-      this.assessmentsInfo,
-      this.updateContentProgress,
-      this.fileUrl,
-      required this.parentCourseId,
-      required this.resourceInfo,
-      this.isFeatured = false,
-      required this.courseCategory,
-      this.guestUserData,
-      this.isPreRequisite = false,
-      this.preRequisiteMimeType,
-      this.preEnrolmentAssessmentId})
-      : super(key: key);
+  const AssessmentSection(
+    this.course,
+    this.identifier,
+    this.questionSets,
+    this.parentAction,
+    this.batchId,
+    this.duration, {
+    Key? key,
+    this.isNewAssessment = false,
+    required this.primaryCategory,
+    this.objectType,
+    this.assessmentsInfo,
+    this.updateContentProgress,
+    this.fileUrl,
+    required this.parentCourseId,
+    required this.resourceInfo,
+    this.isFeatured = false,
+    required this.courseCategory,
+    this.guestUserData,
+    this.isPreRequisite = false,
+    this.preRequisiteMimeType,
+    this.preEnrolmentAssessmentId,
+  }) : super(key: key);
 
   @override
   State<AssessmentSection> createState() => _AssessmentSectionState();
@@ -83,8 +89,10 @@ class _AssessmentSectionState extends State<AssessmentSection> {
   void initState() {
     super.initState();
     _start = widget.duration;
-    courseId = TocPlayerViewModel()
-        .getEnrolledCourseId(context, widget.parentCourseId);
+    courseId = TocPlayerViewModel().getEnrolledCourseId(
+      context,
+      widget.parentCourseId,
+    );
 
     if (_start == widget.duration) {
       // telemetryType = TelemetryType.player;
@@ -153,31 +161,30 @@ class _AssessmentSectionState extends State<AssessmentSection> {
   void startTimer() {
     _timeFormat = formatHHMMSS(_start);
     const oneSec = const Duration(seconds: 1);
-    _timer = new Timer.periodic(
-      oneSec,
-      (Timer timer) {
-        if (_start == 0) {
-          setState(() {
-            timer.cancel();
-            _submitSurvey();
-          });
-        } else {
-          setState(() {
-            _start--;
-          });
-        }
-        _timeFormat = formatHHMMSS(_start);
-      },
-    );
+    _timer = new Timer.periodic(oneSec, (Timer timer) {
+      if (_start == 0) {
+        setState(() {
+          timer.cancel();
+          _submitSurvey();
+        });
+      } else {
+        setState(() {
+          _start--;
+        });
+      }
+      _timeFormat = formatHHMMSS(_start);
+    });
   }
 
   _getAnsweredStatus(int index, List<dynamic> selectedAnswers) {
     var selected = _selected.sublist(0);
     if (selected.length > 0) {
       for (var i = 0; i < selected.length; i++) {
-        if (!selected.any((element) =>
-            element['index'] == index &&
-            element['selectedAnswers'] == selectedAnswers)) {
+        if (!selected.any(
+          (element) =>
+              element['index'] == index &&
+              element['selectedAnswers'] == selectedAnswers,
+        )) {
           if (selected[i]['index'] == index && selected.length > i) {
             _selected[i] = {'index': index, 'selectedAnswers': selectedAnswers};
             _selected.remove(selected[i + 1]);
@@ -208,11 +215,11 @@ class _AssessmentSectionState extends State<AssessmentSection> {
 
       for (int i = 0; i < widget.questionSets[q].length; i++) {
         var userSelected;
-        widget.questionSets[q][i]['editorState'] = widget.questionSets[q][i]
-                ['editorState'] ??
+        widget.questionSets[q][i]['editorState'] =
+            widget.questionSets[q][i]['editorState'] ??
             widget.questionSets[q][i]['choices'];
-        assessmentQuestions[i]['editorState'] = assessmentQuestions[i]
-                ['editorState'] ??
+        assessmentQuestions[i]['editorState'] =
+            assessmentQuestions[i]['editorState'] ??
             assessmentQuestions[i]['choices'];
         for (int j = 0; j < questionAnswers.length; j++) {
           if (questionAnswers[j]['index'] ==
@@ -223,20 +230,22 @@ class _AssessmentSectionState extends State<AssessmentSection> {
         }
         if (assessmentQuestions[i]['qType'] ==
             AssessmentQuestionType.matchCase.toUpperCase()) {
-          for (int k = 0;
-              k < widget.questionSets[q][i]['editorState']['options'].length;
-              k++) {
+          for (
+            int k = 0;
+            k < widget.questionSets[q][i]['editorState']['options'].length;
+            k++
+          ) {
             if (userSelected != null) {
               for (var m = 0; m < userSelected['value'].length; m++) {
                 if (m ==
-                    widget.questionSets[q][i]['editorState']['options'][k]
-                        ['value']['value']) {
+                    widget
+                        .questionSets[q][i]['editorState']['options'][k]['value']['value']) {
                   assessmentQuestions[i]['editorState']['options'][k]['index'] =
-                      widget.questionSets[q][i]['editorState']['options'][k]
-                              ['value']['value']
+                      widget
+                          .questionSets[q][i]['editorState']['options'][k]['value']['value']
                           .toString();
-                  assessmentQuestions[i]['editorState']['options'][k]
-                      ['selectedAnswer'] = userSelected['value'][m];
+                  assessmentQuestions[i]['editorState']['options'][k]['selectedAnswer'] =
+                      userSelected['value'][m];
                 }
               }
             }
@@ -245,39 +254,43 @@ class _AssessmentSectionState extends State<AssessmentSection> {
                 AssessmentQuestionType.radioType.toUpperCase() ||
             assessmentQuestions[i]['qType'] ==
                 AssessmentQuestionType.radioWeightageType.toUpperCase()) {
-          for (int k = 0;
-              k < widget.questionSets[q][i]['editorState']['options'].length;
-              k++) {
+          for (
+            int k = 0;
+            k < widget.questionSets[q][i]['editorState']['options'].length;
+            k++
+          ) {
             if (userSelected != null) {
-              if (widget.questionSets[q][i]['editorState']['options'][k]
-                          ['value']['body']
+              if (widget
+                      .questionSets[q][i]['editorState']['options'][k]['value']['body']
                       .toString() ==
                   userSelected['value'].toString()) {
                 assessmentQuestions[i]['editorState']['options'][k]['index'] =
-                    widget.questionSets[q][i]['editorState']['options'][k]
-                            ['value']['value']
+                    widget
+                        .questionSets[q][i]['editorState']['options'][k]['value']['value']
                         .toString();
-                assessmentQuestions[i]['editorState']['options'][k]
-                    ['selectedAnswer'] = true;
+                assessmentQuestions[i]['editorState']['options'][k]['selectedAnswer'] =
+                    true;
               }
             }
           }
         } else if (assessmentQuestions[i]['qType'] ==
             AssessmentQuestionType.checkBoxType.toUpperCase()) {
-          for (int k = 0;
-              k < widget.questionSets[q][i]['editorState']['options'].length;
-              k++) {
+          for (
+            int k = 0;
+            k < widget.questionSets[q][i]['editorState']['options'].length;
+            k++
+          ) {
             if (userSelected != null) {
               userSelected['value'].forEach((element) {
                 if ((element) ==
-                    widget.questionSets[q][i]['editorState']['options'][k]
-                        ['value']['value']) {
+                    widget
+                        .questionSets[q][i]['editorState']['options'][k]['value']['value']) {
                   assessmentQuestions[i]['editorState']['options'][k]['index'] =
-                      widget.questionSets[q][i]['editorState']['options'][k]
-                              ['value']['value']
+                      widget
+                          .questionSets[q][i]['editorState']['options'][k]['value']['value']
                           .toString();
-                  assessmentQuestions[i]['editorState']['options'][k]
-                      ['selectedAnswer'] = true;
+                  assessmentQuestions[i]['editorState']['options'][k]['selectedAnswer'] =
+                      true;
                 }
               });
             }
@@ -286,20 +299,22 @@ class _AssessmentSectionState extends State<AssessmentSection> {
             assessmentQuestions[i]['qType'] ==
                 AssessmentQuestionType.ftb.toUpperCase()) {
           if (widget.questionSets[q][i]['editorState'] != null) {
-            for (int k = 0;
-                k < widget.questionSets[q][i]['editorState']['options'].length;
-                k++) {
+            for (
+              int k = 0;
+              k < widget.questionSets[q][i]['editorState']['options'].length;
+              k++
+            ) {
               if (userSelected != null) {
                 for (var m = 0; m < userSelected['value'].length; m++) {
                   if (m ==
-                      widget.questionSets[q][i]['editorState']['options'][k]
-                          ['value']['value']) {
-                    assessmentQuestions[i]['editorState']['options'][k]
-                        ['index'] = widget.questionSets[q][i]['editorState']
-                            ['options'][k]['value']['value']
-                        .toString();
-                    assessmentQuestions[i]['editorState']['options'][k]
-                        ['selectedAnswer'] = userSelected['value'][m];
+                      widget
+                          .questionSets[q][i]['editorState']['options'][k]['value']['value']) {
+                    assessmentQuestions[i]['editorState']['options'][k]['index'] =
+                        widget
+                            .questionSets[q][i]['editorState']['options'][k]['value']['value']
+                            .toString();
+                    assessmentQuestions[i]['editorState']['options'][k]['selectedAnswer'] =
+                        userSelected['value'][m];
                   }
                 }
               }
@@ -308,8 +323,10 @@ class _AssessmentSectionState extends State<AssessmentSection> {
             assessmentQuestions[i]['editorState'] = {'options': []};
 
             for (var m = 0; m < userSelected['value'].length; m++) {
-              assessmentQuestions[i]['editorState']['options'].add(
-                  {'index': '$m', 'selectedAnswer': userSelected['value'][m]});
+              assessmentQuestions[i]['editorState']['options'].add({
+                'index': '$m',
+                'selectedAnswer': userSelected['value'][m],
+              });
             }
           }
         }
@@ -341,7 +358,8 @@ class _AssessmentSectionState extends State<AssessmentSection> {
           "identifier": element['identifier'],
           "mimeType": element['mimeType'],
           "objectType": element['objectType'],
-          "primaryCategory": element['qType'] ==
+          "primaryCategory":
+              element['qType'] ==
                       AssessmentQuestionType.radioType.toUpperCase() ||
                   element['qType'] ==
                       AssessmentQuestionType.radioWeightageType.toUpperCase()
@@ -349,7 +367,7 @@ class _AssessmentSectionState extends State<AssessmentSection> {
               : element['primaryCategory'],
           "qType": element['qType'],
           "editorState": element['editorState'],
-          "question": element['body']
+          "question": element['body'],
         });
       }).toString();
 
@@ -360,7 +378,7 @@ class _AssessmentSectionState extends State<AssessmentSection> {
         "objectType": widget.assessmentsInfo[q].objectType,
         "primaryCategory": widget.assessmentsInfo[q].primaryCategory,
         "scoreCutoffType": widget.assessmentsInfo[q].scoreCutoffType,
-        "children": submittedAnswers
+        "children": submittedAnswers,
       };
 
       courseAssessmentData.add(assessmentData);
@@ -369,8 +387,10 @@ class _AssessmentSectionState extends State<AssessmentSection> {
     Map surveyData;
 
     if (widget.isFeatured) {
-      String courseId = TocPlayerViewModel()
-          .getEnrolledCourseId(context, widget.parentCourseId);
+      String courseId = TocPlayerViewModel().getEnrolledCourseId(
+        context,
+        widget.parentCourseId,
+      );
       surveyData = {
         'batchId': widget.batchId,
         'identifier': widget.identifier,
@@ -383,7 +403,7 @@ class _AssessmentSectionState extends State<AssessmentSection> {
         'name': widget.guestUserData?.name ?? '',
         'email': widget.guestUserData?.email ?? '',
         'contextId': courseId,
-        'language': widget.resourceInfo.language.toLowerCase()
+        'language': widget.resourceInfo.language.toLowerCase(),
       };
     } else {
       surveyData = {
@@ -395,14 +415,16 @@ class _AssessmentSectionState extends State<AssessmentSection> {
         'objectType': widget.objectType,
         'timeLimit': widget.duration,
         'children': courseAssessmentData,
-        'language': widget.resourceInfo.language.toLowerCase()
+        'language': widget.resourceInfo.language.toLowerCase(),
       };
     }
 
     var response;
     response = widget.isFeatured
-        ? await assessmentService.submitPublicAssessment(surveyData,
-            isAdvanceAssessment: false)
+        ? await assessmentService.submitPublicAssessment(
+            surveyData,
+            isAdvanceAssessment: false,
+          )
         : await assessmentService.submitAssessmentNew(surveyData);
     var contents = jsonDecode(response.body);
     bool submittedSuccessfully =
@@ -410,20 +432,25 @@ class _AssessmentSectionState extends State<AssessmentSection> {
 
     if (submittedSuccessfully &&
         widget.primaryCategory == PrimaryCategory.practiceAssessment) {
-      await Navigator.of(context).pushReplacement(MaterialPageRoute(
+      await Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
           builder: (context) => AssessmentCompletedScreen(
-              formatHHMMSS(widget.duration - _start), contents['result'],
-              assessmentsInfo: widget.assessmentsInfo,
-              primaryCategory: widget.primaryCategory,
-              course: widget.course,
-              identifier: widget.identifier,
-              updateContentProgress: widget.updateContentProgress,
-              batchId: widget.batchId,
-              fromSectionalCutoff: widget.questionSets.length > 1,
-              resourceInfo: widget.resourceInfo,
-              isFeatured: widget.isFeatured,
-              courseCategory: widget.courseCategory,
-              isPreRequisite: widget.isPreRequisite)));
+            formatHHMMSS(widget.duration - _start),
+            contents['result'],
+            assessmentsInfo: widget.assessmentsInfo,
+            primaryCategory: widget.primaryCategory,
+            course: widget.course,
+            identifier: widget.identifier,
+            updateContentProgress: widget.updateContentProgress,
+            batchId: widget.batchId,
+            fromSectionalCutoff: widget.questionSets.length > 1,
+            resourceInfo: widget.resourceInfo,
+            isFeatured: widget.isFeatured,
+            courseCategory: widget.courseCategory,
+            isPreRequisite: widget.isPreRequisite,
+          ),
+        ),
+      );
     } else if (submittedSuccessfully &&
         widget.primaryCategory == PrimaryCategory.finalAssessment) {
       Map request;
@@ -434,7 +461,7 @@ class _AssessmentSectionState extends State<AssessmentSection> {
           'courseId': widget.parentCourseId,
           'email': widget.guestUserData?.email ?? '',
           'assessmentIdentifier': widget.identifier,
-          'contextId': widget.parentCourseId
+          'contextId': widget.parentCourseId,
         };
       } else {
         request = {
@@ -443,9 +470,7 @@ class _AssessmentSectionState extends State<AssessmentSection> {
           'courseId': widget.parentCourseId,
         };
       }
-      Map requestBody = {
-        'request': request,
-      };
+      Map requestBody = {'request': request};
 
       Navigator.of(context).pop();
       await showModalBottomSheet(
@@ -456,25 +481,29 @@ class _AssessmentSectionState extends State<AssessmentSection> {
         backgroundColor: Colors.transparent,
         builder: (BuildContext context) {
           return Container(
-              child: AssessmentVerificationScreen(
-                  formatHHMMSS(widget.duration - _start), requestBody,
-                  assessmentsInfo: widget.assessmentsInfo,
-                  primaryCategory: widget.primaryCategory,
-                  course: widget.course,
-                  identifier: widget.identifier,
-                  updateContentProgress: widget.updateContentProgress,
-                  batchId: widget.batchId,
-                  fromSectionalCutoff: widget.questionSets.length > 1,
-                  resourceInfo: widget.resourceInfo,
-                  isFeatured: widget.isFeatured,
-                  courseCategory: widget.courseCategory,
-                  isPreRequisite: widget.isPreRequisite));
+            child: AssessmentVerificationScreen(
+              formatHHMMSS(widget.duration - _start),
+              requestBody,
+              assessmentsInfo: widget.assessmentsInfo,
+              primaryCategory: widget.primaryCategory,
+              course: widget.course,
+              identifier: widget.identifier,
+              updateContentProgress: widget.updateContentProgress,
+              batchId: widget.batchId,
+              fromSectionalCutoff: widget.questionSets.length > 1,
+              resourceInfo: widget.resourceInfo,
+              isFeatured: widget.isFeatured,
+              courseCategory: widget.courseCategory,
+              isPreRequisite: widget.isPreRequisite,
+            ),
+          );
         },
       );
     } else {
       widget.parentAction(0.0);
       await Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => Scaffold(body: ErrorPage())));
+        MaterialPageRoute(builder: (context) => Scaffold(body: ErrorPage())),
+      );
     }
 
     if (((widget.course.batches != null || widget.batchId.isNotEmpty) ||
@@ -502,17 +531,18 @@ class _AssessmentSectionState extends State<AssessmentSection> {
       //     status == 2 ? 100.0 : (_start / maxSize) * 100;
       double completionPercentage = 100.0;
       await TocRepository().updateContentProgress(
-          courseId: courseId,
-          batchId: batchId,
-          contentId: contentId,
-          status: status,
-          contentType: contentType,
-          current: current,
-          maxSize: maxSize,
-          completionPercentage: completionPercentage,
-          isAssessment: true,
-          isPreRequisite: widget.isPreRequisite,
-          language: widget.resourceInfo.language);
+        courseId: courseId,
+        batchId: batchId,
+        contentId: contentId,
+        status: status,
+        contentType: contentType,
+        current: current,
+        maxSize: maxSize,
+        completionPercentage: completionPercentage,
+        isAssessment: true,
+        isPreRequisite: widget.isPreRequisite,
+        language: widget.resourceInfo.language,
+      );
     }
   }
 
@@ -521,10 +551,10 @@ class _AssessmentSectionState extends State<AssessmentSection> {
       isScrollControlled: true,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(8), topRight: Radius.circular(8)),
-        side: BorderSide(
-          color: TocModuleColors.grey08,
+          topLeft: Radius.circular(8),
+          topRight: Radius.circular(8),
         ),
+        side: BorderSide(color: TocModuleColors.grey08),
       ),
       context: context,
       builder: (context) => SingleChildScrollView(
@@ -546,14 +576,15 @@ class _AssessmentSectionState extends State<AssessmentSection> {
                 ),
               ),
               Padding(
-                  padding: const EdgeInsets.only(top: 5, bottom: 15).r,
-                  child: Text(
-                      TocLocalizations.of(context)!
-                          .mStaticQuestionsNotAttempted,
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                            fontWeight: FontWeight.w500,
-                            fontFamily: GoogleFonts.montserrat().fontFamily,
-                          ))),
+                padding: const EdgeInsets.only(top: 5, bottom: 15).r,
+                child: Text(
+                  TocLocalizations.of(context)!.mStaticQuestionsNotAttempted,
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                    fontWeight: FontWeight.w500,
+                    fontFamily: GoogleFonts.montserrat().fontFamily,
+                  ),
+                ),
+              ),
               GestureDetector(
                 onTap: () async {
                   _timer?.cancel();
@@ -561,9 +592,10 @@ class _AssessmentSectionState extends State<AssessmentSection> {
                   await _submitSurvey();
                 },
                 child: roundedButton(
-                    TocLocalizations.of(context)!.mStaticNoSubmit,
-                    TocModuleColors.appBarBackground,
-                    TocModuleColors.primaryBlue),
+                  TocLocalizations.of(context)!.mStaticNoSubmit,
+                  TocModuleColors.appBarBackground,
+                  TocModuleColors.primaryBlue,
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 12).r,
@@ -573,11 +605,12 @@ class _AssessmentSectionState extends State<AssessmentSection> {
                     Navigator.of(context).pop(true);
                   },
                   child: roundedButton(
-                      TocLocalizations.of(context)!.mStaticYesTakeMeBack,
-                      TocModuleColors.primaryBlue,
-                      TocModuleColors.appBarBackground),
+                    TocLocalizations.of(context)!.mStaticYesTakeMeBack,
+                    TocModuleColors.primaryBlue,
+                    TocModuleColors.appBarBackground,
+                  ),
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -600,10 +633,10 @@ class _AssessmentSectionState extends State<AssessmentSection> {
       child: Text(
         buttonLabel,
         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-              fontWeight: FontWeight.w500,
-              color: textColor,
-              fontFamily: GoogleFonts.montserrat().fontFamily,
-            ),
+          fontWeight: FontWeight.w500,
+          color: textColor,
+          fontFamily: GoogleFonts.montserrat().fontFamily,
+        ),
       ),
     );
     return optionButton;
@@ -627,69 +660,73 @@ class _AssessmentSectionState extends State<AssessmentSection> {
         alignment: Alignment.center,
         width: 0.7.sw,
         child: Padding(
-            padding: const EdgeInsets.only(left: 10).r,
-            child: Text(
-              widget.resourceInfo.name ?? '',
-              overflow: TextOverflow.fade,
-              style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    fontFamily: GoogleFonts.montserrat().fontFamily,
-                    letterSpacing: 0.25.sp,
-                  ),
-            )),
+          padding: const EdgeInsets.only(left: 10).r,
+          child: Text(
+            widget.resourceInfo.name ?? '',
+            overflow: TextOverflow.fade,
+            style: Theme.of(context).textTheme.titleLarge!.copyWith(
+              fontFamily: GoogleFonts.montserrat().fontFamily,
+              letterSpacing: 0.25.sp,
+            ),
+          ),
+        ),
       ),
       actions: [
         if (widget.primaryCategory == PrimaryCategory.finalAssessment)
           Container(
-              child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              _timeFormat != null
-                  ? Align(
-                      alignment: Alignment.centerLeft,
-                      child: Container(
-                        width: 80.w,
-                        margin: EdgeInsets.only(left: 16, right: 16).r,
-                        padding: EdgeInsets.all(4).r,
-                        decoration: BoxDecoration(
-                            color: TocModuleColors.primaryBlue
-                                .withValues(alpha: 0.08),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                _timeFormat != null
+                    ? Align(
+                        alignment: Alignment.centerLeft,
+                        child: Container(
+                          width: 80.w,
+                          margin: EdgeInsets.only(left: 16, right: 16).r,
+                          padding: EdgeInsets.all(4).r,
+                          decoration: BoxDecoration(
+                            color: TocModuleColors.primaryBlue.withValues(
+                              alpha: 0.08,
+                            ),
                             borderRadius: BorderRadius.circular(16).r,
                             border: Border.all(
-                                color: TocModuleColors.primaryBlue, width: 1)),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(right: 2).r,
-                              child: Icon(
-                                Icons.timer_outlined,
-                                color: TocModuleColors.primaryBlue,
-                                size: 16.sp,
-                              ),
+                              color: TocModuleColors.primaryBlue,
+                              width: 1,
                             ),
-                            Container(
-                              width: 40.w,
-                              child: Text(
-                                '$_timeFormat' + ' ',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall!
-                                    .copyWith(
-                                      fontSize: 12.sp,
-                                      fontFamily:
-                                          GoogleFonts.montserrat().fontFamily,
-                                    ),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(right: 2).r,
+                                child: Icon(
+                                  Icons.timer_outlined,
+                                  color: TocModuleColors.primaryBlue,
+                                  size: 16.sp,
+                                ),
                               ),
-                            )
-                          ],
+                              Container(
+                                width: 40.w,
+                                child: Text(
+                                  '$_timeFormat' + ' ',
+                                  style: Theme.of(context).textTheme.bodySmall!
+                                      .copyWith(
+                                        fontSize: 12.sp,
+                                        fontFamily:
+                                            GoogleFonts.montserrat().fontFamily,
+                                      ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    )
-                  : SizedBox.shrink(),
-            ],
-          ))
+                      )
+                    : SizedBox.shrink(),
+              ],
+            ),
+          ),
       ],
     );
   }
@@ -704,11 +741,9 @@ class _AssessmentSectionState extends State<AssessmentSection> {
             height: 14.w,
             margin: EdgeInsets.only(right: 4).r,
             decoration: BoxDecoration(
-                color: fillColor,
-                border: Border.all(
-                  color: borderColor,
-                  width: 1,
-                )),
+              color: fillColor,
+              border: Border.all(color: borderColor, width: 1),
+            ),
           ),
           Text(text, style: GoogleFonts.lato()),
         ],
@@ -717,37 +752,39 @@ class _AssessmentSectionState extends State<AssessmentSection> {
   }
 
   _navigateToNextSection(int index) {
-    Navigator.of(context).push(MaterialPageRoute(
+    Navigator.of(context).push(
+      MaterialPageRoute(
         builder: (context) => NewAssessmentQuestions(
-              widget.course,
-              widget.resourceInfo.name ?? '',
-              widget.identifier,
-              widget.questionSets[index],
-              widget.parentAction,
-              widget.batchId,
-              widget.duration,
-              isNewAssessment: true,
-              primaryCategory: widget.primaryCategory,
-              objectType: widget.objectType,
-              assessmentInfo: widget.assessmentsInfo[index],
-              sectionIndex: index,
-              getAnsweredQuestions: _getAnsweredStatus,
-              answeredQuestions: _selected
-                          .indexWhere((element) => element['index'] == index) ==
-                      -1
-                  ? []
-                  : _selected[_selected
-                          .indexWhere((element) => element['index'] == index)]
-                      ['selectedAnswers'],
-              isLastSection: index == widget.assessmentsInfo.length - 1,
-              navigateToNextSection: _navigateToNextSection,
-              currentRunningTime: _start,
-              isFullAnswered: _isFullAnswered,
-              submitSurvey: _submitSurvey,
-              assessmentSectionLength: widget.questionSets.length,
-              selectedSection: _selectedSection,
-              generateInteractTelemetryData: _generateInteractTelemetryData,
-            )));
+          widget.course,
+          widget.resourceInfo.name ?? '',
+          widget.identifier,
+          widget.questionSets[index],
+          widget.parentAction,
+          widget.batchId,
+          widget.duration,
+          isNewAssessment: true,
+          primaryCategory: widget.primaryCategory,
+          objectType: widget.objectType,
+          assessmentInfo: widget.assessmentsInfo[index],
+          sectionIndex: index,
+          getAnsweredQuestions: _getAnsweredStatus,
+          answeredQuestions:
+              _selected.indexWhere((element) => element['index'] == index) == -1
+              ? []
+              : _selected[_selected.indexWhere(
+                  (element) => element['index'] == index,
+                )]['selectedAnswers'],
+          isLastSection: index == widget.assessmentsInfo.length - 1,
+          navigateToNextSection: _navigateToNextSection,
+          currentRunningTime: _start,
+          isFullAnswered: _isFullAnswered,
+          submitSurvey: _submitSurvey,
+          assessmentSectionLength: widget.questionSets.length,
+          selectedSection: _selectedSection,
+          generateInteractTelemetryData: _generateInteractTelemetryData,
+        ),
+      ),
+    );
   }
 
   bool _isFullAnswered() {
@@ -795,35 +832,37 @@ class _AssessmentSectionState extends State<AssessmentSection> {
             child: PopScope(
               canPop: false,
               child: Scaffold(
-                  appBar: _getAppbar(),
-                  body: _buildLayout(),
-                  bottomSheet: _actionButton()),
+                appBar: _getAppbar(),
+                body: _buildLayout(),
+                bottomSheet: _actionButton(),
+              ),
             ),
           )
         : widget.questionSets.first.length > 0
-            ? NewAssessmentQuestions(
-                widget.course,
-                widget.resourceInfo.name ?? '',
-                widget.identifier,
-                widget.questionSets.first,
-                widget.parentAction,
-                widget.batchId,
-                widget.duration,
-                isNewAssessment: true,
-                primaryCategory: widget.primaryCategory,
-                objectType: widget.objectType,
-                assessmentInfo: widget.assessmentsInfo.first,
-                isLastSection: true,
-                submitSurvey: _submitSurvey,
-                isFullAnswered: _isFullAnswered,
-                sectionIndex: 0,
-                getAnsweredQuestions: _getAnsweredStatus,
-                answeredQuestions:
-                    _selected.length > 0 ? _selected[0]['selectedAnswers'] : [],
-                assessmentSectionLength: widget.questionSets.length,
-                generateInteractTelemetryData: _generateInteractTelemetryData,
-              )
-            : ErrorPage();
+        ? NewAssessmentQuestions(
+            widget.course,
+            widget.resourceInfo.name ?? '',
+            widget.identifier,
+            widget.questionSets.first,
+            widget.parentAction,
+            widget.batchId,
+            widget.duration,
+            isNewAssessment: true,
+            primaryCategory: widget.primaryCategory,
+            objectType: widget.objectType,
+            assessmentInfo: widget.assessmentsInfo.first,
+            isLastSection: true,
+            submitSurvey: _submitSurvey,
+            isFullAnswered: _isFullAnswered,
+            sectionIndex: 0,
+            getAnsweredQuestions: _getAnsweredStatus,
+            answeredQuestions: _selected.length > 0
+                ? _selected[0]['selectedAnswers']
+                : [],
+            assessmentSectionLength: widget.questionSets.length,
+            generateInteractTelemetryData: _generateInteractTelemetryData,
+          )
+        : ErrorPage();
   }
 
   Widget _buildLayout() {
@@ -832,10 +871,7 @@ class _AssessmentSectionState extends State<AssessmentSection> {
       child: Column(
         children: [
           _statusIndicatorWidget(),
-          Divider(
-            thickness: 16,
-            color: TocModuleColors.grey08,
-          ),
+          Divider(thickness: 16, color: TocModuleColors.grey08),
           _assessmentListWidget(),
         ],
       ),
@@ -852,21 +888,25 @@ class _AssessmentSectionState extends State<AssessmentSection> {
           child: Row(
             children: [
               _getSectionStatusIndicators(
-                  TocModuleColors.positiveLight,
-                  TocModuleColors.positiveLightBg,
-                  TocLocalizations.of(context)!.mCommoncompleted),
+                TocModuleColors.positiveLight,
+                TocModuleColors.positiveLightBg,
+                TocLocalizations.of(context)!.mCommoncompleted,
+              ),
               _getSectionStatusIndicators(
-                  TocModuleColors.negativeLight,
-                  TocModuleColors.negativeLightBg,
-                  TocLocalizations.of(context)!.mStaticIncomplete),
+                TocModuleColors.negativeLight,
+                TocModuleColors.negativeLightBg,
+                TocLocalizations.of(context)!.mStaticIncomplete,
+              ),
               _getSectionStatusIndicators(
-                  TocModuleColors.black40,
-                  TocModuleColors.background,
-                  TocLocalizations.of(context)!.mCommonnotStarted),
+                TocModuleColors.black40,
+                TocModuleColors.background,
+                TocLocalizations.of(context)!.mCommonnotStarted,
+              ),
               _getSectionStatusIndicators(
-                  TocModuleColors.primaryBlue,
-                  TocModuleColors.primaryBlueBg,
-                  TocLocalizations.of(context)!.mStaticSelected),
+                TocModuleColors.primaryBlue,
+                TocModuleColors.primaryBlueBg,
+                TocLocalizations.of(context)!.mStaticSelected,
+              ),
             ],
           ),
         ),
@@ -896,61 +936,71 @@ class _AssessmentSectionState extends State<AssessmentSection> {
                     width: 1.sw,
                     margin: EdgeInsets.fromLTRB(16, 8, 16, 8).r,
                     decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: TocModuleColors.grey08,
-                            blurRadius: 6.0.r,
-                            spreadRadius: 0.r,
-                            offset: Offset(
-                              3,
-                              3,
-                            ),
-                          ),
-                        ],
-                        borderRadius: BorderRadius.circular(16).r,
-                        color: _selected.indexWhere(
-                                    (element) => element['index'] == i) !=
-                                -1
-                            ? (_selected[_selected.indexWhere((element) => element['index'] == i)]
-                                            ['selectedAnswers']
+                      boxShadow: [
+                        BoxShadow(
+                          color: TocModuleColors.grey08,
+                          blurRadius: 6.0.r,
+                          spreadRadius: 0.r,
+                          offset: Offset(3, 3),
+                        ),
+                      ],
+                      borderRadius: BorderRadius.circular(16).r,
+                      color:
+                          _selected.indexWhere(
+                                (element) => element['index'] == i,
+                              ) !=
+                              -1
+                          ? (_selected[_selected.indexWhere(
+                                          (element) => element['index'] == i,
+                                        )]['selectedAnswers']
                                         .length ==
                                     widget.questionSets[i].length
                                 ? TocModuleColors.positiveLightBg
-                                : (_selected[_selected.indexWhere((element) => element['index'] == i)]
-                                                    ['selectedAnswers']
-                                                .length >
-                                            0 &&
-                                        _selected[_selected.indexWhere((element) =>
-                                                        element['index'] == i)]
-                                                    ['selectedAnswers']
-                                                .length <
-                                            widget.questionSets[i].length)
-                                    ? TocModuleColors.negativeLightBg
-                                    : TocModuleColors.background)
-                            : TocModuleColors.background,
-                        border: Border.all(
-                          color: _selected.indexWhere(
-                                      (element) => element['index'] == i) !=
-                                  -1
-                              ? (_selected[_selected.indexWhere((element) => element['index'] == i)]
-                                              ['selectedAnswers']
+                                : (_selected[_selected.indexWhere(
+                                                (element) =>
+                                                    element['index'] == i,
+                                              )]['selectedAnswers']
+                                              .length >
+                                          0 &&
+                                      _selected[_selected.indexWhere(
+                                                (element) =>
+                                                    element['index'] == i,
+                                              )]['selectedAnswers']
+                                              .length <
+                                          widget.questionSets[i].length)
+                                ? TocModuleColors.negativeLightBg
+                                : TocModuleColors.background)
+                          : TocModuleColors.background,
+                      border: Border.all(
+                        color:
+                            _selected.indexWhere(
+                                  (element) => element['index'] == i,
+                                ) !=
+                                -1
+                            ? (_selected[_selected.indexWhere(
+                                            (element) => element['index'] == i,
+                                          )]['selectedAnswers']
                                           .length ==
                                       widget.questionSets[i].length
                                   ? TocModuleColors.positiveLight
-                                  : (_selected[_selected.indexWhere((element) => element['index'] == i)]
-                                                      ['selectedAnswers']
-                                                  .length >
-                                              0 &&
-                                          _selected[_selected.indexWhere((element) =>
-                                                          element['index'] == i)]
-                                                      ['selectedAnswers']
-                                                  .length <
-                                              widget.questionSets[i].length)
-                                      ? TocModuleColors.negativeLight
-                                      : TocModuleColors.black04)
-                              : TocModuleColors.black40,
-                          width: 1,
-                        )),
+                                  : (_selected[_selected.indexWhere(
+                                                  (element) =>
+                                                      element['index'] == i,
+                                                )]['selectedAnswers']
+                                                .length >
+                                            0 &&
+                                        _selected[_selected.indexWhere(
+                                                  (element) =>
+                                                      element['index'] == i,
+                                                )]['selectedAnswers']
+                                                .length <
+                                            widget.questionSets[i].length)
+                                  ? TocModuleColors.negativeLight
+                                  : TocModuleColors.black04)
+                            : TocModuleColors.black40,
+                        width: 1,
+                      ),
+                    ),
                     child: Padding(
                       padding: const EdgeInsets.all(16.0).r,
                       child: Column(
@@ -961,7 +1011,9 @@ class _AssessmentSectionState extends State<AssessmentSection> {
                             child: Text(
                               widget.assessmentsInfo[i].name,
                               style: GoogleFonts.lato(
-                                  fontWeight: FontWeight.w700, fontSize: 16.sp),
+                                fontWeight: FontWeight.w700,
+                                fontSize: 16.sp,
+                              ),
                             ),
                           ),
                           Padding(
@@ -980,8 +1032,11 @@ class _AssessmentSectionState extends State<AssessmentSection> {
                               style: GoogleFonts.lato(),
                             ),
                           ),
-                          HtmlWidget(TocHelper.decodeHtmlEntities(widget
-                              .assessmentsInfo[i].additionalInstructions)),
+                          HtmlWidget(
+                            TocHelper.decodeHtmlEntities(
+                              widget.assessmentsInfo[i].additionalInstructions,
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -1009,16 +1064,17 @@ class _AssessmentSectionState extends State<AssessmentSection> {
           }
         },
         style: ButtonStyle(
-          backgroundColor:
-              WidgetStateProperty.all<Color>(TocModuleColors.primaryBlue),
+          backgroundColor: WidgetStateProperty.all<Color>(
+            TocModuleColors.primaryBlue,
+          ),
           shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(63.0).r,
-            ),
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(63.0).r),
           ),
         ),
-        child: Text(TocLocalizations.of(context)!.mStaticSubmitAssessment,
-            style: Theme.of(context).textTheme.displaySmall),
+        child: Text(
+          TocLocalizations.of(context)!.mStaticSubmitAssessment,
+          style: Theme.of(context).textTheme.displaySmall,
+        ),
       ),
     );
   }

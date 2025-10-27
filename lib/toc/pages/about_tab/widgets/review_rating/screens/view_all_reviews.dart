@@ -8,7 +8,7 @@ import 'package:toc_module/toc/pages/about_tab/widgets/review_rating/repository/
 import 'package:toc_module/toc/pages/about_tab/widgets/review_rating/widgets/review_card.dart';
 import 'package:toc_module/toc/pages/about_tab/widgets/review_rating/widgets/review_card_skeleton.dart';
 import 'package:toc_module/toc/pages/about_tab/widgets/review_rating/widgets/review_filter.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
 
 class ViewAllReviews extends StatefulWidget {
   final Course course;
@@ -76,9 +76,11 @@ class _ViewAllReviewsState extends State<ViewAllReviews> {
         filteredLatestReviews = latestReviews;
       } else {
         filteredLatestReviews = latestReviews
-            .where((review) =>
-                review.review != null &&
-                review.review!.toLowerCase().contains(query.toLowerCase()))
+            .where(
+              (review) =>
+                  review.review != null &&
+                  review.review!.toLowerCase().contains(query.toLowerCase()),
+            )
             .toList();
       }
     });
@@ -90,9 +92,11 @@ class _ViewAllReviewsState extends State<ViewAllReviews> {
         filteredTopReviews = topReviews;
       } else {
         filteredTopReviews = topReviews
-            .where((review) =>
-                review.review != null &&
-                review.review!.toLowerCase().contains(query.toLowerCase()))
+            .where(
+              (review) =>
+                  review.review != null &&
+                  review.review!.toLowerCase().contains(query.toLowerCase()),
+            )
             .toList();
       }
     });
@@ -158,9 +162,7 @@ class _ViewAllReviewsState extends State<ViewAllReviews> {
           },
           keyboardType: TextInputType.text,
           textInputAction: TextInputAction.done,
-          style: GoogleFonts.lato(
-            fontSize: 14.0.sp,
-          ),
+          style: GoogleFonts.lato(fontSize: 14.0.sp),
           decoration: InputDecoration(
             prefixIcon: Icon(Icons.search),
             contentPadding: EdgeInsets.fromLTRB(16.0, 10.0, 0.0, 10.0).r,
@@ -173,18 +175,14 @@ class _ViewAllReviewsState extends State<ViewAllReviews> {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(1.0).r,
-              borderSide: BorderSide(
-                color: TocModuleColors.primaryThree,
-              ),
+              borderSide: BorderSide(color: TocModuleColors.primaryThree),
             ),
             hintText: TocLocalizations.of(context)!.mStaticSearch,
-            hintStyle: Theme.of(context)
-                .textTheme
-                .headlineSmall!
-                .copyWith(fontSize: 14.sp, fontWeight: FontWeight.w400),
-            counterStyle: TextStyle(
-              height: double.minPositive.w,
+            hintStyle: Theme.of(context).textTheme.headlineSmall!.copyWith(
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w400,
             ),
+            counterStyle: TextStyle(height: double.minPositive.w),
             counterText: '',
           ),
         ),
@@ -204,25 +202,23 @@ class _ViewAllReviewsState extends State<ViewAllReviews> {
       itemCount: noReviews
           ? 1
           : isTopReview
-              ? filteredTopReviews.length
-              : filteredLatestReviews.length,
-      separatorBuilder: (BuildContext context, int index) => Divider(
-        height: 10.w,
-        color: TocModuleColors.grey16,
-        thickness: 1.w,
-      ),
+          ? filteredTopReviews.length
+          : filteredLatestReviews.length,
+      separatorBuilder: (BuildContext context, int index) =>
+          Divider(height: 10.w, color: TocModuleColors.grey16, thickness: 1.w),
       itemBuilder: (BuildContext context, int index) {
         if (noReviews) {
           return Padding(
             padding: const EdgeInsets.only(top: 50.0).r,
             child: Center(
-                child: Text(
-              TocLocalizations.of(context)!.mStaticNoReviewsToShow,
-              style: TextStyle(
-                fontSize: 16.sp,
-                color: isTopReview ? TocModuleColors.grey84 : null,
+              child: Text(
+                TocLocalizations.of(context)!.mStaticNoReviewsToShow,
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  color: isTopReview ? TocModuleColors.grey84 : null,
+                ),
               ),
-            )),
+            ),
           );
         }
         if (isTopReview) {
@@ -251,11 +247,8 @@ class _ViewAllReviewsState extends State<ViewAllReviews> {
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       itemCount: 5,
-      separatorBuilder: (BuildContext context, int index) => Divider(
-        height: 10.w,
-        color: TocModuleColors.grey16,
-        thickness: 1.w,
-      ),
+      separatorBuilder: (BuildContext context, int index) =>
+          Divider(height: 10.w, color: TocModuleColors.grey16, thickness: 1.w),
       itemBuilder: (BuildContext context, int index) {
         return ReviewCardSkeleton();
       },

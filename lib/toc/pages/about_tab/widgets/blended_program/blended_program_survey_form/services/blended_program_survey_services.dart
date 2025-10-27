@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:karmayogi_mobile/constants/_constants/app_constants.dart';
 
 import 'package:karmayogi_mobile/feedback/constants.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
 
 class BlendedProgramSurveyServices {
-  String? generalValidator(
-      {String? value,
-      required bool isRequired,
-      required String fieldType,
-      required BuildContext context}) {
+  String? generalValidator({
+    String? value,
+    required bool isRequired,
+    required String fieldType,
+    required BuildContext context,
+  }) {
     if (isRequired && (value == null || value.isEmpty)) {
       return TocLocalizations.of(context)!.mThisFieldIsRequired;
     }
@@ -30,8 +31,9 @@ class BlendedProgramSurveyServices {
         if ((value != null && value.isNotEmpty)) {
           final mobileRegex = RegExpressions.validPhone;
           if (!mobileRegex.hasMatch(value)) {
-            return TocLocalizations.of(context)!
-                .mProfileMobileNumberLengthError;
+            return TocLocalizations.of(
+              context,
+            )!.mProfileMobileNumberLengthError;
           }
         }
         break;
@@ -43,10 +45,10 @@ class BlendedProgramSurveyServices {
 
         break;
       case QuestionType.dropdown ||
-            QuestionType.radio ||
-            QuestionType.checkbox ||
-            QuestionType.rating ||
-            QuestionType.date:
+          QuestionType.radio ||
+          QuestionType.checkbox ||
+          QuestionType.rating ||
+          QuestionType.date:
         if ((value != null && value.isNotEmpty)) {
           return TocLocalizations.of(context)!.mSelectAnOption;
         }

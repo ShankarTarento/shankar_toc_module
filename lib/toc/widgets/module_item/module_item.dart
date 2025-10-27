@@ -15,7 +15,7 @@ import 'package:toc_module/toc/widgets/course_at_glance_widget.dart';
 import 'package:toc_module/toc/widgets/glance_item_3.dart';
 import 'package:toc_module/toc/widgets/module_item/widgets/linear_progress_indicator_widget.dart';
 import 'package:toc_module/toc/widgets/module_item/widgets/toc_download_certificate_widget.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
 
 class ModuleItem extends StatefulWidget {
   final navigationItems;
@@ -40,31 +40,31 @@ class ModuleItem extends StatefulWidget {
   final bool allowAccess;
   final List<Course> enrollmentList;
 
-  const ModuleItem(
-      {Key? key,
-      required this.course,
-      required this.moduleIndex,
-      required this.moduleName,
-      required this.glanceListItems,
-      this.navigation,
-      this.initiallyExpanded = false,
-      this.batchId,
-      this.isCourse = false,
-      this.isFeatured = false,
-      this.duration,
-      required this.parentCourseId,
-      this.showProgress = false,
-      required this.courseHierarchyInfo,
-      this.itemCount = 0,
-      this.lastAccessContentId,
-      this.startNewResourse,
-      this.isPlayer = false,
-      this.navigationItems,
-      this.enrolledCourse,
-      this.readCourseProgress,
-      this.allowAccess = false,
-      required this.enrollmentList})
-      : super(key: key);
+  const ModuleItem({
+    Key? key,
+    required this.course,
+    required this.moduleIndex,
+    required this.moduleName,
+    required this.glanceListItems,
+    this.navigation,
+    this.initiallyExpanded = false,
+    this.batchId,
+    this.isCourse = false,
+    this.isFeatured = false,
+    this.duration,
+    required this.parentCourseId,
+    this.showProgress = false,
+    required this.courseHierarchyInfo,
+    this.itemCount = 0,
+    this.lastAccessContentId,
+    this.startNewResourse,
+    this.isPlayer = false,
+    this.navigationItems,
+    this.enrolledCourse,
+    this.readCourseProgress,
+    this.allowAccess = false,
+    required this.enrollmentList,
+  }) : super(key: key);
 
   @override
   _ModuleItemState createState() => _ModuleItemState();
@@ -124,8 +124,9 @@ class _ModuleItemState extends State<ModuleItem> {
         sum += double.tryParse(item.completionPercentage.toString()) ?? 0;
       }
     }
-    _moduleProgress =
-        _glanceListItems.isNotEmpty ? sum / _glanceListItems.length : 0;
+    _moduleProgress = _glanceListItems.isNotEmpty
+        ? sum / _glanceListItems.length
+        : 0;
   }
 
   Future<void> removeOfflineContentFromNavigation(List navItems) async {
@@ -134,8 +135,10 @@ class _ModuleItemState extends State<ModuleItem> {
           child.primaryCategory == PrimaryCategory.offlineSession) {
         return true;
       } else if (child is List) {
-        child.removeWhere((e) =>
-            e is! List && e.primaryCategory == PrimaryCategory.offlineSession);
+        child.removeWhere(
+          (e) =>
+              e is! List && e.primaryCategory == PrimaryCategory.offlineSession,
+        );
       }
       return false;
     });
@@ -144,7 +147,9 @@ class _ModuleItemState extends State<ModuleItem> {
   }
 
   void _generateInteractTelemetryData(
-      String contentId, String primaryType) async {
+    String contentId,
+    String primaryType,
+  ) async {
     // var telemetryRepository = TelemetryRepository();
     // Map eventData = telemetryRepository.getInteractTelemetryEvent(
     //   pageIdentifier: TelemetryPageIdentifier.courseDetailsPageId,
@@ -194,8 +199,8 @@ class _ModuleItemState extends State<ModuleItem> {
               ),
         color: isExpanded
             ? widget.isCourse
-                ? TocModuleColors.darkBlue
-                : TocModuleColors.whiteGradientOne
+                  ? TocModuleColors.darkBlue
+                  : TocModuleColors.whiteGradientOne
             : TocModuleColors.appBarBackground,
       ),
       child: ExpansionTile(
@@ -219,11 +224,15 @@ class _ModuleItemState extends State<ModuleItem> {
                         widget.showProgress)
                       Padding(
                         padding: const EdgeInsets.only(top: 4, right: 6).r,
-                        child: _moduleProgress == 1 ||
+                        child:
+                            _moduleProgress == 1 ||
                                 widget.enrolledCourse!.completionPercentage ==
                                     TocConstants.COURSE_COMPLETION_PERCENTAGE
-                            ? Icon(Icons.check_circle,
-                                size: 22.sp, color: TocModuleColors.darkBlue)
+                            ? Icon(
+                                Icons.check_circle,
+                                size: 22.sp,
+                                color: TocModuleColors.darkBlue,
+                              )
                             : Container(
                                 height: 20.w,
                                 width: 20.w,
@@ -256,8 +265,8 @@ class _ModuleItemState extends State<ModuleItem> {
                                   decoration: TextDecoration.none,
                                   color: isExpanded
                                       ? widget.isCourse
-                                          ? TocModuleColors.appBarBackground
-                                          : TocModuleColors.darkBlue
+                                            ? TocModuleColors.appBarBackground
+                                            : TocModuleColors.darkBlue
                                       : TocModuleColors.greys87,
                                   fontSize: 16.sp,
                                   fontWeight: isExpanded
@@ -274,8 +283,8 @@ class _ModuleItemState extends State<ModuleItem> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             CourseAtGlanceWidget(
-                              courseInfo: widget.navigation[widget.moduleIndex]
-                                  [0],
+                              courseInfo:
+                                  widget.navigation[widget.moduleIndex][0],
                               courseHierarchyInfo: widget.courseHierarchyInfo,
                               isExpanded: isExpanded,
                               isCourse: widget.isCourse,
@@ -326,87 +335,120 @@ class _ModuleItemState extends State<ModuleItem> {
               ),
         children: [
           for (int i = 0; i < _glanceListItems.length; i++)
-            if ((_glanceListItems[i] is! List || _glanceListItems[i][0] == null) &&
+            if ((_glanceListItems[i] is! List ||
+                    _glanceListItems[i][0] == null) &&
                 _glanceListItems[i].primaryCategory !=
                     PrimaryCategory.offlineSession)
               Container(
-                  width: 1.sw,
-                  color: isExpanded
-                      ? TocModuleColors.whiteGradientOne
-                      : TocModuleColors.appBarBackground,
-                  child: InkWell(
-                      onTap: () async {
-                        if (!widget.isFeatured) {
-                          _generateInteractTelemetryData(
-                            _glanceListItems[i].identifier,
-                            _glanceListItems[i].primaryCategory,
-                          );
-                        }
-                        if (widget.isPlayer) {
-                          if (!_glanceListItems[i].isLocked) {
-                            widget.startNewResourse
-                                ?.call(_glanceListItems[i].contentId);
-                          }
-                        } else if (widget.allowAccess) {
-                          var result;
-                          if (canNavigateToTocPlayer()) {
-                            result = await Navigator.push(
-                              context,
-                              FadeRoute(
-                                page: TocPlayerScreen(
-                                  arguments: TocPlayerModel(
-                                    enrolledCourse: widget.enrolledCourse,
-                                    navigationItems: widget.navigationItems,
-                                    isCuratedProgram: isCuratedProgram,
-                                    batchId: widget.batchId,
-                                    courseId: widget.course.id,
-                                    isFeatured: widget.isFeatured,
-                                    lastAccessContentId:
-                                        _glanceListItems[i].contentId,
-                                    enrollmentList: widget.enrollmentList,
-                                  ),
-                                ),
+                width: 1.sw,
+                color: isExpanded
+                    ? TocModuleColors.whiteGradientOne
+                    : TocModuleColors.appBarBackground,
+                child: InkWell(
+                  onTap: () async {
+                    if (!widget.isFeatured) {
+                      _generateInteractTelemetryData(
+                        _glanceListItems[i].identifier,
+                        _glanceListItems[i].primaryCategory,
+                      );
+                    }
+                    if (widget.isPlayer) {
+                      if (!_glanceListItems[i].isLocked) {
+                        widget.startNewResourse?.call(
+                          _glanceListItems[i].contentId,
+                        );
+                      }
+                    } else if (widget.allowAccess) {
+                      var result;
+                      if (canNavigateToTocPlayer()) {
+                        result = await Navigator.push(
+                          context,
+                          FadeRoute(
+                            page: TocPlayerScreen(
+                              arguments: TocPlayerModel(
+                                enrolledCourse: widget.enrolledCourse,
+                                navigationItems: widget.navigationItems,
+                                isCuratedProgram: isCuratedProgram,
+                                batchId: widget.batchId,
+                                courseId: widget.course.id,
+                                isFeatured: widget.isFeatured,
+                                lastAccessContentId:
+                                    _glanceListItems[i].contentId,
+                                enrollmentList: widget.enrollmentList,
                               ),
-                            );
-                          }
+                            ),
+                          ),
+                        );
+                      }
 
-                          widget.readCourseProgress?.call();
-                        }
-                      },
-                      child: _glanceListItems[i].contentId != null
-                          ? _glanceListItems[i].contentId == EMimeTypes.offline
-                              ? SizedBox.shrink()
-                              : GlanceItem3(
-                                  icon: TocHelper.getMimeTypeIcon(
-                                      _glanceListItems[i].mimeType),
-                                  text: _glanceListItems[i].name,
-                                  status: widget.enrolledCourse != null && widget.enrolledCourse!.completionPercentage == TocConstants.COURSE_COMPLETION_PERCENTAGE
-                                      ? 2
-                                      : _glanceListItems[i].status,
-                                  duration: _glanceListItems[i].duration,
-                                  isFeaturedCourse: widget.isFeatured,
-                                  currentProgress: widget.enrolledCourse != null && widget.enrolledCourse!.completionPercentage == TocConstants.COURSE_COMPLETION_PERCENTAGE
-                                      ? 1
-                                      : _glanceListItems[i]
-                                          .completionPercentage,
-                                  showProgress: widget.showProgress,
-                                  isExpanded: isExpanded,
-                                  isLastAccessed: widget.lastAccessContentId ==
-                                      _glanceListItems[i].contentId,
-                                  isEnrolled: widget.isPlayer
-                                      ? true
-                                      : widget.enrolledCourse != null,
-                                  maxQuestions:
-                                      (_glanceListItems[i].maxQuestions ?? '')
-                                          .toString(),
-                                  mimeType: (_glanceListItems[i].mimeType ?? '')
-                                      .toString(),
-                                  isLocked: _glanceListItems[i].isLocked,
-                                  isL2Assessment: _glanceListItems[i].parentCourseId == widget.course.id &&
-                                      widget.courseHierarchyInfo.compatibilityLevel >= ResourceCategoryVersion.contentCompatibility.version &&
-                                      _glanceListItems[i].mimeType == EMimeTypes.newAssessment &&
-                                      isCuratedProgram)
-                          : Container(padding: EdgeInsets.all(8).r, child: Text(TocLocalizations.of(context)!.mCourseNoContentsAvailable)))),
+                      widget.readCourseProgress?.call();
+                    }
+                  },
+                  child: _glanceListItems[i].contentId != null
+                      ? _glanceListItems[i].contentId == EMimeTypes.offline
+                            ? SizedBox.shrink()
+                            : GlanceItem3(
+                                icon: TocHelper.getMimeTypeIcon(
+                                  _glanceListItems[i].mimeType,
+                                ),
+                                text: _glanceListItems[i].name,
+                                status:
+                                    widget.enrolledCourse != null &&
+                                        widget
+                                                .enrolledCourse!
+                                                .completionPercentage ==
+                                            TocConstants
+                                                .COURSE_COMPLETION_PERCENTAGE
+                                    ? 2
+                                    : _glanceListItems[i].status,
+                                duration: _glanceListItems[i].duration,
+                                isFeaturedCourse: widget.isFeatured,
+                                currentProgress:
+                                    widget.enrolledCourse != null &&
+                                        widget
+                                                .enrolledCourse!
+                                                .completionPercentage ==
+                                            TocConstants
+                                                .COURSE_COMPLETION_PERCENTAGE
+                                    ? 1
+                                    : _glanceListItems[i].completionPercentage,
+                                showProgress: widget.showProgress,
+                                isExpanded: isExpanded,
+                                isLastAccessed:
+                                    widget.lastAccessContentId ==
+                                    _glanceListItems[i].contentId,
+                                isEnrolled: widget.isPlayer
+                                    ? true
+                                    : widget.enrolledCourse != null,
+                                maxQuestions:
+                                    (_glanceListItems[i].maxQuestions ?? '')
+                                        .toString(),
+                                mimeType: (_glanceListItems[i].mimeType ?? '')
+                                    .toString(),
+                                isLocked: _glanceListItems[i].isLocked,
+                                isL2Assessment:
+                                    _glanceListItems[i].parentCourseId ==
+                                        widget.course.id &&
+                                    widget
+                                            .courseHierarchyInfo
+                                            .compatibilityLevel >=
+                                        ResourceCategoryVersion
+                                            .contentCompatibility
+                                            .version &&
+                                    _glanceListItems[i].mimeType ==
+                                        EMimeTypes.newAssessment &&
+                                    isCuratedProgram,
+                              )
+                      : Container(
+                          padding: EdgeInsets.all(8).r,
+                          child: Text(
+                            TocLocalizations.of(
+                              context,
+                            )!.mCourseNoContentsAvailable,
+                          ),
+                        ),
+                ),
+              ),
           // Add a thin divider if needed
           if (!widget.isCourse)
             Container(

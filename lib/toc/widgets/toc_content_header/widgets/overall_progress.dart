@@ -7,16 +7,19 @@ import 'package:toc_module/toc/constants/toc_constants.dart';
 import 'package:toc_module/toc/model/course_model.dart';
 import 'package:toc_module/toc/repository/toc_repository.dart';
 import 'package:toc_module/toc/widgets/course_progress_widget.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 import 'package:toc_module/toc/widgets/toc_content_header/widgets/course_rating.dart';
 
 class OverallProgress extends StatefulWidget {
   final Course enrolledCourse;
   final Course course;
 
-  const OverallProgress(
-      {Key? key, required this.course, required this.enrolledCourse})
-      : super(key: key);
+  const OverallProgress({
+    Key? key,
+    required this.course,
+    required this.enrolledCourse,
+  }) : super(key: key);
 
   @override
   State<OverallProgress> createState() => _OverallProgressState();
@@ -45,26 +48,24 @@ class _OverallProgressState extends State<OverallProgress> {
   @override
   Widget build(BuildContext context) {
     return Selector<TocRepository, double?>(
-        selector: (context, tocService) => tocService.courseProgress,
-        builder: (context, courseProgress, _) {
-          if (courseProgress != null) {
-            if (progress < courseProgress) {
-              progress = courseProgress;
-            } else {
-              progress = courseProgress;
-            }
+      selector: (context, tocService) => tocService.courseProgress,
+      builder: (context, courseProgress, _) {
+        if (courseProgress != null) {
+          if (progress < courseProgress) {
+            progress = courseProgress;
+          } else {
+            progress = courseProgress;
           }
-          return Container(
-            height: 50.w,
-            padding: EdgeInsets.only(
-              left: 16,
-              right: 16,
-            ).r,
-            width: 1.sw,
-            color: (progress * 100).toInt() == COURSE_COMPLETION_PERCENTAGE
-                ? ModuleColors.deepBlue
-                : ModuleColors.appBarBackground,
-            child: Row(children: [
+        }
+        return Container(
+          height: 50.w,
+          padding: EdgeInsets.only(left: 16, right: 16).r,
+          width: 1.sw,
+          color: (progress * 100).toInt() == COURSE_COMPLETION_PERCENTAGE
+              ? ModuleColors.deepBlue
+              : ModuleColors.appBarBackground,
+          child: Row(
+            children: [
               CourseProgressWidget(progress: progress, width: 200.w),
               Spacer(),
               Selector<TocRepository, Map<String, dynamic>>(
@@ -78,88 +79,98 @@ class _OverallProgressState extends State<OverallProgress> {
                   );
 
                   return Visibility(
-                      visible: showRating,
-                      child: Selector<TocRepository, dynamic>(
-                        selector: (context, learnRepository) =>
-                            learnRepository.courseRatingAndReview,
-                        builder: (context, yourReviews, _) {
-                          return GestureDetector(
-                            onTap: () async {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => CourseRating(
-                                    widget.enrolledCourse.name,
-                                    widget.course.id,
-                                    widget.enrolledCourse.primaryCategory,
-                                    yourReviews,
-                                    parentAction: () {},
-                                    onSubmitted: (value) async {
-                                      // await Provider.of<TocRepository>(context,
-                                      //         listen: false)
-                                      //     .getCourseReviewSummery(
-                                      //         forceUpdate: true,
-                                      //         courseId: widget.course.id,
-                                      //         primaryCategory: widget
-                                      //             .course.primaryCategory);
-                                      // await Provider.of<TocRepository>(context,
-                                      //         listen: false)
-                                      //     .getYourReview(
-                                      //         id: widget.course.id,
-                                      //         primaryCategory:
-                                      //             widget.course.primaryCategory,
-                                      //         forceUpdate: true);
-                                    },
-                                  ),
+                    visible: showRating,
+                    child: Selector<TocRepository, dynamic>(
+                      selector: (context, learnRepository) =>
+                          learnRepository.courseRatingAndReview,
+                      builder: (context, yourReviews, _) {
+                        return GestureDetector(
+                          onTap: () async {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => CourseRating(
+                                  widget.enrolledCourse.name,
+                                  widget.course.id,
+                                  widget.enrolledCourse.primaryCategory,
+                                  yourReviews,
+                                  parentAction: () {},
+                                  onSubmitted: (value) async {
+                                    // await Provider.of<TocRepository>(context,
+                                    //         listen: false)
+                                    //     .getCourseReviewSummery(
+                                    //         forceUpdate: true,
+                                    //         courseId: widget.course.id,
+                                    //         primaryCategory: widget
+                                    //             .course.primaryCategory);
+                                    // await Provider.of<TocRepository>(context,
+                                    //         listen: false)
+                                    //     .getYourReview(
+                                    //         id: widget.course.id,
+                                    //         primaryCategory:
+                                    //             widget.course.primaryCategory,
+                                    //         forceUpdate: true);
+                                  },
                                 ),
-                              );
-                            },
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                      horizontal: 8, vertical: 6)
-                                  .r,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(63).r,
-                                  color: (progress * 100).toInt() ==
+                              ),
+                            );
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 6,
+                            ).r,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(63).r,
+                              color:
+                                  (progress * 100).toInt() ==
+                                      COURSE_COMPLETION_PERCENTAGE
+                                  ? ModuleColors.orangeTourText
+                                  : Colors.transparent,
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.star,
+                                  color:
+                                      (progress * 100).toInt() ==
                                           COURSE_COMPLETION_PERCENTAGE
-                                      ? ModuleColors.orangeTourText
-                                      : Colors.transparent),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.star,
-                                    color: (progress * 100).toInt() ==
+                                      ? ModuleColors.deepBlue
+                                      : ModuleColors.darkBlue,
+                                  size: 18.sp,
+                                ),
+                                Text(
+                                  yourReviews != null
+                                      ? TocLocalizations.of(
+                                          context,
+                                        )!.mLearnEditRating
+                                      : TocLocalizations.of(
+                                          context,
+                                        )!.mStaticRateNow,
+                                  style: GoogleFonts.lato(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 14.sp,
+                                    color:
+                                        (progress * 100).toInt() ==
                                             COURSE_COMPLETION_PERCENTAGE
                                         ? ModuleColors.deepBlue
                                         : ModuleColors.darkBlue,
-                                    size: 18.sp,
                                   ),
-                                  Text(
-                                    yourReviews != null
-                                        ? TocLocalizations.of(context)!
-                                            .mLearnEditRating
-                                        : TocLocalizations.of(context)!
-                                            .mStaticRateNow,
-                                    style: GoogleFonts.lato(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 14.sp,
-                                      color: (progress * 100).toInt() ==
-                                              COURSE_COMPLETION_PERCENTAGE
-                                          ? ModuleColors.deepBlue
-                                          : ModuleColors.darkBlue,
-                                    ),
-                                  )
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                          );
-                        },
-                      ));
+                          ),
+                        );
+                      },
+                    ),
+                  );
                 },
-              )
-            ]),
-          );
-        });
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   bool _shouldShowRating({

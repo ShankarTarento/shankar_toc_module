@@ -5,7 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:igot_ui_components/ui/widgets/alert_dialog/alert_dialog.dart';
 
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 import 'package:igot_ui_components/utils/fade_route.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/constants/english_lang.dart';
@@ -31,18 +32,21 @@ class AssessmentCompletedScreen extends StatefulWidget {
   final String courseCategory;
   final bool isPreRequisite;
 
-  AssessmentCompletedScreen(this.timeSpent, this.apiResponse,
-      {this.assessmentsInfo,
-      this.primaryCategory,
-      required this.course,
-      this.identifier,
-      this.updateContentProgress,
-      required this.batchId,
-      required this.fromSectionalCutoff,
-      required this.resourceInfo,
-      this.isFeatured = false,
-      required this.courseCategory,
-      this.isPreRequisite = false});
+  AssessmentCompletedScreen(
+    this.timeSpent,
+    this.apiResponse, {
+    this.assessmentsInfo,
+    this.primaryCategory,
+    required this.course,
+    this.identifier,
+    this.updateContentProgress,
+    required this.batchId,
+    required this.fromSectionalCutoff,
+    required this.resourceInfo,
+    this.isFeatured = false,
+    required this.courseCategory,
+    this.isPreRequisite = false,
+  });
   @override
   _AssessmentCompletedScreenState createState() =>
       _AssessmentCompletedScreenState();
@@ -50,10 +54,11 @@ class AssessmentCompletedScreen extends StatefulWidget {
 
 class _AssessmentCompletedScreenState extends State<AssessmentCompletedScreen> {
   get boxDecoration => BoxDecoration(
-          border: Border(
-        top: BorderSide(color: TocModuleColors.grey04),
-        bottom: BorderSide(color: TocModuleColors.grey04),
-      ));
+    border: Border(
+      top: BorderSide(color: TocModuleColors.grey04),
+      bottom: BorderSide(color: TocModuleColors.grey04),
+    ),
+  );
 
   get leftPadding => 16.0;
 
@@ -67,48 +72,49 @@ class _AssessmentCompletedScreenState extends State<AssessmentCompletedScreen> {
     if ((widget.apiResponse['pass'] ?? false) == true) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (BuildContext cxt) {
-              return AlertDialogWidget(
-                dialogRadius: 8,
-                icon: SvgPicture.asset(
-                  'assets/img/file_info_icon.svg',
-                  colorFilter: ColorFilter.mode(
-                      TocModuleColors.darkBlue, BlendMode.srcIn),
-                  width: 38.0.w,
-                  height: 40.0.w,
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext cxt) {
+            return AlertDialogWidget(
+              dialogRadius: 8,
+              icon: SvgPicture.asset(
+                'assets/img/file_info_icon.svg',
+                colorFilter: ColorFilter.mode(
+                  TocModuleColors.darkBlue,
+                  BlendMode.srcIn,
                 ),
-                subtitle: TocLocalizations.of(context)!
-                    .mAssessmentGuestCongratulationMessage,
-                primaryButtonText: TocLocalizations.of(context)!.mStaticOk,
-                onPrimaryButtonPressed: () async {
-                  Navigator.of(cxt).pop();
-                },
-                primaryButtonTextStyle: GoogleFonts.lato(
-                  color: TocModuleColors.appBarBackground,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 14.0.sp,
-                  height: 1.5.w,
-                ),
-                primaryButtonBgColor: TocModuleColors.darkBlue,
-              );
-            });
+                width: 38.0.w,
+                height: 40.0.w,
+              ),
+              subtitle: TocLocalizations.of(
+                context,
+              )!.mAssessmentGuestCongratulationMessage,
+              primaryButtonText: TocLocalizations.of(context)!.mStaticOk,
+              onPrimaryButtonPressed: () async {
+                Navigator.of(cxt).pop();
+              },
+              primaryButtonTextStyle: GoogleFonts.lato(
+                color: TocModuleColors.appBarBackground,
+                fontWeight: FontWeight.w700,
+                fontSize: 14.0.sp,
+                height: 1.5.w,
+              ),
+              primaryButtonBgColor: TocModuleColors.darkBlue,
+            );
+          },
+        );
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: TocModuleColors.primaryBlue,
-    ));
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(statusBarColor: TocModuleColors.primaryBlue),
+    );
     return widget.apiResponse.runtimeType != String
         ? SafeArea(
-            child: Scaffold(
-              body: _buildLayout(),
-              bottomSheet: _actionButton(),
-            ),
+            child: Scaffold(body: _buildLayout(), bottomSheet: _actionButton()),
           )
         : Center();
   }
@@ -119,8 +125,11 @@ class _AssessmentCompletedScreenState extends State<AssessmentCompletedScreen> {
       titleSpacing: 0,
       elevation: 0,
       leading: IconButton(
-        icon: Icon(Icons.arrow_back_ios_sharp,
-            size: 20.sp, color: TocModuleColors.appBarBackground),
+        icon: Icon(
+          Icons.arrow_back_ios_sharp,
+          size: 20.sp,
+          color: TocModuleColors.appBarBackground,
+        ),
         onPressed: () {
           Navigator.of(context).pop();
           if (widget.fromSectionalCutoff) {
@@ -139,19 +148,18 @@ class _AssessmentCompletedScreenState extends State<AssessmentCompletedScreen> {
         children: [
           _getAppbar(),
           Padding(
-              padding: const EdgeInsets.fromLTRB(16, 8, 16, 32).r,
-              child: Text(
-                widget.primaryCategory == PrimaryCategory.practiceAssessment
-                    ? TocLocalizations.of(context)!
-                        .mAssessmentCheckYourKnowledge
-                    : TocLocalizations.of(context)!
-                        .mAssessmentAssessmentResults,
-                style: GoogleFonts.montserrat(
-                  color: TocModuleColors.appBarBackground,
-                  fontSize: 24.0.sp,
-                  fontWeight: FontWeight.w600,
-                ),
-              )),
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 32).r,
+            child: Text(
+              widget.primaryCategory == PrimaryCategory.practiceAssessment
+                  ? TocLocalizations.of(context)!.mAssessmentCheckYourKnowledge
+                  : TocLocalizations.of(context)!.mAssessmentAssessmentResults,
+              style: GoogleFonts.montserrat(
+                color: TocModuleColors.appBarBackground,
+                fontSize: 24.0.sp,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
           _containerBody(),
         ],
       ),
@@ -162,167 +170,182 @@ class _AssessmentCompletedScreenState extends State<AssessmentCompletedScreen> {
     return Expanded(
       child: ClipRRect(
         borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(16.0), topRight: Radius.circular(16.0))
-            .r,
+          topLeft: Radius.circular(16.0),
+          topRight: Radius.circular(16.0),
+        ).r,
         child: Container(
-          padding: EdgeInsets.only(
-            top: 8,
-          ).r,
+          padding: EdgeInsets.only(top: 8).r,
           color: TocModuleColors.appBarBackground,
           child: SingleChildScrollView(
             physics: BouncingScrollPhysics(),
             child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  widget.primaryCategory == PrimaryCategory.practiceAssessment
-                      ? Container(
-                          height: 92.w,
-                          width: 92.w,
-                          margin: EdgeInsets.fromLTRB(16, 16, 16, 4).r,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                widget.primaryCategory == PrimaryCategory.practiceAssessment
+                    ? Container(
+                        height: 92.w,
+                        width: 92.w,
+                        margin: EdgeInsets.fromLTRB(16, 16, 16, 4).r,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: TocModuleColors.positiveLight.withValues(
+                            alpha: 0.08,
+                          ),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(100),
+                          ).r,
+                        ),
+                        child: Container(
+                          height: 68.w,
+                          width: 68.w,
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
-                            color: TocModuleColors.positiveLight
-                                .withValues(alpha: 0.08),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(100)).r,
+                            color: TocModuleColors.positiveLight.withValues(
+                              alpha: 0.07,
+                            ),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(100),
+                            ).r,
                           ),
                           child: Container(
-                            height: 68.w,
-                            width: 68.w,
+                            height: 36.w,
+                            width: 36.w,
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
-                              color: TocModuleColors.positiveLight
-                                  .withValues(alpha: 0.07),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(100)).r,
+                              color: TocModuleColors.positiveLight,
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(100),
+                              ).r,
                             ),
-                            child: Container(
-                              height: 36.w,
-                              width: 36.w,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: TocModuleColors.positiveLight,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(100)).r,
-                              ),
-                              child: Icon(
-                                Icons.check,
-                                color: TocModuleColors.appBarBackground,
-                              ),
+                            child: Icon(
+                              Icons.check,
+                              color: TocModuleColors.appBarBackground,
                             ),
                           ),
-                        )
-                      : Container(
-                          margin: EdgeInsets.fromLTRB(16, 16, 16, 4).r,
-                          child: Stack(alignment: Alignment.center, children: [
+                        ),
+                      )
+                    : Container(
+                        margin: EdgeInsets.fromLTRB(16, 16, 16, 4).r,
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
                             SizedBox(
                               height: 92.w,
                               width: 92.w,
                               child: CircularProgressIndicator(
-                                value: (widget.apiResponse['overallResult'] !=
+                                value:
+                                    (widget.apiResponse['overallResult'] !=
                                         null)
                                     ? (widget.apiResponse['overallResult']) /
-                                        100
+                                          100
                                     : 0,
                                 backgroundColor: TocModuleColors.grey08,
                                 valueColor: AlwaysStoppedAnimation<Color>(
-                                    widget.apiResponse['pass'] != null
-                                        ? (widget.apiResponse['pass']
+                                  widget.apiResponse['pass'] != null
+                                      ? (widget.apiResponse['pass']
                                             ? TocModuleColors.positiveLight
                                             : TocModuleColors.negativeLight)
-                                        : TocModuleColors.positiveLight),
+                                      : TocModuleColors.positiveLight,
+                                ),
                               ),
                             ),
                             Center(
-                                child: Column(
-                              children: [
-                                Text(
-                                  (widget.apiResponse['passPercentage'] != null)
-                                      ? widget.apiResponse['overallResult'] >=
-                                              widget
-                                                  .apiResponse['passPercentage']
-                                          ? widget.apiResponse['overallResult']
+                              child: Column(
+                                children: [
+                                  Text(
+                                    (widget.apiResponse['passPercentage'] !=
+                                            null)
+                                        ? widget.apiResponse['overallResult'] >=
+                                                  widget
+                                                      .apiResponse['passPercentage']
+                                              ? widget.apiResponse['overallResult']
+                                                        .toStringAsFixed(0)
+                                                        .toString() +
+                                                    '%'
+                                              : widget.apiResponse['overallResult']
+                                                        .toStringAsFixed(0)
+                                                        .toString() +
+                                                    '%'
+                                        : widget.apiResponse['pass']
+                                        ? widget.apiResponse['overallResult']
                                                   .toStringAsFixed(0)
                                                   .toString() +
                                               '%'
-                                          : widget.apiResponse['overallResult']
-                                                  .toStringAsFixed(0)
-                                                  .toString() +
-                                              '%'
-                                      : widget.apiResponse['pass']
-                                          ? widget.apiResponse['overallResult']
-                                                  .toStringAsFixed(0)
-                                                  .toString() +
-                                              '%'
-                                          : widget.apiResponse['overallResult']
+                                        : widget.apiResponse['overallResult']
                                                   .toStringAsFixed(0)
                                                   .toString() +
                                               '%',
-                                  style: GoogleFonts.lato(
+                                    style: GoogleFonts.lato(
                                       color: widget.apiResponse['pass'] != null
                                           ? (widget.apiResponse['pass']
-                                              ? TocModuleColors.positiveLight
-                                              : TocModuleColors.negativeLight)
+                                                ? TocModuleColors.positiveLight
+                                                : TocModuleColors.negativeLight)
                                           : TocModuleColors.positiveLight,
                                       fontWeight: FontWeight.w600,
                                       fontSize: 20.0.sp,
-                                      letterSpacing: 0.25.r),
-                                ),
-                                SizedBox(height: 4.w),
-                                Text(
-                                  (widget.apiResponse['passPercentage'] != null)
-                                      ? widget.apiResponse['overallResult'] >=
-                                              widget
-                                                  .apiResponse['passPercentage']
-                                          ? TocLocalizations.of(context)!
-                                              .mPass
-                                              .toUpperCase()
-                                          : TocLocalizations.of(context)!
-                                              .mFail
-                                              .toUpperCase()
-                                      : widget.apiResponse['pass']
-                                          ? TocLocalizations.of(context)!
-                                              .mPass
-                                              .toUpperCase()
-                                          : TocLocalizations.of(context)!
-                                              .mFail
-                                              .toUpperCase(),
-                                  style: GoogleFonts.lato(
+                                      letterSpacing: 0.25.r,
+                                    ),
+                                  ),
+                                  SizedBox(height: 4.w),
+                                  Text(
+                                    (widget.apiResponse['passPercentage'] !=
+                                            null)
+                                        ? widget.apiResponse['overallResult'] >=
+                                                  widget
+                                                      .apiResponse['passPercentage']
+                                              ? TocLocalizations.of(
+                                                  context,
+                                                )!.mPass.toUpperCase()
+                                              : TocLocalizations.of(
+                                                  context,
+                                                )!.mFail.toUpperCase()
+                                        : widget.apiResponse['pass']
+                                        ? TocLocalizations.of(
+                                            context,
+                                          )!.mPass.toUpperCase()
+                                        : TocLocalizations.of(
+                                            context,
+                                          )!.mFail.toUpperCase(),
+                                    style: GoogleFonts.lato(
                                       color: TocModuleColors.greys60,
                                       fontWeight: FontWeight.w600,
                                       fontSize: 12.0.sp,
-                                      letterSpacing: 0.25),
-                                ),
-                              ],
-                            )),
-                          ]),
+                                      letterSpacing: 0.25,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
-                  Container(
-                    alignment: Alignment.center,
-                    margin: EdgeInsets.fromLTRB(86, 4, 86, 16).r,
-                    child: Text(
-                      widget.primaryCategory ==
-                              PrimaryCategory.practiceAssessment
-                          ? EnglishLang.keepLearning
-                          : widget.apiResponse['passPercentage'] == null
-                              ? (widget.apiResponse['pass']
-                                  ? TocLocalizations.of(context)!.mPass
-                                  : EnglishLang.failed)
-                              : (widget.apiResponse['overallResult'] >=
-                                      widget.apiResponse['passPercentage']
-                                  ? widget.apiResponse['overallResult'] == 100
-                                      ? EnglishLang.acedAssessment
-                                      : EnglishLang.passedSuccessfully
-                                  : EnglishLang.tryAgain),
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.lato(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 14.0.sp,
-                          letterSpacing: 0.25),
+                      ),
+                Container(
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.fromLTRB(86, 4, 86, 16).r,
+                  child: Text(
+                    widget.primaryCategory == PrimaryCategory.practiceAssessment
+                        ? EnglishLang.keepLearning
+                        : widget.apiResponse['passPercentage'] == null
+                        ? (widget.apiResponse['pass']
+                              ? TocLocalizations.of(context)!.mPass
+                              : EnglishLang.failed)
+                        : (widget.apiResponse['overallResult'] >=
+                                  widget.apiResponse['passPercentage']
+                              ? widget.apiResponse['overallResult'] == 100
+                                    ? EnglishLang.acedAssessment
+                                    : EnglishLang.passedSuccessfully
+                              : EnglishLang.tryAgain),
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.lato(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 14.0.sp,
+                      letterSpacing: 0.25,
                     ),
                   ),
-                  _overallSummary()
-                ]),
+                ),
+                _overallSummary(),
+              ],
+            ),
           ),
         ),
       ),
@@ -336,9 +359,11 @@ class _AssessmentCompletedScreenState extends State<AssessmentCompletedScreen> {
             ? Container()
             : Column(
                 children: [
-                  for (var i = 0;
-                      i < widget.apiResponse['children'].length;
-                      i++)
+                  for (
+                    var i = 0;
+                    i < widget.apiResponse['children'].length;
+                    i++
+                  )
                     Container(
                       width: double.infinity.w,
                       margin: EdgeInsets.only(top: 8.0, bottom: 8).r,
@@ -359,20 +384,23 @@ class _AssessmentCompletedScreenState extends State<AssessmentCompletedScreen> {
                                     SvgPicture.asset(
                                       'assets/img/assessment_icon.svg',
                                       colorFilter: ColorFilter.mode(
-                                          TocModuleColors.primaryBlue,
-                                          BlendMode.srcIn),
+                                        TocModuleColors.primaryBlue,
+                                        BlendMode.srcIn,
+                                      ),
                                     ),
                                     SizedBox(width: 8.0.w),
                                     Text(
-                                      TocLocalizations.of(context)!
-                                          .mTotalQuestion,
+                                      TocLocalizations.of(
+                                        context,
+                                      )!.mTotalQuestion,
                                       style: GoogleFonts.lato(
-                                          decoration: TextDecoration.none,
-                                          color: TocModuleColors.greys87,
-                                          fontSize: 14.sp,
-                                          fontWeight: FontWeight.w700,
-                                          letterSpacing: 0.25),
-                                    )
+                                        decoration: TextDecoration.none,
+                                        color: TocModuleColors.greys87,
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w700,
+                                        letterSpacing: 0.25,
+                                      ),
+                                    ),
                                   ],
                                 ),
                                 Spacer(), // Add space between text and icon
@@ -382,28 +410,33 @@ class _AssessmentCompletedScreenState extends State<AssessmentCompletedScreen> {
                                       ? '${widget.apiResponse['children'][i]['total']} ${TocLocalizations.of(context)!.mCommonQuestion}'
                                       : '${widget.apiResponse['children'][i]['total']} ${TocLocalizations.of(context)!.mCommonQuestions}',
                                   style: GoogleFonts.lato(
-                                      decoration: TextDecoration.none,
-                                      color: TocModuleColors.greys87,
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.w700,
-                                      letterSpacing: 0.25),
-                                )
+                                    decoration: TextDecoration.none,
+                                    color: TocModuleColors.greys87,
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w700,
+                                    letterSpacing: 0.25,
+                                  ),
+                                ),
                               ],
                             ),
                             decoration: boxDecoration,
                           ),
                           Padding(
                             padding: EdgeInsets.only(
-                                    top: 24, left: leftPadding, bottom: 16)
-                                .r,
+                              top: 24,
+                              left: leftPadding,
+                              bottom: 16,
+                            ).r,
                             child: Text(
-                              TocLocalizations.of(context)!
-                                  .mYourPerformanceSummary,
+                              TocLocalizations.of(
+                                context,
+                              )!.mYourPerformanceSummary,
                               style: GoogleFonts.lato(
-                                  color: TocModuleColors.black87,
-                                  fontSize: 12.0.sp,
-                                  fontWeight: FontWeight.w700,
-                                  letterSpacing: 0.25),
+                                color: TocModuleColors.black87,
+                                fontSize: 12.0.sp,
+                                fontWeight: FontWeight.w700,
+                                letterSpacing: 0.25,
+                              ),
                             ),
                           ),
                           _summaryItem(i),
@@ -412,9 +445,7 @@ class _AssessmentCompletedScreenState extends State<AssessmentCompletedScreen> {
                     ),
                 ],
               ),
-        SizedBox(
-          height: 100.w,
-        )
+        SizedBox(height: 100.w),
       ],
     );
   }
@@ -430,11 +461,12 @@ class _AssessmentCompletedScreenState extends State<AssessmentCompletedScreen> {
                 type: 'correct',
                 title: widget.apiResponse['children'][i]['correct'] == 1
                     ? widget.apiResponse['children'][i]['correct'].toString() +
-                        '  ' +
-                        TocLocalizations.of(context)!.mStaticOneCorrect
+                          '  ' +
+                          TocLocalizations.of(context)!.mStaticOneCorrect
                     : widget.apiResponse['children'][i]['correct'].toString() +
-                        '  ' +
-                        TocLocalizations.of(context)!.mStaticCorrect)
+                          '  ' +
+                          TocLocalizations.of(context)!.mStaticCorrect,
+              )
             : Center(),
         widget.apiResponse['children'][i]['incorrect'] > 0
             ? AssessmentCompletedScreenItem(
@@ -444,13 +476,14 @@ class _AssessmentCompletedScreenState extends State<AssessmentCompletedScreen> {
                 type: 'incorrect',
                 title: widget.apiResponse['children'][i]['incorrect'] == 1
                     ? widget.apiResponse['children'][i]['incorrect']
-                            .toString() +
-                        '  ' +
-                        TocLocalizations.of(context)!.mStaticOneIncorrect
+                              .toString() +
+                          '  ' +
+                          TocLocalizations.of(context)!.mStaticOneIncorrect
                     : widget.apiResponse['children'][i]['incorrect']
-                            .toString() +
-                        '  ' +
-                        TocLocalizations.of(context)!.mStaticIncorrect)
+                              .toString() +
+                          '  ' +
+                          TocLocalizations.of(context)!.mStaticIncorrect,
+              )
             : Center(),
         widget.apiResponse['children'][i]['blank'] > 0
             ? AssessmentCompletedScreenItem(
@@ -458,9 +491,11 @@ class _AssessmentCompletedScreenState extends State<AssessmentCompletedScreen> {
                 apiResponse: widget.apiResponse,
                 color: TocModuleColors.greys60,
                 type: 'blank',
-                title: widget.apiResponse['children'][i]['blank'].toString() +
+                title:
+                    widget.apiResponse['children'][i]['blank'].toString() +
                     '  ' +
-                    TocLocalizations.of(context)!.mStaticNotAttempted)
+                    TocLocalizations.of(context)!.mStaticNotAttempted,
+              )
             : Center(),
       ],
     );
@@ -480,24 +515,28 @@ class _AssessmentCompletedScreenState extends State<AssessmentCompletedScreen> {
             child: TextButton(
               onPressed: () async {
                 await Navigator.pushReplacement(
-                    context,
-                    FadeRoute(
-                        page: CourseAssessmentPlayer(
-                            widget.course,
-                            widget.identifier,
-                            widget.updateContentProgress,
-                            widget.batchId,
-                            parentCourseId: widget.course.identifier,
-                            resourceNavigateItems: widget.resourceInfo,
-                            isFeatured: widget.isFeatured,
-                            courseCategory: widget.courseCategory,
-                            isPreRequisite: widget.isPreRequisite)));
+                  context,
+                  FadeRoute(
+                    page: CourseAssessmentPlayer(
+                      widget.course,
+                      widget.identifier,
+                      widget.updateContentProgress,
+                      widget.batchId,
+                      parentCourseId: widget.course.identifier,
+                      resourceNavigateItems: widget.resourceInfo,
+                      isFeatured: widget.isFeatured,
+                      courseCategory: widget.courseCategory,
+                      isPreRequisite: widget.isPreRequisite,
+                    ),
+                  ),
+                );
               },
               style: TextButton.styleFrom(
                 backgroundColor: TocModuleColors.appBarBackground,
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50).r,
-                    side: BorderSide(color: TocModuleColors.primaryBlue)),
+                  borderRadius: BorderRadius.circular(50).r,
+                  side: BorderSide(color: TocModuleColors.primaryBlue),
+                ),
               ),
               child: Text(
                 TocLocalizations.of(context)!.mStaticTryAgain,
@@ -519,8 +558,9 @@ class _AssessmentCompletedScreenState extends State<AssessmentCompletedScreen> {
               style: TextButton.styleFrom(
                 backgroundColor: TocModuleColors.primaryBlue,
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50).r,
-                    side: BorderSide(color: TocModuleColors.primaryBlue)),
+                  borderRadius: BorderRadius.circular(50).r,
+                  side: BorderSide(color: TocModuleColors.primaryBlue),
+                ),
               ),
               child: Text(
                 TocLocalizations.of(context)!.mFinish,

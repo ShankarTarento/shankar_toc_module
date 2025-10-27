@@ -5,7 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/helper/toc_helper.dart';
 import 'package:toc_module/toc/model/reference_node.dart';
@@ -25,8 +26,9 @@ class _TeachersNotesState extends State<TeachersNotes> {
 
   @override
   void initState() {
-    downloadUrl =
-        widget.referenceNodes.map((e) => e.downloadUrl ?? '').toList();
+    downloadUrl = widget.referenceNodes
+        .map((e) => e.downloadUrl ?? '')
+        .toList();
     super.initState();
   }
 
@@ -37,37 +39,41 @@ class _TeachersNotesState extends State<TeachersNotes> {
         padding: EdgeInsets.all(16).r,
         child: Column(
           children: [
-            Row(children: [
-              SizedBox(
-                width: 0.55.sw,
-                child: Text(
-                  TocLocalizations.of(context)!.mTeachersNotesDescription,
-                  style: GoogleFonts.lato(
-                      fontSize: 14.sp, color: TocModuleColors.greys60),
+            Row(
+              children: [
+                SizedBox(
+                  width: 0.55.sw,
+                  child: Text(
+                    TocLocalizations.of(context)!.mTeachersNotesDescription,
+                    style: GoogleFonts.lato(
+                      fontSize: 14.sp,
+                      color: TocModuleColors.greys60,
+                    ),
+                  ),
                 ),
-              ),
-              Spacer(),
-              _isDownloading
-                  ? CircularProgressIndicator()
-                  : TextButton(
-                      onPressed: () {
-                        _downloadFiles(downloadUrl);
-                      },
-                      child: SizedBox(
-                        width: 90.w,
-                        child: Text(
-                          TocLocalizations.of(context)!.mDownloadAll,
-                          style: GoogleFonts.lato(
+                Spacer(),
+                _isDownloading
+                    ? CircularProgressIndicator()
+                    : TextButton(
+                        onPressed: () {
+                          _downloadFiles(downloadUrl);
+                        },
+                        child: SizedBox(
+                          width: 90.w,
+                          child: Text(
+                            TocLocalizations.of(context)!.mDownloadAll,
+                            style: GoogleFonts.lato(
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w700,
-                              color: TocModuleColors.darkBlue),
-                          textAlign: TextAlign.center,
+                              color: TocModuleColors.darkBlue,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
-                      ))
-            ]),
-            SizedBox(
-              height: 20.w,
+                      ),
+              ],
             ),
+            SizedBox(height: 20.w),
             ListView.separated(
               itemCount: widget.referenceNodes.length,
               shrinkWrap: true,
@@ -78,14 +84,10 @@ class _TeachersNotesState extends State<TeachersNotes> {
                 );
               },
               separatorBuilder: (context, index) {
-                return SizedBox(
-                  height: 8.w,
-                );
+                return SizedBox(height: 8.w);
               },
             ),
-            SizedBox(
-              height: 100.w,
-            )
+            SizedBox(height: 100.w),
           ],
         ),
       ),
@@ -121,15 +123,20 @@ class _TeachersNotesState extends State<TeachersNotes> {
           }
         }
 
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(
-              TocLocalizations.of(context)!.mAllFilesDownloadedSuccessfully),
-        ));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              TocLocalizations.of(context)!.mAllFilesDownloadedSuccessfully,
+            ),
+          ),
+        );
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(TocLocalizations.of(context)!.mStaticSomethingWrong),
-      ));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(TocLocalizations.of(context)!.mStaticSomethingWrong),
+        ),
+      );
     } finally {
       setState(() {
         _isDownloading = false;

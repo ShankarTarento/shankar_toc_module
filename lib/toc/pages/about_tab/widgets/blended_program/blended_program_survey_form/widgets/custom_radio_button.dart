@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:igot_ui_components/utils/module_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/model/filter_model.dart';
 import 'package:toc_module/toc/util/field_name_widget.dart';
@@ -51,10 +52,10 @@ class _CustomRadioButtonState extends State<CustomRadioButton> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         FieldNameWidget(
-            isMandatory: widget.isMandatory, fieldName: widget.title),
-        SizedBox(
-          height: 16.w,
+          isMandatory: widget.isMandatory,
+          fieldName: widget.title,
         ),
+        SizedBox(height: 16.w),
         Column(
           children: List.generate(
             radioItems.length,
@@ -81,14 +82,14 @@ class _CustomRadioButtonState extends State<CustomRadioButton> {
                         });
                         widget.onChanged(value!);
                       },
-                      fillColor: WidgetStateProperty.resolveWith<Color>(
-                        (Set<WidgetState> states) {
-                          if (states.contains(WidgetState.selected)) {
-                            return ModuleColors.darkBlue;
-                          }
-                          return ModuleColors.black40;
-                        },
-                      ),
+                      fillColor: WidgetStateProperty.resolveWith<Color>((
+                        Set<WidgetState> states,
+                      ) {
+                        if (states.contains(WidgetState.selected)) {
+                          return ModuleColors.darkBlue;
+                        }
+                        return ModuleColors.black40;
+                      }),
                     ),
                     Text(
                       radioItems[index].title,

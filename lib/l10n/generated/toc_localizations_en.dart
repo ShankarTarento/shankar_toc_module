@@ -1,3 +1,5 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
 import 'toc_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -16,7 +18,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mBtnSignIn => 'Sign In';
 
   @override
-  String get mLearnAndNetwork => 'Learn and network with civil servants and subject matter experts India';
+  String get mLearnAndNetwork =>
+      'Learn and network with civil servants and subject matter experts India';
 
   @override
   String get noOfUsersMdo => 'Number of Users/MDO\'s';
@@ -49,7 +52,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mNetworkHub => 'Network hub';
 
   @override
-  String get mNetworkHubParagraph => 'Connect with civil servants across the country.';
+  String get mNetworkHubParagraph =>
+      'Connect with civil servants across the country.';
 
   @override
   String get mCompetencyHub => 'Competency hub';
@@ -61,7 +65,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mCareerHub => 'Career hub';
 
   @override
-  String get mCareerHubPara => 'Explore career opportunities across the country.';
+  String get mCareerHubPara =>
+      'Explore career opportunities across the country.';
 
   @override
   String get mEventHub => 'Events hub';
@@ -88,7 +93,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mHomeUpdateTitle => 'Update your mobile number';
 
   @override
-  String get mHomeUpdateMobile => 'Update your mobile number. This will enable you to login with your mobile number easily and receive important alerts on your mobile.';
+  String get mHomeUpdateMobile =>
+      'Update your mobile number. This will enable you to login with your mobile number easily and receive important alerts on your mobile.';
 
   @override
   String get mHomeWhyItIsImp => 'Why it is important ?';
@@ -103,7 +109,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mHomeConnecting => 'Connecting...';
 
   @override
-  String get mHomeNewRecommendation => 'As of now there are no recommendations found for you.';
+  String get mHomeNewRecommendation =>
+      'As of now there are no recommendations found for you.';
 
   @override
   String get mHomeGotToDiscussHubs => 'Go to discuss hub';
@@ -163,10 +170,12 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mHomeBlendedProgramWithdrawReq => ' Withdraw your request ';
 
   @override
-  String get mHomeBlendedProgramEnrollReq => 'Your enrollment request is being reviewed. You will be notified when it is approved.';
+  String get mHomeBlendedProgramEnrollReq =>
+      'Your enrollment request is being reviewed. You will be notified when it is approved.';
 
   @override
-  String get mHomeBlendedProgramCheckLiveLoc => 'Kindly check the location details and plan in advance.';
+  String get mHomeBlendedProgramCheckLiveLoc =>
+      'Kindly check the location details and plan in advance.';
 
   @override
   String get mHomeBlendedProgramBatchLoc => 'Batch location';
@@ -232,7 +241,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mHomeNetworkRecentReq => 'Recent requests';
 
   @override
-  String get mHomeNetworkBuildConn => 'Built your connections within your department and other departments.';
+  String get mHomeNetworkBuildConn =>
+      'Built your connections within your department and other departments.';
 
   @override
   String get mHomeNetworkFindConn => 'Find COnnections';
@@ -247,7 +257,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mHomeScannerIgotKarmyogiApp => 'iGOT Karmayogi mobile app';
 
   @override
-  String get mHomeScannerSubtext => 'Continue your lifelong learning experience anywhere anytime.';
+  String get mHomeScannerSubtext =>
+      'Continue your lifelong learning experience anywhere anytime.';
 
   @override
   String get mHomeScanToDownload => 'Scan to Download';
@@ -331,7 +342,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mLearnContentNotAvailable => 'Content not available';
 
   @override
-  String get mLearnTryDifferentKeywords => 'Please try different keywords or change the search query.';
+  String get mLearnTryDifferentKeywords =>
+      'Please try different keywords or change the search query.';
 
   @override
   String get mLearnInfo => 'info';
@@ -391,7 +403,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mLearnCourseCurator => 'Curator';
 
   @override
-  String get mLearnCourseProgramDirectorFacilitators => 'Program director & facilitators';
+  String get mLearnCourseProgramDirectorFacilitators =>
+      'Program director & facilitators';
 
   @override
   String get mLearnCourseFacilitator => 'Facilitator';
@@ -424,7 +437,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mLearnCourseLearningObjective => 'Learning objective';
 
   @override
-  String get mLearnCourseRegistrationInstructions => 'Registration instructions';
+  String get mLearnCourseRegistrationInstructions =>
+      'Registration instructions';
 
   @override
   String get mLearnCourseStudyMaterials => 'Study materials';
@@ -454,10 +468,12 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mLearnEnroll => 'Enroll';
 
   @override
-  String get mLearnYouAreNotInvitedProgram => 'You are not invited for this Program.';
+  String get mLearnYouAreNotInvitedProgram =>
+      'You are not invited for this Program.';
 
   @override
-  String get mLearnYouAreNotInvitedAssessment => 'You are not invited for this Assessment.';
+  String get mLearnYouAreNotInvitedAssessment =>
+      'You are not invited for this Assessment.';
 
   @override
   String get mLearnNoActiveBatches => 'No Active Batches!!.';
@@ -475,7 +491,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mLearnRegister => 'Register';
 
   @override
-  String get mLearnContentExpiredDeleted => 'The content is expired or deleted.';
+  String get mLearnContentExpiredDeleted =>
+      'The content is expired or deleted.';
 
   @override
   String get mLearnContentUnpublished => 'The content has been unpublished.';
@@ -487,25 +504,31 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mLearnContentReview => 'The content is in review.';
 
   @override
-  String get mLearnCertificationTakesTime => 'Kindly be patient. The certificate generation normally takes up to 24 hours; however, it might take longer sometimes.';
+  String get mLearnCertificationTakesTime =>
+      'Kindly be patient. The certificate generation normally takes up to 24 hours; however, it might take longer sometimes.';
 
   @override
-  String get mLearnIssuePersistsMailus => 'If the issue persists, please mail us at';
+  String get mLearnIssuePersistsMailus =>
+      'If the issue persists, please mail us at';
 
   @override
   String get mLearnCongratulations => 'Congratulations!';
 
   @override
-  String get mLearnCertificateCompletionReady => 'Your certificate of completion is ready for you to download.';
+  String get mLearnCertificateCompletionReady =>
+      'Your certificate of completion is ready for you to download.';
 
   @override
-  String get mLearnViewedInIntranet => 'This can be viewed only in the Intranet.';
+  String get mLearnViewedInIntranet =>
+      'This can be viewed only in the Intranet.';
 
   @override
-  String get mLearnNotAvailableOnline => 'This is an instructor-led classroom course and is not available online.';
+  String get mLearnNotAvailableOnline =>
+      'This is an instructor-led classroom course and is not available online.';
 
   @override
-  String get mLearnYoutubeContentBlocked => 'Access to this YouTube content is blocked.';
+  String get mLearnYoutubeContentBlocked =>
+      'Access to this YouTube content is blocked.';
 
   @override
   String get mLearnApplyForPhysicalTraining => 'Apply for physical training';
@@ -697,7 +720,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mCommonrateReview => 'Rate and review';
 
   @override
-  String get mCommonyourReviewFeedbackValuable => 'Your review and feedback is valuable in creating a robust learning experience';
+  String get mCommonyourReviewFeedbackValuable =>
+      'Your review and feedback is valuable in creating a robust learning experience';
 
   @override
   String get mCommonrateThis => 'Rate this';
@@ -727,13 +751,15 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mCommonthankYouForFeedback => 'Thank you for the feedback!!!';
 
   @override
-  String get mCommonyouCanUpdateYourFeedback => 'You can update your feedback at anytime.';
+  String get mCommonyouCanUpdateYourFeedback =>
+      'You can update your feedback at anytime.';
 
   @override
   String get mCommonOptionalBracket => '(optional)';
 
   @override
-  String get mCommonpreviewContentUnavailable => 'The preview for this type of content is unavailable. Please click on Start button above to view.';
+  String get mCommonpreviewContentUnavailable =>
+      'The preview for this type of content is unavailable. Please click on Start button above to view.';
 
   @override
   String get mCommonmodule => 'Module';
@@ -757,7 +783,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mCommonnotStarted => 'Not started';
 
   @override
-  String get mCommonnoSessionsAvailable => 'No sessions available in this batch';
+  String get mCommonnoSessionsAvailable =>
+      'No sessions available in this batch';
 
   @override
   String get mCommonsessionHandouts => 'Session Handouts';
@@ -775,7 +802,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mCuratedCollectionTestingModule => 'igot CuratedCollection';
 
   @override
-  String get mCuratedCollectionExploreCbp => 'Explore all CBPs from any collection within the learnhub';
+  String get mCuratedCollectionExploreCbp =>
+      'Explore all CBPs from any collection within the learnhub';
 
   @override
   String get mCommonSearch => 'Search';
@@ -901,7 +929,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mDiscussSubTabYourDiscussions => 'My discussions';
 
   @override
-  String get mDiscussMsgNoDiscussions => 'Click on the + button to start a new discussion';
+  String get mDiscussMsgNoDiscussions =>
+      'Click on the + button to start a new discussion';
 
   @override
   String get mDiscussMsgClickToStart => 'Recent posts';
@@ -988,7 +1017,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mDiscussBtnStartDiscussion => 'Start discussion';
 
   @override
-  String get mDiscussPlaceholderAskQuesPostIdea => 'Ask a question or post an idea';
+  String get mDiscussPlaceholderAskQuesPostIdea =>
+      'Ask a question or post an idea';
 
   @override
   String get mDiscussLabelCategoriesAll => 'All';
@@ -1063,7 +1093,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mTabAllCompetencies => 'All Competencies';
 
   @override
-  String get mCompetenciesLabelRecommendCompetencies => 'Recommended competencies';
+  String get mCompetenciesLabelRecommendCompetencies =>
+      'Recommended competencies';
 
   @override
   String get mCompetenciesTabAllCompetencies => 'All competencies';
@@ -1090,7 +1121,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mCompetenciesAddCompetency => 'Add a competency';
 
   @override
-  String get mCompetenciesRecommendedBasedOnPosition => 'Competencies will be recommended based on your position.';
+  String get mCompetenciesRecommendedBasedOnPosition =>
+      'Competencies will be recommended based on your position.';
 
   @override
   String get mCommonReadMore => 'Read more';
@@ -1312,10 +1344,12 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mCommonCongratulations => 'Congratulations!';
 
   @override
-  String get mCommonYourCertificateAvailableShortly => 'Your certificate of completion will be available shortly.';
+  String get mCommonYourCertificateAvailableShortly =>
+      'Your certificate of completion will be available shortly.';
 
   @override
-  String get mCommonWouldLoveHearExperience => 'We would love to hear about your experience, so please take a moment to';
+  String get mCommonWouldLoveHearExperience =>
+      'We would love to hear about your experience, so please take a moment to';
 
   @override
   String get mCommonRateTheCourse => 'Rate the course';
@@ -1327,7 +1361,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mCommonClose => 'Close';
 
   @override
-  String get mContactHeaderForAnyTech => 'For any technical issues please contact';
+  String get mContactHeaderForAnyTech =>
+      'For any technical issues please contact';
 
   @override
   String get mContactEmail => 'Email';
@@ -1339,7 +1374,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mContactCall => 'Call';
 
   @override
-  String get mContactVideoConference => 'We are now available on Video Conference';
+  String get mContactVideoConference =>
+      'We are now available on Video Conference';
 
   @override
   String get mContactSupportReqd => 'For any Support Required';
@@ -1354,7 +1390,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mTourGetStarted => 'Get started';
 
   @override
-  String get mTourWelcomeNote => 'Namaste! Welcome to the journey of anytime anywhere learning.';
+  String get mTourWelcomeNote =>
+      'Namaste! Welcome to the journey of anytime anywhere learning.';
 
   @override
   String get mTourWhatIsiGOTKarmayogi => 'What is iGOT Karmayogi?';
@@ -1387,19 +1424,22 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mTourStepDiscuss => 'Discuss';
 
   @override
-  String get mTourDiscussContent => 'Discuss new ideas with colleagues and experts in the government.';
+  String get mTourDiscussContent =>
+      'Discuss new ideas with colleagues and experts in the government.';
 
   @override
   String get mTourStepSearch => 'Search';
 
   @override
-  String get mTourSearchContent => 'Find the perfect course and program tailor-made for you.';
+  String get mTourSearchContent =>
+      'Find the perfect course and program tailor-made for you.';
 
   @override
   String get mTourStepMyProfile => 'My Profile';
 
   @override
-  String get mTourMyProfileContent => 'Update your information to get the best-suited courses and programs.';
+  String get mTourMyProfileContent =>
+      'Update your information to get the best-suited courses and programs.';
 
   @override
   String get mSettingGeneralSettings => 'General';
@@ -1417,31 +1457,39 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mSettingGetStartedTour => '\'Get Started\' tour';
 
   @override
-  String get mCourseBatchEnrollL1Msg => 'Your enrollment request is being reviewed. You will be notified when it is approved.';
+  String get mCourseBatchEnrollL1Msg =>
+      'Your enrollment request is being reviewed. You will be notified when it is approved.';
 
   @override
-  String get mCourseBatchEnrollL2Msg => 'We are now reviewing your request. You will be notified when it is approved.';
+  String get mCourseBatchEnrollL2Msg =>
+      'We are now reviewing your request. You will be notified when it is approved.';
 
   @override
-  String get mCourseBatchEnrollDelayMsg => 'Are you still waiting for the approval?';
+  String get mCourseBatchEnrollDelayMsg =>
+      'Are you still waiting for the approval?';
 
   @override
-  String get mCourseBatchEnrollApprovedMsg => 'Your enrollment is now approved.';
+  String get mCourseBatchEnrollApprovedMsg =>
+      'Your enrollment is now approved.';
 
   @override
-  String get mCourseBatchEnrollRejectedMsg => 'Your enrollment request for the selected batch has been rejected.';
+  String get mCourseBatchEnrollRejectedMsg =>
+      'Your enrollment request for the selected batch has been rejected.';
 
   @override
-  String get mCourseBatchEnrollRemoveMsg => 'Your enrollment request for the selected batch has been removed.';
+  String get mCourseBatchEnrollRemoveMsg =>
+      'Your enrollment request for the selected batch has been removed.';
 
   @override
   String get mCourseBatchEnrollSupportMsg => 'For help, write to us at ';
 
   @override
-  String get mCourseBatchEnrollWithdrawMsg => 'Your request to withdraw from this blended program has been successfully processed.';
+  String get mCourseBatchEnrollWithdrawMsg =>
+      'Your request to withdraw from this blended program has been successfully processed.';
 
   @override
-  String get mCourseBatchListExpiredMsg => 'You can\'t enroll into this blended program.';
+  String get mCourseBatchListExpiredMsg =>
+      'You can\'t enroll into this blended program.';
 
   @override
   String get mProfileHome => 'home';
@@ -1471,7 +1519,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mProfileFullNameMandatory => 'Full name is mandatory';
 
   @override
-  String get mProfileFullNameWithConditions => 'Name field can only contain letters, space and the character (\').';
+  String get mProfileFullNameWithConditions =>
+      'Name field can only contain letters, space and the character (\').';
 
   @override
   String get mProfileDOB => 'Date of Birth';
@@ -1489,7 +1538,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mProfileDomicileMandatory => 'Domicile Medium is mandatory';
 
   @override
-  String get mProfileDomicileEror => 'Please choose a value from the list provided above.';
+  String get mProfileDomicileEror =>
+      'Please choose a value from the list provided above.';
 
   @override
   String get mProfileGender => 'Gender';
@@ -1531,7 +1581,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mProfileOtherLanguages => 'Other Languages Known';
 
   @override
-  String get mProfileOtherLanguageMandatory => 'Other Languages Known is mandatory';
+  String get mProfileOtherLanguageMandatory =>
+      'Other Languages Known is mandatory';
 
   @override
   String get mProfileMobileNumber => 'Mobile Number';
@@ -1540,7 +1591,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mProfileMobileNumberError => 'Please enter your mobile number';
 
   @override
-  String get mProfileMobileNumberLengthError => 'Please enter a valid 10 digit mobile number';
+  String get mProfileMobileNumberLengthError =>
+      'Please enter a valid 10 digit mobile number';
 
   @override
   String get mProfileGetOTP => 'Get OTP';
@@ -1555,10 +1607,12 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mProfileVerifyOTP => 'Verify OTP';
 
   @override
-  String get mProfileTelephoneNumber => 'Telephone Number (e.g., 0123-26104183)';
+  String get mProfileTelephoneNumber =>
+      'Telephone Number (e.g., 0123-26104183)';
 
   @override
-  String get mProfileTelephoneNumberValidation => 'Please enter a valid telephone number (e.g., 0123-26104183)';
+  String get mProfileTelephoneNumberValidation =>
+      'Please enter a valid telephone number (e.g., 0123-26104183)';
 
   @override
   String get mProfileTelePhoneMandatory => 'Telephone Number is mandatory';
@@ -1576,7 +1630,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mProfileSecondaryEmail => 'Secondary Email';
 
   @override
-  String get mProfileSecondaryEmailValidation => 'Max 64 characters before \'@\' & 255 characters after \'@\' are valid.';
+  String get mProfileSecondaryEmailValidation =>
+      'Max 64 characters before \'@\' & 255 characters after \'@\' are valid.';
 
   @override
   String get mProfilePostalAddress => 'Postal Address';
@@ -1585,7 +1640,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mProfilePostalAddressMandatory => 'Postal Address is mandatory';
 
   @override
-  String get mProfilePostalAddressLengthValidation => 'You have exceeded 200 characters.';
+  String get mProfilePostalAddressLengthValidation =>
+      'You have exceeded 200 characters.';
 
   @override
   String get mProfileAddressPlaceholder => 'Type Your Residence Address Here';
@@ -1630,7 +1686,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mProfileOther => 'Other';
 
   @override
-  String get mProfileOtherGraduationMandatory => 'Other Graduation Name is mandatory';
+  String get mProfileOtherGraduationMandatory =>
+      'Other Graduation Name is mandatory';
 
   @override
   String get mProfileInstituteName => 'Institute Name';
@@ -1657,7 +1714,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mProfileOrganisationName => 'Organisation Name';
 
   @override
-  String get mProfileOtherOrganisationMandatory => 'Other Organisation Name is mandatory';
+  String get mProfileOtherOrganisationMandatory =>
+      'Other Organisation Name is mandatory';
 
   @override
   String get mProfileIndustry => 'Industry';
@@ -1669,7 +1727,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mProfileDesignation => 'Designation';
 
   @override
-  String get mProfileOtherDesignationMandatory => 'Other Designation Name is mandatory';
+  String get mProfileOtherDesignationMandatory =>
+      'Other Designation Name is mandatory';
 
   @override
   String get mProfileCountry => 'Country';
@@ -1690,7 +1749,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mProfileCharacters => 'characters';
 
   @override
-  String get mProfileOtherDetailsGovernmentEmployees => 'Other Details For Government Employees (If Applicable)';
+  String get mProfileOtherDetailsGovernmentEmployees =>
+      'Other Details For Government Employees (If Applicable)';
 
   @override
   String get mProfilePayBand => 'Pay Band (Grade Pay)';
@@ -1708,7 +1768,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mProfileCivilListNumber => 'Civil List Number';
 
   @override
-  String get mProfileCivilListNumberMandatory => 'Civil List Number is mandatory';
+  String get mProfileCivilListNumberMandatory =>
+      'Civil List Number is mandatory';
 
   @override
   String get mProfileEmployeeCode => 'Employee Code';
@@ -1720,10 +1781,12 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mProfileOfficePostalAddress => 'Office Postal Address';
 
   @override
-  String get mProfileOfficePostalAddressMandatory => 'Office Postal Address is mandatory';
+  String get mProfileOfficePostalAddressMandatory =>
+      'Office Postal Address is mandatory';
 
   @override
-  String get mProfileOfficePostalAddressLength => 'You have exceeded 200 characters.';
+  String get mProfileOfficePostalAddressLength =>
+      'You have exceeded 200 characters.';
 
   @override
   String get mProfileTags => 'Tags';
@@ -1732,7 +1795,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mProfileNoTags => 'No tags available';
 
   @override
-  String get mProfileApproveRequest => 'Once Your department will approve your request, System will unlock this section.';
+  String get mProfileApproveRequest =>
+      'Once Your department will approve your request, System will unlock this section.';
 
   @override
   String get mProfileSaveDetails => 'Save Details';
@@ -1861,7 +1925,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mCommonNoResults => 'No results found';
 
   @override
-  String get mCommonRemoveFilters => 'Try removing the filters or search using different keywords';
+  String get mCommonRemoveFilters =>
+      'Try removing the filters or search using different keywords';
 
   @override
   String get mCommonHome => 'home';
@@ -1879,7 +1944,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mRegisterenterYourFullName => 'Enter your full name';
 
   @override
-  String get mRegisterfullNameWitoutSp => 'Name field can only contain letters, space and the character (.).';
+  String get mRegisterfullNameWitoutSp =>
+      'Name field can only contain letters, space and the character (.).';
 
   @override
   String get mRegistergroup => 'Group';
@@ -1903,10 +1969,12 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mRegistervalidEmail => 'Please enter a valid email address';
 
   @override
-  String get mRegisteremailLengthValidation => 'Max 64 characters before \'@\' & 255 characters after \'@\' are valid.';
+  String get mRegisteremailLengthValidation =>
+      'Max 64 characters before \'@\' & 255 characters after \'@\' are valid.';
 
   @override
-  String get mRegisterdonotHaveGovernmentEmail => 'Do not have a government email address?';
+  String get mRegisterdonotHaveGovernmentEmail =>
+      'Do not have a government email address?';
 
   @override
   String get mRegisterrequestForHelp => 'Request for help';
@@ -1933,7 +2001,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mRegisterEnterMobileNumber => 'Enter your mobile number';
 
   @override
-  String get mRegistervalidMobilenumber => 'Please enter a valid 10 digit mobile number';
+  String get mRegistervalidMobilenumber =>
+      'Please enter a valid 10 digit mobile number';
 
   @override
   String get mRegistermobileOtp => 'Mobile otp is required';
@@ -1957,7 +2026,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mRegistersearch => 'Search';
 
   @override
-  String get mRegisterenterOrganisationName => 'Please enter your organisation name';
+  String get mRegisterenterOrganisationName =>
+      'Please enter your organisation name';
 
   @override
   String get mRegisternotFound => 'Not found yet?';
@@ -1966,10 +2036,12 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mRegisterunder => 'Under';
 
   @override
-  String get mRegisternoMatchingSearch => 'We couldn\'t find any matches for your search.';
+  String get mRegisternoMatchingSearch =>
+      'We couldn\'t find any matches for your search.';
 
   @override
-  String get mRegisterconfirmInfo => 'I confirm that the above provided information is accurate.';
+  String get mRegisterconfirmInfo =>
+      'I confirm that the above provided information is accurate.';
 
   @override
   String get mRegisteragree => 'I agree to the iGOT karmayogi\'s';
@@ -1987,64 +2059,82 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mRegistersignin => 'Sign in here';
 
   @override
-  String get mTermAndCondP25EffortsOnAccuracy => 'Though all efforts have been made to ensure the accuracy and currency of the content on the Platform, the same should not be construed as a statement of law or used for any legal purposes. In case of any ambiguity or doubts, Users are advised to verify/check with the concerned Ministry/Department/Organization and/or other source(s), and to obtain appropriate professional advice.';
+  String get mTermAndCondP25EffortsOnAccuracy =>
+      'Though all efforts have been made to ensure the accuracy and currency of the content on the Platform, the same should not be construed as a statement of law or used for any legal purposes. In case of any ambiguity or doubts, Users are advised to verify/check with the concerned Ministry/Department/Organization and/or other source(s), and to obtain appropriate professional advice.';
 
   @override
   String get mTermAndCondP26PolicyLinked => 'Hyperlinking Policy:';
 
   @override
-  String get mTermAndCondP27LinkExternalWeb => 'Links to external websites/portals';
+  String get mTermAndCondP27LinkExternalWeb =>
+      'Links to external websites/portals';
 
   @override
-  String get mTermAndCondP28LinksToOtherWebPortal => 'At many places on the Platform, the User shall find links to other websites/portals. These links have been placed for the convenience of the User. The Platform is not responsible for the contents of the linked websites and does not necessarily endorse the views expressed in them. Mere presence of the link or its listing on the Platform should not be assumed as endorsement of any kind. The Platform cannot guarantee that these links will work all the time and have no control over availability of linked destinations.';
+  String get mTermAndCondP28LinksToOtherWebPortal =>
+      'At many places on the Platform, the User shall find links to other websites/portals. These links have been placed for the convenience of the User. The Platform is not responsible for the contents of the linked websites and does not necessarily endorse the views expressed in them. Mere presence of the link or its listing on the Platform should not be assumed as endorsement of any kind. The Platform cannot guarantee that these links will work all the time and have no control over availability of linked destinations.';
 
   @override
-  String get mTermAndCondP29LinksByOtherPlatform => 'Links to the Platform by other websites/portals';
+  String get mTermAndCondP29LinksByOtherPlatform =>
+      'Links to the Platform by other websites/portals';
 
   @override
-  String get mTermAndCondP30LinkInfoOnPlatform => 'The User shall be free link the information on the Platform to other websites. However, the Platform needs to be informed about any links provided to it so that User can be informed of any changes or updates therein. Also, the Platform does not permit its pages to be loaded into frames on any other website. The pages belonging to the Platform must load into a newly opened browser window of the User.';
+  String get mTermAndCondP30LinkInfoOnPlatform =>
+      'The User shall be free link the information on the Platform to other websites. However, the Platform needs to be informed about any links provided to it so that User can be informed of any changes or updates therein. Also, the Platform does not permit its pages to be loaded into frames on any other website. The pages belonging to the Platform must load into a newly opened browser window of the User.';
 
   @override
-  String get mTermAndCondP31ContentOnPlatform => 'The Content on the Platform is for the use by the Users only and not for commercial exploitation. A User may not decompile, reverse engineer, disassemble, rent, lease, loan, sell, sublicense, or create derivative works from the Platform. Nor may User use any network monitoring or discovery software to determine the site architecture, or extract information about usage, individual identities or users. A User will not use any robot, spider, other automatic software or device, or manual process to monitor or copy the Platform without the Platform’s prior written permission. A User will not copy, modify, reproduce, republish, distribute, display, or transmit for commercial, non-profit or public purposes all or any portion of the Platform, except to the extent permitted by the copyright policy of this terms of use. Any unauthorized use of the Platform is prohibited. The use of any software (e.g. bots, scraper tools) or other automatic devices to access, monitor or copy the Platform is prohibited unless expressly authorized by the Platform in writing';
+  String get mTermAndCondP31ContentOnPlatform =>
+      'The Content on the Platform is for the use by the Users only and not for commercial exploitation. A User may not decompile, reverse engineer, disassemble, rent, lease, loan, sell, sublicense, or create derivative works from the Platform. Nor may User use any network monitoring or discovery software to determine the site architecture, or extract information about usage, individual identities or users. A User will not use any robot, spider, other automatic software or device, or manual process to monitor or copy the Platform without the Platform’s prior written permission. A User will not copy, modify, reproduce, republish, distribute, display, or transmit for commercial, non-profit or public purposes all or any portion of the Platform, except to the extent permitted by the copyright policy of this terms of use. Any unauthorized use of the Platform is prohibited. The use of any software (e.g. bots, scraper tools) or other automatic devices to access, monitor or copy the Platform is prohibited unless expressly authorized by the Platform in writing';
 
   @override
-  String get mTermAndCondP32PlatformAndManager => 'The Platform and its managers have no obligation to, and do not and cannot review every item of material or information that Service Provider make available through the Platform and are not responsible for any content of this material or information. However, the Platform reserves the right to delete, move, or edit any material or information that it deems, in its sole discretion, unacceptable, defamatory, abusive, or otherwise in violation of any law or that infringes or violates any rights of any other person or entity. Further, the Platform reserves the right, at all times, to disclose any material or information as necessary to satisfy any law, regulation, or governmental request.';
+  String get mTermAndCondP32PlatformAndManager =>
+      'The Platform and its managers have no obligation to, and do not and cannot review every item of material or information that Service Provider make available through the Platform and are not responsible for any content of this material or information. However, the Platform reserves the right to delete, move, or edit any material or information that it deems, in its sole discretion, unacceptable, defamatory, abusive, or otherwise in violation of any law or that infringes or violates any rights of any other person or entity. Further, the Platform reserves the right, at all times, to disclose any material or information as necessary to satisfy any law, regulation, or governmental request.';
 
   @override
-  String get mTermAndCondP33UserAgreement => 'User expressly agrees that use of the Service and the Platform is at the sole risk of the User. Neither the Platform nor any of its managers, employees, agents, distributors, third party content providers, or licensors (and their respective directors, officers, employees, and agents) warrant that the service or the Platform will be compatible on all devices or operating systems, uninterrupted or error free or that they will be free of viruses or other harmful components nor do they make any warranty as to the results that may be obtained from the use of the Platform or as to the accuracy, reliability, completeness, or contents of any content, information, material, postings, or posting responses found on the Platform, or any services provided through the Platform, or any links to other sites or services made available on the Platform.';
+  String get mTermAndCondP33UserAgreement =>
+      'User expressly agrees that use of the Service and the Platform is at the sole risk of the User. Neither the Platform nor any of its managers, employees, agents, distributors, third party content providers, or licensors (and their respective directors, officers, employees, and agents) warrant that the service or the Platform will be compatible on all devices or operating systems, uninterrupted or error free or that they will be free of viruses or other harmful components nor do they make any warranty as to the results that may be obtained from the use of the Platform or as to the accuracy, reliability, completeness, or contents of any content, information, material, postings, or posting responses found on the Platform, or any services provided through the Platform, or any links to other sites or services made available on the Platform.';
 
   @override
-  String get mTermAndCondP34CoursesTrainings => 'The courses, trainings, all content, material, information, found on the platform, are provided on an \'as is\' basis without warranties of any kind, either expressed or implied. To the maximum extent permitted by law, the Platform makes no representations or warranties about the validity, accuracy, correctness, reliability, quality, stability, completeness or correctness of any information provided on or through the Platform or on any of the external links that are made available on the Platform. The Platform makes no representation that the services or training providing over the Platform would guarantee any promotions, advancements, raise, etc., professionally or academically.';
+  String get mTermAndCondP34CoursesTrainings =>
+      'The courses, trainings, all content, material, information, found on the platform, are provided on an \'as is\' basis without warranties of any kind, either expressed or implied. To the maximum extent permitted by law, the Platform makes no representations or warranties about the validity, accuracy, correctness, reliability, quality, stability, completeness or correctness of any information provided on or through the Platform or on any of the external links that are made available on the Platform. The Platform makes no representation that the services or training providing over the Platform would guarantee any promotions, advancements, raise, etc., professionally or academically.';
 
   @override
-  String get mTermAndCondP35TermsAndCondContrary => 'Notwithstanding anything in the terms and conditions to the contrary, under no circumstances, including, but not limited to negligence, the Platform or its managers, any of its affiliates, assignees, successors-in-interest, employees, agents, distributors, third party content providers, partners, licensees, licensors, or sponsors or any of their respective directors, officers, employees, agents and independent contractors be liable for any direct, indirect, incidental, special or consequential damages, losses or expenses arising out of or relating to the use of, the misuse of, or the inability to use, any content, information, material, modules, features, links or other elements on the Platform or any failure of performance, error, omission, interruption, inconvenience, unauthorized access, defect, incorrect sequencing, delay in operation or transmission, virus, configuration or compatibility problem, or line or system failure. These limitations apply regardless of whether the party liable or allegedly liable was advised, had other reason to know, or in fact knew of the possibility of such damages, losses or expenses. User specifically acknowledge and agree that the Platform and/or any of its officers will not be liable for any defamatory, offensive or illegal conduct of any User.';
+  String get mTermAndCondP35TermsAndCondContrary =>
+      'Notwithstanding anything in the terms and conditions to the contrary, under no circumstances, including, but not limited to negligence, the Platform or its managers, any of its affiliates, assignees, successors-in-interest, employees, agents, distributors, third party content providers, partners, licensees, licensors, or sponsors or any of their respective directors, officers, employees, agents and independent contractors be liable for any direct, indirect, incidental, special or consequential damages, losses or expenses arising out of or relating to the use of, the misuse of, or the inability to use, any content, information, material, modules, features, links or other elements on the Platform or any failure of performance, error, omission, interruption, inconvenience, unauthorized access, defect, incorrect sequencing, delay in operation or transmission, virus, configuration or compatibility problem, or line or system failure. These limitations apply regardless of whether the party liable or allegedly liable was advised, had other reason to know, or in fact knew of the possibility of such damages, losses or expenses. User specifically acknowledge and agree that the Platform and/or any of its officers will not be liable for any defamatory, offensive or illegal conduct of any User.';
 
   @override
-  String get mTermAndCondP36MaximumExtentPermit => 'To the maximum extent permitted by applicable law, User will defend, indemnify and hold harmless the Platform and any of its managers, parts, subsidiaries, affiliates, employees, agents, distributors, third party content providers, or licensors (and their respective directors, officers, employees, and agents)) from and against all claims, liability, and expenses, including attorneys\' fees and legal fees and costs, arising out of use of the Platform and/or breach of any provision of the terms and conditions. The Platform reserves the right, in its sole discretion and at its own expense, to assume the exclusive defense and control of any matter otherwise subject to indemnification by User. User will cooperate as fully as reasonably required in the defense of any claim.';
+  String get mTermAndCondP36MaximumExtentPermit =>
+      'To the maximum extent permitted by applicable law, User will defend, indemnify and hold harmless the Platform and any of its managers, parts, subsidiaries, affiliates, employees, agents, distributors, third party content providers, or licensors (and their respective directors, officers, employees, and agents)) from and against all claims, liability, and expenses, including attorneys\' fees and legal fees and costs, arising out of use of the Platform and/or breach of any provision of the terms and conditions. The Platform reserves the right, in its sole discretion and at its own expense, to assume the exclusive defense and control of any matter otherwise subject to indemnification by User. User will cooperate as fully as reasonably required in the defense of any claim.';
 
   @override
-  String get mTermAndCondP37SubmissionOnPlatform => 'Any submissions made on the Platform by the User for assessment or for any other purpose, shall be the sole responsibility of the User and the User shall ensure that all submissions made on the Platform are compliant with the current terms and conditions. The Platform does not and cannot verify the contents of the submissions by each User and disclaims any liability from any harm, damage, injury, insult, etc., caused by the submission made by the User. In accordance with the Privacy Policy of the Platform and subject to the restrictions mentioned therein, the Platform shall be free to use any information';
+  String get mTermAndCondP37SubmissionOnPlatform =>
+      'Any submissions made on the Platform by the User for assessment or for any other purpose, shall be the sole responsibility of the User and the User shall ensure that all submissions made on the Platform are compliant with the current terms and conditions. The Platform does not and cannot verify the contents of the submissions by each User and disclaims any liability from any harm, damage, injury, insult, etc., caused by the submission made by the User. In accordance with the Privacy Policy of the Platform and subject to the restrictions mentioned therein, the Platform shall be free to use any information';
 
   @override
-  String get mTermAndCondP38PlatformMayTerminate => 'The Platform may terminate the User\'s use of the Platform, or discontinue the service, at any time for breach of any of the terms and conditions and/or failure to pay for the training course or services. The Platform shall have the right, immediately upon notice, to terminate a User\'s use of the service in the event of any conduct by User is considered to be unacceptable, or in the event of any breach by the terms and conditions or if User is in violation of any applicable law.';
+  String get mTermAndCondP38PlatformMayTerminate =>
+      'The Platform may terminate the User\'s use of the Platform, or discontinue the service, at any time for breach of any of the terms and conditions and/or failure to pay for the training course or services. The Platform shall have the right, immediately upon notice, to terminate a User\'s use of the service in the event of any conduct by User is considered to be unacceptable, or in the event of any breach by the terms and conditions or if User is in violation of any applicable law.';
 
   @override
-  String get mTermAndCondP39DisputeArising => 'Any disputes arising out of use of the Platform and the present terms and conditions shall be governed exclusively by the applicable laws of India, irrespective of the location of the User, without giving effect to their conflict of laws principles. User expressly consent to the exclusive jurisdiction, and venue of the Courts of New Delhi, India.';
+  String get mTermAndCondP39DisputeArising =>
+      'Any disputes arising out of use of the Platform and the present terms and conditions shall be governed exclusively by the applicable laws of India, irrespective of the location of the User, without giving effect to their conflict of laws principles. User expressly consent to the exclusive jurisdiction, and venue of the Courts of New Delhi, India.';
 
   @override
-  String get mTermAndCondP40PlatformUserAck => 'The Platform and the User acknowledge that other generally accepted standard terms and conditions and legal contractual obligations would apply wherever required and in case of any query or feedback for the Platform, User may use the feedback feature on the Platform or visit';
+  String get mTermAndCondP40PlatformUserAck =>
+      'The Platform and the User acknowledge that other generally accepted standard terms and conditions and legal contractual obligations would apply wherever required and in case of any query or feedback for the Platform, User may use the feedback feature on the Platform or visit';
 
   @override
   String get mTermAndCondP41LinktoPortal => 'https://karmayogibharat.gov.in/';
 
   @override
-  String get mTermAndCondP42Disclaimer => 'Disclaimer for Content Published on Platform:';
+  String get mTermAndCondP42Disclaimer =>
+      'Disclaimer for Content Published on Platform:';
 
   @override
-  String get mTermAndCondP43ContentPublishedOnPlatform => 'All content published on Karmayogi platform is provided by various Ministries, Departments and other public and authorised private organisations. The concerned course publishers ensure the accuracy and currency of the content on this platform. Many courses provided by various departments relate to policies, rules, guidelines as applicable on the date of publication of the course.  All courses publishers strive to keep the most updated content, however the latest position of any law, rules, guidelines etc. may be accessed from the website of the concerned Ministries.';
+  String get mTermAndCondP43ContentPublishedOnPlatform =>
+      'All content published on Karmayogi platform is provided by various Ministries, Departments and other public and authorised private organisations. The concerned course publishers ensure the accuracy and currency of the content on this platform. Many courses provided by various departments relate to policies, rules, guidelines as applicable on the date of publication of the course.  All courses publishers strive to keep the most updated content, however the latest position of any law, rules, guidelines etc. may be accessed from the website of the concerned Ministries.';
 
   @override
-  String get mTermAndCondP44GovernmentResponsibility => 'In no event will the Government of India or Karmayogi Bharat SPV be liable for any expense, loss or damage including, without limitation, indirect or consequential loss or damage, or any expense, loss or damage whatsoever arising from use, or loss of use, of data, arising out of or in connection with the use of this platform. The platform makes no representations or warranties of any kind, express or implied, about the completeness, accuracy, reliability, suitability or availability of the published content. Links to other websites that have been included on this platform are provided for convenience only.';
+  String get mTermAndCondP44GovernmentResponsibility =>
+      'In no event will the Government of India or Karmayogi Bharat SPV be liable for any expense, loss or damage including, without limitation, indirect or consequential loss or damage, or any expense, loss or damage whatsoever arising from use, or loss of use, of data, arising out of or in connection with the use of this platform. The platform makes no representations or warranties of any kind, express or implied, about the completeness, accuracy, reliability, suitability or availability of the published content. Links to other websites that have been included on this platform are provided for convenience only.';
 
   @override
   String get mCardMore => 'More';
@@ -2059,13 +2149,15 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mCardKnowledgeResources => 'Knowledge resources';
 
   @override
-  String get mCardKnowledgeResourcesSubtitle => 'Find the latest policies, circulars and all available knowledge resources.';
+  String get mCardKnowledgeResourcesSubtitle =>
+      'Find the latest policies, circulars and all available knowledge resources.';
 
   @override
   String get mCardDashboard => 'Dashboard';
 
   @override
-  String get mCardDashboardSubtitle => 'All your data represented as simple visualizations.';
+  String get mCardDashboardSubtitle =>
+      'All your data represented as simple visualizations.';
 
   @override
   String get mCardSettings => 'Settings';
@@ -2083,10 +2175,12 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mCardCbpPortaldesc => 'Create and manage CBPs here';
 
   @override
-  String get mCardMdoPortaldesc => 'Manage MDO user access, work orders and events';
+  String get mCardMdoPortaldesc =>
+      'Manage MDO user access, work orders and events';
 
   @override
-  String get mCardFracDictionarydesc => 'The dictionary of framework of roles, activities and competencies.';
+  String get mCardFracDictionarydesc =>
+      'The dictionary of framework of roles, activities and competencies.';
 
   @override
   String get mCardSpvPortaldesc => 'Create and manage MDOs';
@@ -2125,7 +2219,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticNoOrganisationFound => 'Did not find your organisation?';
 
   @override
-  String get mStaticWhatIsAnOrganisation => 'Do you know what is an organisation?';
+  String get mStaticWhatIsAnOrganisation =>
+      'Do you know what is an organisation?';
 
   @override
   String get mStaticRequestForSupport => 'Request for support';
@@ -2134,7 +2229,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticMobileNumberHelper => 'XXXXX-XXXXX';
 
   @override
-  String get mStaticSelectYourOrganisationType => 'Select your organisation type';
+  String get mStaticSelectYourOrganisationType =>
+      'Select your organisation type';
 
   @override
   String get mStaticSelectYourOrganisation => 'Select your organisation';
@@ -2155,7 +2251,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticDescribeYourRequest => 'Describe your request';
 
   @override
-  String get mStaticDescribeOrganisationDetails => 'Describe organisation details';
+  String get mStaticDescribeOrganisationDetails =>
+      'Describe organisation details';
 
   @override
   String get mStaticOrganisationRequest => 'Request to add the organisation';
@@ -2167,7 +2264,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticRequestLogged => 'We have logged your request.';
 
   @override
-  String get mStaticRequestSentConfirmation => 'We will reach out to you in the next 48 hours to help you. Resume self-registration process to see if you have all the other required details for the registration process.';
+  String get mStaticRequestSentConfirmation =>
+      'We will reach out to you in the next 48 hours to help you. Resume self-registration process to see if you have all the other required details for the registration process.';
 
   @override
   String get mStaticResumeRegistration => 'Resume registration';
@@ -2194,22 +2292,27 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticExternalLinks => 'External links';
 
   @override
-  String get mStaticNetworkSubtitle => 'Connect with interesting people, see what they are upto.';
+  String get mStaticNetworkSubtitle =>
+      'Connect with interesting people, see what they are upto.';
 
   @override
-  String get mStaticLearnSubtitle => 'Sharpen your skills with hundreds-of online courses.';
+  String get mStaticLearnSubtitle =>
+      'Sharpen your skills with hundreds-of online courses.';
 
   @override
-  String get mStaticCareersSubtitle => 'Explore career options, grow in the path of your choice.';
+  String get mStaticCareersSubtitle =>
+      'Explore career options, grow in the path of your choice.';
 
   @override
-  String get mStaticCompetenciesSubtitle => 'Add your competencies, see what others are adding.';
+  String get mStaticCompetenciesSubtitle =>
+      'Add your competencies, see what others are adding.';
 
   @override
   String get mStaticEventsSubtitle => 'Add your events.';
 
   @override
-  String get mStaticDashboardSubtitle => 'All your data represented as simple visualisations.';
+  String get mStaticDashboardSubtitle =>
+      'All your data represented as simple visualisations.';
 
   @override
   String get mStaticSettingsSubtitle => 'Manage all your preferences here.';
@@ -2224,22 +2327,26 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticInterests => 'Interests';
 
   @override
-  String get mStaticInterestsSubtitle => 'Manage topics of your interest and personalize your experience';
+  String get mStaticInterestsSubtitle =>
+      'Manage topics of your interest and personalize your experience';
 
   @override
-  String get mStaticFracDictionarySubtitle => 'Responsive web version of Karmayogi Bharat.';
+  String get mStaticFracDictionarySubtitle =>
+      'Responsive web version of Karmayogi Bharat.';
 
   @override
   String get mStaticKarmayogiWebPortal => 'Karmayogi web portal';
 
   @override
-  String get mStaticKarmayogiWebPortalSubtitle => 'Responsive web version of Karmayogi Bharat.';
+  String get mStaticKarmayogiWebPortalSubtitle =>
+      'Responsive web version of Karmayogi Bharat.';
 
   @override
   String get mStaticCopyRightText => '© Copyright ';
 
   @override
-  String get mStaticPublicCopyRightText => 'Copyright © App managed by Karmayogi Bharat';
+  String get mStaticPublicCopyRightText =>
+      'Copyright © App managed by Karmayogi Bharat';
 
   @override
   String get mStaticEnglish => 'English';
@@ -2254,7 +2361,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticSomethingWrong => 'Something is wrong';
 
   @override
-  String get mStaticSomethingWrongTryLater => 'Something is wrong, please try again later';
+  String get mStaticSomethingWrongTryLater =>
+      'Something is wrong, please try again later';
 
   @override
   String get mStaticContactUs => 'Contact Us';
@@ -2263,16 +2371,19 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticClickHereToLogin => 'Click here to login';
 
   @override
-  String get mStaticCodeParamsInvalid => 'Failed to login in Parichay. Code param is invalid.';
+  String get mStaticCodeParamsInvalid =>
+      'Failed to login in Parichay. Code param is invalid.';
 
   @override
-  String get mStaticCodeParamsMissing => 'Failed to login in Parichay. Code param is missing.';
+  String get mStaticCodeParamsMissing =>
+      'Failed to login in Parichay. Code param is missing.';
 
   @override
   String get mStaticThanksForRegistering => 'Thank you for registering!';
 
   @override
-  String get mStaticPostRegisterInfo => 'Please check your registered email to activate your account.';
+  String get mStaticPostRegisterInfo =>
+      'Please check your registered email to activate your account.';
 
   @override
   String get mStaticOk => 'Ok';
@@ -2287,7 +2398,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticTypeYourFirstName => 'Enter your first name';
 
   @override
-  String get mStaticPositionValidationText => 'Position is mandatory. You must enter value from suggested list only.';
+  String get mStaticPositionValidationText =>
+      'Position is mandatory. You must enter value from suggested list only.';
 
   @override
   String get mStaticDomain => 'Domain';
@@ -2296,16 +2408,19 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticPositionMandate => 'Position is mandatory';
 
   @override
-  String get mStaticPositionDescriptionMandate => 'Position description is mandatory';
+  String get mStaticPositionDescriptionMandate =>
+      'Position description is mandatory';
 
   @override
   String get mStaticDomainMandate => 'Domain is mandatory';
 
   @override
-  String get mStaticDomainDescriptionMandate => 'Domain description is mandatory';
+  String get mStaticDomainDescriptionMandate =>
+      'Domain description is mandatory';
 
   @override
-  String get mStaticOrganisationDescriptionMandate => 'Organisation description is mandatory';
+  String get mStaticOrganisationDescriptionMandate =>
+      'Organisation description is mandatory';
 
   @override
   String get mStaticSelectYourPosition => 'Select your position';
@@ -2317,10 +2432,12 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticEmailIdEmpty => 'Please enter your email ID';
 
   @override
-  String get mStaticDomainValidationText => 'Please enter a valid email address.';
+  String get mStaticDomainValidationText =>
+      'Please enter a valid email address.';
 
   @override
-  String get mStaticOrgValidationText => 'Organisation is mandatory. Please choose a value from the list provided below.';
+  String get mStaticOrgValidationText =>
+      'Organisation is mandatory. Please choose a value from the list provided below.';
 
   @override
   String get mStaticWelcomeToiGOT => 'Welcome to iGOT';
@@ -2329,10 +2446,12 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticPleaseFillAll => 'Please fill the following information.';
 
   @override
-  String get mStaticPleaseFillAllMandatory => 'Please fill all the mandatory fields.';
+  String get mStaticPleaseFillAllMandatory =>
+      'Please fill all the mandatory fields.';
 
   @override
-  String get mStaticSignUpConfirmationText => 'I confirm that the above provided information are accurate.';
+  String get mStaticSignUpConfirmationText =>
+      'I confirm that the above provided information are accurate.';
 
   @override
   String get mStaticSaveAndNext => 'Save and Next';
@@ -2341,7 +2460,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticDomainDetails => 'DOMAIN DETAILS';
 
   @override
-  String get mStaticOrgSearchHelperText => 'Please type your organisation and tap on search icon to get the result';
+  String get mStaticOrgSearchHelperText =>
+      'Please type your organisation and tap on search icon to get the result';
 
   @override
   String get mStaticDone => 'Done';
@@ -2416,10 +2536,12 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticEnrolmentWithdrawDesc => 'Withdraw your request';
 
   @override
-  String get mStaticEnrolmentWithdrawConfirm => 'Are you sure you want to withdraw your request?';
+  String get mStaticEnrolmentWithdrawConfirm =>
+      'Are you sure you want to withdraw your request?';
 
   @override
-  String get mStaticEnrolmentWithdrawConfirmDesc => 'You will miss the learning opportunity if you withdraw your enrolment.';
+  String get mStaticEnrolmentWithdrawConfirmDesc =>
+      'You will miss the learning opportunity if you withdraw your enrolment.';
 
   @override
   String get mStaticAttendenceStatus => 'Attendance status';
@@ -2434,10 +2556,12 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticMarkedAttendence => 'Marked';
 
   @override
-  String get mStaticScannerSuccesfuly => 'Your session attendance has been recorded successfully.';
+  String get mStaticScannerSuccesfuly =>
+      'Your session attendance has been recorded successfully.';
 
   @override
-  String get mStaticAttendanceAlreadyMarked => 'Your session has been attendance already marked.';
+  String get mStaticAttendanceAlreadyMarked =>
+      'Your session has been attendance already marked.';
 
   @override
   String get mStaticOffFlash => 'Off Flash';
@@ -2455,46 +2579,56 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticInvalidQR => 'Invalid QR code';
 
   @override
-  String get mStaticInvalidQRDesc => 'Please scan the correct QR code to mark your attendance.';
+  String get mStaticInvalidQRDesc =>
+      'Please scan the correct QR code to mark your attendance.';
 
   @override
   String get mStaticScanAgain => 'Scan again';
 
   @override
-  String get mStaticDisabledLocationToastMsg => 'Location permission is currently disabled. Please enable it to mark your attendance.';
+  String get mStaticDisabledLocationToastMsg =>
+      'Location permission is currently disabled. Please enable it to mark your attendance.';
 
   @override
-  String get mStaticDisabledLocationToastToOpenSettings => 'Location permission is currently disabled. Please enable by going to app settings.';
+  String get mStaticDisabledLocationToastToOpenSettings =>
+      'Location permission is currently disabled. Please enable by going to app settings.';
 
   @override
   String get mStaticInvalidBatchLocation => 'Invalid batch Location';
 
   @override
-  String get mStaticInvalidBatchLocationDesc => 'Your location doesn’t match. Please reach out to your program coordinator to mark your attendance.';
+  String get mStaticInvalidBatchLocationDesc =>
+      'Your location doesn’t match. Please reach out to your program coordinator to mark your attendance.';
 
   @override
-  String get mStaticReachOutProgramCordinator => 'Please reach out to program coordinator to mark your attendance.';
+  String get mStaticReachOutProgramCordinator =>
+      'Please reach out to program coordinator to mark your attendance.';
 
   @override
   String get mStaticInvalidSession => 'Session over';
 
   @override
-  String get mStaticContactProgramCordinator => 'Please contact your program coordinator to mark your attendance.';
+  String get mStaticContactProgramCordinator =>
+      'Please contact your program coordinator to mark your attendance.';
 
   @override
   String get mStaticInvalidLocation => 'Invalid location';
 
   @override
-  String get mStaticInvalidLocationDesc => 'Your location doesn’t match. Please reach out to your program coordinator to mark your attendance.';
+  String get mStaticInvalidLocationDesc =>
+      'Your location doesn’t match. Please reach out to your program coordinator to mark your attendance.';
 
   @override
-  String get mStaticTryAgainMsg => 'You have the opportunity to try again and do better next time. Keep going!';
+  String get mStaticTryAgainMsg =>
+      'You have the opportunity to try again and do better next time. Keep going!';
 
   @override
-  String get mStaticAcedAssessment => 'Hurray! \n You have aced the assessment, with flying colours.';
+  String get mStaticAcedAssessment =>
+      'Hurray! \n You have aced the assessment, with flying colours.';
 
   @override
-  String get mStaticPassedSuccessfully => 'Congratulations on successfully passing the assessment. Good job!';
+  String get mStaticPassedSuccessfully =>
+      'Congratulations on successfully passing the assessment. Good job!';
 
   @override
   String get mStaticPassed => 'Passed ';
@@ -2512,10 +2646,12 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticNotAttempted => 'unanswered';
 
   @override
-  String get mStaticQuestionsNotAttempted => 'Oops! It looks like a few questions were missed. Are you sure you want to submit?';
+  String get mStaticQuestionsNotAttempted =>
+      'Oops! It looks like a few questions were missed. Are you sure you want to submit?';
 
   @override
-  String get mStaticCalculatingResult => 'Be patient please, while we calculate your result!';
+  String get mStaticCalculatingResult =>
+      'Be patient please, while we calculate your result!';
 
   @override
   String get mStaticPerformanceSummary => 'Your Performance Summary';
@@ -2527,7 +2663,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticKeepLearning => 'Well done, Keep learning!';
 
   @override
-  String get mStaticDiscussSubtitle => 'Have a question? Have an idea? Discuss with your peers!.';
+  String get mStaticDiscussSubtitle =>
+      'Have a question? Have an idea? Discuss with your peers!.';
 
   @override
   String get mStaticReplyToComment => 'Reply to comment';
@@ -2539,7 +2676,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticSentForReview => 'Sent for review';
 
   @override
-  String get mStaticModerationMessage => 'Your post has been sent for review. Once approved, it will be displayed in the Discussion hub';
+  String get mStaticModerationMessage =>
+      'Your post has been sent for review. Once approved, it will be displayed in the Discussion hub';
 
   @override
   String get mStaticNewDiscussion => 'New discussion';
@@ -2548,19 +2686,23 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticTitle => 'Title';
 
   @override
-  String get mStaticElaborateYourQuestionText => 'Please elaborate your question or idea here';
+  String get mStaticElaborateYourQuestionText =>
+      'Please elaborate your question or idea here';
 
   @override
   String get mStaticEnterTags => 'Add a tag and press Enter';
 
   @override
-  String get mStaticNewAssessmentHoldInfo => 'Sorry, the app does not support assessments right now. You can take the assessment on the web portal.';
+  String get mStaticNewAssessmentHoldInfo =>
+      'Sorry, the app does not support assessments right now. You can take the assessment on the web portal.';
 
   @override
-  String get mStaticSurveyHoldInfo => 'Sorry, the app does not support survey right now. You can take the survey on the web portal.';
+  String get mStaticSurveyHoldInfo =>
+      'Sorry, the app does not support survey right now. You can take the survey on the web portal.';
 
   @override
-  String get mStaticDoSignInOrRegisterMessage => 'If you are a government official, register or sign in and get your certificate.';
+  String get mStaticDoSignInOrRegisterMessage =>
+      'If you are a government official, register or sign in and get your certificate.';
 
   @override
   String get mStaticPleaseSelectLevel => 'Please select a level';
@@ -2578,7 +2720,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticSubmitChanges => 'Submit changes';
 
   @override
-  String get mStaticPostMinLengthText => 'Post should contain atleast 8 characters.';
+  String get mStaticPostMinLengthText =>
+      'Post should contain atleast 8 characters.';
 
   @override
   String get mStaticOpen => 'Open';
@@ -2596,7 +2739,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticAddedToYourCompetency => 'Added successfully!';
 
   @override
-  String get mStaticRemovedFromYourCompetency => 'Removed from your competency!';
+  String get mStaticRemovedFromYourCompetency =>
+      'Removed from your competency!';
 
   @override
   String get mStaticBookmarkAddedMessage => 'Bookmark added successfully!';
@@ -2677,7 +2821,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticPageNotAvailableText => 'This page is not available';
 
   @override
-  String get mStaticWaitingForCertificateGeneration => 'Kindly be patient. The certificate generation normally takes up to 24 hours, however, it might take longer sometimes. \n If the issue persists, please mail us at ';
+  String get mStaticWaitingForCertificateGeneration =>
+      'Kindly be patient. The certificate generation normally takes up to 24 hours, however, it might take longer sometimes. \n If the issue persists, please mail us at ';
 
   @override
   String get mStaticSupportLink => 'mission.karmayogi@gov.in';
@@ -2734,13 +2879,15 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticSurName => 'Surname';
 
   @override
-  String get mStaticSpecialCharInName => 'Name fields cannot contain numbers and special characters except (\")';
+  String get mStaticSpecialCharInName =>
+      'Name fields cannot contain numbers and special characters except (\")';
 
   @override
   String get mStaticTelephoneNumber => 'Telephone number';
 
   @override
-  String get mStaticTelephoneNumberExample => 'Example  0123-26104183 or 012327204281';
+  String get mStaticTelephoneNumberExample =>
+      'Example  0123-26104183 or 012327204281';
 
   @override
   String get mStaticAcademicDetailsUpdatedText => 'Academic details updated.';
@@ -2761,7 +2908,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticNonGovernment => 'Non-Government';
 
   @override
-  String get mStaticProfessionalDetailsUpdatedText => 'Professional details updated.';
+  String get mStaticProfessionalDetailsUpdatedText =>
+      'Professional details updated.';
 
   @override
   String get mStaticTypeOfOrganisation => 'Type of organisation';
@@ -2770,7 +2918,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticOrganisationName => 'Organization name';
 
   @override
-  String get mStaticOtherDetailsOfGovtEmployees => 'Other details for government employees(If applicable)';
+  String get mStaticOtherDetailsOfGovtEmployees =>
+      'Other details for government employees(If applicable)';
 
   @override
   String get mStaticPayBand => 'Pay band(grade pay)';
@@ -2779,16 +2928,19 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticOfficialPostalAddress => 'Official postal address';
 
   @override
-  String get mStaticCertificationAndSkillsUpdatedText => 'Certification and skills updated successfully.';
+  String get mStaticCertificationAndSkillsUpdatedText =>
+      'Certification and skills updated successfully.';
 
   @override
   String get mStaticCertifications => 'Certifications';
 
   @override
-  String get mStaticAdditionalSkillAcquired => 'Additional skill acquired/Course completed';
+  String get mStaticAdditionalSkillAcquired =>
+      'Additional skill acquired/Course completed';
 
   @override
-  String get mStaticProvideCertificationDetails => 'Provide certification details';
+  String get mStaticProvideCertificationDetails =>
+      'Provide certification details';
 
   @override
   String get mStaticProfessionalInterests => 'Professional interests';
@@ -2818,16 +2970,20 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticSelectFromDropdown => 'Select';
 
   @override
-  String get mStaticOtpSentToMobile => 'An OTP has been sent to your mobile number (valid for 5 minutes)';
+  String get mStaticOtpSentToMobile =>
+      'An OTP has been sent to your mobile number (valid for 5 minutes)';
 
   @override
-  String get mStaticMobileVerifiedMessage => 'Mobile number verified successfully';
+  String get mStaticMobileVerifiedMessage =>
+      'Mobile number verified successfully';
 
   @override
-  String get mStaticPleaseAddValidNumber => 'Please enter a valid 10 digit number';
+  String get mStaticPleaseAddValidNumber =>
+      'Please enter a valid 10 digit number';
 
   @override
-  String get mStaticMobileNumberVerificationInfo => 'Please verify your phone number for better experience';
+  String get mStaticMobileNumberVerificationInfo =>
+      'Please verify your phone number for better experience';
 
   @override
   String get mStaticAddValidEmail => 'Please add a valid email address';
@@ -2839,10 +2995,12 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticOtpSentToEmailDesc => 'Please verify your email address';
 
   @override
-  String get mStaticOtpSentToEmail => 'An OTP has been sent to your email address (valid for 15 minutes)';
+  String get mStaticOtpSentToEmail =>
+      'An OTP has been sent to your email address (valid for 15 minutes)';
 
   @override
-  String get mStaticEmailVerifiedMessage => 'Email address verified successfully';
+  String get mStaticEmailVerifiedMessage =>
+      'Email address verified successfully';
 
   @override
   String get mStaticPleaseEnterOtp => 'Please enter OTP';
@@ -2869,7 +3027,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticShowAllNotifications => 'Show all notifications';
 
   @override
-  String get mStaticNotificationSettingsSavedText => 'Notification settings saved!';
+  String get mStaticNotificationSettingsSavedText =>
+      'Notification settings saved!';
 
   @override
   String get mStaticNotificationSettings => 'Notification settings';
@@ -2887,13 +3046,16 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticBrowseModeratedCourses => 'Explore all moderated courses';
 
   @override
-  String get mStaticBrowseCompetency => 'Explore all competencies within the learn hub';
+  String get mStaticBrowseCompetency =>
+      'Explore all competencies within the learn hub';
 
   @override
-  String get mStaticBrowseProvider => 'Explore all CBPs from any provider within the learn hub';
+  String get mStaticBrowseProvider =>
+      'Explore all CBPs from any provider within the learn hub';
 
   @override
-  String get mStaticBrowseCuratedCollections => 'Explore all CBPs from any collection within the learn hub';
+  String get mStaticBrowseCuratedCollections =>
+      'Explore all CBPs from any collection within the learn hub';
 
   @override
   String get mStaticDeleteDiscussion => 'Delete discussion';
@@ -2932,7 +3094,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticAddToYourCompetency => 'Add to your competency';
 
   @override
-  String get mStaticSelfAttestDeclaration => 'You are self-declaring competency and you can also take the competency assessment to add further credibility';
+  String get mStaticSelfAttestDeclaration =>
+      'You are self-declaring competency and you can also take the competency assessment to add further credibility';
 
   @override
   String get mStaticBack => 'Back';
@@ -2944,7 +3107,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticBackToAllCompetencies => 'Back to \"All competencies\"';
 
   @override
-  String get mStaticDoYouWantToRemove => 'Do you want to remove it from your competency ?';
+  String get mStaticDoYouWantToRemove =>
+      'Do you want to remove it from your competency ?';
 
   @override
   String get mStaticNoAssociatedCBPs => 'No associated CBPs';
@@ -2968,22 +3132,26 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticCompetencyLevelGap => 'Competency level gap';
 
   @override
-  String get mStaticRecommendedFromWatDescription => 'Recommendations are based on your position and are coming from your Work Allocation Order.';
+  String get mStaticRecommendedFromWatDescription =>
+      'Recommendations are based on your position and are coming from your Work Allocation Order.';
 
   @override
   String get mStaticWorkOrder => 'Work order';
 
   @override
-  String get mStaticNoCompetenciesFoundFromWat => 'No competencies found from WAT';
+  String get mStaticNoCompetenciesFoundFromWat =>
+      'No competencies found from WAT';
 
   @override
-  String get mStaticRecommendedFromFracDescription => 'Recommendations are based on your position and are coming from FRAC dictionary allocated to your position.';
+  String get mStaticRecommendedFromFracDescription =>
+      'Recommendations are based on your position and are coming from FRAC dictionary allocated to your position.';
 
   @override
   String get mStaticNoCompetenciesFromFRAC => 'No competencies found from FRAC';
 
   @override
-  String get mStaticCompetencyFracMessage => 'Competencies will be recommended  \n        based on your position.';
+  String get mStaticCompetencyFracMessage =>
+      'Competencies will be recommended  \n        based on your position.';
 
   @override
   String get mStaticCompetencyType => 'Competency type';
@@ -3118,10 +3286,12 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticNoRequests => 'No requests';
 
   @override
-  String get mStaticNoRequestText => 'Looks like there are no connection \n             requests at the moment';
+  String get mStaticNoRequestText =>
+      'Looks like there are no connection \n             requests at the moment';
 
   @override
-  String get mStaticNoEstablishedConnectionText => 'Looks like there are no established  \n                    connections yet';
+  String get mStaticNoEstablishedConnectionText =>
+      'Looks like there are no established  \n                    connections yet';
 
   @override
   String get mStaticRequests => 'Requests';
@@ -3130,7 +3300,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticMyMdo => 'Your MDO';
 
   @override
-  String get mStaticNoConnectionsMessage => 'Looks like there are no connection requests at the moment';
+  String get mStaticNoConnectionsMessage =>
+      'Looks like there are no connection requests at the moment';
 
   @override
   String get mStaticConnected => 'Connected';
@@ -3178,7 +3349,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticNoConnection => 'No connection';
 
   @override
-  String get mStaticNoConnectionDescription => 'Please check your internet connectivity and try again';
+  String get mStaticNoConnectionDescription =>
+      'Please check your internet connectivity and try again';
 
   @override
   String get mStaticRetry => 'Retry';
@@ -3202,7 +3374,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticDiscussionTopicFlag => 'discussionTopicFlag';
 
   @override
-  String get mStaticUseShareFeature => 'Please use share option to download the certificate';
+  String get mStaticUseShareFeature =>
+      'Please use share option to download the certificate';
 
   @override
   String get mStaticLoggedIn => 'Logged-In';
@@ -3223,13 +3396,15 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticTeamsLinkKeyword => '<teams_call_link>';
 
   @override
-  String get mStaticHtmlTeamsLink => '<a href: \$htmlTeamsUriLink> Support Call </a>';
+  String get mStaticHtmlTeamsLink =>
+      '<a href: \$htmlTeamsUriLink> Support Call </a>';
 
   @override
   String get mStaticEmailLinkKeyword => '<email_configuration>';
 
   @override
-  String get mStaticHtmlEmailLink => '<a href:\'mailto: mission.karmayogi@gov.in\'> mission.karmayogi@gov.in </a>';
+  String get mStaticHtmlEmailLink =>
+      '<a href:\'mailto: mission.karmayogi@gov.in\'> mission.karmayogi@gov.in </a>';
 
   @override
   String get mStaticWatch => 'Watch';
@@ -3244,13 +3419,15 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticTourend => 'End';
 
   @override
-  String get mStaticEnrollRemoveMessage => 'Your enrollment request for the selected batch has been ';
+  String get mStaticEnrollRemoveMessage =>
+      'Your enrollment request for the selected batch has been ';
 
   @override
   String get mStaticTimings => '9:00 AM to 5:00 PM';
 
   @override
-  String get mStaticWelcomeintrotext => 'National Programme for Civil Services Capacity Building, aptly named as Mission Karmayogi, aims to create a professional, well-trained and future-looking civil service.';
+  String get mStaticWelcomeintrotext =>
+      'National Programme for Civil Services Capacity Building, aptly named as Mission Karmayogi, aims to create a professional, well-trained and future-looking civil service.';
 
   @override
   String get mStaticHi => 'Namaste';
@@ -3259,7 +3436,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticShowAllCatgories => 'Show all categories';
 
   @override
-  String get mStaticHereSomeFrequentlyAsked => 'Here are some most frequently asked questions users have looked for';
+  String get mStaticHereSomeFrequentlyAsked =>
+      'Here are some most frequently asked questions users have looked for';
 
   @override
   String get mStaticQuestionsRelated => 'Questions related to above question';
@@ -3304,13 +3482,15 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticShowAll => 'Show all';
 
   @override
-  String get mStaticTrendingCoursesInYourDepartment => 'Trending courses in your department';
+  String get mStaticTrendingCoursesInYourDepartment =>
+      'Trending courses in your department';
 
   @override
   String get mStaticLearnHub => 'Learn Hub';
 
   @override
-  String get mStaticTrendingProgramsInYourDepartment => 'Trending programs in your department';
+  String get mStaticTrendingProgramsInYourDepartment =>
+      'Trending programs in your department';
 
   @override
   String get mStaticMostEnrolled => 'Most Enrolled';
@@ -3349,7 +3529,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticWhatIsWeeklyClaps => 'What is weekly claps?';
 
   @override
-  String get mStaticWeeklyClapTitleDescription => 'Weekly Claps are a fun way to track your engagement on the platform. They reflect your commitment and activity levels.';
+  String get mStaticWeeklyClapTitleDescription =>
+      'Weekly Claps are a fun way to track your engagement on the platform. They reflect your commitment and activity levels.';
 
   @override
   String get mStaticMaintainClaps => 'What should I do to maintain the claps?';
@@ -3361,7 +3542,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticMinutes => 'minutes';
 
   @override
-  String get mStaticEngageWithPlatform => 'engaging with the platform every week to maintain your claps.';
+  String get mStaticEngageWithPlatform =>
+      'engaging with the platform every week to maintain your claps.';
 
   @override
   String get mStaticWhyDidLossClaps => 'Why did I lose my claps?';
@@ -3370,10 +3552,12 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticFallShort => 'If you fall short of the';
 
   @override
-  String get mStaticEngagementRequirement => 'engagement requirement in a week, your claps count resets to zero.';
+  String get mStaticEngagementRequirement =>
+      'engagement requirement in a week, your claps count resets to zero.';
 
   @override
-  String get mStaticWaitTillSessionStart => 'Please wait until the session begins to mark attendance.';
+  String get mStaticWaitTillSessionStart =>
+      'Please wait until the session begins to mark attendance.';
 
   @override
   String get mStaticLearningUnder30Minutes => 'Learning under 30 min';
@@ -3391,7 +3575,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticMyActivitySeePendingReqs => 'See all pending requests';
 
   @override
-  String get mStaticUnableToConnectInternet => 'Unable to connect to the server. Please check your connection.';
+  String get mStaticUnableToConnectInternet =>
+      'Unable to connect to the server. Please check your connection.';
 
   @override
   String get mStaticCertificateOfWeek => 'Certificate of the week';
@@ -3469,7 +3654,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticKnowledgeResources => 'Knowledge resources';
 
   @override
-  String get mStaticKnowledgeResourcesSubtitle => 'Find the latest policies, circulars and all available knowledge resources.';
+  String get mStaticKnowledgeResourcesSubtitle =>
+      'Find the latest policies, circulars and all available knowledge resources.';
 
   @override
   String get mStaticDashboard => 'Dashboard';
@@ -3490,7 +3676,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticFullNameMandatory => 'Full name is mandatory';
 
   @override
-  String get mStaticOrganisationMandate => 'Please enter your organisation name';
+  String get mStaticOrganisationMandate =>
+      'Please enter your organisation name';
 
   @override
   String get mStaticEmailValidationText => 'Please enter a valid email address';
@@ -3550,7 +3737,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticEnrolmentApprovedDesc => 'Your enrollment is now approved.';
 
   @override
-  String get mStaticEnrolmentRequestInReviewDesc => 'Your enrollment request is being reviewed. You will be notified when it is approved.';
+  String get mStaticEnrolmentRequestInReviewDesc =>
+      'Your enrollment request is being reviewed. You will be notified when it is approved.';
 
   @override
   String get mStaticDiscuss => 'Discuss';
@@ -3559,7 +3747,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticDiscussions => 'Discussions';
 
   @override
-  String get mStaticStartNewDiscussionText => 'Click on the + button to start a new discussion';
+  String get mStaticStartNewDiscussionText =>
+      'Click on the + button to start a new discussion';
 
   @override
   String get mStaticAllDiscussions => 'All discussions';
@@ -3634,10 +3823,12 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticNoResultsFound => 'No results found';
 
   @override
-  String get mStaticNoFilterResultInfo => 'Try removing the filters or search using different keywords';
+  String get mStaticNoFilterResultInfo =>
+      'Try removing the filters or search using different keywords';
 
   @override
-  String get mStaticNoResultFromSearch => 'We couldn\'t find any matches for your search.';
+  String get mStaticNoResultFromSearch =>
+      'We couldn\'t find any matches for your search.';
 
   @override
   String get mStaticNoReviewsFound => 'No reviews found!';
@@ -3991,34 +4182,41 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticCongratulations => 'Congratulations!';
 
   @override
-  String get mStaticCongratulationsDesc => 'You are all set to start your learning journey.';
+  String get mStaticCongratulationsDesc =>
+      'You are all set to start your learning journey.';
 
   @override
   String get mStaticGetStartedFinish => 'Finish';
 
   @override
-  String get mStaticDiscussDesc => 'Discuss new ideas with colleagues and experts in the government.';
+  String get mStaticDiscussDesc =>
+      'Discuss new ideas with colleagues and experts in the government.';
 
   @override
-  String get mStaticLearnDesc => 'Drive your career forward through appropriate courses, programs and assessments.';
+  String get mStaticLearnDesc =>
+      'Drive your career forward through appropriate courses, programs and assessments.';
 
   @override
-  String get mStaticSearchDesc => 'Find the perfect course and program tailor-made for you.';
+  String get mStaticSearchDesc =>
+      'Find the perfect course and program tailor-made for you.';
 
   @override
   String get mStaticMyProfile => 'My Profile';
 
   @override
-  String get mStaticProfileDesc => 'Update your information to get the best-suited courses and programs.';
+  String get mStaticProfileDesc =>
+      'Update your information to get the best-suited courses and programs.';
 
   @override
-  String get mStaticWelcome => 'Namaste! Welcome to the journey of anytime anywhere learning.';
+  String get mStaticWelcome =>
+      'Namaste! Welcome to the journey of anytime anywhere learning.';
 
   @override
   String get mStaticGetstartvideo => 'What is iGOT Karmayogi?';
 
   @override
-  String get mStaticVideoConference => 'We are now available on Video Conference';
+  String get mStaticVideoConference =>
+      'We are now available on Video Conference';
 
   @override
   String get mStaticSupportrequired => 'For any support required';
@@ -4077,10 +4275,12 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticAcbpBannerTitle => 'My iGOT';
 
   @override
-  String get mStaticTrendingProgramsAcrossDepartment => 'Trending Programs Across Department';
+  String get mStaticTrendingProgramsAcrossDepartment =>
+      'Trending Programs Across Department';
 
   @override
-  String get mStaticConnectionsRequestsWaiting => 'Connections requests waiting for you';
+  String get mStaticConnectionsRequestsWaiting =>
+      'Connections requests waiting for you';
 
   @override
   String get mStaticFollowUs => 'Follow us';
@@ -4113,7 +4313,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mDiscussionReport => 'Report';
 
   @override
-  String get mDiscussAlreadyReported => 'The content has already been flagged. We will use this information to find and remove more spam.';
+  String get mDiscussAlreadyReported =>
+      'The content has already been flagged. We will use this information to find and remove more spam.';
 
   @override
   String get mDiscussThanksForLettingUsKnow => 'Thanks for letting us know';
@@ -4134,34 +4335,42 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mDiscussPleaseTypeReason => 'Please type any reason';
 
   @override
-  String get mDiscussReportReason1 => 'Spam, suspicious content, fake content or misinformation';
+  String get mDiscussReportReason1 =>
+      'Spam, suspicious content, fake content or misinformation';
 
   @override
-  String get mDiscussReportReason1Des => 'This content includes spam, fraud, fake content or misinformation.';
+  String get mDiscussReportReason1Des =>
+      'This content includes spam, fraud, fake content or misinformation.';
 
   @override
-  String get mDiscussReportReason2 => 'Harassment, hateful speech, incites violence or physical harm';
+  String get mDiscussReportReason2 =>
+      'Harassment, hateful speech, incites violence or physical harm';
 
   @override
-  String get mDiscussReportReason2Des => 'This content includes harassment, hateful speech, incites violence of physical harm.';
+  String get mDiscussReportReason2Des =>
+      'This content includes harassment, hateful speech, incites violence of physical harm.';
 
   @override
   String get mDiscussReportReason3 => 'Adult, pornographic or violent content';
 
   @override
-  String get mDiscussReportReason3Des => 'This content includes adult content including pornographic or other violent content violating platform policy.';
+  String get mDiscussReportReason3Des =>
+      'This content includes adult content including pornographic or other violent content violating platform policy.';
 
   @override
-  String get mDiscussReportReason4 => 'Defamatory content, Privacy violation or Intellectual Property infringement';
+  String get mDiscussReportReason4 =>
+      'Defamatory content, Privacy violation or Intellectual Property infringement';
 
   @override
-  String get mDiscussReportReason4Des => 'This content includes defamatory content, privacy violation, or intellectual property infringement violating platform policy.';
+  String get mDiscussReportReason4Des =>
+      'This content includes defamatory content, privacy violation, or intellectual property infringement violating platform policy.';
 
   @override
   String get mDiscussReportReason5 => 'Fake account or impersonation';
 
   @override
-  String get mDiscussReportReason5Des => 'Suspected fake account or impersonation.';
+  String get mDiscussReportReason5Des =>
+      'Suspected fake account or impersonation.';
 
   @override
   String get mDiscussReportReason6 => 'Others';
@@ -4206,7 +4415,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mLearnNoContentForCourse => 'No content available for this course';
 
   @override
-  String get mLearnNotStartedAnyCourse => 'You haven\'t started with any course';
+  String get mLearnNotStartedAnyCourse =>
+      'You haven\'t started with any course';
 
   @override
   String get mLearnEnrollGetStarted => 'Enroll for a course, to get started!';
@@ -4215,7 +4425,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mDiscussTrendingTags => 'Trending tags';
 
   @override
-  String get mNetworkConnectionRequestAccepted => 'Connection request accepted!';
+  String get mNetworkConnectionRequestAccepted =>
+      'Connection request accepted!';
 
   @override
   String get mCommonComing => 'COMING';
@@ -4224,7 +4435,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mCommonSoon => 'SOON';
 
   @override
-  String get mCommonFeatureAvailableinPortal => 'This feature is available in \n the web portal as of now';
+  String get mCommonFeatureAvailableinPortal =>
+      'This feature is available in \n the web portal as of now';
 
   @override
   String get mCommonGoToWebPortal => 'Go to web portal';
@@ -4233,13 +4445,15 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mCommonShowAnswer => 'Show answer';
 
   @override
-  String get mCommonPleaseGiveYourAnswer => 'Please give your answer before showing the answer';
+  String get mCommonPleaseGiveYourAnswer =>
+      'Please give your answer before showing the answer';
 
   @override
   String get mStaticYourScore => 'Your score';
 
   @override
-  String get mStaticWeDontRecordScores => 'We do not record these scores in our system. \n Retake as many times as you want';
+  String get mStaticWeDontRecordScores =>
+      'We do not record these scores in our system. \n Retake as many times as you want';
 
   @override
   String get mCommonTotal => 'Total';
@@ -4281,10 +4495,12 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mEventsTodaysevents => 'No events';
 
   @override
-  String get mCompetenciesExploreallAssociatedCBPs => 'Explore all associated CBPs';
+  String get mCompetenciesExploreallAssociatedCBPs =>
+      'Explore all associated CBPs';
 
   @override
-  String get mCompetenciesBackToAllCompetencies => 'Back to \'All competencies\'';
+  String get mCompetenciesBackToAllCompetencies =>
+      'Back to \'All competencies\'';
 
   @override
   String get mCompetenciesContentTypeApplyFilters => 'Apply Filters';
@@ -4317,13 +4533,16 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticCheckPassbook => 'Check your Passbook';
 
   @override
-  String get mStaticYourEnrollmentIsNotApproved => 'Your enrollment for this batch is not approved, Kindly withdraw your request';
+  String get mStaticYourEnrollmentIsNotApproved =>
+      'Your enrollment for this batch is not approved, Kindly withdraw your request';
 
   @override
-  String get mcourseRegisterOrSignin => 'If you are a government official, register or sign in so you can track your learning progress and get certified.';
+  String get mcourseRegisterOrSignin =>
+      'If you are a government official, register or sign in so you can track your learning progress and get certified.';
 
   @override
-  String get mcourseNavigationCourseCompletedMsg => 'You have completed the course successfully. Please check back in some time to view your certificate of completion.';
+  String get mcourseNavigationCourseCompletedMsg =>
+      'You have completed the course successfully. Please check back in some time to view your certificate of completion.';
 
   @override
   String get mCourseNavigationPleaseTakemomentTo => 'Please take a moment to';
@@ -4332,10 +4551,12 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mCourseRateThisCourse => 'rate this course';
 
   @override
-  String get mCourseCongratsForCompletingThe => 'Congratulations for completing the ';
+  String get mCourseCongratsForCompletingThe =>
+      'Congratulations for completing the ';
 
   @override
-  String get mCourseAndTellUsAboutYourExperience => 'and tell us about your experience.';
+  String get mCourseAndTellUsAboutYourExperience =>
+      'and tell us about your experience.';
 
   @override
   String get mCourseOr => 'or';
@@ -4380,10 +4601,12 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticUsername => 'Username';
 
   @override
-  String get mDashboardYourProfileViewed => 'Your profile was viewed 24 times last week';
+  String get mDashboardYourProfileViewed =>
+      'Your profile was viewed 24 times last week';
 
   @override
-  String get mDashboardUniqueVisitorNumber => 'Number of unique visitors to your profile';
+  String get mDashboardUniqueVisitorNumber =>
+      'Number of unique visitors to your profile';
 
   @override
   String get mDashboardProfileViews => 'Profile views';
@@ -4398,7 +4621,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mDashboardUsageHours => 'Usage in hours';
 
   @override
-  String get mTopicsNoTopicsOfInterest => 'Not finding a topic of your interest?';
+  String get mTopicsNoTopicsOfInterest =>
+      'Not finding a topic of your interest?';
 
   @override
   String get mTopicsAddTopic => 'Add topic';
@@ -4413,10 +4637,12 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mCustomDrawerRateUs => 'Rate us';
 
   @override
-  String get mRolesDoYouWantToDelete => 'Do you want to delete this role and associated activities?';
+  String get mRolesDoYouWantToDelete =>
+      'Do you want to delete this role and associated activities?';
 
   @override
-  String get mRolesPleaseListRoles => 'Please list down your roles & activities as part of your position';
+  String get mRolesPleaseListRoles =>
+      'Please list down your roles & activities as part of your position';
 
   @override
   String get mRolesAddRole => 'Add a role';
@@ -4443,7 +4669,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mRolesActivityAlreadyExist => 'Activity already exist';
 
   @override
-  String get mRolesPleaseAddValidActivityName => 'Please add a valid activity name';
+  String get mRolesPleaseAddValidActivityName =>
+      'Please add a valid activity name';
 
   @override
   String get mRolesActivityIsMandatory => 'Activity is mandatory';
@@ -4458,25 +4685,31 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mRolesPleaseAddRole => 'Please add a role';
 
   @override
-  String get mRolesSelectionsAutomaticallySaved => 'Your selections are automatically saved.';
+  String get mRolesSelectionsAutomaticallySaved =>
+      'Your selections are automatically saved.';
 
   @override
-  String get mCourseYouCanUpdateRating => 'You can update your rating at anytime.';
+  String get mCourseYouCanUpdateRating =>
+      'You can update your rating at anytime.';
 
   @override
-  String get mMatchCaseHoldANdDragItems => 'Hold and drag items on right side to reorder';
+  String get mMatchCaseHoldANdDragItems =>
+      'Hold and drag items on right side to reorder';
 
   @override
-  String get mMatchCaseLongPressOnItems => 'Long press on the items on the right side to show the correct answer';
+  String get mMatchCaseLongPressOnItems =>
+      'Long press on the items on the right side to show the correct answer';
 
   @override
-  String get mWelcomeLetsTakeYouThrough => '\'\'Let us take you through a quick guided onboarding to understand your interests at work. Knowing you better helps us give you a more personalized experience on the platform. This way you discover relevant and useful learning content in the easiest way possible. And don’t worry, you can always update your interests later!\'\'';
+  String get mWelcomeLetsTakeYouThrough =>
+      '\'\'Let us take you through a quick guided onboarding to understand your interests at work. Knowing you better helps us give you a more personalized experience on the platform. This way you discover relevant and useful learning content in the easiest way possible. And don’t worry, you can always update your interests later!\'\'';
 
   @override
   String get mWelcomeLetsGo => 'Let’s go';
 
   @override
-  String get mBrowseLearnExploreAllCBP => 'Explore all CBP\'s within the \'Learn hub\' ';
+  String get mBrowseLearnExploreAllCBP =>
+      'Explore all CBP\'s within the \'Learn hub\' ';
 
   @override
   String get mTopicBackToAllTopics => 'Back to \'All topics\'';
@@ -4509,7 +4742,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mCourseAssessmentExceeded => 'Your attempts are exceeded';
 
   @override
-  String get mCertificateNotIssuedBy => 'The certificate is not issued by the trusted certificate authority. Once issued you will be able to download it';
+  String get mCertificateNotIssuedBy =>
+      'The certificate is not issued by the trusted certificate authority. Once issued you will be able to download it';
 
   @override
   String get mStaticOverdue => 'Overdue';
@@ -4527,7 +4761,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticLoadMore => 'Load more';
 
   @override
-  String get mStaticExploreAllProviders => 'Explore all providers within the learn hub';
+  String get mStaticExploreAllProviders =>
+      'Explore all providers within the learn hub';
 
   @override
   String get mStaticNoProvidersFound => 'No providers found!';
@@ -4545,16 +4780,20 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticUpcoming => 'Upcoming';
 
   @override
-  String get mStaticDueDateWithin30DaysMessage => 'You will see all the content for which the due date is within 30 days.';
+  String get mStaticDueDateWithin30DaysMessage =>
+      'You will see all the content for which the due date is within 30 days.';
 
   @override
-  String get mStaticSeeContentForWhichDueDatePassed => 'You will see all the content for which the due date has passed here.';
+  String get mStaticSeeContentForWhichDueDatePassed =>
+      'You will see all the content for which the due date has passed here.';
 
   @override
-  String get mStaticSeeCompletedContent => 'You will see all the content that are completed.';
+  String get mStaticSeeCompletedContent =>
+      'You will see all the content that are completed.';
 
   @override
-  String get mStaticSeeAllUpcoming => 'You will see all the content which are due for completion here.';
+  String get mStaticSeeAllUpcoming =>
+      'You will see all the content which are due for completion here.';
 
   @override
   String get mStaticFilterResults => 'Filter results';
@@ -4590,7 +4829,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticClaim => 'Claim';
 
   @override
-  String get mCourseRatedMessage => 'Congrats! You\'ve rated the course and earned';
+  String get mCourseRatedMessage =>
+      'Congrats! You\'ve rated the course and earned';
 
   @override
   String get mStaticEarn => 'Earn';
@@ -4622,16 +4862,20 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticCompletingCourse => 'by completing this course';
 
   @override
-  String get mStaticAcbpCourseCompletionInfo => 'Additionally, passing all final assessments will earn you an extra 5 Karma Points. Remember, it\'s essential to stick to the schedule outlined in your Capacity Building Plan, as it directly impacts your Karma Points. For further details, please refer to the FAQs';
+  String get mStaticAcbpCourseCompletionInfo =>
+      'Additionally, passing all final assessments will earn you an extra 5 Karma Points. Remember, it\'s essential to stick to the schedule outlined in your Capacity Building Plan, as it directly impacts your Karma Points. For further details, please refer to the FAQs';
 
   @override
-  String get mStaticCourseCompletionInfo => 'Every course completion automatically gets you 5 Karma Points.';
+  String get mStaticCourseCompletionInfo =>
+      'Every course completion automatically gets you 5 Karma Points.';
 
   @override
-  String get mCourseCompletedMessage => 'for each course you complete, with a limit of four non-My iGOT courses per month.';
+  String get mCourseCompletedMessage =>
+      'for each course you complete, with a limit of four non-My iGOT courses per month.';
 
   @override
-  String get mStaticCourseCompletedInfo => 'For every My iGOT course you complete (as per ACBP), you will earn 15 Karma Points. For every other course you complete, you will earn 5 Karma Points, up to a maximum of four courses per month. Start learning and watch your Karma grow!';
+  String get mStaticCourseCompletedInfo =>
+      'For every My iGOT course you complete (as per ACBP), you will earn 15 Karma Points. For every other course you complete, you will earn 5 Karma Points, up to a maximum of four courses per month. Start learning and watch your Karma grow!';
 
   @override
   String get mStaticFirstCourseEnrolment => 'for your 1st course enrolment!';
@@ -4649,19 +4893,23 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mCompetencyViewLessTxt => 'View Less';
 
   @override
-  String get mCompetencyCertificateGeneration => 'Kindly be patient. The certificate generation normally takes up to 24 hours, however, it might take longer sometimes. If the issue persists, please mail us at mission.karmayogi@gov.in';
+  String get mCompetencyCertificateGeneration =>
+      'Kindly be patient. The certificate generation normally takes up to 24 hours, however, it might take longer sometimes. If the issue persists, please mail us at mission.karmayogi@gov.in';
 
   @override
-  String get mStaticAdjustSearch => 'Try adjusting your search to find what you are looking for';
+  String get mStaticAdjustSearch =>
+      'Try adjusting your search to find what you are looking for';
 
   @override
-  String get mStaticKarmapointAppbarInfo => 'Karma points measure and map your engagement at iGOT. Points are updated within 4 hours';
+  String get mStaticKarmapointAppbarInfo =>
+      'Karma points measure and map your engagement at iGOT. Points are updated within 4 hours';
 
   @override
   String get mStaticCantVoteMsg => 'Can\'t vote on your own post.';
 
   @override
-  String get mStaticKarmaPointInfo => ' Karma points are a reward for high learning engagement in iGOT. For more information, visit Karma Points FAQ. ';
+  String get mStaticKarmaPointInfo =>
+      ' Karma points are a reward for high learning engagement in iGOT. For more information, visit Karma Points FAQ. ';
 
   @override
   String get mStaticRequiresApproval => 'Requires Approval';
@@ -4685,7 +4933,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticOtherApps => 'Other apps';
 
   @override
-  String get mStaticEnrollmentSentForReview => 'Your Enrollment is sent for review';
+  String get mStaticEnrollmentSentForReview =>
+      'Your Enrollment is sent for review';
 
   @override
   String get mStaticStar => 'star';
@@ -4764,13 +5013,15 @@ class TocLocalizationsEn extends TocLocalizations {
   }
 
   @override
-  String get mStaticYouEventCertificateCompleted => 'You completed this event on';
+  String get mStaticYouEventCertificateCompleted =>
+      'You completed this event on';
 
   @override
   String get mStaticLastEnrollDate => 'Last enroll date';
 
   @override
-  String get mRatingHowLikelyAreYouToRecommed => 'How likely are you to recommend ';
+  String get mRatingHowLikelyAreYouToRecommed =>
+      'How likely are you to recommend ';
 
   @override
   String get mRatingIgotToColleagues => 'iGOT Karmayogi to your colleagues?';
@@ -4782,13 +5033,16 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mRatingExtremelyLikely => 'Extremely likely';
 
   @override
-  String get mRatingHowCanWeMakeItBetter => 'How can we make it better for next time?';
+  String get mRatingHowCanWeMakeItBetter =>
+      'How can we make it better for next time?';
 
   @override
-  String get mRatingInspireOthers => 'Inspire others by sharing your experience';
+  String get mRatingInspireOthers =>
+      'Inspire others by sharing your experience';
 
   @override
-  String get mRatingThanksForFeedBack => 'Thanks for the feedback. We are committed to consistently enhancing your learning experience';
+  String get mRatingThanksForFeedBack =>
+      'Thanks for the feedback. We are committed to consistently enhancing your learning experience';
 
   @override
   String get mLastUpdatedOn => 'Last updated on';
@@ -4851,10 +5105,12 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mEditProfileEdit => 'Edit';
 
   @override
-  String get mEditProfilePleaseAddValidNumber => 'Please enter a valid 10 digit number';
+  String get mEditProfilePleaseAddValidNumber =>
+      'Please enter a valid 10 digit number';
 
   @override
-  String get mEditProfilePleaseVerifyYourNumber => 'Please verify your mobile number';
+  String get mEditProfilePleaseVerifyYourNumber =>
+      'Please verify your mobile number';
 
   @override
   String get mEditProfileSendOtp => 'Send OTP';
@@ -4878,7 +5134,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mEditProfileTelephoneNumber => 'Telephone number';
 
   @override
-  String get mEditProfileTelephoneNumberExample => 'Example  0123-26104183 or 012327204281';
+  String get mEditProfileTelephoneNumberExample =>
+      'Example  0123-26104183 or 012327204281';
 
   @override
   String get mEditProfileSecondaryEmail => 'Secondary email';
@@ -4887,7 +5144,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mEditProfilePostalAddress => 'Postal Address';
 
   @override
-  String get mEditProfileEnterResidenceAddress => 'Enter your residence address here';
+  String get mEditProfileEnterResidenceAddress =>
+      'Enter your residence address here';
 
   @override
   String get mEditProfileNationality => 'Nationality';
@@ -4920,10 +5178,12 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mEditProfileDescription => 'Description';
 
   @override
-  String get mEditProfileEnterOrgDescription => 'Please enter your Organisation description here';
+  String get mEditProfileEnterOrgDescription =>
+      'Please enter your Organisation description here';
 
   @override
-  String get mEditProfileOtherDetailsOfGovtEmployees => 'Other details for government employees(If applicable)';
+  String get mEditProfileOtherDetailsOfGovtEmployees =>
+      'Other details for government employees(If applicable)';
 
   @override
   String get mEditProfilePayBand => 'Pay band(grade pay)';
@@ -4980,16 +5240,20 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mEditProfileEnterYourFullname => 'Enter your full name';
 
   @override
-  String get mEditProfileOtpSentToEmail => 'An OTP has been sent to your email address (valid for 15 minutes)';
+  String get mEditProfileOtpSentToEmail =>
+      'An OTP has been sent to your email address (valid for 15 minutes)';
 
   @override
-  String get mEditProfileOtpSentToMobile => 'An OTP has been sent to your mobile number (valid for 5 minutes)';
+  String get mEditProfileOtpSentToMobile =>
+      'An OTP has been sent to your mobile number (valid for 5 minutes)';
 
   @override
-  String get mEditProfileEmailVerifiedMessage => 'Email address verified successfully';
+  String get mEditProfileEmailVerifiedMessage =>
+      'Email address verified successfully';
 
   @override
-  String get mEditProfileMobileVerifiedMessage => 'Mobile number verified successfully';
+  String get mEditProfileMobileVerifiedMessage =>
+      'Mobile number verified successfully';
 
   @override
   String get mEditProfileMobileNumber => 'Mobile number';
@@ -5016,16 +5280,20 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mContentSharePageHeading => 'Share with Karmayogis';
 
   @override
-  String get mContentSharePageNote => 'Note: Emails will be sent only to registered Karmayogis.';
+  String get mContentSharePageNote =>
+      'Note: Emails will be sent only to registered Karmayogis.';
 
   @override
-  String get mContentSharePageEmailLimitWarning => 'Maximum email limit reached';
+  String get mContentSharePageEmailLimitWarning =>
+      'Maximum email limit reached';
 
   @override
-  String get mContentSharePageInvalidEmailError => 'Please enter a valid email address';
+  String get mContentSharePageInvalidEmailError =>
+      'Please enter a valid email address';
 
   @override
-  String get mContentSharePageSharingError => 'Something went wrong, please try again';
+  String get mContentSharePageSharingError =>
+      'Something went wrong, please try again';
 
   @override
   String get mContentSharePageSimilarEmailWarning => 'Already selected';
@@ -5034,7 +5302,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mContentSharePageEmptyEmailWarning => 'Please add an email';
 
   @override
-  String get mContentSharePageSuccessMessage => 'Emails successfully shared with registered Karmayogis';
+  String get mContentSharePageSuccessMessage =>
+      'Emails successfully shared with registered Karmayogis';
 
   @override
   String get mContentSharePageLinkCopied => 'Link copied';
@@ -5046,10 +5315,12 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticEnrollmentFailed => 'Enrollment failed';
 
   @override
-  String get mStaticCongratulationsOnCompleting => 'Congratulations on completing';
+  String get mStaticCongratulationsOnCompleting =>
+      'Congratulations on completing';
 
   @override
-  String get mStaticYourCertificateWillBeGeneratedWithin48Hrs => 'Your certificate will be generated within 48hrs';
+  String get mStaticYourCertificateWillBeGeneratedWithin48Hrs =>
+      'Your certificate will be generated within 48hrs';
 
   @override
   String get mStaticReviews => 'Reviews';
@@ -5058,7 +5329,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mLearnTotalEnrolled => 'Total enrolled';
 
   @override
-  String get mBlendedMarkAttendenceDescription => 'After the batch starts, you will be able to mark the attendace';
+  String get mBlendedMarkAttendenceDescription =>
+      'After the batch starts, you will be able to mark the attendace';
 
   @override
   String get mFullScreenMessage => 'This is a full-screen bottom sheet!';
@@ -5102,7 +5374,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mOtherApps => 'Other apps';
 
   @override
-  String get mDoSignInOrRegisterMessage => 'If you are a government official, register or sign in and get your certificate.';
+  String get mDoSignInOrRegisterMessage =>
+      'If you are a government official, register or sign in and get your certificate.';
 
   @override
   String get mBack => 'Back';
@@ -5168,13 +5441,16 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticCalculating => 'Calculating';
 
   @override
-  String get mAssessmentResultWaitingMessage => 'Be patient please, while we calculate your result';
+  String get mAssessmentResultWaitingMessage =>
+      'Be patient please, while we calculate your result';
 
   @override
-  String get mShowAnswerErrorMessage => 'Please give your answer before showing the answer';
+  String get mShowAnswerErrorMessage =>
+      'Please give your answer before showing the answer';
 
   @override
-  String get mPracticeAssessmentRetakeMessage => 'We do not record these scores in our system. \\n Retake as many times as you want';
+  String get mPracticeAssessmentRetakeMessage =>
+      'We do not record these scores in our system. \\n Retake as many times as you want';
 
   @override
   String get mAssessmentSubmit => 'No, submit';
@@ -5186,7 +5462,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mClickToSeeTheResults => 'Click to see the results';
 
   @override
-  String get mGiveYourAnswerBeforeShowingAnswer => 'Please give your answer before showing the answer';
+  String get mGiveYourAnswerBeforeShowingAnswer =>
+      'Please give your answer before showing the answer';
 
   @override
   String get mStartAgain => 'Start Again';
@@ -5201,10 +5478,12 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mRank => 'Rank';
 
   @override
-  String get mMyActivityLeaderboardHeading => 'Top Karmayogis in your department:';
+  String get mMyActivityLeaderboardHeading =>
+      'Top Karmayogis in your department:';
 
   @override
-  String get mMyActivityLeaderboardTooltipInfo => 'The learner leaderboard is calculated based on the Karma Points earned in a month and updated on the 1st of every month.';
+  String get mMyActivityLeaderboardTooltipInfo =>
+      'The learner leaderboard is calculated based on the Karma Points earned in a month and updated on the 1st of every month.';
 
   @override
   String get mStaticIncomplete => 'Incomplete';
@@ -5236,13 +5515,15 @@ class TocLocalizationsEn extends TocLocalizations {
   }
 
   @override
-  String get mSurveyFormOneStepAwayFromEnroll => 'You are one step away from enrolling!';
+  String get mSurveyFormOneStepAwayFromEnroll =>
+      'You are one step away from enrolling!';
 
   @override
   String get mThisBatchStarting => 'This batch starting on';
 
   @override
-  String get mBatchStartConsent => 'kindly go through the content and be prepared.';
+  String get mBatchStartConsent =>
+      'kindly go through the content and be prepared.';
 
   @override
   String get mAssessmentCheckYourKnowledge => 'Check your knowledge';
@@ -5263,7 +5544,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticMaximum => 'Maximum';
 
   @override
-  String get mStaticRetakeAssesmentMessage => 'retake(s) are allowed, and you already attempted';
+  String get mStaticRetakeAssesmentMessage =>
+      'retake(s) are allowed, and you already attempted';
 
   @override
   String get mStaticTime => 'time(s)';
@@ -5272,10 +5554,12 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticUnlimitedRetakes => 'Unlimited retakes allowed';
 
   @override
-  String get mRateOnWeeklyClapCongratsText => 'Congratulations on your weekly clap!';
+  String get mRateOnWeeklyClapCongratsText =>
+      'Congratulations on your weekly clap!';
 
   @override
-  String get mRateOnWeeklyClapCongratsDescription => 'Enjoying the iGOT experience? Rate us!';
+  String get mRateOnWeeklyClapCongratsDescription =>
+      'Enjoying the iGOT experience? Rate us!';
 
   @override
   String get mRateOnWeeklyClapRateText => 'Rate Now';
@@ -5362,28 +5646,34 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mProfileMakeTransferRequest => 'Make Transfer Request';
 
   @override
-  String get mProfileWithdrawTransferRequestConfirm => 'Are you sure you want to withdraw your transfer request?';
+  String get mProfileWithdrawTransferRequestConfirm =>
+      'Are you sure you want to withdraw your transfer request?';
 
   @override
-  String get mProfileMessageBeforeTransferRequest => 'You need to withdraw the Primary Details request before making a Transfer Request';
+  String get mProfileMessageBeforeTransferRequest =>
+      'You need to withdraw the Primary Details request before making a Transfer Request';
 
   @override
-  String get mProfileTransferRequestInfo => 'Press on the button to request a transfer to another MDO, but first, withdraw any pending fields awaiting approval from your current MDO';
+  String get mProfileTransferRequestInfo =>
+      'Press on the button to request a transfer to another MDO, but first, withdraw any pending fields awaiting approval from your current MDO';
 
   @override
-  String get mProfileWithdrawRequestInfo => 'If you choose to withdraw your transfer request, your transfer request will get cancelled.';
+  String get mProfileWithdrawRequestInfo =>
+      'If you choose to withdraw your transfer request, your transfer request will get cancelled.';
 
   @override
   String get mProfileWithdrawRequest => 'Withdraw';
 
   @override
-  String get mProfileSelectAllFieldsTransferRequest => 'Select all the fields to make transfer request.';
+  String get mProfileSelectAllFieldsTransferRequest =>
+      'Select all the fields to make transfer request.';
 
   @override
   String get mProfileOrganisation => 'Organization';
 
   @override
-  String get mProfileTransferRequestInstruction => 'If you make a transfer request, your profile will be unverified again';
+  String get mProfileTransferRequestInstruction =>
+      'If you make a transfer request, your profile will be unverified again';
 
   @override
   String get mProfileSubmitRequest => 'Submit request';
@@ -5392,13 +5682,16 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mProfilePrimaryDetails => 'Primary Details';
 
   @override
-  String get mProfileMdoApprovalInfoMessage => 'These details go to your MDO Admin for approval';
+  String get mProfileMdoApprovalInfoMessage =>
+      'These details go to your MDO Admin for approval';
 
   @override
-  String get mProfileMessageBeforeWithdrawPrimaryDetails => 'You can\'t edit when you requested for Transfer request';
+  String get mProfileMessageBeforeWithdrawPrimaryDetails =>
+      'You can\'t edit when you requested for Transfer request';
 
   @override
-  String get mProfileWithdrawRequestConfirm => 'Are you sure you want to withdraw your request?';
+  String get mProfileWithdrawRequestConfirm =>
+      'Are you sure you want to withdraw your request?';
 
   @override
   String get mProfileSendForApproval => 'Send For Approval';
@@ -5422,10 +5715,12 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mProfileEnterOtpForEmail => 'Enter the OTP Sent to Your Email';
 
   @override
-  String get mProfileEnterOtpForMobile => 'Enter the OTP Sent to Your Mobile Number';
+  String get mProfileEnterOtpForMobile =>
+      'Enter the OTP Sent to Your Mobile Number';
 
   @override
-  String get mProfileWithdrawalRequestSent => 'Your withdrawal request has been successfully sent';
+  String get mProfileWithdrawalRequestSent =>
+      'Your withdrawal request has been successfully sent';
 
   @override
   String get mProfileNotRecievedOtp => 'Didn\'t receive the OTP?';
@@ -5437,7 +5732,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mProfileSaveProfileErrorText => 'Error in saving profile details.';
 
   @override
-  String get mProfileSentForApprovalMsg => 'Your profile has been sent for approval';
+  String get mProfileSentForApprovalMsg =>
+      'Your profile has been sent for approval';
 
   @override
   String get mProfileSentForApproval => 'Sent For Approval';
@@ -5449,7 +5745,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mProfileRequestSentSuccessMsg => 'Request Sent Successfully';
 
   @override
-  String get mProfileEmployeeIdNotValidMsg => 'Please enter your valid Employee ID';
+  String get mProfileEmployeeIdNotValidMsg =>
+      'Please enter your valid Employee ID';
 
   @override
   String get mProfileViewApprovalStatus => 'View Approval Status';
@@ -5473,13 +5770,16 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mProfileNoComments => 'No comments';
 
   @override
-  String get mProfileTransferRequestSuccessMsg => 'Your transfer request has been sent for approval';
+  String get mProfileTransferRequestSuccessMsg =>
+      'Your transfer request has been sent for approval';
 
   @override
-  String get mProfileWithdrawTransferPopupDetailsText => 'You requested for transfer with the following details:';
+  String get mProfileWithdrawTransferPopupDetailsText =>
+      'You requested for transfer with the following details:';
 
   @override
-  String get mProfileWithdrawPopupDetailsText => 'You requested for the following details:';
+  String get mProfileWithdrawPopupDetailsText =>
+      'You requested for the following details:';
 
   @override
   String get mProfileUnderReviewInfo => 'This field is under review';
@@ -5497,10 +5797,12 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mErrorSomethingIsNotRight => 'Something is not right!';
 
   @override
-  String get mErrorThereIsConnectionError => 'There’s a connection error right now';
+  String get mErrorThereIsConnectionError =>
+      'There’s a connection error right now';
 
   @override
-  String get mErrorWeAreSorry => 'We are sorry for the inconvenience \n    Please come back after a while.';
+  String get mErrorWeAreSorry =>
+      'We are sorry for the inconvenience \n    Please come back after a while.';
 
   @override
   String get mErrorGoBack => 'GO BACK';
@@ -5551,7 +5853,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mViewAllCategories => 'View all categories';
 
   @override
-  String get mGyaanKarmayogiDescription => 'Knowledge repository of policy documents, case studies, best practices, and other learning resources from various stakeholders in the field of governance and public services.';
+  String get mGyaanKarmayogiDescription =>
+      'Knowledge repository of policy documents, case studies, best practices, and other learning resources from various stakeholders in the field of governance and public services.';
 
   @override
   String get mEnterYourText => 'Enter your text';
@@ -5602,7 +5905,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticJanKarmayogi => 'Jan Karmayogi';
 
   @override
-  String get mStaticJanKarmayogiDescription => 'To enhance the capacity of government officials at the last mile through functional, behavioral and domain competency courses, and other learning resources, to ensure efficient, transparent, and responsive services to citizens.';
+  String get mStaticJanKarmayogiDescription =>
+      'To enhance the capacity of government officials at the last mile through functional, behavioral and domain competency courses, and other learning resources, to ensure efficient, transparent, and responsive services to citizens.';
 
   @override
   String get mCommonNoCourseFound => 'No course found';
@@ -5611,25 +5915,30 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mSecondsPerQuestion => 'seconds per question';
 
   @override
-  String get mTimeRunsOut => 'If the given time runs out, the answer will be auto-submitted';
+  String get mTimeRunsOut =>
+      'If the given time runs out, the answer will be auto-submitted';
 
   @override
-  String get mSkippedQuestionsAttemptedBeforeSubmiting => 'Skipped questions can be attempted again before submitting';
+  String get mSkippedQuestionsAttemptedBeforeSubmiting =>
+      'Skipped questions can be attempted again before submitting';
 
   @override
   String get mNoNegativeMarking => 'No negative marking';
 
   @override
-  String get mUnansweredConsideredIncorrect => 'Unanswered will be considered as incorrect';
+  String get mUnansweredConsideredIncorrect =>
+      'Unanswered will be considered as incorrect';
 
   @override
-  String get mScoresWillNotBeStored => 'The scores will not be stored or shared';
+  String get mScoresWillNotBeStored =>
+      'The scores will not be stored or shared';
 
   @override
   String get mStaticSaveAndSubmit => 'Save & Submit';
 
   @override
-  String get mAssessmentMyOverallPerformanceSummary => 'My Overall performance summary';
+  String get mAssessmentMyOverallPerformanceSummary =>
+      'My Overall performance summary';
 
   @override
   String get mAssessmentCorrect => 'Correct';
@@ -5743,7 +6052,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mCompatibilityTitle => 'Compatibility Warning!';
 
   @override
-  String get mCompatibilityDescription => 'Oops! It seems like this resource isn\'t compatible with the current version of the app. Please update your app to access this resource, or check back later if the update isn\'t available right now.';
+  String get mCompatibilityDescription =>
+      'Oops! It seems like this resource isn\'t compatible with the current version of the app. Please update your app to access this resource, or check back later if the update isn\'t available right now.';
 
   @override
   String get mStaticUpdateApp => 'Update app';
@@ -5752,7 +6062,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mTipsForLearners => 'Tips for Learners';
 
   @override
-  String get mDisableTipsText => 'Tips for Learners will be hidden. If you want to access visit profile.';
+  String get mDisableTipsText =>
+      'Tips for Learners will be hidden. If you want to access visit profile.';
 
   @override
   String get mStaticHide => 'Hide';
@@ -5782,31 +6093,39 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mViewProvider => 'View Provider';
 
   @override
-  String get mAssessmentInstructionAgreeStatemet => 'I have read and understood all the instructions. I understand that using unfair means of any sort for any advantage will lead to immediate disqualification. The decision of iGOTkarmayogi.gov.in  will be final in these matters.';
+  String get mAssessmentInstructionAgreeStatemet =>
+      'I have read and understood all the instructions. I understand that using unfair means of any sort for any advantage will lead to immediate disqualification. The decision of iGOTkarmayogi.gov.in  will be final in these matters.';
 
   @override
-  String get mAssessmentInstructionAgreeStatemetPrefix => 'I have read and understood all the instructions. I understand that using unfair means of any sort for any advantage will lead to immediate disqualification. The decision of ';
+  String get mAssessmentInstructionAgreeStatemetPrefix =>
+      'I have read and understood all the instructions. I understand that using unfair means of any sort for any advantage will lead to immediate disqualification. The decision of ';
 
   @override
-  String get mAssessmentInstructionAgreeStatemetMiddle => 'iGOTkarmayogi.gov.in  ';
+  String get mAssessmentInstructionAgreeStatemetMiddle =>
+      'iGOTkarmayogi.gov.in  ';
 
   @override
-  String get mAssessmentInstructionAgreeStatemetSuffix => 'will be final in these matters.';
+  String get mAssessmentInstructionAgreeStatemetSuffix =>
+      'will be final in these matters.';
 
   @override
-  String get mAssessmentSubmitWarning => 'Do you want to submit your test finally. After submitting test, you will have to start the test from beginning.';
+  String get mAssessmentSubmitWarning =>
+      'Do you want to submit your test finally. After submitting test, you will have to start the test from beginning.';
 
   @override
-  String get mAssessmentRetakeLimitExceed => 'You have exceeded the maximum allowed attemept';
+  String get mAssessmentRetakeLimitExceed =>
+      'You have exceeded the maximum allowed attemept';
 
   @override
-  String get mAssessmentPleaseAttemptAndMoveNext => 'Please attempt the current question to move on next question';
+  String get mAssessmentPleaseAttemptAndMoveNext =>
+      'Please attempt the current question to move on next question';
 
   @override
   String get mAssessmentThankYouMessage => 'Thank you for taking the test';
 
   @override
-  String get mAssessmentDetailedAnalysisWillShare => 'Your detailed analysis will be shared with you soon.';
+  String get mAssessmentDetailedAnalysisWillShare =>
+      'Your detailed analysis will be shared with you soon.';
 
   @override
   String get mHomeKarmaPrograms => 'Karma Programs';
@@ -5833,16 +6152,19 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticChannels => 'MDO Channels';
 
   @override
-  String get mMdoChannelCompetenciesDescription => 'This section shows the list of top competencies users in this MDO are learning, based on the courses they\'ve completed and enrolled in.';
+  String get mMdoChannelCompetenciesDescription =>
+      'This section shows the list of top competencies users in this MDO are learning, based on the courses they\'ve completed and enrolled in.';
 
   @override
-  String get mAssessmentResponseAddedMsg => 'Selected section response is already submitted';
+  String get mAssessmentResponseAddedMsg =>
+      'Selected section response is already submitted';
 
   @override
   String get mAssessmentGoBackToToc => 'Go back to TOC';
 
   @override
-  String get mAssessmentNotAllowedToSwitchSection => 'You are not allowed to move to the next section until the current section is submitted.';
+  String get mAssessmentNotAllowedToSwitchSection =>
+      'You are not allowed to move to the next section until the current section is submitted.';
 
   @override
   String get mLearnObjectives => 'Objectives';
@@ -5854,7 +6176,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mExploreDiscoverMentors => 'Discover Mentors';
 
   @override
-  String get mExploreDiscoverMentorsDescription => 'Connect with mentors who will guide your learning journey';
+  String get mExploreDiscoverMentorsDescription =>
+      'Connect with mentors who will guide your learning journey';
 
   @override
   String get mKarmayogiSurvey => 'Karmayogi Survey';
@@ -5866,7 +6189,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mLearnMarketplace => 'Marketplace';
 
   @override
-  String get mStaticEnrolledSuccessMessage => 'Successfully enrolled in the course.';
+  String get mStaticEnrolledSuccessMessage =>
+      'Successfully enrolled in the course.';
 
   @override
   String get mStaticPartners => 'Partners';
@@ -5883,22 +6207,28 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticNoContent => 'Content will be available soon.';
 
   @override
-  String get mStaticAtiNoFutureCourses => 'Currently, there are no featured courses available. Please check back later for updates on our upcoming courses.';
+  String get mStaticAtiNoFutureCourses =>
+      'Currently, there are no featured courses available. Please check back later for updates on our upcoming courses.';
 
   @override
-  String get mStaticAtiNoFuturePrograms => 'Currently, there are no featured programs available. Please check back later for updates on our upcoming programs.';
+  String get mStaticAtiNoFuturePrograms =>
+      'Currently, there are no featured programs available. Please check back later for updates on our upcoming programs.';
 
   @override
-  String get mStaticAtiNoFutureAssessments => 'Currently, there are no featured assessments available. Please check back later for updates on our upcoming assessments';
+  String get mStaticAtiNoFutureAssessments =>
+      'Currently, there are no featured assessments available. Please check back later for updates on our upcoming assessments';
 
   @override
-  String get mStaticNoTopCourses => 'Currently, there are no top courses available. Please check back later for updates on our upcoming courses.';
+  String get mStaticNoTopCourses =>
+      'Currently, there are no top courses available. Please check back later for updates on our upcoming courses.';
 
   @override
-  String get mStaticNoTopPrograms => 'Currently, there are no top programs available. Please check back later for updates on our upcoming programs.';
+  String get mStaticNoTopPrograms =>
+      'Currently, there are no top programs available. Please check back later for updates on our upcoming programs.';
 
   @override
-  String get mStaticNoTopAssessments => 'Currently, there are no top assessments available. Please check back later for updates on our upcoming assessments.';
+  String get mStaticNoTopAssessments =>
+      'Currently, there are no top assessments available. Please check back later for updates on our upcoming assessments.';
 
   @override
   String get mStaticAlreadyEntered => 'You already entered that';
@@ -5913,16 +6243,19 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mBackSoon => 'We\'ll Be Back Soon!';
 
   @override
-  String get mMaintenanceMessage => 'Our website is currently undergoing scheduled maintenance to bring you a better experience, to enhance your learning journey at iGOT Karmayogi.';
+  String get mMaintenanceMessage =>
+      'Our website is currently undergoing scheduled maintenance to bring you a better experience, to enhance your learning journey at iGOT Karmayogi.';
 
   @override
   String get mAppreciateYourPatience => 'We appreciate your patience.';
 
   @override
-  String get mStayConnectedMessage => 'In the meantime, stay connected with us on:';
+  String get mStayConnectedMessage =>
+      'In the meantime, stay connected with us on:';
 
   @override
-  String get mJoinConferenceMessage => 'For any queries\nplease join our conference call';
+  String get mJoinConferenceMessage =>
+      'For any queries\nplease join our conference call';
 
   @override
   String get mCallNow => 'Call Now';
@@ -5931,7 +6264,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mEmailUs => 'Email us at';
 
   @override
-  String get mStaticNoTrainingInstitutionsFound => 'No training institutions found!';
+  String get mStaticNoTrainingInstitutionsFound =>
+      'No training institutions found!';
 
   @override
   String get mStaticClickToSeeVideo => 'Click Here to see Video';
@@ -5970,7 +6304,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mAssessmentReportCard => 'Report Card';
 
   @override
-  String get mProfileProvideValidCadreDetails => 'Please fill in all mandatory cadre information to update your profile.';
+  String get mProfileProvideValidCadreDetails =>
+      'Please fill in all mandatory cadre information to update your profile.';
 
   @override
   String get mAssessmentQuestionsNotFound => 'Questions not found';
@@ -5985,13 +6320,16 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticComment => 'Comment';
 
   @override
-  String get mNotMyUserTimeAlertMsg => 'You are no longer recognized as a user by your current organization, and access to the platform will end in 48 hours. If you believe this is incorrect, contact your MDO or make a \"Transfer Request\" to select your proper organization.';
+  String get mNotMyUserTimeAlertMsg =>
+      'You are no longer recognized as a user by your current organization, and access to the platform will end in 48 hours. If you believe this is incorrect, contact your MDO or make a \"Transfer Request\" to select your proper organization.';
 
   @override
-  String get mNotMyUserAlertMsg => 'Your access has been revoked because your organization no longer identifies you as a user. To regain access, please submit a \"Transfer Request\" and choose the correct organization.';
+  String get mNotMyUserAlertMsg =>
+      'Your access has been revoked because your organization no longer identifies you as a user. To regain access, please submit a \"Transfer Request\" and choose the correct organization.';
 
   @override
-  String get mAssessmentParagraphQustionDescription => 'Read the paragraph and answer the question below';
+  String get mAssessmentParagraphQustionDescription =>
+      'Read the paragraph and answer the question below';
 
   @override
   String get mMotherTongueIsRequired => 'Mother tongue is required';
@@ -6015,13 +6353,15 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mEventEnrollKarmaPoints => 'Earn 10 Karma Points';
 
   @override
-  String get mEventEnrollEarnedKarmaPoints => 'Congrats! You\'ve completed the event and earned 10 karma points';
+  String get mEventEnrollEarnedKarmaPoints =>
+      'Congrats! You\'ve completed the event and earned 10 karma points';
 
   @override
   String get mEventEnrollKarmaPointsMessage => 'by completing this event.';
 
   @override
-  String get mEventEnrollPendingCertificateMessage => 'Your Certificate will be generated within 1 week.';
+  String get mEventEnrollPendingCertificateMessage =>
+      'Your Certificate will be generated within 1 week.';
 
   @override
   String completingCourseMessage(Object course) {
@@ -6047,7 +6387,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mRegisterRegisterFor => 'Register for';
 
   @override
-  String get mRegisterConfirmationMessage => 'I confirm that the above provided information is accurate & I agree to the iGOT karmayogi\'s ';
+  String get mRegisterConfirmationMessage =>
+      'I confirm that the above provided information is accurate & I agree to the iGOT karmayogi\'s ';
 
   @override
   String get mRegisterSignInHere => 'Sign in here';
@@ -6092,7 +6433,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticLikes => 'Likes';
 
   @override
-  String get mStaticReportedMsg => 'Reported successfully! Thank you for reporting.';
+  String get mStaticReportedMsg =>
+      'Reported successfully! Thank you for reporting.';
 
   @override
   String get mBlendedProgramExpired => ' Expired';
@@ -6134,7 +6476,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mCompetencyTheme => 'Competency theme';
 
   @override
-  String get mRegisterRecieveMessageOnWhatsapp => 'Receive messages on WhatsApp';
+  String get mRegisterRecieveMessageOnWhatsapp =>
+      'Receive messages on WhatsApp';
 
   @override
   String get mStaticEnrollToComment => 'Enrol to add your comments';
@@ -6164,13 +6507,16 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticTellUsWhatHappened => 'Tell us what happened?';
 
   @override
-  String get mCommentReportChoices => 'We\'ll check for all Community Guidelines, so don\'t worry about making the perfect choice.';
+  String get mCommentReportChoices =>
+      'We\'ll check for all Community Guidelines, so don\'t worry about making the perfect choice.';
 
   @override
-  String get mCommentReportReasonLimitExceeds => 'Comment exceeds 200-word limit, please shorten it.';
+  String get mCommentReportReasonLimitExceeds =>
+      'Comment exceeds 200-word limit, please shorten it.';
 
   @override
-  String get mCommentDeleteAlertMsg => 'Are you sure you want to delete this comment?';
+  String get mCommentDeleteAlertMsg =>
+      'Are you sure you want to delete this comment?';
 
   @override
   String get mCommentDeletedText => 'Comment deleted successfully!';
@@ -6212,10 +6558,12 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mViewPdf => 'View PDF';
 
   @override
-  String get mTeachersNotesDescription => 'Essential insights and guidance to enrich and standardize your teaching experience.';
+  String get mTeachersNotesDescription =>
+      'Essential insights and guidance to enrich and standardize your teaching experience.';
 
   @override
-  String get mAllFilesDownloadedSuccessfully => 'All files downloaded successfully';
+  String get mAllFilesDownloadedSuccessfully =>
+      'All files downloaded successfully';
 
   @override
   String get mTeachersNotes => 'Teacher\'s Notes';
@@ -6227,10 +6575,12 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mOtherResources => 'Other Resources';
 
   @override
-  String get mAgkCaseStudyDescription => 'The cases in this section are developed and thoroughly vetted by the Capacity Building Commission to ensure quality and relevance.';
+  String get mAgkCaseStudyDescription =>
+      'The cases in this section are developed and thoroughly vetted by the Capacity Building Commission to ensure quality and relevance.';
 
   @override
-  String get mOtherResourcesDescription => 'The resources in this section are developed by external institutions and have not been vetted by the Capacity Building Commission.';
+  String get mOtherResourcesDescription =>
+      'The resources in this section are developed by external institutions and have not been vetted by the Capacity Building Commission.';
 
   @override
   String get mMySpacePeerLearning => 'Peer Learning';
@@ -6242,16 +6592,19 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mCourseAvailable => 'Available';
 
   @override
-  String get mCourseAvailableMessage => 'You will see all the content that are available';
+  String get mCourseAvailableMessage =>
+      'You will see all the content that are available';
 
   @override
-  String get mCourseInprogressMessage => 'You will see all the content that are in-progress';
+  String get mCourseInprogressMessage =>
+      'You will see all the content that are in-progress';
 
   @override
   String get mStaticHello => 'Hello';
 
   @override
-  String get mProfileDesignationNotVerified => 'We found that your designation is marked as non-verified by your MDO. Please update your designation as soon as possible.';
+  String get mProfileDesignationNotVerified =>
+      'We found that your designation is marked as non-verified by your MDO. Please update your designation as soon as possible.';
 
   @override
   String get mProfileSelectDesignation => 'Select Designation';
@@ -6263,7 +6616,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mSelfReistrationUploadFromGallery => 'Upload from gallery';
 
   @override
-  String get mSelfRegisterKnowOrganisationMessage => 'If you know your organisation name correctly please';
+  String get mSelfRegisterKnowOrganisationMessage =>
+      'If you know your organisation name correctly please';
 
   @override
   String get mSelfRegisterToRegister => 'to register';
@@ -6272,7 +6626,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mSelfRegisterRegistrationClosed => 'Registrations are closed';
 
   @override
-  String get mSelfRegisterRegistrationClosedDescription => 'Registrations are closed as of now. You may reach out to your respective nodal officer for assistance. Click on the below link to get the name and email of your respective Nodal officer.';
+  String get mSelfRegisterRegistrationClosedDescription =>
+      'Registrations are closed as of now. You may reach out to your respective nodal officer for assistance. Click on the below link to get the name and email of your respective Nodal officer.';
 
   @override
   String get mThisFieldIsRequired => 'This field is required';
@@ -6281,13 +6636,16 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mSelectAnOption => 'Select an option';
 
   @override
-  String get mDoptBlendedProgramEligibilityMessage1 => 'You are not eligible for the';
+  String get mDoptBlendedProgramEligibilityMessage1 =>
+      'You are not eligible for the';
 
   @override
-  String get mDoptBlendedProgramEligibilityMessage2 => 'with the current service in your profile. If your service details are incorrect, please update your profile and apply';
+  String get mDoptBlendedProgramEligibilityMessage2 =>
+      'with the current service in your profile. If your service details are incorrect, please update your profile and apply';
 
   @override
-  String get mDoptBlendedProgramEligibilityMessage => 'You are not eligible for the IST Blended Program of DoPT with the current service in your profile. If your service details are incorrect, please update your profile and apply';
+  String get mDoptBlendedProgramEligibilityMessage =>
+      'You are not eligible for the IST Blended Program of DoPT with the current service in your profile. If your service details are incorrect, please update your profile and apply';
 
   @override
   String get mSearchResultFor => 'Results for ';
@@ -6397,28 +6755,36 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mSearchPastEvents => 'Past Events';
 
   @override
-  String get mSearchHumanCapitalAndSkillDevelopment => 'Human Capital And Skill Development';
+  String get mSearchHumanCapitalAndSkillDevelopment =>
+      'Human Capital And Skill Development';
 
   @override
-  String get mSearchScienceTechnologyAndInnovations => 'Science, Technology, And Innovation';
+  String get mSearchScienceTechnologyAndInnovations =>
+      'Science, Technology, And Innovation';
 
   @override
-  String get mSearchAgricultureAndNaturalResource => 'Agriculture And Natural Resources';
+  String get mSearchAgricultureAndNaturalResource =>
+      'Agriculture And Natural Resources';
 
   @override
-  String get mSearchGovernanceAndPublicAdministration => 'Governance And Public Administration';
+  String get mSearchGovernanceAndPublicAdministration =>
+      'Governance And Public Administration';
 
   @override
-  String get mSearchInfrastructureAndTransportation => 'Infrastructure And Transportation';
+  String get mSearchInfrastructureAndTransportation =>
+      'Infrastructure And Transportation';
 
   @override
-  String get mSearchEconomicDevelopmentAndIndustry => 'Economic Development And Industry';
+  String get mSearchEconomicDevelopmentAndIndustry =>
+      'Economic Development And Industry';
 
   @override
-  String get mSearchCultureMediaAndCommunication => 'Culture, Media, And Communication';
+  String get mSearchCultureMediaAndCommunication =>
+      'Culture, Media, And Communication';
 
   @override
-  String get mSearchSocialDevelopmentAndWelfare => 'Social Development And Welfare';
+  String get mSearchSocialDevelopmentAndWelfare =>
+      'Social Development And Welfare';
 
   @override
   String get mSearchModeratedCourse => 'Moderated Course';
@@ -6433,19 +6799,24 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mSearchModeratedAssessment => 'Moderated Assessment';
 
   @override
-  String get mNonEligibleServiceMessageForDoptBlendedProgram => 'This program has eligibility criteria. Please update your service details in your profile before requesting to enroll.';
+  String get mNonEligibleServiceMessageForDoptBlendedProgram =>
+      'This program has eligibility criteria. Please update your service details in your profile before requesting to enroll.';
 
   @override
-  String get mAreYouFromOrganizedService => 'Are you from any organized service of the government?';
+  String get mAreYouFromOrganizedService =>
+      'Are you from any organized service of the government?';
 
   @override
-  String get mNoteForDoptBlendedProgramGroup => 'Note: The group value you provide is only for this enrollment and won\'t affect your profile. To change them in your profile, go to the profile section';
+  String get mNoteForDoptBlendedProgramGroup =>
+      'Note: The group value you provide is only for this enrollment and won\'t affect your profile. To change them in your profile, go to the profile section';
 
   @override
-  String get mNoteForDoptBlendedProgramDesignation => 'Note: The designation value you provide is only for this enrollment and won\'t affect your profile. To change them in your profile, go to the profile section';
+  String get mNoteForDoptBlendedProgramDesignation =>
+      'Note: The designation value you provide is only for this enrollment and won\'t affect your profile. To change them in your profile, go to the profile section';
 
   @override
-  String get mPresentMinistryDepartmentStateUT => 'Present Ministry/Department/State/UT';
+  String get mPresentMinistryDepartmentStateUT =>
+      'Present Ministry/Department/State/UT';
 
   @override
   String get mProfileNotApprovedDomain => 'Not an approved domain';
@@ -6460,22 +6831,28 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticNeedHelp => 'Need Help?';
 
   @override
-  String get mStaticCompetencyDrivenCapacityBuilding => 'COMPETENCY-DRIVEN CAPACITY BUILDING OF OFFICIALS';
+  String get mStaticCompetencyDrivenCapacityBuilding =>
+      'COMPETENCY-DRIVEN CAPACITY BUILDING OF OFFICIALS';
 
   @override
-  String get mStaticVisionToMission => 'FROM VISION TO MISSION MODE FOR A NAYA BHARAT';
+  String get mStaticVisionToMission =>
+      'FROM VISION TO MISSION MODE FOR A NAYA BHARAT';
 
   @override
-  String get mStaticTransGovtOfficails => 'TRANSFORMING GOVERNMENT OFFICIALS, TRANSFORMING INDIA';
+  String get mStaticTransGovtOfficails =>
+      'TRANSFORMING GOVERNMENT OFFICIALS, TRANSFORMING INDIA';
 
   @override
-  String get mStaticRuleBasedToRoleBasedGovernance => '\'RULE-BASED\' TO \'ROLE-BASED\' GOVERNANCE';
+  String get mStaticRuleBasedToRoleBasedGovernance =>
+      '\'RULE-BASED\' TO \'ROLE-BASED\' GOVERNANCE';
 
   @override
-  String get mStaticTransformingAndEmpoweringOfficials => 'TRANSFORMING & EMPOWERING CIVIL SERVANTS';
+  String get mStaticTransformingAndEmpoweringOfficials =>
+      'TRANSFORMING & EMPOWERING CIVIL SERVANTS';
 
   @override
-  String get mStaticKarmachariToKarmayogi => '\'KARMACHARI\' TO A \'KARMAYOGI\'';
+  String get mStaticKarmachariToKarmayogi =>
+      '\'KARMACHARI\' TO A \'KARMAYOGI\'';
 
   @override
   String get mDiscussionCommunity => 'Community';
@@ -6559,10 +6936,12 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mDiscussionCommunityLeave => 'Leave';
 
   @override
-  String get mDiscussionCommunityJoinedSuccessfully => 'You’ve successfully joined the community.';
+  String get mDiscussionCommunityJoinedSuccessfully =>
+      'You’ve successfully joined the community.';
 
   @override
-  String get mDiscussionCommunityLeftSuccessfully => 'You\'ve successfully left the community';
+  String get mDiscussionCommunityLeftSuccessfully =>
+      'You\'ve successfully left the community';
 
   @override
   String get mDiscussionNoCommunityFound => 'No community found!';
@@ -6571,7 +6950,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mDiscussionNoCommunityComingSoon => 'Coming Soon!';
 
   @override
-  String get mDiscussionNoJoinedCommunityFound => 'Join a community to get started!';
+  String get mDiscussionNoJoinedCommunityFound =>
+      'Join a community to get started!';
 
   @override
   String get mDiscussionNoCommunityTopicsFound => 'No Topics found';
@@ -6586,7 +6966,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mDiscussionCommunityGuidelines => 'Community Guidelines';
 
   @override
-  String get mDiscussionDefaultCommunityGuidelines => 'Communicate respectfully; no hate speech, harassment, or personal attacks. \nMaintain a positive and constructive tone. \nStay on topic, avoid misinformation, and share only verified information with proper credit. \nRefrain from excessive self-promotion, advertisements, or irrelevant content unless approved by moderators. \nDo not share personal or sensitive information, respect intellectual property, and follow platform policies. \nReport violations, engage thoughtfully, and foster a collaborative, solution-oriented environment.';
+  String get mDiscussionDefaultCommunityGuidelines =>
+      'Communicate respectfully; no hate speech, harassment, or personal attacks. \nMaintain a positive and constructive tone. \nStay on topic, avoid misinformation, and share only verified information with proper credit. \nRefrain from excessive self-promotion, advertisements, or irrelevant content unless approved by moderators. \nDo not share personal or sensitive information, respect intellectual property, and follow platform policies. \nReport violations, engage thoughtfully, and foster a collaborative, solution-oriented environment.';
 
   @override
   String get mDiscussionSelectCommunity => 'Select Community';
@@ -6604,7 +6985,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mDiscussionPostingIn => 'Posting in';
 
   @override
-  String get mDiscussionSelectCommunityHelperText => 'Select a community where your post will be visible. Only communities you have joined will appear in the dropdown.';
+  String get mDiscussionSelectCommunityHelperText =>
+      'Select a community where your post will be visible. Only communities you have joined will appear in the dropdown.';
 
   @override
   String get mDiscussionCommunityAgree => 'Agree & Continue';
@@ -6619,13 +7001,16 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mDiscussionWantToSeeMore => 'Want to see the more?';
 
   @override
-  String get mDiscussionClosedCommunityMsg => 'This is a closed community, if you want to see the content of the community please request to join the community';
+  String get mDiscussionClosedCommunityMsg =>
+      'This is a closed community, if you want to see the content of the community please request to join the community';
 
   @override
-  String get mDiscussionPostMinLengthText => 'Post should contain at least 3 characters.';
+  String get mDiscussionPostMinLengthText =>
+      'Post should contain at least 3 characters.';
 
   @override
-  String get mDiscussionPostMaxLengthText => 'Post should contain at most 3000 characters.';
+  String get mDiscussionPostMaxLengthText =>
+      'Post should contain at most 3000 characters.';
 
   @override
   String get mDiscussionAllTopics => 'All Topics';
@@ -6634,19 +7019,23 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mDiscussionSearchTopic => 'Search Topic';
 
   @override
-  String get mDiscussionLeaveCommunityAlert => 'Are you sure you want to leave this community?';
+  String get mDiscussionLeaveCommunityAlert =>
+      'Are you sure you want to leave this community?';
 
   @override
   String get mDiscussionPostUploadError => 'Error to upload media file:';
 
   @override
-  String get mDiscussionUploadingMedia => 'Post created. Uploading media files...';
+  String get mDiscussionUploadingMedia =>
+      'Post created. Uploading media files...';
 
   @override
-  String get mDiscussionDeletePostAlertMsg => 'Are you sure you want to delete this post?';
+  String get mDiscussionDeletePostAlertMsg =>
+      'Are you sure you want to delete this post?';
 
   @override
-  String get mDiscussionDeleteReplyAlertMsg => 'Are you sure you want to delete this reply?';
+  String get mDiscussionDeleteReplyAlertMsg =>
+      'Are you sure you want to delete this reply?';
 
   @override
   String get mDiscussionPostBookmarked => 'Post bookmarked successfully!';
@@ -6655,7 +7044,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mDiscussionPostUnBookmarked => 'Post un-bookmarked successfully!';
 
   @override
-  String get mDiscussionPostErrorToUploadFile => 'Error upload file. Please try again with a different one.';
+  String get mDiscussionPostErrorToUploadFile =>
+      'Error upload file. Please try again with a different one.';
 
   @override
   String get mDiscussionPostAddLink => 'Add a link';
@@ -6676,13 +7066,16 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mDiscussionNoGlobalFeedFoundTitle => 'Nothing Here… Yet!';
 
   @override
-  String get mDiscussionNoGlobalFeedFound => 'Join a community to start exploring discussions, share your thoughts, and engage with like-minded learners. Visit the \"All Communities\" section to find and join communities.';
+  String get mDiscussionNoGlobalFeedFound =>
+      'Join a community to start exploring discussions, share your thoughts, and engage with like-minded learners. Visit the \"All Communities\" section to find and join communities.';
 
   @override
-  String get mDiscussionJoinCommunityToPost => 'Join the community to start posting';
+  String get mDiscussionJoinCommunityToPost =>
+      'Join the community to start posting';
 
   @override
-  String get mDiscussionSubtitle => 'Have a thought to share? Join with your community! Share your ideas, ask for advice, or discuss topics that matter to you.';
+  String get mDiscussionSubtitle =>
+      'Have a thought to share? Join with your community! Share your ideas, ask for advice, or discuss topics that matter to you.';
 
   @override
   String mDiscussionMediaSizeError(Object size) {
@@ -6698,43 +7091,52 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mDiscussionReported => 'Thanks for reporting!';
 
   @override
-  String get mDiscussionReportedMessage => 'Your report is under review. We will take action if it goes against our guidelines.';
+  String get mDiscussionReportedMessage =>
+      'Your report is under review. We will take action if it goes against our guidelines.';
 
   @override
   String get mDiscussionShowPost => 'Show post';
 
   @override
-  String get mDiscussionPostModerationInfoMessage => 'This content is being moderated and may be removed if it violates community guidelines.';
+  String get mDiscussionPostModerationInfoMessage =>
+      'This content is being moderated and may be removed if it violates community guidelines.';
 
   @override
   String get mCommonRelevant => 'Relevant';
 
   @override
-  String get mIgotAIGeneratedRecommendation => 'These are AI generated recommendations';
+  String get mIgotAIGeneratedRecommendation =>
+      'These are AI generated recommendations';
 
   @override
-  String get mIgotAICuratingSuitableLearningCourse => 'Curating the most suitable learning course recommendations tailored just for you';
+  String get mIgotAICuratingSuitableLearningCourse =>
+      'Curating the most suitable learning course recommendations tailored just for you';
 
   @override
-  String get mIgotAIExploreMessage => 'Dear Karmayogi ! Explore your personalized course recommendations and share your feedback to enhance your learning experience.';
+  String get mIgotAIExploreMessage =>
+      'Dear Karmayogi ! Explore your personalized course recommendations and share your feedback to enhance your learning experience.';
 
   @override
   String get mIgotAIThanksForFeedback => 'Thank you for your feedback.';
 
   @override
-  String get mIgotAILetUsKnowWhatToLearnToday => 'Let us know what do you want to learn today!';
+  String get mIgotAILetUsKnowWhatToLearnToday =>
+      'Let us know what do you want to learn today!';
 
   @override
   String get mIgotAIAddInterest => 'Add Interest';
 
   @override
-  String get mIgotAISelectSkillToLearn => 'Select skills which you want to learn';
+  String get mIgotAISelectSkillToLearn =>
+      'Select skills which you want to learn';
 
   @override
-  String get mIgotAIBasedOnChoiceRecommendBestSuitable => 'Based on you choice, We will recommend best suitable content for you';
+  String get mIgotAIBasedOnChoiceRecommendBestSuitable =>
+      'Based on you choice, We will recommend best suitable content for you';
 
   @override
-  String get mIgotAIFeedbackIsImportant => 'Your feedback is very important to serve you better.';
+  String get mIgotAIFeedbackIsImportant =>
+      'Your feedback is very important to serve you better.';
 
   @override
   String get mIgotAIEnterFeedback => 'Enter your feedback...';
@@ -6743,7 +7145,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mIgotAIIsThisRelevantCourse => 'Is this a relevant course?';
 
   @override
-  String get mIgotAIPleaseShareFeedback => 'Please share your feedback to help us refine the AI driven recommendation model.';
+  String get mIgotAIPleaseShareFeedback =>
+      'Please share your feedback to help us refine the AI driven recommendation model.';
 
   @override
   String get mIgotAIDrivenRecommendation => 'AI Driven recommendation for you';
@@ -6758,7 +7161,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mSearchSearchForAnything => 'Search for Anything';
 
   @override
-  String get mContentLocked => 'The content is locked. Complete program or all courses to view this module';
+  String get mContentLocked =>
+      'The content is locked. Complete program or all courses to view this module';
 
   @override
   String get mStaticToday => 'Today';
@@ -6842,7 +7246,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticOnline => 'Online';
 
   @override
-  String get mBlendedProgramMarkAttendance => 'After the batch starts, you will be able to mark the attendance';
+  String get mBlendedProgramMarkAttendance =>
+      'After the batch starts, you will be able to mark the attendance';
 
   @override
   String mBlendedProgramAttendanceMarked(Object date) {
@@ -6859,10 +7264,12 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mCLickToView => 'Click to view';
 
   @override
-  String get mAiTutorWelcomeText => 'Get instant explanations, step-by-step learning guidance, and customised learning tailored just for you.';
+  String get mAiTutorWelcomeText =>
+      'Get instant explanations, step-by-step learning guidance, and customised learning tailored just for you.';
 
   @override
-  String get mAiChatBotWelcomeText => 'Get instant explanations, step-by-step learning guidance, and customised learning tailored just for you.';
+  String get mAiChatBotWelcomeText =>
+      'Get instant explanations, step-by-step learning guidance, and customised learning tailored just for you.';
 
   @override
   String get mChatBotGetStarted => 'Get Started with Ai Tutor';
@@ -6871,7 +7278,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mAiTutor => 'AI Tutor';
 
   @override
-  String get mRememberToUseAiTutor => 'Hey, it seems you are not enrolled. Do you want to enroll?';
+  String get mRememberToUseAiTutor =>
+      'Hey, it seems you are not enrolled. Do you want to enroll?';
 
   @override
   String get mEnrollNow => 'Enroll Now';
@@ -6945,16 +7353,20 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticOnlyAlphabetAllowed => 'Only alphabets are allowed';
 
   @override
-  String get mStaticOnlyOneSpaceAllowed => 'Please avoid using multiple spaces in a row.';
+  String get mStaticOnlyOneSpaceAllowed =>
+      'Please avoid using multiple spaces in a row.';
 
   @override
-  String get mStaticNoSpaceAllowedInfront => 'No space is allowed at the beggining of the name';
+  String get mStaticNoSpaceAllowedInfront =>
+      'No space is allowed at the beggining of the name';
 
   @override
-  String get mStaticMinimumCharacterLength => 'Name must be at least 2 characters long.';
+  String get mStaticMinimumCharacterLength =>
+      'Name must be at least 2 characters long.';
 
   @override
-  String get mProfilePrimaryDetailsEditDescription => 'These details go to your MDO for approval. Please fill these details to view your iGOT plan.';
+  String get mProfilePrimaryDetailsEditDescription =>
+      'These details go to your MDO for approval. Please fill these details to view your iGOT plan.';
 
   @override
   String mProfileNotAbleToFindDesignation(Object supportEmail) {
@@ -6989,7 +7401,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mProfielAddYourDescription => 'Add your description';
 
   @override
-  String get mProfielSelectOrganizatinMinistry => 'Select Organisation/Ministry';
+  String get mProfielSelectOrganizatinMinistry =>
+      'Select Organisation/Ministry';
 
   @override
   String get mProfileCurrentlyWorking => 'Currently Working';
@@ -7013,34 +7426,40 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mSearchTopic => 'Topic';
 
   @override
-  String get meventArchivedMessage => 'This event has been archived and is no longer available.';
+  String get meventArchivedMessage =>
+      'This event has been archived and is no longer available.';
 
   @override
-  String get mExploreContentSorryMessage => 'Sorry, we couldn\'t find any results, so please Try adjusting your filters';
+  String get mExploreContentSorryMessage =>
+      'Sorry, we couldn\'t find any results, so please Try adjusting your filters';
 
   @override
   String get mSearchExploreContents => 'Explore Content';
 
   @override
-  String get mSearchFilterAppliedMessage => 'Filter active. Clear the selection to view all options.';
+  String get mSearchFilterAppliedMessage =>
+      'Filter active. Clear the selection to view all options.';
 
   @override
   String get mNone => 'None';
 
   @override
-  String get mLearnWithNaturalQueryProvess => 'Learn with Natural query process';
+  String get mLearnWithNaturalQueryProvess =>
+      'Learn with Natural query process';
 
   @override
   String get mSocratic => 'Socratic Style';
 
   @override
-  String get mExploreIdeasThroughThoughtfulQuestions => 'Explore ideas through thoughtful questions';
+  String get mExploreIdeasThroughThoughtfulQuestions =>
+      'Explore ideas through thoughtful questions';
 
   @override
   String get mAskAnything => 'Ask Anything';
 
   @override
-  String get mStaticCertificateDownloadError => 'Unable to download your certificate this moment.';
+  String get mStaticCertificateDownloadError =>
+      'Unable to download your certificate this moment.';
 
   @override
   String get mNotifications => 'Notifications';
@@ -7049,7 +7468,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mMarkAllAsRead => 'Mark All As Read';
 
   @override
-  String get mProfileDistrictDisable => 'Choose a state to proceed to district selection';
+  String get mProfileDistrictDisable =>
+      'Choose a state to proceed to district selection';
 
   @override
   String get mProfileAddedSuccessfully => 'Added successfully!';
@@ -7070,10 +7490,12 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mProfileFieldOfStudy => 'Field of Study';
 
   @override
-  String get mProfileFieldOfStudyPlaceHolder => 'Enter your specialization(e.g., IT, Civil)';
+  String get mProfileFieldOfStudyPlaceHolder =>
+      'Enter your specialization(e.g., IT, Civil)';
 
   @override
-  String get mProfileInstitutePlaceHolder => 'Name of the University/College/Institute/School';
+  String get mProfileInstitutePlaceHolder =>
+      'Name of the University/College/Institute/School';
 
   @override
   String get mProfileIssuingOrg => 'Issuing Organisation';
@@ -7094,19 +7516,23 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mProfileAchievementIssueOrgLabel => 'e.g. Microsoft';
 
   @override
-  String get mProfileAchievementDescriptionLabel => 'Describe about the skills that you have gained from this learning';
+  String get mProfileAchievementDescriptionLabel =>
+      'Describe about the skills that you have gained from this learning';
 
   @override
   String get mProfileDragFileToUpload => 'Drag file to upload';
 
   @override
-  String get mProfileProvideLinkForAchievement => 'You may provide the link for the achievement';
+  String get mProfileProvideLinkForAchievement =>
+      'You may provide the link for the achievement';
 
   @override
-  String get mProfileAboutHelperText => 'You can write about your years of experience, Skills, Current job role and Responsibilities.';
+  String get mProfileAboutHelperText =>
+      'You can write about your years of experience, Skills, Current job role and Responsibilities.';
 
   @override
-  String get mProfileAboutMaxLengthText => 'About should contain at most 2000 characters.';
+  String get mProfileAboutMaxLengthText =>
+      'About should contain at most 2000 characters.';
 
   @override
   String get mProfileUploadedSuccessfully => 'Uploaded Successfully';
@@ -7118,7 +7544,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mProfileEnterDegree => 'Enter degree';
 
   @override
-  String get mProfileSpecialCharacterNotApplowed => 'Special characters are not allowed in this field';
+  String get mProfileSpecialCharacterNotApplowed =>
+      'Special characters are not allowed in this field';
 
   @override
   String get mProfilePleaseSelectOrg => 'Please select an organization';
@@ -7130,7 +7557,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mProfileSelectStateFirst => 'Please select a state first';
 
   @override
-  String get mProfileServiceDescriptionMsg => 'Responsibilities and accomplishments in the role.';
+  String get mProfileServiceDescriptionMsg =>
+      'Responsibilities and accomplishments in the role.';
 
   @override
   String get mProfileSuccessfullyUploaded => 'Successfully uploaded';
@@ -7153,7 +7581,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mSearchContentPartner => 'Content Patner';
 
   @override
-  String get mStaticUserDataError => 'We\'re having trouble accessing your account details. Try signing out and logging back to resolve the issue.';
+  String get mStaticUserDataError =>
+      'We\'re having trouble accessing your account details. Try signing out and logging back to resolve the issue.';
 
   @override
   String get mSearchSearchResultEmpty => 'Sorry, Search result is empty';
@@ -7162,7 +7591,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mNoNotificationsFound => 'No notifications found';
 
   @override
-  String get mNotificationOnHandleError => 'This feature isn’t available in your app version';
+  String get mNotificationOnHandleError =>
+      'This feature isn’t available in your app version';
 
   @override
   String get mProfileCopyProfileLink => 'Copy this profile link';
@@ -7171,13 +7601,16 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStaticFillUpTheDetails => 'Fill up the details';
 
   @override
-  String get mStaticLoginToAccessContent => 'You need to log in to access this content.';
+  String get mStaticLoginToAccessContent =>
+      'You need to log in to access this content.';
 
   @override
-  String get mAssessmentAlreadySubmittedGuestMessage => 'You have successfully completed the assessment! If you have not received your certificate yet, don’t worry—we will resend them shortly.';
+  String get mAssessmentAlreadySubmittedGuestMessage =>
+      'You have successfully completed the assessment! If you have not received your certificate yet, don’t worry—we will resend them shortly.';
 
   @override
-  String get mAssessmentGuestCongratulationMessage => 'Congratulations! Your certificate will be sent to your email soon.';
+  String get mAssessmentGuestCongratulationMessage =>
+      'Congratulations! Your certificate will be sent to your email soon.';
 
   @override
   String get mTranscript => 'Transcript';
@@ -7189,7 +7622,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mStoryTelling => 'Storytelling';
 
   @override
-  String get mStoryTellingDescription => 'Learn through relatable narratives and real-life examples.';
+  String get mStoryTellingDescription =>
+      'Learn through relatable narratives and real-life examples.';
 
   @override
   String get mInternetMessage => 'These are Internet generated results';
@@ -7198,7 +7632,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mRetrievingResult => 'Retrieving results';
 
   @override
-  String get mIgotAiErrorMessage => 'Sorry, I am unable to process your request at the moment. Please try again.';
+  String get mIgotAiErrorMessage =>
+      'Sorry, I am unable to process your request at the moment. Please try again.';
 
   @override
   String get mFeedbackSubmitted => 'Feedback submitted successfully';
@@ -7210,7 +7645,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mProfileNumbersNotAllowed => 'Name cannot contain numbers';
 
   @override
-  String get mProfileNoSpecialCharacterAllowed => 'Special characters are not allowed in the name';
+  String get mProfileNoSpecialCharacterAllowed =>
+      'Special characters are not allowed in the name';
 
   @override
   String get mProfileInvalidNameFormat => 'Invalid name format';
@@ -7234,22 +7670,27 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mIsRequired => 'is required';
 
   @override
-  String get mOrgDetailsWarningMessage => 'Please fill in the organization-specific details to continue using the app as requested by your organization.';
+  String get mOrgDetailsWarningMessage =>
+      'Please fill in the organization-specific details to continue using the app as requested by your organization.';
 
   @override
   String get mContinue => 'Continue';
 
   @override
-  String get mLoginToMDOPortalToViewTheNotification => 'Log in to your MDO portal to view the notification.';
+  String get mLoginToMDOPortalToViewTheNotification =>
+      'Log in to your MDO portal to view the notification.';
 
   @override
-  String get mLoginToContentPortalToViewNotification => 'Log in to your Content portal to view the notification';
+  String get mLoginToContentPortalToViewNotification =>
+      'Log in to your Content portal to view the notification';
 
   @override
-  String get mBrokenDeepLinkError => 'This request has been resolved or is no longer available.';
+  String get mBrokenDeepLinkError =>
+      'This request has been resolved or is no longer available.';
 
   @override
-  String get mProfileNoSpaceInStartOrEnd => 'Name cannot start or end with spaces.';
+  String get mProfileNoSpaceInStartOrEnd =>
+      'Name cannot start or end with spaces.';
 
   @override
   String mProfileAchievementError(Object symbols) {
@@ -7281,7 +7722,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mUnblock => 'Unblock';
 
   @override
-  String get mUnblockConfirmationMessage => 'Are you sure you want to unblock this user?';
+  String get mUnblockConfirmationMessage =>
+      'Are you sure you want to unblock this user?';
 
   @override
   String get mBlockedSuccessfully => 'User unblocked successfully';
@@ -7293,7 +7735,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mBlocked => 'Blocked';
 
   @override
-  String get mWithdrawConnectionRequest => 'Are you sure you want to withdraw this request?';
+  String get mWithdrawConnectionRequest =>
+      'Are you sure you want to withdraw this request?';
 
   @override
   String get mRequestWithdrawnSuccessfully => 'Request withdrawn successfully';
@@ -7329,37 +7772,44 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mBlendedPreEnrollmentRequisites => 'Pre-Enrollment Requisites';
 
   @override
-  String get mBlendedPreEnrollmentRequisitesCompleted => 'Pre-Enrollment Requisites Completed';
+  String get mBlendedPreEnrollmentRequisitesCompleted =>
+      'Pre-Enrollment Requisites Completed';
 
   @override
-  String get mBlendedPreEnrollmentOptionalResourceMsg => 'OPTIONAL (The progress of this resource will be tracked).';
+  String get mBlendedPreEnrollmentOptionalResourceMsg =>
+      'OPTIONAL (The progress of this resource will be tracked).';
 
   @override
-  String get mBlendedPreEnrollmentMandatoryResourceMsg => 'MANDATORY (The progress of this resource will be tracked).';
+  String get mBlendedPreEnrollmentMandatoryResourceMsg =>
+      'MANDATORY (The progress of this resource will be tracked).';
 
   @override
   String get mStaticInAppNotifications => 'In-App Notification';
 
   @override
-  String get mStaticKeepReceivingInAppNotification => 'Keep receiving notifications on the platform.';
+  String get mStaticKeepReceivingInAppNotification =>
+      'Keep receiving notifications on the platform.';
 
   @override
   String get mStaticEmailNotifications => 'Email Notifications';
 
   @override
-  String get mStaticKeepReceivingEmailNotification => 'Keep receiving notifications through email.';
+  String get mStaticKeepReceivingEmailNotification =>
+      'Keep receiving notifications through email.';
 
   @override
   String get mStaticPushNotifications => 'Push Notifications.';
 
   @override
-  String get mStaticKeepReceivingPushNotification => 'Keep receiving push notifications on mobile.';
+  String get mStaticKeepReceivingPushNotification =>
+      'Keep receiving push notifications on mobile.';
 
   @override
   String get mStaticSmsNotification => 'SMS Notifications';
 
   @override
-  String get mStaticKeepReceivingSmsNotification => 'Keep receiving SMS notification.';
+  String get mStaticKeepReceivingSmsNotification =>
+      'Keep receiving SMS notification.';
 
   @override
   String get mStaticNoSettingFound => 'No setting found';
@@ -7374,7 +7824,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mProfileOtherInstituteName => 'Other Institute name';
 
   @override
-  String get mKarmapointEnrollTooltipMsg => 'Note: This is only applicable for your first enrolment.';
+  String get mKarmapointEnrollTooltipMsg =>
+      'Note: This is only applicable for your first enrolment.';
 
   @override
   String get mAboutLanguagesAvailable => 'Languages available';
@@ -7388,49 +7839,59 @@ class TocLocalizationsEn extends TocLocalizations {
   }
 
   @override
-  String get mTocYouHaveMadeProgress => 'You\'ve already made some progress in this language.';
+  String get mTocYouHaveMadeProgress =>
+      'You\'ve already made some progress in this language.';
 
   @override
-  String get mTocContinueFromLeftOff => 'If you continue it will resume from where you left off.';
+  String get mTocContinueFromLeftOff =>
+      'If you continue it will resume from where you left off.';
 
   @override
-  String get mTocWantToChangeLanguage => 'Are you sure you want to change the language?';
+  String get mTocWantToChangeLanguage =>
+      'Are you sure you want to change the language?';
 
   @override
-  String get mTocSwitchingLangWillResetProgress => 'Switching the language will reset your progress.';
+  String get mTocSwitchingLangWillResetProgress =>
+      'Switching the language will reset your progress.';
 
   @override
   String get mTocChangeLanguage => 'Change Language';
 
   @override
-  String get mTocCourseRestartFromBeginning => 'The course will restart from the beginning in the selected language.';
+  String get mTocCourseRestartFromBeginning =>
+      'The course will restart from the beginning in the selected language.';
 
   @override
   String get mTocChoosPreferredLanguage => 'Choose Your Preferred Language';
 
   @override
-  String get mTocChoosPreferredLanguageDescription => 'This course is available in multiple languages. You can select one to begin.';
+  String get mTocChoosPreferredLanguageDescription =>
+      'This course is available in multiple languages. You can select one to begin.';
 
   @override
   String get mTocConfirmStartCourse => 'Confirm & Start Course';
 
   @override
-  String get mRequestRejectedMessage => 'Are you sure you want to ignore this request?';
+  String get mRequestRejectedMessage =>
+      'Are you sure you want to ignore this request?';
 
   @override
-  String get mRemoveConnectionConfirmationMessage => 'Are you want to remove this connection?';
+  String get mRemoveConnectionConfirmationMessage =>
+      'Are you want to remove this connection?';
 
   @override
   String get mBlockUserMessage => 'Are you sure you want to block this user?';
 
   @override
-  String get mDiscoverMentorMessage => 'Connect with mentors who will guide your learning journey';
+  String get mDiscoverMentorMessage =>
+      'Connect with mentors who will guide your learning journey';
 
   @override
   String get mNoMentorsFound => 'No Mentors Found';
 
   @override
-  String get mConnectionRequestSentSuccessfully => 'Connection request sent successfully';
+  String get mConnectionRequestSentSuccessfully =>
+      'Connection request sent successfully';
 
   @override
   String get mIgnored => 'Ignored';
@@ -7448,22 +7909,26 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mAccept => 'Accept';
 
   @override
-  String get mEmptyConnectionsStateMessage => 'You do not have any connections, Send connection requests from the home tab.';
+  String get mEmptyConnectionsStateMessage =>
+      'You do not have any connections, Send connection requests from the home tab.';
 
   @override
   String get mNoRequestSent => 'No requests sent';
 
   @override
-  String get mNoTranscriptAvailable => 'No transcript available for this resource';
+  String get mNoTranscriptAvailable =>
+      'No transcript available for this resource';
 
   @override
-  String get mTranscriptDisclaimer => 'Disclaimer : These transcripts and subtitles are AI-generated and may contain errors.';
+  String get mTranscriptDisclaimer =>
+      'Disclaimer : These transcripts and subtitles are AI-generated and may contain errors.';
 
   @override
   String get mYouHaveBlockedThisProfile => 'You have blocked this profile';
 
   @override
-  String get mBlockIncomingMessage => 'You are not authorised to see this profile.';
+  String get mBlockIncomingMessage =>
+      'You are not authorised to see this profile.';
 
   @override
   String get mProfileVisibilityControl => 'Visibility Control';
@@ -7478,7 +7943,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mProfileAnyone => 'Anyone';
 
   @override
-  String get mProfileAnyoneCanViewDataOnYourProfile => 'Your profile details will be visible to everyone on the platform.';
+  String get mProfileAnyoneCanViewDataOnYourProfile =>
+      'Your profile details will be visible to everyone on the platform.';
 
   @override
   String get mProfileConnectionOnly => 'Connections Only';
@@ -7487,7 +7953,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mProfileLockMyProfile => 'No One/Lock my profile';
 
   @override
-  String get mProfileNoOneCanViewDataOnYourProfile => 'Selecting this option will hide your profile details from everyone, including your connections.';
+  String get mProfileNoOneCanViewDataOnYourProfile =>
+      'Selecting this option will hide your profile details from everyone, including your connections.';
 
   @override
   String get mProfileLockedProfile => 'This profile is locked';
@@ -7513,7 +7980,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mTocProgress => 'progress';
 
   @override
-  String get mTocInAnotherLanguageCourse => ' in another language of this course.';
+  String get mTocInAnotherLanguageCourse =>
+      ' in another language of this course.';
 
   @override
   String get mTocWouldYouLikeTo => 'Would you like to ';
@@ -7522,7 +7990,8 @@ class TocLocalizationsEn extends TocLocalizations {
   String get mTocWhereYouLeftOff => 'resume where you left off';
 
   @override
-  String get mTocContinueWithThisVersion => ', or continue with this version instead?';
+  String get mTocContinueWithThisVersion =>
+      ', or continue with this version instead?';
 
   @override
   String get mTocContinueHere => 'Continue Here';

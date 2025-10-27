@@ -2,7 +2,8 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/helper/toc_helper.dart';
 import 'package:toc_module/toc/util/field_name_widget.dart';
@@ -16,15 +17,15 @@ class CustomDropDown extends StatefulWidget {
   final ValueChanged<String?> onChanged;
   final GlobalKey<FormState> formKey;
 
-  CustomDropDown(
-      {Key? key,
-      this.value,
-      required this.title,
-      required this.isMandatory,
-      required this.items,
-      required this.onChanged,
-      required this.formKey})
-      : super(key: key);
+  CustomDropDown({
+    Key? key,
+    this.value,
+    required this.title,
+    required this.isMandatory,
+    required this.items,
+    required this.onChanged,
+    required this.formKey,
+  }) : super(key: key);
 
   @override
   State<CustomDropDown> createState() => _CustomDropDownState();
@@ -40,11 +41,11 @@ class _CustomDropDownState extends State<CustomDropDown> {
         SizedBox(
           width: 1.sw,
           child: FieldNameWidget(
-              isMandatory: widget.isMandatory, fieldName: widget.title),
+            isMandatory: widget.isMandatory,
+            fieldName: widget.title,
+          ),
         ),
-        SizedBox(
-          height: 16.w,
-        ),
+        SizedBox(height: 16.w),
         SizedBox(
           // height: 45.w,
           child: DropdownButtonFormField2<String>(
@@ -53,30 +54,34 @@ class _CustomDropDownState extends State<CustomDropDown> {
               fillColor: TocModuleColors.appBarBackground,
               contentPadding: const EdgeInsets.only(bottom: 6).r,
               border: OutlineInputBorder(
-                  borderSide: BorderSide(color: TocModuleColors.grey16),
-                  borderRadius: BorderRadius.circular(5).r),
+                borderSide: BorderSide(color: TocModuleColors.grey16),
+                borderRadius: BorderRadius.circular(5).r,
+              ),
               enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: TocModuleColors.grey16),
-                  borderRadius: BorderRadius.circular(5).r),
+                borderSide: BorderSide(color: TocModuleColors.grey16),
+                borderRadius: BorderRadius.circular(5).r,
+              ),
               filled: true,
             ),
             selectedItemBuilder: (context) => widget.items
-                .map((item) => DropdownMenuItem<String>(
-                      value: item,
-                      child: Text(
-                        TocHelper.capitalize(item),
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium!
-                            .copyWith(fontSize: 14.sp),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ))
+                .map(
+                  (item) => DropdownMenuItem<String>(
+                    value: item,
+                    child: Text(
+                      TocHelper.capitalize(item),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.bodyMedium!.copyWith(fontSize: 14.sp),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                )
                 .toList(),
             value: widget.value,
             items: widget.items.isNotEmpty
                 ? widget.items
-                    .map((item) => DropdownMenuItem(
+                      .map(
+                        (item) => DropdownMenuItem(
                           value: item,
                           child: Text(
                             TocHelper.capitalize(item),
@@ -90,8 +95,9 @@ class _CustomDropDownState extends State<CustomDropDown> {
                                   : FontWeight.w400,
                             ),
                           ),
-                        ))
-                    .toList()
+                        ),
+                      )
+                      .toList()
                 : [],
             onChanged: (value) {
               widget.value = value;
@@ -102,21 +108,28 @@ class _CustomDropDownState extends State<CustomDropDown> {
               });
             },
             style: GoogleFonts.lato(
-                color: TocModuleColors.greys,
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w400),
+              color: TocModuleColors.greys,
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w400,
+            ),
             buttonStyleData: ButtonStyleData(
-                height: 40.w, padding: EdgeInsets.symmetric(horizontal: 10).r),
+              height: 40.w,
+              padding: EdgeInsets.symmetric(horizontal: 10).r,
+            ),
             iconStyleData: const IconStyleData(
-                icon: Icon(Icons.keyboard_arrow_down, color: Colors.black45),
-                iconSize: 20),
+              icon: Icon(Icons.keyboard_arrow_down, color: Colors.black45),
+              iconSize: 20,
+            ),
             dropdownStyleData: DropdownStyleData(
-                padding: const EdgeInsets.symmetric(horizontal: 10).r,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5).r,
-                    border: Border.all(color: TocModuleColors.grey16))),
-            menuItemStyleData:
-                const MenuItemStyleData(padding: EdgeInsets.all(0)),
+              padding: const EdgeInsets.symmetric(horizontal: 10).r,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5).r,
+                border: Border.all(color: TocModuleColors.grey16),
+              ),
+            ),
+            menuItemStyleData: const MenuItemStyleData(
+              padding: EdgeInsets.all(0),
+            ),
             hint: Text(TocLocalizations.of(context)!.mStaticSelectHere),
             validator: (value) {
               if (widget.isMandatory &&
@@ -132,9 +145,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
         ),
         Column(
           children: [
-            SizedBox(
-              height: 12.w,
-            ),
+            SizedBox(height: 12.w),
             InkWell(
               onTap: () {
                 setState(() {
@@ -158,14 +169,14 @@ class _CustomDropDownState extends State<CustomDropDown> {
                           enableNA = !enableNA;
                         });
                       },
-                      fillColor: WidgetStateProperty.resolveWith<Color>(
-                        (Set<WidgetState> states) {
-                          if (states.contains(WidgetState.selected)) {
-                            return TocModuleColors.darkBlue;
-                          }
-                          return TocModuleColors.black40;
-                        },
-                      ),
+                      fillColor: WidgetStateProperty.resolveWith<Color>((
+                        Set<WidgetState> states,
+                      ) {
+                        if (states.contains(WidgetState.selected)) {
+                          return TocModuleColors.darkBlue;
+                        }
+                        return TocModuleColors.black40;
+                      }),
                     ),
                     Text(
                       "N/A",
@@ -178,9 +189,9 @@ class _CustomDropDownState extends State<CustomDropDown> {
                   ],
                 ),
               ),
-            )
+            ),
           ],
-        )
+        ),
       ],
     );
   }

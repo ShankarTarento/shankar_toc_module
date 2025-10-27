@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/constants/toc_constants.dart';
 import 'package:toc_module/toc/widgets/tool_tips_widget.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
 
 class GlanceItem3 extends StatefulWidget {
   final String icon;
@@ -22,31 +22,31 @@ class GlanceItem3 extends StatefulWidget {
   final bool isL2Assessment;
   final bool? isMandatory;
 
-  const GlanceItem3(
-      {Key? key,
-      required this.icon,
-      required this.text,
-      required this.status,
-      required this.duration,
-      this.isFeaturedCourse = false,
-      this.currentProgress,
-      this.showProgress = false,
-      this.isExpanded = false,
-      this.isLastAccessed = false,
-      this.isEnrolled = false,
-      this.maxQuestions = '',
-      this.mimeType = '',
-      required this.isLocked,
-      this.isL2Assessment = false,
-      this.isMandatory})
-      : super(key: key);
+  const GlanceItem3({
+    Key? key,
+    required this.icon,
+    required this.text,
+    required this.status,
+    required this.duration,
+    this.isFeaturedCourse = false,
+    this.currentProgress,
+    this.showProgress = false,
+    this.isExpanded = false,
+    this.isLastAccessed = false,
+    this.isEnrolled = false,
+    this.maxQuestions = '',
+    this.mimeType = '',
+    required this.isLocked,
+    this.isL2Assessment = false,
+    this.isMandatory,
+  }) : super(key: key);
 
   @override
   _GlanceItem3State createState() => _GlanceItem3State();
 }
 
 class _GlanceItem3State extends State<GlanceItem3> {
-// class GlanceItem3 extends StatelessWidget {
+  // class GlanceItem3 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
@@ -55,8 +55,8 @@ class _GlanceItem3State extends State<GlanceItem3> {
       color: widget.isLastAccessed && widget.showProgress
           ? TocModuleColors.darkBlue
           : widget.isExpanded
-              ? TocModuleColors.whiteGradientOne
-              : TocModuleColors.appBarBackground,
+          ? TocModuleColors.whiteGradientOne
+          : TocModuleColors.appBarBackground,
       // height: 74,
       width: double.infinity,
       child: Row(
@@ -74,7 +74,8 @@ class _GlanceItem3State extends State<GlanceItem3> {
                           size: 22.sp,
                           color: widget.isLastAccessed && widget.showProgress
                               ? TocModuleColors.appBarBackground
-                              : TocModuleColors.darkBlue)
+                              : TocModuleColors.darkBlue,
+                        )
                       : Padding(
                           padding: const EdgeInsets.only(top: 4, right: 0).w,
                           child: widget.showProgress
@@ -82,28 +83,31 @@ class _GlanceItem3State extends State<GlanceItem3> {
                                   height: 20.w,
                                   width: 20.w,
                                   child: CircularProgressIndicator(
-                                      backgroundColor: TocModuleColors.grey16,
-                                      valueColor: AlwaysStoppedAnimation<Color>(
-                                        ((widget.currentProgress != null &&
-                                                    widget.currentProgress !=
-                                                        '') &&
-                                                double.parse(widget
-                                                        .currentProgress
-                                                        .toString()) <
-                                                    1)
-                                            ? TocModuleColors.primaryOne
-                                            : widget.isLastAccessed &&
-                                                    widget.showProgress
-                                                ? TocModuleColors
-                                                    .appBarBackground
-                                                : TocModuleColors.darkBlue,
-                                      ),
-                                      strokeWidth: 3.w,
-                                      value: (widget.currentProgress != null &&
-                                              widget.currentProgress != '')
-                                          ? double.parse(
-                                              widget.currentProgress.toString())
-                                          : 0.0),
+                                    backgroundColor: TocModuleColors.grey16,
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                      ((widget.currentProgress != null &&
+                                                  widget.currentProgress !=
+                                                      '') &&
+                                              double.parse(
+                                                    widget.currentProgress
+                                                        .toString(),
+                                                  ) <
+                                                  1)
+                                          ? TocModuleColors.primaryOne
+                                          : widget.isLastAccessed &&
+                                                widget.showProgress
+                                          ? TocModuleColors.appBarBackground
+                                          : TocModuleColors.darkBlue,
+                                    ),
+                                    strokeWidth: 3.w,
+                                    value:
+                                        (widget.currentProgress != null &&
+                                            widget.currentProgress != '')
+                                        ? double.parse(
+                                            widget.currentProgress.toString(),
+                                          )
+                                        : 0.0,
+                                  ),
                                 )
                               : Center(),
                         ),
@@ -112,11 +116,13 @@ class _GlanceItem3State extends State<GlanceItem3> {
           widget.isL2Assessment && widget.isEnrolled
               ? Padding(
                   padding: const EdgeInsets.only(left: 5, top: 10).w,
-                  child: Icon(widget.isLocked ? Icons.lock : Icons.lock_open,
-                      color: widget.isLocked
-                          ? TocModuleColors.orangeTourText
-                          : TocModuleColors.positiveLight,
-                      size: 20.sp),
+                  child: Icon(
+                    widget.isLocked ? Icons.lock : Icons.lock_open,
+                    color: widget.isLocked
+                        ? TocModuleColors.orangeTourText
+                        : TocModuleColors.positiveLight,
+                    size: 20.sp,
+                  ),
                 )
               : Center(),
           Container(
@@ -130,31 +136,33 @@ class _GlanceItem3State extends State<GlanceItem3> {
                         padding: EdgeInsets.all(8).r,
                         color: widget.isLocked
                             ? TocModuleColors.seaShell
-                            : TocModuleColors.positiveLight
-                                .withValues(alpha: 0.1),
+                            : TocModuleColors.positiveLight.withValues(
+                                alpha: 0.1,
+                              ),
                         child: Text(
-                            widget.isLocked
-                                ? TocLocalizations.of(context)!.mContentLocked
-                                : TocLocalizations.of(context)!
-                                    .mContentUnLocked,
-                            style: Theme.of(context)
-                                .textTheme
-                                .labelMedium!
-                                .copyWith(
-                                    color: widget.isLocked
-                                        ? TocModuleColors.mandatoryRed
-                                        : TocModuleColors.positiveLight)))
+                          widget.isLocked
+                              ? TocLocalizations.of(context)!.mContentLocked
+                              : TocLocalizations.of(context)!.mContentUnLocked,
+                          style: Theme.of(context).textTheme.labelMedium!
+                              .copyWith(
+                                color: widget.isLocked
+                                    ? TocModuleColors.mandatoryRed
+                                    : TocModuleColors.positiveLight,
+                              ),
+                        ),
+                      )
                     : SizedBox(),
                 Text(
                   widget.text,
                   style: GoogleFonts.lato(
-                      height: 1.5.w,
-                      decoration: TextDecoration.none,
-                      color: widget.isLastAccessed && widget.showProgress
-                          ? TocModuleColors.appBarBackground
-                          : TocModuleColors.greys87,
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w700),
+                    height: 1.5.w,
+                    decoration: TextDecoration.none,
+                    color: widget.isLastAccessed && widget.showProgress
+                        ? TocModuleColors.appBarBackground
+                        : TocModuleColors.greys87,
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8, top: 4).r,
@@ -164,12 +172,13 @@ class _GlanceItem3State extends State<GlanceItem3> {
                       SvgPicture.asset(
                         widget.icon,
                         colorFilter: ColorFilter.mode(
-                            widget.isLastAccessed && widget.showProgress
-                                ? TocModuleColors.appBarBackground
-                                : widget.icon == "assets/img/audio.svg"
-                                    ? TocModuleColors.grey40
-                                    : TocModuleColors.greys87,
-                            BlendMode.srcIn),
+                          widget.isLastAccessed && widget.showProgress
+                              ? TocModuleColors.appBarBackground
+                              : widget.icon == "assets/img/audio.svg"
+                              ? TocModuleColors.grey40
+                              : TocModuleColors.greys87,
+                          BlendMode.srcIn,
+                        ),
                         height: 16.w,
                         width: 16.w,
                         // alignment: Alignment.topLeft,
@@ -184,14 +193,16 @@ class _GlanceItem3State extends State<GlanceItem3> {
                               child: Text(
                                 widget.duration,
                                 style: GoogleFonts.lato(
-                                    height: 1.5.w,
-                                    decoration: TextDecoration.none,
-                                    color: widget.isLastAccessed &&
-                                            widget.showProgress
-                                        ? TocModuleColors.appBarBackground
-                                        : TocModuleColors.greys60,
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w400),
+                                  height: 1.5.w,
+                                  decoration: TextDecoration.none,
+                                  color:
+                                      widget.isLastAccessed &&
+                                          widget.showProgress
+                                      ? TocModuleColors.appBarBackground
+                                      : TocModuleColors.greys60,
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w400,
+                                ),
                               ),
                             )
                           : Center(),
@@ -203,16 +214,17 @@ class _GlanceItem3State extends State<GlanceItem3> {
                           child: Text(
                             '${widget.maxQuestions} ${(widget.maxQuestions == 1) ? TocLocalizations.of(context)!.mStaticQuestion.toString().toLowerCase() : TocLocalizations.of(context)!.mStaticQuestions.toString().toLowerCase()}',
                             style: GoogleFonts.lato(
-                                height: 1.5.w,
-                                decoration: TextDecoration.none,
-                                color:
-                                    widget.isLastAccessed && widget.showProgress
-                                        ? TocModuleColors.appBarBackground
-                                        : TocModuleColors.greys60,
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w400),
+                              height: 1.5.w,
+                              decoration: TextDecoration.none,
+                              color:
+                                  widget.isLastAccessed && widget.showProgress
+                                  ? TocModuleColors.appBarBackground
+                                  : TocModuleColors.greys60,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
-                        )
+                        ),
                     ],
                   ),
                 ),
@@ -226,16 +238,18 @@ class _GlanceItem3State extends State<GlanceItem3> {
               child: TooltipWidget(
                 iconSize: 18,
                 message: (widget.isMandatory ?? false)
-                    ? TocLocalizations.of(context)!
-                        .mBlendedPreEnrollmentMandatoryResourceMsg
-                    : TocLocalizations.of(context)!
-                        .mBlendedPreEnrollmentOptionalResourceMsg,
+                    ? TocLocalizations.of(
+                        context,
+                      )!.mBlendedPreEnrollmentMandatoryResourceMsg
+                    : TocLocalizations.of(
+                        context,
+                      )!.mBlendedPreEnrollmentOptionalResourceMsg,
                 icon: Icons.info_outline_rounded,
                 iconColor: widget.isLastAccessed
                     ? TocModuleColors.appBarBackground
                     : TocModuleColors.darkBlue,
               ),
-            )
+            ),
         ],
       ),
     );

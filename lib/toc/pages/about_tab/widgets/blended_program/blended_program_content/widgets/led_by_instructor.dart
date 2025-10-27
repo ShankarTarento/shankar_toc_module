@@ -6,7 +6,7 @@ import 'package:karmayogi_mobile/services/_services/learn_service.dart';
 import 'package:karmayogi_mobile/ui/pages/_pages/toc/pages/blended_program_content/widgets/session_details.dart';
 import '../../../../../../../../../../constants/index.dart';
 import 'course_type_button.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
 
 class LedByInstructor extends StatefulWidget {
   final List<Batch> batches;
@@ -14,14 +14,14 @@ class LedByInstructor extends StatefulWidget {
   final Course courseDetails;
   final bool isEnrolledCourse;
   final VoidCallback? showLatestProgress;
-  const LedByInstructor(
-      {Key? key,
-      this.batch,
-      required this.courseDetails,
-      required this.batches,
-      required this.isEnrolledCourse,
-      this.showLatestProgress})
-      : super(key: key);
+  const LedByInstructor({
+    Key? key,
+    this.batch,
+    required this.courseDetails,
+    required this.batches,
+    required this.isEnrolledCourse,
+    this.showLatestProgress,
+  }) : super(key: key);
 
   @override
   State<LedByInstructor> createState() => _LedByInstructorState();
@@ -43,7 +43,9 @@ class _LedByInstructorState extends State<LedByInstructor> {
     sessionList = await getBatchAttributes();
     if (widget.batch != null) {
       await _readContentProgress(
-          widget.batch!.batchId, widget.courseDetails.id);
+        widget.batch!.batchId,
+        widget.courseDetails.id,
+      );
     }
   }
 
@@ -62,9 +64,7 @@ class _LedByInstructorState extends State<LedByInstructor> {
     return SingleChildScrollView(
       child: Container(
         decoration: BoxDecoration(color: TocModuleColors.appBarBackground),
-        margin: EdgeInsets.only(
-          top: 16,
-        ).r,
+        margin: EdgeInsets.only(top: 16).r,
         child: ExpansionTile(
           onExpansionChanged: (value) {
             setState(() {
@@ -80,61 +80,54 @@ class _LedByInstructorState extends State<LedByInstructor> {
               Row(
                 children: [
                   CourseTypeButton(
-                      title: TocLocalizations.of(context)!.mStaticOffline),
-                  SizedBox(
-                    width: 8.w,
+                    title: TocLocalizations.of(context)!.mStaticOffline,
                   ),
+                  SizedBox(width: 8.w),
                   CourseTypeButton(
-                      title: TocLocalizations.of(context)!.mStaticOnline),
+                    title: TocLocalizations.of(context)!.mStaticOnline,
+                  ),
                 ],
               ),
-              SizedBox(
-                height: 8.w,
-              ),
+              SizedBox(height: 8.w),
               Text(
                 widget.batch != null ? widget.batch!.name : '',
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                      fontWeight: FontWeight.w500,
-                      fontFamily: GoogleFonts.montserrat().fontFamily,
-                    ),
-              )
+                  fontWeight: FontWeight.w500,
+                  fontFamily: GoogleFonts.montserrat().fontFamily,
+                ),
+              ),
             ],
           ),
           trailing: !isExpanded
-              ? Icon(
-                  Icons.arrow_drop_up,
-                  color: TocModuleColors.darkBlue,
-                )
-              : Icon(
-                  Icons.arrow_drop_down,
-                  color: TocModuleColors.darkBlue,
-                ),
+              ? Icon(Icons.arrow_drop_up, color: TocModuleColors.darkBlue)
+              : Icon(Icons.arrow_drop_down, color: TocModuleColors.darkBlue),
           children: [
             ...List.generate(
-                selectedBatchAttributes != null
-                    ? selectedBatchAttributes!.sessionDetailsV2.length
-                    : 0,
-                (index) => sessionList != null
-                    ? SessionDetails(
-                        isEnrolledCourse: widget.isEnrolledCourse,
-                        selectedBatchAttributes: selectedBatchAttributes!,
-                        batch: widget.batch,
-                        courseDetails: widget.courseDetails,
-                        session: sessionList![index],
-                        onAttendanceMarked: () async {
-                          await _readContentProgress(
-                              widget.batch!.batchId, widget.courseDetails.id);
-                          if (widget.batch != null) {
-                            if (widget.showLatestProgress != null) {
-                              widget.showLatestProgress!();
-                            }
+              selectedBatchAttributes != null
+                  ? selectedBatchAttributes!.sessionDetailsV2.length
+                  : 0,
+              (index) => sessionList != null
+                  ? SessionDetails(
+                      isEnrolledCourse: widget.isEnrolledCourse,
+                      selectedBatchAttributes: selectedBatchAttributes!,
+                      batch: widget.batch,
+                      courseDetails: widget.courseDetails,
+                      session: sessionList![index],
+                      onAttendanceMarked: () async {
+                        await _readContentProgress(
+                          widget.batch!.batchId,
+                          widget.courseDetails.id,
+                        );
+                        if (widget.batch != null) {
+                          if (widget.showLatestProgress != null) {
+                            widget.showLatestProgress!();
                           }
-                        },
-                      )
-                    : Center()),
-            SizedBox(
-              height: 200.w,
-            )
+                        }
+                      },
+                    )
+                  : Center(),
+            ),
+            SizedBox(height: 200.w),
           ],
         ),
       ),
@@ -152,8 +145,11 @@ class _LedByInstructorState extends State<LedByInstructor> {
   }
 
   Future<void> _readContentProgress(batchId, courseId) async {
-    var response = await learnService.readContentProgress(courseId, batchId,
-        language: widget.courseDetails.language);
+    var response = await learnService.readContentProgress(
+      courseId,
+      batchId,
+      language: widget.courseDetails.language,
+    );
     if (response['result']['contentList'] != null) {
       var contentProgressList = response['result']['contentList'];
       if (contentProgressList != null) {

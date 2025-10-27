@@ -5,7 +5,7 @@ import 'package:toc_module/toc/constants/api_urls.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io' show Platform;
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
 
 class UpdateMessage extends StatelessWidget {
   const UpdateMessage({Key? key}) : super(key: key);
@@ -21,54 +21,48 @@ class UpdateMessage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(TocLocalizations.of(context)!.mCompatibilityTitle,
-              style: GoogleFonts.lato(
-                  color: TocModuleColors.appBarBackground,
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w600)),
-          SizedBox(
-            height: 12.w,
-          ),
           Text(
-            TocLocalizations.of(context)!.mCompatibilityDescription,
+            TocLocalizations.of(context)!.mCompatibilityTitle,
             style: GoogleFonts.lato(
               color: TocModuleColors.appBarBackground,
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w600,
             ),
+          ),
+          SizedBox(height: 12.w),
+          Text(
+            TocLocalizations.of(context)!.mCompatibilityDescription,
+            style: GoogleFonts.lato(color: TocModuleColors.appBarBackground),
             textAlign: TextAlign.center,
           ),
-          SizedBox(
-            height: 12.w,
-          ),
+          SizedBox(height: 12.w),
           ElevatedButton(
-              onPressed: () {
-                launchURL(
-                  url: Platform.isAndroid ? ApiUrls.androidUrl : ApiUrls.iOSUrl,
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: TocModuleColors.orangeTourText,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50).r,
-                ),
+            onPressed: () {
+              launchURL(
+                url: Platform.isAndroid ? ApiUrls.androidUrl : ApiUrls.iOSUrl,
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: TocModuleColors.orangeTourText,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(50).r,
               ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    TocLocalizations.of(context)!.mStaticUpdateApp,
-                    style: GoogleFonts.lato(
-                        color: TocModuleColors.appBarBackground,
-                        fontWeight: FontWeight.w600),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  TocLocalizations.of(context)!.mStaticUpdateApp,
+                  style: GoogleFonts.lato(
+                    color: TocModuleColors.appBarBackground,
+                    fontWeight: FontWeight.w600,
                   ),
-                  SizedBox(
-                    width: 4.w,
-                  ),
-                  Icon(
-                    Icons.file_download_outlined,
-                    size: 20.sp,
-                  )
-                ],
-              ))
+                ),
+                SizedBox(width: 4.w),
+                Icon(Icons.file_download_outlined, size: 20.sp),
+              ],
+            ),
+          ),
         ],
       ),
     );

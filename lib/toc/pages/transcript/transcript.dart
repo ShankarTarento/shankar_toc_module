@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/model/transcription_response.dart';
 import 'package:toc_module/toc/pages/transcript/repository/transcript_repository.dart';
@@ -13,8 +14,11 @@ class Transcript extends StatefulWidget {
   final Function(int) startAt;
   final String resourceId;
 
-  const Transcript(
-      {super.key, required this.startAt, required this.resourceId});
+  const Transcript({
+    super.key,
+    required this.startAt,
+    required this.resourceId,
+  });
 
   @override
   State<Transcript> createState() => _TranscriptState();
@@ -32,8 +36,8 @@ class _TranscriptState extends State<Transcript> {
   void getTranscriptionData() async {
     transcriptionDataFuture =
         TranscriptRepository.getSubtitleAndTranscriptionData(
-      resourceId: widget.resourceId,
-    );
+          resourceId: widget.resourceId,
+        );
 
     // Wait for the future to resolve
     final transcriptionData = await transcriptionDataFuture;
@@ -54,56 +58,62 @@ class _TranscriptState extends State<Transcript> {
     return Padding(
       padding: const EdgeInsets.all(12.0).r,
       child: FutureBuilder<TranscriptionResponse?>(
-          future: transcriptionDataFuture,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return TranscriptSkeleton();
-            }
-            if (snapshot.data != null) {
-              return Column(
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(12).r,
-                    decoration: BoxDecoration(
-                      color: TocModuleColors.learnerTipsColor2,
-                      borderRadius: BorderRadius.circular(8).r,
-                    ),
-                    child: Text(
-                      TocLocalizations.of(context)!.mTranscriptDisclaimer,
-                      style: GoogleFonts.lato(
-                          color: Colors.black,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w500),
-                    ),
+        future: transcriptionDataFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return TranscriptSkeleton();
+          }
+          if (snapshot.data != null) {
+            return Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(12).r,
+                  decoration: BoxDecoration(
+                    color: TocModuleColors.learnerTipsColor2,
+                    borderRadius: BorderRadius.circular(8).r,
                   ),
-                  SizedBox(height: 12.w),
-                  TranscriptDropdown(
-                    initialSubtitle: _selectedSubtitle,
-                    subtitleUrls: snapshot.data!.subtitleUrls,
-                    onSelected: (SubtitleUrl selected) {
-                      setState(() {
-                        _selectedSubtitle = selected;
-                      });
-                    },
-                  ),
-                  SizedBox(height: 12.w),
-                  TranscriptionView(
-                    startAt: widget.startAt,
-                    subtitleUrl: _selectedSubtitle,
-                  )
-                ],
-              );
-            }
-            return Center(
-                child: Padding(
-              padding: EdgeInsets.only(top: 70.0).r,
-              child: Text(TocLocalizations.of(context)!.mNoTranscriptAvailable,
-                  style: GoogleFonts.lato(
-                      color: TocModuleColors.greys87,
+                  child: Text(
+                    TocLocalizations.of(context)!.mTranscriptDisclaimer,
+                    style: GoogleFonts.lato(
+                      color: Colors.black,
                       fontSize: 14.sp,
-                      fontWeight: FontWeight.w500)),
-            ));
-          }),
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 12.w),
+                TranscriptDropdown(
+                  initialSubtitle: _selectedSubtitle,
+                  subtitleUrls: snapshot.data!.subtitleUrls,
+                  onSelected: (SubtitleUrl selected) {
+                    setState(() {
+                      _selectedSubtitle = selected;
+                    });
+                  },
+                ),
+                SizedBox(height: 12.w),
+                TranscriptionView(
+                  startAt: widget.startAt,
+                  subtitleUrl: _selectedSubtitle,
+                ),
+              ],
+            );
+          }
+          return Center(
+            child: Padding(
+              padding: EdgeInsets.only(top: 70.0).r,
+              child: Text(
+                TocLocalizations.of(context)!.mNoTranscriptAvailable,
+                style: GoogleFonts.lato(
+                  color: TocModuleColors.greys87,
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/constants/toc_constants.dart';
 import 'package:toc_module/toc/model/batch_model.dart';
@@ -30,27 +31,28 @@ class IgotTutorAtrip extends StatefulWidget {
   final double? courseRating;
   final bool isBlendedProgram;
 
-  const IgotTutorAtrip(
-      {super.key,
-      required this.isBlendedProgram,
-      required this.isEnrolled,
-      this.isModerated = false,
-      this.enrolledCourse,
-      required this.courseDetails,
-      required this.navigationItems,
-      this.isCuratedProgram = false,
-      this.batchId,
-      required this.courseId,
-      this.lastAccessContentId,
-      this.selectedBatch,
-      required this.readCourseProgress,
-      required this.updateEnrolmentList,
-      required this.resourceNavigateItems,
-      this.isFeatured = false,
-      required this.enrollmentList,
-      this.numberOfCourseRating,
-      required this.isLearningPathContent,
-      this.courseRating});
+  const IgotTutorAtrip({
+    super.key,
+    required this.isBlendedProgram,
+    required this.isEnrolled,
+    this.isModerated = false,
+    this.enrolledCourse,
+    required this.courseDetails,
+    required this.navigationItems,
+    this.isCuratedProgram = false,
+    this.batchId,
+    required this.courseId,
+    this.lastAccessContentId,
+    this.selectedBatch,
+    required this.readCourseProgress,
+    required this.updateEnrolmentList,
+    required this.resourceNavigateItems,
+    this.isFeatured = false,
+    required this.enrollmentList,
+    this.numberOfCourseRating,
+    required this.isLearningPathContent,
+    this.courseRating,
+  });
 
   @override
   State<IgotTutorAtrip> createState() => _IgotTutorAtripState();
@@ -113,9 +115,7 @@ class _IgotTutorAtripState extends State<IgotTutorAtrip> {
             // AiBotIcon(
             //   size: 50.w,
             // ),
-            SizedBox(
-              width: 6.w,
-            ),
+            SizedBox(width: 6.w),
             SizedBox(
               width: 0.55.sw,
               child: Column(
@@ -124,11 +124,11 @@ class _IgotTutorAtripState extends State<IgotTutorAtrip> {
                   Text(
                     TocLocalizations.of(context)!.mChatBotGetStarted,
                     style: GoogleFonts.lato(
-                        fontSize: 14.sp, fontWeight: FontWeight.w600),
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                  SizedBox(
-                    height: 6.w,
-                  ),
+                  SizedBox(height: 6.w),
                   Text(
                     TocLocalizations.of(context)!.mAiTutorWelcomeText,
                     style: GoogleFonts.lato(fontSize: 12.sp),
@@ -141,10 +141,11 @@ class _IgotTutorAtripState extends State<IgotTutorAtrip> {
               onTap: () {
                 widget.isEnrolled
                     ? enrolledCourse?.batchId != null
-                        ? navigateToContent(
-                            batchId: enrolledCourse!.batchId!,
-                            navigationItems: widget.navigationItems)
-                        : null
+                          ? navigateToContent(
+                              batchId: enrolledCourse!.batchId!,
+                              navigationItems: widget.navigationItems,
+                            )
+                          : null
                     : showPopup(context);
               },
               child: Container(
@@ -154,7 +155,7 @@ class _IgotTutorAtripState extends State<IgotTutorAtrip> {
                   gradient: LinearGradient(
                     colors: [
                       TocModuleColors.primaryOne,
-                      TocModuleColors.darkBlue
+                      TocModuleColors.darkBlue,
                     ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
@@ -169,26 +170,26 @@ class _IgotTutorAtripState extends State<IgotTutorAtrip> {
                   child: Row(
                     children: [
                       SizedBox(
-                          width: 25.w,
-                          height: 20.w,
-                          child: Image.asset("assets/img/ai_loader.png")),
+                        width: 25.w,
+                        height: 20.w,
+                        child: Image.asset("assets/img/ai_loader.png"),
+                      ),
                       Text(
                         TocLocalizations.of(context)!.mAiTutor,
                         style: GoogleFonts.lato(
-                            color: TocModuleColors.darkBlue,
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w600),
+                          color: TocModuleColors.darkBlue,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      SizedBox(
-                        width: 8.w,
-                      )
+                      SizedBox(width: 8.w),
                     ],
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -208,18 +209,16 @@ class _IgotTutorAtripState extends State<IgotTutorAtrip> {
                 // AiBotIcon(
                 //   size: 60.w,
                 // ),
-                SizedBox(
-                  height: 16.w,
-                ),
+                SizedBox(height: 16.w),
                 Text(
                   TocLocalizations.of(parentContext)!.mRememberToUseAiTutor,
                   style: GoogleFonts.lato(
-                      color: TocModuleColors.darkBlue, fontSize: 15.sp),
+                    color: TocModuleColors.darkBlue,
+                    fontSize: 15.sp,
+                  ),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(
-                  height: 16.w,
-                ),
+                SizedBox(height: 16.w),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -228,8 +227,9 @@ class _IgotTutorAtripState extends State<IgotTutorAtrip> {
                       child: ElevatedButton(
                         child: Text(
                           TocLocalizations.of(parentContext)!.mStaticCancel,
-                          style:
-                              GoogleFonts.lato(color: TocModuleColors.darkBlue),
+                          style: GoogleFonts.lato(
+                            color: TocModuleColors.darkBlue,
+                          ),
                         ),
                         onPressed: () {
                           Navigator.of(context).pop();
@@ -248,32 +248,33 @@ class _IgotTutorAtripState extends State<IgotTutorAtrip> {
                       ),
                     ),
                     SizedBox(
-                        width: 0.3.sw,
-                        child: TocButtonWidget(
-                          isStandAloneAssesment:
-                              widget.courseDetails.courseCategory ==
-                                  PrimaryCategory.standaloneAssessment,
-                          courseDetails: widget.courseDetails,
-                          navigationItems: widget.navigationItems,
-                          courseId: widget.courseId,
-                          resourceNavigateItems: widget.resourceNavigateItems,
-                          enrollmentList: widget.enrollmentList,
-                          isLearningPathContent: widget.isLearningPathContent,
-                          readCourseProgress: widget.readCourseProgress,
-                          updateEnrolmentList: widget.updateEnrolmentList,
-                          isAITutor: true,
-                          isCuratedProgram: widget.isCuratedProgram,
-                          isModerated: widget.isModerated,
-                          enrolledCourse: widget.enrolledCourse,
-                          batchId: widget.batchId,
-                          lastAccessContentId: widget.lastAccessContentId,
-                          selectedBatch: widget.selectedBatch,
-                          numberOfCourseRating: widget.numberOfCourseRating,
-                          courseRating: widget.courseRating,
-                          isFeatured: widget.isFeatured,
-                        )),
+                      width: 0.3.sw,
+                      child: TocButtonWidget(
+                        isStandAloneAssesment:
+                            widget.courseDetails.courseCategory ==
+                            PrimaryCategory.standaloneAssessment,
+                        courseDetails: widget.courseDetails,
+                        navigationItems: widget.navigationItems,
+                        courseId: widget.courseId,
+                        resourceNavigateItems: widget.resourceNavigateItems,
+                        enrollmentList: widget.enrollmentList,
+                        isLearningPathContent: widget.isLearningPathContent,
+                        readCourseProgress: widget.readCourseProgress,
+                        updateEnrolmentList: widget.updateEnrolmentList,
+                        isAITutor: true,
+                        isCuratedProgram: widget.isCuratedProgram,
+                        isModerated: widget.isModerated,
+                        enrolledCourse: widget.enrolledCourse,
+                        batchId: widget.batchId,
+                        lastAccessContentId: widget.lastAccessContentId,
+                        selectedBatch: widget.selectedBatch,
+                        numberOfCourseRating: widget.numberOfCourseRating,
+                        courseRating: widget.courseRating,
+                        isFeatured: widget.isFeatured,
+                      ),
+                    ),
                   ],
-                )
+                ),
               ],
             ),
           ),
@@ -284,19 +285,22 @@ class _IgotTutorAtripState extends State<IgotTutorAtrip> {
 
   navigateToContent({required String batchId, List? navigationItems}) async {
     Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => TocPlayerScreen(
-                  arguments: TocPlayerModel(
-                      enrolledCourse: enrolledCourse,
-                      navigationItems: navigationItems,
-                      isCuratedProgram: widget.isCuratedProgram,
-                      batchId: batchId,
-                      lastAccessContentId: widget.lastAccessContentId,
-                      courseId: widget.courseId,
-                      isFeatured: widget.isFeatured,
-                      enrollmentList: enrollmentList),
-                )));
+      context,
+      MaterialPageRoute(
+        builder: (context) => TocPlayerScreen(
+          arguments: TocPlayerModel(
+            enrolledCourse: enrolledCourse,
+            navigationItems: navigationItems,
+            isCuratedProgram: widget.isCuratedProgram,
+            batchId: batchId,
+            lastAccessContentId: widget.lastAccessContentId,
+            courseId: widget.courseId,
+            isFeatured: widget.isFeatured,
+            enrollmentList: enrollmentList,
+          ),
+        ),
+      ),
+    );
 
     widget.readCourseProgress();
   }
@@ -318,8 +322,9 @@ class _IgotTutorAtripState extends State<IgotTutorAtrip> {
           if (element.status == 2) {
             totalProgress += 1;
           } else {
-            totalProgress +=
-                double.parse(element.completionPercentage.toString());
+            totalProgress += double.parse(
+              element.completionPercentage.toString(),
+            );
           }
         }
       });

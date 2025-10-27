@@ -15,7 +15,8 @@ import 'package:toc_module/toc/services/toc_module_service.dart';
 import 'package:toc_module/toc/services/toc_services.dart';
 import 'package:toc_module/toc/util/button_with_border.dart';
 import '../model/language_map_model.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 import '../widgets/compatibility_dialog.dart';
 
 class CourseTocViewModel extends ChangeNotifier {
@@ -105,7 +106,9 @@ class CourseTocViewModel extends ChangeNotifier {
 
   // Initialization
   Future<void> initialize(
-      CourseTocModel arguments, BuildContext context) async {
+    CourseTocModel arguments,
+    BuildContext context,
+  ) async {
     if (_isInitialized) return;
 
     _arguments = arguments;
@@ -129,8 +132,10 @@ class CourseTocViewModel extends ChangeNotifier {
     _setLoading(true);
 
     try {
-      Provider.of<TocRepository>(context, listen: false)
-          .resetLanguageProgress();
+      Provider.of<TocRepository>(
+        context,
+        listen: false,
+      ).resetLanguageProgress();
       await getCourseInfo(context);
       if (!_isCourseCategoryNotCompatible) {
         await getEnrolmentInfo(context);
@@ -167,9 +172,11 @@ class CourseTocViewModel extends ChangeNotifier {
   // Content read api - To get all course details including batch info
   Future<void> getCourseInfo(BuildContext context) async {
     final courseInfo = await Provider.of<TocRepository>(context, listen: false)
-        .getCourseData(_courseId,
-            isFeatured: _isFeaturedCourse,
-            pointToProd: _arguments?.pointToProd ?? false);
+        .getCourseData(
+          _courseId,
+          isFeatured: _isFeaturedCourse,
+          pointToProd: _arguments?.pointToProd ?? false,
+        );
 
     if (courseInfo != null) {
       _course = Course.fromJson(courseInfo);
@@ -189,8 +196,9 @@ class CourseTocViewModel extends ChangeNotifier {
         }
       } else if (_course != null) {
         // Fallback: if not multilingual, try to match the language value to a key in masterLanguagesArray
-        overallCourseLanguage =
-            LanguageMapV1.getLanguageDisplayName(_course!.language);
+        overallCourseLanguage = LanguageMapV1.getLanguageDisplayName(
+          _course!.language,
+        );
         _baseCourseId = _course!.id;
       }
       _isBlendedProgram =
@@ -216,13 +224,15 @@ class CourseTocViewModel extends ChangeNotifier {
   // Get enrolment info
   Future<void> getEnrolmentInfo(BuildContext context) async {
     List<Course> response = await _TocRepository.getCourseEnrollDetailsByIds(
-        courseIds: [_baseCourseId!]);
+      courseIds: [_baseCourseId!],
+    );
 
     if (response.isNotEmpty) {
       _enrollmentList = response;
       _enrolledCourse.value = response.cast<Course?>().firstWhere(
-          (course) => course!.id == _baseCourseId,
-          orElse: () => null);
+        (course) => course!.id == _baseCourseId,
+        orElse: () => null,
+      );
 
       if (_enrolledCourse.value != null) {
         _lastAccessContentId = _enrolledCourse.value!.lastReadContentId;
@@ -262,26 +272,27 @@ class CourseTocViewModel extends ChangeNotifier {
                       ),
                       SizedBox(height: 16.w),
                       Text(
-                          TocLocalizations.of(context)!
-                              .mTocAlreadyStartedCourse,
-                          style: Theme.of(context).textTheme.titleLarge,
-                          textAlign: TextAlign.center),
+                        TocLocalizations.of(context)!.mTocAlreadyStartedCourse,
+                        style: Theme.of(context).textTheme.titleLarge,
+                        textAlign: TextAlign.center,
+                      ),
                       SizedBox(height: 16.w),
                       Text.rich(
                         textAlign: TextAlign.center,
                         TextSpan(
-                          text:
-                              TocLocalizations.of(context)!.mTocYouHaveMadeSome,
+                          text: TocLocalizations.of(
+                            context,
+                          )!.mTocYouHaveMadeSome,
                           style: Theme.of(context).textTheme.bodyMedium,
                           children: [
                             TextSpan(
-                                text:
-                                    TocLocalizations.of(context)!.mTocProgress,
-                                style:
-                                    Theme.of(context).textTheme.displayLarge),
+                              text: TocLocalizations.of(context)!.mTocProgress,
+                              style: Theme.of(context).textTheme.displayLarge,
+                            ),
                             TextSpan(
-                              text: TocLocalizations.of(context)!
-                                  .mTocInAnotherLanguageCourse,
+                              text: TocLocalizations.of(
+                                context,
+                              )!.mTocInAnotherLanguageCourse,
                             ),
                           ],
                         ),
@@ -290,18 +301,21 @@ class CourseTocViewModel extends ChangeNotifier {
                       Text.rich(
                         textAlign: TextAlign.center,
                         TextSpan(
-                          text:
-                              TocLocalizations.of(context)!.mTocWouldYouLikeTo,
+                          text: TocLocalizations.of(
+                            context,
+                          )!.mTocWouldYouLikeTo,
                           style: Theme.of(context).textTheme.bodyMedium,
                           children: [
                             TextSpan(
-                                text: TocLocalizations.of(context)!
-                                    .mTocWhereYouLeftOff,
-                                style:
-                                    Theme.of(context).textTheme.displayLarge),
+                              text: TocLocalizations.of(
+                                context,
+                              )!.mTocWhereYouLeftOff,
+                              style: Theme.of(context).textTheme.displayLarge,
+                            ),
                             TextSpan(
-                              text: TocLocalizations.of(context)!
-                                  .mTocContinueWithThisVersion,
+                              text: TocLocalizations.of(
+                                context,
+                              )!.mTocContinueWithThisVersion,
                             ),
                           ],
                         ),
@@ -311,54 +325,61 @@ class CourseTocViewModel extends ChangeNotifier {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           ButtonWithBorder(
-                              onPressCallback: () {
-                                Navigator.of(context).pop();
-                              },
-                              text: TocLocalizations.of(context)!
-                                  .mTocContinueHere,
-                              borderRadius: 4,
-                              padding: EdgeInsets.symmetric(horizontal: 16).r),
+                            onPressCallback: () {
+                              Navigator.of(context).pop();
+                            },
+                            text: TocLocalizations.of(
+                              context,
+                            )!.mTocContinueHere,
+                            borderRadius: 4,
+                            padding: EdgeInsets.symmetric(horizontal: 16).r,
+                          ),
                           SizedBox(width: 8.w),
                           ButtonWithBorder(
-                              onPressCallback: () async {
-                                final languageEntry = _enrolledCourse
-                                    .value!.languageMap.languages.entries
-                                    .firstWhere(
-                                  (entry) =>
-                                      entry.value.name.toLowerCase() ==
-                                      recentLang.toLowerCase(),
-                                  orElse: () => MapEntry(
+                            onPressCallback: () async {
+                              final languageEntry = _enrolledCourse
+                                  .value!
+                                  .languageMap
+                                  .languages
+                                  .entries
+                                  .firstWhere(
+                                    (entry) =>
+                                        entry.value.name.toLowerCase() ==
+                                        recentLang.toLowerCase(),
+                                    orElse: () => MapEntry(
                                       '',
                                       LanguageContent(
-                                          status: '',
-                                          id: '',
-                                          name: '',
-                                          isBaseLanguage: false,
-                                          selectedLanguage: false)),
-                                );
-                                if (languageEntry.key.isNotEmpty) {
-                                  _courseId = languageEntry.value.id;
-                                  overallCourseLanguage = languageEntry.key;
-                                  await getCourseInfo(context);
-                                  await getCourseHierarchyDetails(context);
-                                  await getReviews(context);
-                                  await _getYourRatingAndReview(
-                                      _course, context);
-                                  _isRatingTriggered = true;
-                                  if (_courseHierarchyData != null &&
-                                      _courseHierarchyData!.leafNodes
-                                          .contains(_lastAccessContentId)) {
-                                    _showToc = false;
-                                  }
-                                  notifyListeners();
+                                        status: '',
+                                        id: '',
+                                        name: '',
+                                        isBaseLanguage: false,
+                                        selectedLanguage: false,
+                                      ),
+                                    ),
+                                  );
+                              if (languageEntry.key.isNotEmpty) {
+                                _courseId = languageEntry.value.id;
+                                overallCourseLanguage = languageEntry.key;
+                                await getCourseInfo(context);
+                                await getCourseHierarchyDetails(context);
+                                await getReviews(context);
+                                await _getYourRatingAndReview(_course, context);
+                                _isRatingTriggered = true;
+                                if (_courseHierarchyData != null &&
+                                    _courseHierarchyData!.leafNodes.contains(
+                                      _lastAccessContentId,
+                                    )) {
+                                  _showToc = false;
                                 }
-                                Navigator.of(context).pop();
-                              },
-                              text: TocLocalizations.of(context)!.mLearnResume,
-                              bgColor: TocModuleColors.darkBlue,
-                              textStyle:
-                                  Theme.of(context).textTheme.displaySmall,
-                              borderRadius: 4),
+                                notifyListeners();
+                              }
+                              Navigator.of(context).pop();
+                            },
+                            text: TocLocalizations.of(context)!.mLearnResume,
+                            bgColor: TocModuleColors.darkBlue,
+                            textStyle: Theme.of(context).textTheme.displaySmall,
+                            borderRadius: 4,
+                          ),
                         ],
                       ),
                     ],
@@ -374,9 +395,11 @@ class CourseTocViewModel extends ChangeNotifier {
 
   Future<void> getCourseHierarchyDetails(BuildContext context) async {
     final response = await Provider.of<TocRepository>(context, listen: false)
-        .getCourseDetails(_courseId,
-            isFeatured: _isFeaturedCourse,
-            pointToProd: _arguments?.pointToProd ?? false);
+        .getCourseDetails(
+          _courseId,
+          isFeatured: _isFeaturedCourse,
+          pointToProd: _arguments?.pointToProd ?? false,
+        );
 
     if (response != null) {
       _courseHierarchyData = CourseHierarchyModel.fromJson(response);
@@ -386,14 +409,17 @@ class CourseTocViewModel extends ChangeNotifier {
   }
 
   Future<void> getBatchDetails(BuildContext context) async {
-    _batches = await Provider.of<TocRepository>(context, listen: false)
-        .getBatchList(_courseId);
+    _batches = await Provider.of<TocRepository>(
+      context,
+      listen: false,
+    ).getBatchList(_courseId);
 
     if (_course != null) {
       Provider.of<TocRepository>(context, listen: false).setInitialBatch(
-          batches: _batches,
-          courseId: _course!.id,
-          enrolledCourse: _enrolledCourse.value);
+        batches: _batches,
+        courseId: _course!.id,
+        enrolledCourse: _enrolledCourse.value,
+      );
     }
 
     notifyListeners();
@@ -410,28 +436,30 @@ class CourseTocViewModel extends ChangeNotifier {
           .toList();
 
       if (AppConfiguration.mentorshipEnabled) {
-        bool isMentor =
-            await Provider.of<ProfileRepository>(context, listen: false)
-                .profileDetails!
-                .roles!
-                .contains(Roles.mentor.toUpperCase());
+        bool isMentor = await Provider.of<ProfileRepository>(
+          context,
+          listen: false,
+        ).profileDetails!.roles!.contains(Roles.mentor.toUpperCase());
 
         if (isMentor) {
           _teachersResource = _course!.referenceNodes!
               .where(
-                  (e) => e.resourceCategory == PrimaryCategory.teachersResource)
+                (e) => e.resourceCategory == PrimaryCategory.teachersResource,
+              )
               .toList();
 
           if (_teachersResource.isNotEmpty) {
             _tabItems.add(
-                LearnTab(title: TocLocalizations.of(context)!.mTeachersNotes));
+              LearnTab(title: TocLocalizations.of(context)!.mTeachersNotes),
+            );
           }
         }
       }
 
       if (_referenceResource.isNotEmpty) {
         _tabItems.add(
-            LearnTab(title: TocLocalizations.of(context)!.mReferenceNotes));
+          LearnTab(title: TocLocalizations.of(context)!.mReferenceNotes),
+        );
       }
     }
 
@@ -446,12 +474,13 @@ class CourseTocViewModel extends ChangeNotifier {
 
   Future<dynamic> _generateNavigation(BuildContext context) async {
     Map response = await TocHelper.generateNavigationItem(
-        courseHierarchyData: _courseHierarchyData!,
-        course: _course!,
-        enrolledCourse: _enrolledCourse.value,
-        isFeatured: _arguments?.isFeaturedCourse ?? false,
-        context: context,
-        enrollmentList: _enrollmentList);
+      courseHierarchyData: _courseHierarchyData!,
+      course: _course!,
+      enrolledCourse: _enrolledCourse.value,
+      isFeatured: _arguments?.isFeaturedCourse ?? false,
+      context: context,
+      enrollmentList: _enrollmentList,
+    );
 
     _resourceNavigateItems = response['resourceNavItems'];
     _navigationItems.value = response['navItems'];
@@ -459,12 +488,16 @@ class CourseTocViewModel extends ChangeNotifier {
 
     double totalProgress = 0;
     totalProgress = TocHelper.getCourseOverallProgress(
-        totalProgress, response['resourceNavItems']);
+      totalProgress,
+      response['resourceNavItems'],
+    );
     _isCourseCompleted.value =
         totalProgress / _resourceNavigateItems.length == 1;
 
-    Provider.of<TocRepository>(context, listen: false)
-        .setCourseProgress((totalProgress / _resourceNavigateItems.length));
+    Provider.of<TocRepository>(
+      context,
+      listen: false,
+    ).setCourseProgress((totalProgress / _resourceNavigateItems.length));
 
     notifyListeners();
   }
@@ -472,17 +505,25 @@ class CourseTocViewModel extends ChangeNotifier {
   Future<void> getReviews(BuildContext context) async {
     if (_isFeaturedCourse) return;
 
-    await Provider.of<TocRepository>(context, listen: false)
-        .getCourseReviewSummery(
-            courseId: _courseId!, primaryCategory: _course!.primaryCategory);
+    await Provider.of<TocRepository>(
+      context,
+      listen: false,
+    ).getCourseReviewSummery(
+      courseId: _courseId!,
+      primaryCategory: _course!.primaryCategory,
+    );
   }
 
   Future<void> _getYourRatingAndReview(
-      Course? course, BuildContext context) async {
+    Course? course,
+    BuildContext context,
+  ) async {
     if (_isFeaturedCourse) return;
 
-    await Provider.of<TocRepository>(context, listen: false)
-        .getYourReview(id: course!.id, primaryCategory: course.primaryCategory);
+    await Provider.of<TocRepository>(
+      context,
+      listen: false,
+    ).getYourReview(id: course!.id, primaryCategory: course.primaryCategory);
   }
 
   // UI Event Handlers
@@ -490,12 +531,13 @@ class CourseTocViewModel extends ChangeNotifier {
     _tabInitialIndex = index;
     FocusScope.of(context).unfocus();
     _generateInteractTelemetryData(
-        index == 0
-            ? TelemetryIdentifier.aboutTab
-            : (index == 1)
-                ? TelemetryIdentifier.contentTab
-                : TelemetryIdentifier.commentsTab,
-        context);
+      index == 0
+          ? TelemetryIdentifier.aboutTab
+          : (index == 1)
+          ? TelemetryIdentifier.contentTab
+          : TelemetryIdentifier.commentsTab,
+      context,
+    );
   }
 
   void onRatingClicked() {
@@ -559,7 +601,8 @@ class CourseTocViewModel extends ChangeNotifier {
     if (_smtTrackCourseViewEnabled) {
       try {
         bool isContentViewEnabled = await _TocRepository.isSmartechEventEnabled(
-            eventName: SMTTrackEvents.contentView);
+          eventName: SMTTrackEvents.contentView,
+        );
 
         if (isContentViewEnabled) {
           Future.delayed(Duration(seconds: 1), () {
@@ -588,47 +631,58 @@ class CourseTocViewModel extends ChangeNotifier {
   Future<void> _generateTelemetryData(BuildContext context) async {
     var telemetryRepository = TelemetryRepository();
     Map eventData = telemetryRepository.getImpressionTelemetryEvent(
-        pageIdentifier: _isFeaturedCourse
-            ? TelemetryPageIdentifier.publicCourseDetailsPageId
-            : TelemetryPageIdentifier.courseDetailsPageId,
-        telemetryType: TelemetryType.page,
-        pageUri: (_isFeaturedCourse
-                ? TelemetryPageIdentifier.publicCourseDetailsPageUri
-                : TelemetryPageIdentifier.courseDetailsPageUri)
-            .replaceAll(':do_ID', _courseId!),
-        env: TelemetryEnv.learn,
-        objectId: _courseId,
-        objectType: _course?.courseCategory,
-        isPublic: _isFeaturedCourse);
+      pageIdentifier: _isFeaturedCourse
+          ? TelemetryPageIdentifier.publicCourseDetailsPageId
+          : TelemetryPageIdentifier.courseDetailsPageId,
+      telemetryType: TelemetryType.page,
+      pageUri:
+          (_isFeaturedCourse
+                  ? TelemetryPageIdentifier.publicCourseDetailsPageUri
+                  : TelemetryPageIdentifier.courseDetailsPageUri)
+              .replaceAll(':do_ID', _courseId!),
+      env: TelemetryEnv.learn,
+      objectId: _courseId,
+      objectType: _course?.courseCategory,
+      isPublic: _isFeaturedCourse,
+    );
 
     await telemetryRepository.insertEvent(
-        eventData: eventData, isPublic: _isFeaturedCourse);
+      eventData: eventData,
+      isPublic: _isFeaturedCourse,
+    );
   }
 
   Future<void> _generateInteractTelemetryData(
-      String contentId, BuildContext context) async {
+    String contentId,
+    BuildContext context,
+  ) async {
     var telemetryRepository = TelemetryRepository();
     Map eventData = telemetryRepository.getInteractTelemetryEvent(
-        pageIdentifier: (_isFeaturedCourse
-                ? TelemetryPageIdentifier.publicCourseDetailsPageId
-                : TelemetryPageIdentifier.courseDetailsPageId) +
-            '_' +
-            contentId,
-        contentId: contentId,
-        subType: TelemetrySubType.courseTab,
-        env: TelemetryEnv.learn,
-        isPublic: _isFeaturedCourse);
+      pageIdentifier:
+          (_isFeaturedCourse
+              ? TelemetryPageIdentifier.publicCourseDetailsPageId
+              : TelemetryPageIdentifier.courseDetailsPageId) +
+          '_' +
+          contentId,
+      contentId: contentId,
+      subType: TelemetrySubType.courseTab,
+      env: TelemetryEnv.learn,
+      isPublic: _isFeaturedCourse,
+    );
 
     await telemetryRepository.insertEvent(
-        eventData: eventData, isPublic: _isFeaturedCourse);
+      eventData: eventData,
+      isPublic: _isFeaturedCourse,
+    );
   }
 
   Future<void> _checkCompatibility(BuildContext context) async {
     if (_course!.compatibilityLevel != 0) {
       _isCourseCategoryNotCompatible =
           await TocHelper.isCourseCategoryNotCompatible(
-              courseCategory: _course!.courseCategory,
-              compatibilityLevel: _course!.compatibilityLevel);
+            courseCategory: _course!.courseCategory,
+            compatibilityLevel: _course!.compatibilityLevel,
+          );
 
       if (_isCourseCategoryNotCompatible) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -658,9 +712,10 @@ class CourseTocViewModel extends ChangeNotifier {
 
   Future<void> _navigateToPlayer(BuildContext context) async {
     Course? enrolledCourseInfo = await TocHelper().checkIsCoursesInProgress(
-        enrolledCourse: _enrolledCourse.value,
-        courseId: _courseId!,
-        context: context);
+      enrolledCourse: _enrolledCourse.value,
+      courseId: _courseId!,
+      context: context,
+    );
 
     if (enrolledCourseInfo != null &&
         enrolledCourseInfo.lastReadContentId != null &&
@@ -679,7 +734,9 @@ class CourseTocViewModel extends ChangeNotifier {
   }
 
   Future<void> setOverallCourseLanguage(
-      String language, BuildContext context) async {
+    String language,
+    BuildContext context,
+  ) async {
     overallCourseLanguage = language;
     for (var entry in course!.languageMap.languages.entries) {
       if (entry.key == language) {

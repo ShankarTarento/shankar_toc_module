@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 import 'package:provider/provider.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/constants/english_lang.dart';
@@ -9,11 +10,11 @@ import 'package:toc_module/toc/helper/toc_helper.dart';
 import 'package:toc_module/toc/model/batch_model.dart';
 import 'package:toc_module/toc/model/course_model.dart';
 import 'package:toc_module/toc/model/toc_player_model.dart';
+import 'package:toc_module/toc/repository/toc_repository.dart';
 import 'package:toc_module/toc/screen/toc_player_screen.dart';
 import 'package:toc_module/toc/services/toc_module_service.dart';
 import 'package:toc_module/toc/util/button_with_border.dart';
 import 'package:toc_module/toc/util/fade_route.dart';
-import '../../../rate_now_pop_up.dart';
 import '../enroll_moderated_program.dart';
 import 'PreEnrollLanguageSelector.dart';
 
@@ -37,35 +38,35 @@ class TocButtonWidget extends StatefulWidget {
   final bool isLearningPathContent;
   final double? courseRating;
   final bool isAITutor;
-  const TocButtonWidget(
-      {Key? key,
-      required this.isStandAloneAssesment,
-      this.isModerated = false,
-      this.enrolledCourse,
-      required this.courseDetails,
-      required this.navigationItems,
-      this.isCuratedProgram = false,
-      this.batchId,
-      this.recommendationId,
-      required this.courseId,
-      this.lastAccessContentId,
-      this.selectedBatch,
-      required this.readCourseProgress,
-      required this.updateEnrolmentList,
-      required this.resourceNavigateItems,
-      this.isFeatured = false,
-      required this.enrollmentList,
-      this.numberOfCourseRating,
-      required this.isLearningPathContent,
-      this.courseRating,
-      this.isAITutor = false})
-      : super(key: key);
+  const TocButtonWidget({
+    Key? key,
+    required this.isStandAloneAssesment,
+    this.isModerated = false,
+    this.enrolledCourse,
+    required this.courseDetails,
+    required this.navigationItems,
+    this.isCuratedProgram = false,
+    this.batchId,
+    this.recommendationId,
+    required this.courseId,
+    this.lastAccessContentId,
+    this.selectedBatch,
+    required this.readCourseProgress,
+    required this.updateEnrolmentList,
+    required this.resourceNavigateItems,
+    this.isFeatured = false,
+    required this.enrollmentList,
+    this.numberOfCourseRating,
+    required this.isLearningPathContent,
+    this.courseRating,
+    this.isAITutor = false,
+  }) : super(key: key);
   @override
   State<TocButtonWidget> createState() => _TocButtonWidgetState();
 }
 
 class _TocButtonWidgetState extends State<TocButtonWidget> {
-  final TocRepository TocRepository = TocRepository();
+  final TocRepository tocRepository = TocRepository();
   double progress = 0;
   ValueNotifier<bool> isEnabled = ValueNotifier<bool>(false);
   bool isModeratedMultiBatchCourse = false;
@@ -121,52 +122,63 @@ class _TocButtonWidgetState extends State<TocButtonWidget> {
             height: 40.w,
             width: 1.sw,
             child: ValueListenableBuilder<bool>(
-                valueListenable: isEnabled,
-                builder: (context, value, _) {
-                  return ButtonWithBorder(
-                      onPressCallback: () async {
-                        if (isEnabled.value) {
-                          if (enrolledCourse == null) {
-                            if (widget.courseDetails.languageMap.languages
-                                .isNotEmpty) {
-                              await showLanguageSelectionBtmSheet();
-                            } else if (!widget.isFeatured) {
-                              enrollCourse(context: context);
-                            }
-                          } else if (!widget.isFeatured) {
-                            if (enrolledCourse!.batchId != null) {
-                              navigateToContent(
-                                  batchId: enrolledCourse!.batchId!,
-                                  navigationItems: widget.navigationItems);
-                            }
-                          } else {
-                            //Featured Course
-                            navigateToContent(
-                                batchId:
-                                    widget.courseDetails.batches!.first.batchId,
-                                navigationItems: widget.navigationItems);
-                          }
+              valueListenable: isEnabled,
+              builder: (context, value, _) {
+                return ButtonWithBorder(
+                  onPressCallback: () async {
+                    if (isEnabled.value) {
+                      if (enrolledCourse == null) {
+                        if (widget
+                            .courseDetails
+                            .languageMap
+                            .languages
+                            .isNotEmpty) {
+                          await showLanguageSelectionBtmSheet();
+                        } else if (!widget.isFeatured) {
+                          enrollCourse(context: context);
                         }
-                      },
-                      bgColor: isEnabled.value
-                          ? TocModuleColors.darkBlue
-                          : TocModuleColors.black40,
-                      borderColor: isEnabled.value
-                          ? TocModuleColors.darkBlue
-                          : TocModuleColors.grey04,
-                      text: widget.isFeatured
-                          // navigatorKey.currentState!.context is used to handle context issue from dialog widgets
-                          ? TocLocalizations.of(
-                                  navigatorKey.currentState!.context)!
-                              .mStaticView
-                          : checkButtonStatus(),
-                      textStyle: TextStyle(
-                          color: TocModuleColors.appBarBackground,
-                          fontSize: !isEnabled.value && widget.isAITutor
-                              ? 10.sp
-                              : 15.sp),
-                      maxLines: 3);
-                }),
+                      } else if (!widget.isFeatured) {
+                        if (enrolledCourse!.batchId != null) {
+                          navigateToContent(
+                            batchId: enrolledCourse!.batchId!,
+                            navigationItems: widget.navigationItems,
+                          );
+                        }
+                      } else {
+                        //Featured Course
+                        navigateToContent(
+                          batchId: widget.courseDetails.batches!.first.batchId,
+                          navigationItems: widget.navigationItems,
+                        );
+                      }
+                    }
+                  },
+                  bgColor: isEnabled.value
+                      ? TocModuleColors.darkBlue
+                      : TocModuleColors.black40,
+                  borderColor: isEnabled.value
+                      ? TocModuleColors.darkBlue
+                      : TocModuleColors.grey04,
+                  text: widget.isFeatured
+                      //   TocModuleService.config.navigatorKey.currentState!.context is used to handle context issue from dialog widgets
+                      ? TocLocalizations.of(
+                          TocModuleService
+                              .config
+                              .navigatorKey
+                              .currentState!
+                              .context,
+                        )!.mStaticView
+                      : checkButtonStatus(),
+                  textStyle: TextStyle(
+                    color: TocModuleColors.appBarBackground,
+                    fontSize: !isEnabled.value && widget.isAITutor
+                        ? 10.sp
+                        : 15.sp,
+                  ),
+                  maxLines: 3,
+                );
+              },
+            ),
           );
   }
 
@@ -204,85 +216,101 @@ class _TocButtonWidgetState extends State<TocButtonWidget> {
   }
 
   String checkInviteOnlyProgramStatus() {
-    // navigatorKey.currentState!.context is used to handle context issue from dialog widgets
+    //   TocModuleService.config.navigatorKey.currentState!.context is used to handle context issue from dialog widgets
     if (enrolledCourse == null) {
-      return TocLocalizations.of(navigatorKey.currentState!.context)!
-          .mLearnYouAreNotInvitedProgram;
+      return TocLocalizations.of(
+        TocModuleService.config.navigatorKey.currentState!.context,
+      )!.mLearnYouAreNotInvitedProgram;
     } else if (hasDateNotReached()) {
-      return TocLocalizations.of(navigatorKey.currentState!.context)!
-          .mLearnBatchNotStarted;
+      return TocLocalizations.of(
+        TocModuleService.config.navigatorKey.currentState!.context,
+      )!.mLearnBatchNotStarted;
     } else if (isDateInRangeInclusive()) {
       updateAccess(true);
       return getStatus();
     }
-    return TocLocalizations.of(navigatorKey.currentState!.context)!
-        .mLearnNoActiveBatches;
+    return TocLocalizations.of(
+      TocModuleService.config.navigatorKey.currentState!.context,
+    )!.mLearnNoActiveBatches;
   }
 
   String checkInviteOnlyAssessmentStatus() {
-    // navigatorKey.currentState!.context is used to handle context issue from dialog widgets
+    //   TocModuleService.config.navigatorKey.currentState!.context is used to handle context issue from dialog widgets
     if (enrolledCourse == null) {
-      return TocLocalizations.of(navigatorKey.currentState!.context)!
-          .mLearnYouAreNotInvitedAssessment;
+      return TocLocalizations.of(
+        TocModuleService.config.navigatorKey.currentState!.context,
+      )!.mLearnYouAreNotInvitedAssessment;
     } else if (hasDateNotReached()) {
       return InviteOnlyBatchStatus.batchNotStarted;
     } else if (isDateInRangeInclusive()) {
       updateAccess(true);
       return getAssessmentStatus();
     }
-    return TocLocalizations.of(navigatorKey.currentState!.context)!
-        .mLearnNoActiveBatches;
+    return TocLocalizations.of(
+      TocModuleService.config.navigatorKey.currentState!.context,
+    )!.mLearnNoActiveBatches;
   }
 
   String getStatus() {
-    // navigatorKey.currentState!.context is used to handle context issue from dialog widgets
+    //   TocModuleService.config.navigatorKey.currentState!.context is used to handle context issue from dialog widgets
     if (enrolledCourse == null) {
-      return TocLocalizations.of(navigatorKey.currentState!.context)!
-          .mStaticEnroll;
+      return TocLocalizations.of(
+        TocModuleService.config.navigatorKey.currentState!.context,
+      )!.mStaticEnroll;
     } else if (enrolledCourse!.completionPercentage ==
             TocConstants.COURSE_COMPLETION_PERCENTAGE ||
         progress == 1) {
-      return TocLocalizations.of(navigatorKey.currentState!.context)!
-          .mLearnStartAgain;
+      return TocLocalizations.of(
+        TocModuleService.config.navigatorKey.currentState!.context,
+      )!.mLearnStartAgain;
     } else if (progress == 0) {
-      return TocLocalizations.of(navigatorKey.currentState!.context)!
-          .mStaticStart;
+      return TocLocalizations.of(
+        TocModuleService.config.navigatorKey.currentState!.context,
+      )!.mStaticStart;
     } else if (progress > 0 && progress < 1) {
-      return TocLocalizations.of(navigatorKey.currentState!.context)!
-          .mStaticResume;
+      return TocLocalizations.of(
+        TocModuleService.config.navigatorKey.currentState!.context,
+      )!.mStaticResume;
     } else {
-      return TocLocalizations.of(navigatorKey.currentState!.context)!
-          .mStaticStart;
+      return TocLocalizations.of(
+        TocModuleService.config.navigatorKey.currentState!.context,
+      )!.mStaticStart;
     }
   }
 
   String getAssessmentStatus() {
-    // navigatorKey.currentState!.context is used to handle context issue from dialog widgets
+    //   TocModuleService.config.navigatorKey.currentState!.context is used to handle context issue from dialog widgets
     if (enrolledCourse == null) {
-      return TocLocalizations.of(navigatorKey.currentState!.context)!
-          .mStaticEnroll;
+      return TocLocalizations.of(
+        TocModuleService.config.navigatorKey.currentState!.context,
+      )!.mStaticEnroll;
     } else if (progress >= 0 && progress < 1) {
-      return TocLocalizations.of(navigatorKey.currentState!.context)!
-          .mLearnTakeTest;
+      return TocLocalizations.of(
+        TocModuleService.config.navigatorKey.currentState!.context,
+      )!.mLearnTakeTest;
     } else {
-      return TocLocalizations.of(navigatorKey.currentState!.context)!
-          .mAssessmentTakeTestAgain;
+      return TocLocalizations.of(
+        TocModuleService.config.navigatorKey.currentState!.context,
+      )!.mAssessmentTakeTestAgain;
     }
   }
 
   bool hasDateNotReached() {
     DateTime today = TocHelper.trimDate(DateTime.now());
-    DateTime start =
-        TocHelper.trimDate(DateTime.parse(enrolledCourse!.batch!.startDate));
+    DateTime start = TocHelper.trimDate(
+      DateTime.parse(enrolledCourse!.batch!.startDate),
+    );
     return start.isAfter(today);
   }
 
   bool isDateInRangeInclusive() {
     DateTime today = TocHelper.trimDate(DateTime.now());
-    DateTime start =
-        TocHelper.trimDate(DateTime.parse(enrolledCourse!.batch!.startDate));
-    DateTime end =
-        TocHelper.trimDate(DateTime.parse(enrolledCourse!.batch!.endDate));
+    DateTime start = TocHelper.trimDate(
+      DateTime.parse(enrolledCourse!.batch!.startDate),
+    );
+    DateTime end = TocHelper.trimDate(
+      DateTime.parse(enrolledCourse!.batch!.endDate),
+    );
     return (today.isAtSameMomentAs(start) || today.isAfter(start)) &&
         (today.isAtSameMomentAs(end) || today.isBefore(end));
   }
@@ -295,8 +323,9 @@ class _TocButtonWidgetState extends State<TocButtonWidget> {
           if (element.status == 2) {
             totalProgress += 1;
           } else {
-            totalProgress +=
-                double.parse(element.completionPercentage.toString());
+            totalProgress += double.parse(
+              element.completionPercentage.toString(),
+            );
           }
         }
       });
@@ -329,26 +358,29 @@ class _TocButtonWidgetState extends State<TocButtonWidget> {
     courseId = TocHelper.getBaseCourseId(widget.courseDetails) ?? courseId;
 
     var response = await TocRepository.autoEnrollBatch(
-        courseId: courseId,
-        language:
-            widget.courseDetails.languageMap.languages[baseLanguage]?.name);
-// navigatorKey.currentState!.context is used to handle context issue from dialog widgets
+      courseId: courseId,
+      language: widget.courseDetails.languageMap.languages[baseLanguage]?.name,
+    );
+    //   TocModuleService.config.navigatorKey.currentState!.context is used to handle context issue from dialog widgets
     if (response.runtimeType == String) {
       TocHelper.showSnackBarMessage(
-          bgColor: TocModuleColors.darkBlue,
-          textColor: Colors.white,
-          context: navigatorKey.currentState!.context,
-          text: response);
+        bgColor: TocModuleColors.darkBlue,
+        textColor: Colors.white,
+        context: TocModuleService.config.navigatorKey.currentState!.context,
+        text: response,
+      );
     } else {
       await fetchEnrolInfo(courseId);
 
       trackCourseEnrolled();
       TocHelper.showSnackBarMessage(
-          bgColor: TocModuleColors.darkBlue,
-          textColor: Colors.white,
-          context: navigatorKey.currentState!.context,
-          text: TocLocalizations.of(navigatorKey.currentState!.context)!
-              .mStaticEnrolledSuccessfully);
+        bgColor: TocModuleColors.darkBlue,
+        textColor: Colors.white,
+        context: TocModuleService.config.navigatorKey.currentState!.context,
+        text: TocLocalizations.of(
+          TocModuleService.config.navigatorKey.currentState!.context,
+        )!.mStaticEnrolledSuccessfully,
+      );
     }
   }
 
@@ -360,53 +392,69 @@ class _TocButtonWidgetState extends State<TocButtonWidget> {
       selectedBatchId = widget.courseDetails.batches!.first.batchId;
     }
     String response = await TocRepository.enrollProgram(
-        courseId: widget.courseDetails.id,
-        programId: widget.courseDetails.id,
-        batchId: selectedBatchId);
-    // navigatorKey.currentState!.context is used to handle context issue from dialog widgets
+      courseId: widget.courseDetails.id,
+      programId: widget.courseDetails.id,
+      batchId: selectedBatchId,
+    );
+    //   TocModuleService.config.navigatorKey.currentState!.context is used to handle context issue from dialog widgets
     if (response.toLowerCase() == EnglishLang.success.toLowerCase()) {
       await fetchEnrolInfo(widget.courseDetails.id);
       trackCourseEnrolled();
-      TocHelper.showToastMessage(navigatorKey.currentState!.context,
-          message: TocLocalizations.of(navigatorKey.currentState!.context)!
-              .mStaticEnrolledSuccessfully);
+      TocHelper.showToastMessage(
+        TocModuleService.config.navigatorKey.currentState!.context,
+        message: TocLocalizations.of(
+          TocModuleService.config.navigatorKey.currentState!.context,
+        )!.mStaticEnrolledSuccessfully,
+      );
     } else {
-      TocHelper.showToastMessage(navigatorKey.currentState!.context,
-          message:
-              '${TocLocalizations.of(navigatorKey.currentState!.context)!.mStaticEnrollmentFailed}, ${response}');
+      TocHelper.showToastMessage(
+        TocModuleService.config.navigatorKey.currentState!.context,
+        message:
+            '${TocLocalizations.of(TocModuleService.config.navigatorKey.currentState!.context)!.mStaticEnrollmentFailed}, ${response}',
+      );
     }
   }
 
   Future<void> enrollCuratedWithoutModerated(BuildContext context) async {
     String message = await TocRepository.enrollToCuratedProgram(
-        widget.courseDetails.id, widget.courseDetails.batches![0].batchId);
-// navigatorKey.currentState!.context is used to handle context issue from dialog widgets
+      widget.courseDetails.id,
+      widget.courseDetails.batches![0].batchId,
+    );
+    //   TocModuleService.config.navigatorKey.currentState!.context is used to handle context issue from dialog widgets
     if (message.toLowerCase() == EnglishLang.success.toLowerCase()) {
       await fetchEnrolInfo(widget.courseDetails.id);
       trackCourseEnrolled();
-      TocHelper.showToastMessage(navigatorKey.currentState!.context,
-          message: TocLocalizations.of(navigatorKey.currentState!.context)!
-              .mStaticEnrolledSuccessfully);
+      TocHelper.showToastMessage(
+        TocModuleService.config.navigatorKey.currentState!.context,
+        message: TocLocalizations.of(
+          TocModuleService.config.navigatorKey.currentState!.context,
+        )!.mStaticEnrolledSuccessfully,
+      );
     } else {
-      TocHelper.showToastMessage(navigatorKey.currentState!.context,
-          message: message.isNotEmpty
-              ? message
-              : TocLocalizations.of(navigatorKey.currentState!.context)!
-                  .mStaticEnrollmentFailed);
+      TocHelper.showToastMessage(
+        TocModuleService.config.navigatorKey.currentState!.context,
+        message: message.isNotEmpty
+            ? message
+            : TocLocalizations.of(
+                TocModuleService.config.navigatorKey.currentState!.context,
+              )!.mStaticEnrollmentFailed,
+      );
     }
   }
 
   Future<void> fetchEnrolInfo(String id) async {
     await generateInteractTelemetryData();
-    List<Course> response =
-        await TocRepository.getCourseEnrollDetailsByIds(courseIds: [id]);
+    List<Course> response = await TocRepository.getCourseEnrollDetailsByIds(
+      courseIds: [id],
+    );
     if (response.isNotEmpty) {
       widget.updateEnrolmentList();
       widget.readCourseProgress();
       enrollmentList = response;
-      enrolledCourse = response
-          .cast<Course?>()
-          .firstWhere((course) => course!.id == id, orElse: () => null);
+      enrolledCourse = response.cast<Course?>().firstWhere(
+        (course) => course!.id == id,
+        orElse: () => null,
+      );
 
       if (enrolledCourse != null && enrolledCourse!.batchId != null) {
         navigateToContent(batchId: enrolledCourse!.batchId!);
@@ -421,59 +469,70 @@ class _TocButtonWidgetState extends State<TocButtonWidget> {
   }
 
   navigateToContent({required String batchId, List? navigationItems}) async {
-    // navigatorKey.currentState!.context is used to handle context issue from dialog widgets
+    //   TocModuleService.config.navigatorKey.currentState!.context is used to handle context issue from dialog widgets
     var result = await Navigator.push(
-        navigatorKey.currentState!.context,
-        FadeRoute(
-            page: TocPlayerScreen(
+      TocModuleService.config.navigatorKey.currentState!.context,
+      FadeRoute(
+        page: TocPlayerScreen(
           arguments: TocPlayerModel(
-              enrolledCourse: enrolledCourse,
-              navigationItems: navigationItems,
-              isCuratedProgram: widget.isCuratedProgram,
-              batchId: batchId,
-              lastAccessContentId: widget.lastAccessContentId,
-              courseId: widget.courseId,
-              isFeatured: widget.isFeatured,
-              enrollmentList: enrollmentList),
-        )));
+            enrolledCourse: enrolledCourse,
+            navigationItems: navigationItems,
+            isCuratedProgram: widget.isCuratedProgram,
+            batchId: batchId,
+            lastAccessContentId: widget.lastAccessContentId,
+            courseId: widget.courseId,
+            isFeatured: widget.isFeatured,
+            enrollmentList: enrollmentList,
+          ),
+        ),
+      ),
+    );
     if (result != null && result is Map<String, bool>) {
       Map<String, dynamic> response = result;
       if (response['isFinished']) {
         await showModalBottomSheet(
-            isScrollControlled: true,
-            context: navigatorKey.currentState!.context,
-            backgroundColor: TocModuleColors.greys60,
-            builder: (ctx) => RateNowPopUp(
-                  courseDetails: widget.courseDetails,
-                )).whenComplete(() => InAppReviewRespository()
-            .triggerInAppReviewPopup(navigatorKey.currentState!.context));
+          isScrollControlled: true,
+          context: TocModuleService.config.navigatorKey.currentState!.context,
+          backgroundColor: TocModuleColors.greys60,
+          builder: (ctx) => RateNowPopUp(courseDetails: widget.courseDetails),
+        ).whenComplete(
+          () => InAppReviewRespository().triggerInAppReviewPopup(
+            TocModuleService
+                .config
+                .TocModuleService
+                .config
+                .navigatorKey
+                .currentState!
+                .context,
+          ),
+        );
       }
     }
     widget.readCourseProgress();
   }
 
   Future<void> generateInteractTelemetryData() async {
-    var telemetryRepository = TelemetryRepository();
-    Map eventData = telemetryRepository.getInteractTelemetryEvent(
-        pageIdentifier: TelemetryPageIdentifier.courseEnrollPageId
-            .replaceAll(':do_ID', widget.courseId),
-        contentId: widget.courseId,
-        subType: TelemetrySubType.enroll,
-        env: TelemetryEnv.learn,
-        objectType: widget.courseDetails.courseCategory,
-        clickId: widget.courseId,
-        targetId: widget.recommendationId,
-        targetType:
-            widget.recommendationId != null ? TelemetrySubType.igotAI : null);
-    await telemetryRepository.insertEvent(eventData: eventData);
+    // var telemetryRepository = TelemetryRepository();
+    // Map eventData = telemetryRepository.getInteractTelemetryEvent(
+    //     pageIdentifier: TelemetryPageIdentifier.courseEnrollPageId
+    //         .replaceAll(':do_ID', widget.courseId),
+    //     contentId: widget.courseId,
+    //     subType: TelemetrySubType.enroll,
+    //     env: TelemetryEnv.learn,
+    //     objectType: widget.courseDetails.courseCategory,
+    //     clickId: widget.courseId,
+    //     targetId: widget.recommendationId,
+    //     targetType:
+    //         widget.recommendationId != null ? TelemetrySubType.igotAI : null);
+    // await telemetryRepository.insertEvent(eventData: eventData);
   }
 
   void trackCourseEnrolled() async {
     try {
       bool _isContentEnrolmentEnabled = await Provider.of<TocRepository>(
-              navigatorKey.currentState!.context,
-              listen: false)
-          .isSmartechEventEnabled(eventName: SMTTrackEvents.contentEnrolment);
+        TocModuleService.config.navigatorKey.currentState!.context,
+        listen: false,
+      ).isSmartechEventEnabled(eventName: SMTTrackEvents.contentEnrolment);
       if (_isContentEnrolmentEnabled) {
         SmartechService.trackCourseEnrolled(
           courseCategory: widget.courseDetails.courseCategory,
@@ -496,24 +555,25 @@ class _TocButtonWidgetState extends State<TocButtonWidget> {
 
   Future<void> showLanguageSelectionBtmSheet() async {
     await showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        backgroundColor: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(16)).r,
-        ),
-        builder: (context) {
-          return PreEnrollanguageSelectorWidget(
-            course: widget.courseDetails,
-            changeSelectionCallback: (value) {
-              baseLanguage = value;
-              setState(() {
-                if (!widget.isFeatured) {
-                  enrollCourse(context: context);
-                }
-              });
-            },
-          );
-        });
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)).r,
+      ),
+      builder: (context) {
+        return PreEnrollanguageSelectorWidget(
+          course: widget.courseDetails,
+          changeSelectionCallback: (value) {
+            baseLanguage = value;
+            setState(() {
+              if (!widget.isFeatured) {
+                enrollCourse(context: context);
+              }
+            });
+          },
+        );
+      },
+    );
   }
 }

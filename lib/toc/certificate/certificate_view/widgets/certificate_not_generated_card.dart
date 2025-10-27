@@ -3,15 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 import 'package:toc_module/toc/constants/toc_constants.dart';
 import 'package:toc_module/toc/helper/toc_helper.dart';
 
 class CertificateNotGeneratedCard extends StatelessWidget {
   final double imageHeight;
   final double imageWidth;
-  const CertificateNotGeneratedCard(
-      {super.key, required this.imageHeight, required this.imageWidth});
+  const CertificateNotGeneratedCard({
+    super.key,
+    required this.imageHeight,
+    required this.imageWidth,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -33,34 +37,36 @@ class CertificateNotGeneratedCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(8).r,
           ),
           child: Center(
-              child: RichText(
-            text: TextSpan(
-              style: GoogleFonts.lato(
-                color: TocModuleColors.appBarBackground,
-                fontWeight: FontWeight.w600,
-                fontSize: 12.sp,
-                letterSpacing: 0.25,
-                height: 1.5.w,
-              ),
-              children: [
-                TextSpan(
-                  text: TocLocalizations.of(context)!
-                      .mStaticWaitingForCertificateGeneration,
+            child: RichText(
+              text: TextSpan(
+                style: GoogleFonts.lato(
+                  color: TocModuleColors.appBarBackground,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 12.sp,
+                  letterSpacing: 0.25,
+                  height: 1.5.w,
                 ),
-                TextSpan(
-                  text: ' $supportEmail',
-                  style: TextStyle(
-                    decoration: TextDecoration.underline,
-                    color: TocModuleColors.customBlue,
+                children: [
+                  TextSpan(
+                    text: TocLocalizations.of(
+                      context,
+                    )!.mStaticWaitingForCertificateGeneration,
                   ),
-                  recognizer: TapGestureRecognizer()
-                    ..onTap = () async {
-                      TocHelper.doLaunchUrl(url: "mailto:$supportEmail");
-                    },
-                ),
-              ],
+                  TextSpan(
+                    text: ' $supportEmail',
+                    style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      color: TocModuleColors.customBlue,
+                    ),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () async {
+                        TocHelper.doLaunchUrl(url: "mailto:$supportEmail");
+                      },
+                  ),
+                ],
+              ),
             ),
-          )),
+          ),
         ),
       ],
     );

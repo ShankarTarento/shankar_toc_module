@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/constants/toc_constants.dart';
@@ -13,13 +14,14 @@ class VerifyPhoneField extends StatefulWidget {
   final String? unverifiedPhone;
   final bool isVerified;
 
-  const VerifyPhoneField(
-      {super.key,
-      required this.onChanged,
-      required this.mobileNumber,
-      required this.isVerified,
-      this.unverifiedPhone,
-      required this.mobileController});
+  const VerifyPhoneField({
+    super.key,
+    required this.onChanged,
+    required this.mobileNumber,
+    required this.isVerified,
+    this.unverifiedPhone,
+    required this.mobileController,
+  });
 
   @override
   State<VerifyPhoneField> createState() => _VerifyPhoneFieldState();
@@ -58,10 +60,7 @@ class _VerifyPhoneFieldState extends State<VerifyPhoneField> {
   Widget _buildPhoneNumberField() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildMobileNumberHeader(),
-        _buildMobileNumberInput(),
-      ],
+      children: [_buildMobileNumberHeader(), _buildMobileNumberInput()],
     );
   }
 
@@ -111,16 +110,15 @@ class _VerifyPhoneFieldState extends State<VerifyPhoneField> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Icon(
-            Icons.edit,
-            size: 18.sp,
-            color: TocModuleColors.darkBlue,
+          Icon(Icons.edit, size: 18.sp, color: TocModuleColors.darkBlue),
+          Text(
+            TocLocalizations.of(context)!.mStaticEdit,
+            style: GoogleFonts.lato(
+              color: TocModuleColors.darkBlue,
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w600,
+            ),
           ),
-          Text(TocLocalizations.of(context)!.mStaticEdit,
-              style: GoogleFonts.lato(
-                  color: TocModuleColors.darkBlue,
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w600)),
         ],
       ),
     );
@@ -131,107 +129,110 @@ class _VerifyPhoneFieldState extends State<VerifyPhoneField> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-            padding: EdgeInsets.only(top: 6).r,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(4).r,
-            ),
-            child: Focus(
-              child: TextFormField(
-                textInputAction: TextInputAction.next,
-                onFieldSubmitted: (term) {
-                  // FocusScope.of(context).unfocus();
-                },
-                focusNode: _mobileNumberFocus,
-                onChanged: (value) {
-                  widget.onChanged(widget.mobileController.text == value);
+          padding: EdgeInsets.only(top: 6).r,
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(4).r),
+          child: Focus(
+            child: TextFormField(
+              textInputAction: TextInputAction.next,
+              onFieldSubmitted: (term) {
+                // FocusScope.of(context).unfocus();
+              },
+              focusNode: _mobileNumberFocus,
+              onChanged: (value) {
+                widget.onChanged(widget.mobileController.text == value);
 
-                  if (widget.mobileController.text != value) {
-                    setState(() {
-                      _hasSendOTPRequest = false;
-                      _isMobileNumberVerified = false;
-                    });
-                  }
-                },
-                maxLength: 10,
-                readOnly: _freezeMobileField || _isMobileNumberVerified,
-                controller: _mobileNoController,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                validator: (String? value) {
-                  if (value!.trim().isEmpty) {
-                    return TocLocalizations.of(context)!
-                        .mStaticEmptyMobileNumber;
-                  } else if (value.trim().length != 10 ||
-                      !RegExpressions.validPhone.hasMatch(value)) {
-                    return TocLocalizations.of(context)!
-                        .mStaticPleaseAddValidNumber;
-                  } else
-                    return null;
-                },
-                style: GoogleFonts.lato(fontSize: 14.0.sp),
-                keyboardType: TextInputType.phone,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: _freezeMobileField
-                      ? TocModuleColors.grey04
-                      : TocModuleColors.appBarBackground,
-                  counterText: '',
-                  suffixIcon:
-                      _isMobileNumberVerified || _mobileNumberFocus.hasFocus
-                          ? _mobileNumberFocus.hasFocus
-                              ? InkWell(
-                                  onTap: () {
-                                    _mobileNumberFocus.unfocus();
-                                    _mobileNoController.text =
-                                        widget.mobileController.text;
-                                    widget.onChanged(widget.isVerified);
-                                    _isMobileNumberVerified = widget.isVerified;
-                                    setState(() {});
-                                  },
-                                  child: Icon(
-                                    Icons.close,
-                                    color: TocModuleColors.greys60,
-                                  ),
-                                )
-                              : Icon(
-                                  Icons.check_circle,
-                                  color: TocModuleColors.positiveLight,
-                                )
-                          : null,
-                  contentPadding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0).r,
-                  border: OutlineInputBorder(
-                      borderSide: BorderSide(color: TocModuleColors.grey08)),
-                  hintText: TocLocalizations.of(context)!.mStaticMobileNumber,
-                  helperText: (_isMobileNumberVerified ||
-                          (_mobileNoController.text.trim().length == 10 &&
-                              RegExpressions.validPhone
-                                  .hasMatch(_mobileNoController.text.trim())))
-                      ? null
-                      : TocLocalizations.of(context)!
-                          .mStaticPleaseAddValidNumber,
-                  hintStyle: GoogleFonts.lato(
-                      color: TocModuleColors.grey40,
-                      fontSize: 14.0.sp,
-                      fontWeight: FontWeight.w400),
-                  enabled: !_freezeMobileField,
-                  enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: TocModuleColors.grey16)),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                        color: TocModuleColors.darkBlue, width: 1.0),
+                if (widget.mobileController.text != value) {
+                  setState(() {
+                    _hasSendOTPRequest = false;
+                    _isMobileNumberVerified = false;
+                  });
+                }
+              },
+              maxLength: 10,
+              readOnly: _freezeMobileField || _isMobileNumberVerified,
+              controller: _mobileNoController,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: (String? value) {
+                if (value!.trim().isEmpty) {
+                  return TocLocalizations.of(context)!.mStaticEmptyMobileNumber;
+                } else if (value.trim().length != 10 ||
+                    !RegExpressions.validPhone.hasMatch(value)) {
+                  return TocLocalizations.of(
+                    context,
+                  )!.mStaticPleaseAddValidNumber;
+                } else
+                  return null;
+              },
+              style: GoogleFonts.lato(fontSize: 14.0.sp),
+              keyboardType: TextInputType.phone,
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: _freezeMobileField
+                    ? TocModuleColors.grey04
+                    : TocModuleColors.appBarBackground,
+                counterText: '',
+                suffixIcon:
+                    _isMobileNumberVerified || _mobileNumberFocus.hasFocus
+                    ? _mobileNumberFocus.hasFocus
+                          ? InkWell(
+                              onTap: () {
+                                _mobileNumberFocus.unfocus();
+                                _mobileNoController.text =
+                                    widget.mobileController.text;
+                                widget.onChanged(widget.isVerified);
+                                _isMobileNumberVerified = widget.isVerified;
+                                setState(() {});
+                              },
+                              child: Icon(
+                                Icons.close,
+                                color: TocModuleColors.greys60,
+                              ),
+                            )
+                          : Icon(
+                              Icons.check_circle,
+                              color: TocModuleColors.positiveLight,
+                            )
+                    : null,
+                contentPadding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0).r,
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: TocModuleColors.grey08),
+                ),
+                hintText: TocLocalizations.of(context)!.mStaticMobileNumber,
+                helperText:
+                    (_isMobileNumberVerified ||
+                        (_mobileNoController.text.trim().length == 10 &&
+                            RegExpressions.validPhone.hasMatch(
+                              _mobileNoController.text.trim(),
+                            )))
+                    ? null
+                    : TocLocalizations.of(context)!.mStaticPleaseAddValidNumber,
+                hintStyle: GoogleFonts.lato(
+                  color: TocModuleColors.grey40,
+                  fontSize: 14.0.sp,
+                  fontWeight: FontWeight.w400,
+                ),
+                enabled: !_freezeMobileField,
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: TocModuleColors.grey16),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(
+                    color: TocModuleColors.darkBlue,
+                    width: 1.0,
                   ),
                 ),
               ),
-            )),
+            ),
+          ),
+        ),
         _isMobileNumberVerified ? _buildChangeMobileNumberButton() : Center(),
         !_hasSendOTPRequest &&
                 widget.mobileController.text != _mobileNoController.text
             ? _buildSendOTPButton()
             : _hasSendOTPRequest
-                ? verifyOtpSection()
-                : Center(),
-        SizedBox(
-          height: 16.w,
-        )
+            ? verifyOtpSection()
+            : Center(),
+        SizedBox(height: 16.w),
       ],
     );
   }
@@ -246,53 +247,60 @@ class _VerifyPhoneFieldState extends State<VerifyPhoneField> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                  width: 0.475.sw,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4).r,
-                  ),
-                  child: Focus(
-                    child: TextFormField(
-                      obscureText: true,
-                      textInputAction: TextInputAction.next,
-                      focusNode: _otpFocus,
-                      controller: _mobileNoOTPController,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: (String? value) {
-                        if (value != null) {
-                          if (value.isEmpty) {
-                            return TocLocalizations.of(context)!
-                                .mStaticEnterOtp;
-                          } else
-                            return null;
-                        } else {
+                width: 0.475.sw,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4).r,
+                ),
+                child: Focus(
+                  child: TextFormField(
+                    obscureText: true,
+                    textInputAction: TextInputAction.next,
+                    focusNode: _otpFocus,
+                    controller: _mobileNoOTPController,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (String? value) {
+                      if (value != null) {
+                        if (value.isEmpty) {
+                          return TocLocalizations.of(context)!.mStaticEnterOtp;
+                        } else
                           return null;
-                        }
-                      },
-                      style: GoogleFonts.lato(fontSize: 14.0.sp),
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: TocModuleColors.appBarBackground,
-                        contentPadding:
-                            EdgeInsets.fromLTRB(16.0, 0.0, 20.0, 0.0).r,
-                        border: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: TocModuleColors.grey16)),
-                        enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: TocModuleColors.grey16)),
-                        hintText: TocLocalizations.of(context)!.mStaticEnterOtp,
-                        hintStyle: GoogleFonts.lato(
-                            color: TocModuleColors.grey40,
-                            fontSize: 14.0.sp,
-                            fontWeight: FontWeight.w400),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                              color: TocModuleColors.darkBlue, width: 1.0),
+                      } else {
+                        return null;
+                      }
+                    },
+                    style: GoogleFonts.lato(fontSize: 14.0.sp),
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: TocModuleColors.appBarBackground,
+                      contentPadding: EdgeInsets.fromLTRB(
+                        16.0,
+                        0.0,
+                        20.0,
+                        0.0,
+                      ).r,
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: TocModuleColors.grey16),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: TocModuleColors.grey16),
+                      ),
+                      hintText: TocLocalizations.of(context)!.mStaticEnterOtp,
+                      hintStyle: GoogleFonts.lato(
+                        color: TocModuleColors.grey40,
+                        fontSize: 14.0.sp,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(
+                          color: TocModuleColors.darkBlue,
+                          width: 1.0,
                         ),
                       ),
                     ),
-                  )),
+                  ),
+                ),
+              ),
               Container(
                 width: 0.4.sw,
                 child: ElevatedButton(
@@ -306,11 +314,12 @@ class _VerifyPhoneFieldState extends State<VerifyPhoneField> {
                   child: Text(
                     TocLocalizations.of(context)!.mRegisterverifyOTP,
                     style: GoogleFonts.lato(
-                        height: 1.429.w,
-                        letterSpacing: 0.5,
-                        fontSize: 14.sp,
-                        color: TocModuleColors.appBarBackground,
-                        fontWeight: FontWeight.w700),
+                      height: 1.429.w,
+                      letterSpacing: 0.5,
+                      fontSize: 14.sp,
+                      color: TocModuleColors.appBarBackground,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
               ),
@@ -332,21 +341,23 @@ class _VerifyPhoneFieldState extends State<VerifyPhoneField> {
                   alignment: Alignment.topLeft,
                   // padding: EdgeInsets.only(top: 8),
                   child: TextButton(
-                      style: TextButton.styleFrom(
-                        padding: EdgeInsets.zero.r,
-                        minimumSize: Size(50, 50),
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      ),
-                      onPressed: () {
-                        _sendOTPToVerifyNumber();
-                        setState(() {
-                          _showResendOption = false;
-                          _resendOTPTime = RegistrationType.resendOtpTimeLimit;
-                        });
-                      },
-                      child: Text(
-                          TocLocalizations.of(context)!.mRegisterresendOTP,
-                          style: Theme.of(context).textTheme.headlineMedium!)),
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.zero.r,
+                      minimumSize: Size(50, 50),
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                    onPressed: () {
+                      _sendOTPToVerifyNumber();
+                      setState(() {
+                        _showResendOption = false;
+                        _resendOTPTime = RegistrationType.resendOtpTimeLimit;
+                      });
+                    },
+                    child: Text(
+                      TocLocalizations.of(context)!.mRegisterresendOTP,
+                      style: Theme.of(context).textTheme.headlineMedium!,
+                    ),
+                  ),
                 ),
         ],
       ),
@@ -357,35 +368,39 @@ class _VerifyPhoneFieldState extends State<VerifyPhoneField> {
     return Padding(
       padding: const EdgeInsets.only(top: 8),
       child: Align(
-          alignment: Alignment.centerRight,
-          child: TextButton(
-            style: TextButton.styleFrom(
-              padding: EdgeInsets.zero.r,
-              minimumSize: Size(50, 30),
-              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        alignment: Alignment.centerRight,
+        child: TextButton(
+          style: TextButton.styleFrom(
+            padding: EdgeInsets.zero.r,
+            minimumSize: Size(50, 30),
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          ),
+          onPressed: () {
+            setState(() {
+              _isMobileNumberVerified = false;
+            });
+            FocusScope.of(context).requestFocus(_mobileNumberFocus);
+          },
+          child: Text(
+            TocLocalizations.of(context)!.mStaticChangeMobileNumber,
+            style: GoogleFonts.lato(
+              fontWeight: FontWeight.w700,
+              fontSize: 14.sp,
+              color: TocModuleColors.darkBlue,
             ),
-            onPressed: () {
-              setState(() {
-                _isMobileNumberVerified = false;
-              });
-              FocusScope.of(context).requestFocus(_mobileNumberFocus);
-            },
-            child: Text(
-              TocLocalizations.of(context)!.mStaticChangeMobileNumber,
-              style: GoogleFonts.lato(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 14.sp,
-                  color: TocModuleColors.darkBlue),
-            ),
-          )),
+          ),
+        ),
+      ),
     );
   }
 
   Widget _buildSendOTPButton() {
     return Padding(
-      padding: (_mobileNoController.text.trim().length == 10 &&
-              RegExpressions.validPhone
-                  .hasMatch(_mobileNoController.text.trim()))
+      padding:
+          (_mobileNoController.text.trim().length == 10 &&
+              RegExpressions.validPhone.hasMatch(
+                _mobileNoController.text.trim(),
+              ))
           ? EdgeInsets.only(top: 16).r
           : EdgeInsets.zero.r,
       child: Row(
@@ -393,14 +408,16 @@ class _VerifyPhoneFieldState extends State<VerifyPhoneField> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-              width: 0.6.sw,
-              child: Text(
-                TocLocalizations.of(context)!.mRegisterVerifyMobile,
-                style: GoogleFonts.lato(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w500,
-                    height: 1.5.w),
-              )),
+            width: 0.6.sw,
+            child: Text(
+              TocLocalizations.of(context)!.mRegisterVerifyMobile,
+              style: GoogleFonts.lato(
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w500,
+                height: 1.5.w,
+              ),
+            ),
+          ),
           Container(
             width: 0.3.sw,
             padding: EdgeInsets.only(top: 8).w,
@@ -417,11 +434,12 @@ class _VerifyPhoneFieldState extends State<VerifyPhoneField> {
               child: Text(
                 TocLocalizations.of(context)!.mStaticSendOtp,
                 style: GoogleFonts.lato(
-                    height: 1.429.w,
-                    letterSpacing: 0.5,
-                    fontSize: 14.sp,
-                    color: TocModuleColors.appBarBackground,
-                    fontWeight: FontWeight.w700),
+                  height: 1.429.w,
+                  letterSpacing: 0.5,
+                  fontSize: 14.sp,
+                  color: TocModuleColors.appBarBackground,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ),
           ),
@@ -431,11 +449,14 @@ class _VerifyPhoneFieldState extends State<VerifyPhoneField> {
   }
 
   _sendOTPToVerifyNumber() async {
-    final String response = await profileRepository
-        .generateMobileNumberOTP(_mobileNoController.text);
+    final String response = await profileRepository.generateMobileNumberOTP(
+      _mobileNoController.text,
+    );
     if (response == '') {
-      _showSnackBar(TocLocalizations.of(context)!.mStaticOtpSentToMobile,
-          TocModuleColors.positiveLight);
+      _showSnackBar(
+        TocLocalizations.of(context)!.mStaticOtpSentToMobile,
+        TocModuleColors.positiveLight,
+      );
       setState(() {
         _hasSendOTPRequest = true;
         _freezeMobileField = true;
@@ -452,10 +473,14 @@ class _VerifyPhoneFieldState extends State<VerifyPhoneField> {
 
   _verifyOTP(String otp) async {
     final String response = await profileRepository.verifyMobileNumberOTP(
-        _mobileNoController.text, otp);
+      _mobileNoController.text,
+      otp,
+    );
     if (response == '') {
-      _showSnackBar(TocLocalizations.of(context)!.mStaticMobileVerifiedMessage,
-          TocModuleColors.positiveLight);
+      _showSnackBar(
+        TocLocalizations.of(context)!.mStaticMobileVerifiedMessage,
+        TocModuleColors.positiveLight,
+      );
       setState(() {
         _hasSendOTPRequest = false;
         _isMobileNumberVerified = true;
@@ -480,8 +505,10 @@ class _VerifyPhoneFieldState extends State<VerifyPhoneField> {
         bottom: MediaQuery.of(context).viewInsets.bottom + 20,
         child: Container(
           width: 1.sw,
-          padding:
-              const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0).r,
+          padding: const EdgeInsets.symmetric(
+            vertical: 12.0,
+            horizontal: 8.0,
+          ).r,
           decoration: BoxDecoration(
             color: backgroundColor,
             borderRadius: BorderRadius.circular(3.0).r,
@@ -489,9 +516,10 @@ class _VerifyPhoneFieldState extends State<VerifyPhoneField> {
           child: Text(
             message,
             style: GoogleFonts.lato(
-                color: TocModuleColors.appBarBackground,
-                fontSize: 13.sp,
-                decoration: TextDecoration.none),
+              color: TocModuleColors.appBarBackground,
+              fontSize: 13.sp,
+              decoration: TextDecoration.none,
+            ),
             textAlign: TextAlign.center,
           ),
         ),

@@ -6,13 +6,13 @@ import 'package:toc_module/toc/helper/toc_helper.dart';
 import 'package:toc_module/toc/model/competency_model.dart';
 import 'package:toc_module/toc/model/competency_passbook.dart';
 import 'package:toc_module/toc/pages/about_tab/widgets/competency_strip/widgets/competency_card.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
 
 class CompetencyStrip extends StatefulWidget {
   final List<CompetencyPassbook> competencies;
 
   const CompetencyStrip({Key? key, required this.competencies})
-      : super(key: key);
+    : super(key: key);
 
   @override
   State<CompetencyStrip> createState() => _CompetencyStripState();
@@ -30,7 +30,8 @@ class _CompetencyStripState extends State<CompetencyStrip> {
 
   /// Converts flat competency list to nested structure
   List<CompetencyArea> _transformToCompetencyAreas(
-      List<CompetencyPassbook> competencies) {
+    List<CompetencyPassbook> competencies,
+  ) {
     final areas = <CompetencyArea>[];
 
     for (var competency in competencies) {
@@ -61,10 +62,12 @@ class _CompetencyStripState extends State<CompetencyStrip> {
       );
 
       theme.subTheme ??= [];
-      theme.subTheme!.add(CompetencySubTheme(
-        id: competency.competencySubThemeId.toString(),
-        name: competency.competencySubTheme,
-      ));
+      theme.subTheme!.add(
+        CompetencySubTheme(
+          id: competency.competencySubThemeId.toString(),
+          name: competency.competencySubTheme,
+        ),
+      );
     }
 
     return areas;
@@ -94,10 +97,7 @@ class _CompetencyStripState extends State<CompetencyStrip> {
   Widget _buildTitle(BuildContext context) {
     return Text(
       TocLocalizations.of(context)!.mCompetencies,
-      style: GoogleFonts.lato(
-        fontSize: 16.sp,
-        fontWeight: FontWeight.w600,
-      ),
+      style: GoogleFonts.lato(fontSize: 16.sp, fontWeight: FontWeight.w600),
     );
   }
 

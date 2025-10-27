@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
-import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
 
 import 'package:toc_module/toc/model/sector_details.dart';
 
@@ -31,7 +31,8 @@ class _SectorSubsectorViewState extends State<SectorSubsectorView> {
   }
 
   Map<String, List<String>> _mapSectorsWithSubsectors(
-      List<SectorDetails> list) {
+    List<SectorDetails> list,
+  ) {
     final Map<String, Set<String>> grouped = {};
 
     for (final item in list) {
@@ -56,7 +57,9 @@ class _SectorSubsectorViewState extends State<SectorSubsectorView> {
                 Text(
                   TocLocalizations.of(context)!.mStaticSectors,
                   style: GoogleFonts.lato(
-                      fontSize: 18.sp, fontWeight: FontWeight.w600),
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
                 SizedBox(height: 12.w),
                 _buildSectorPills(),
@@ -88,10 +91,11 @@ class _SectorSubsectorViewState extends State<SectorSubsectorView> {
                 borderRadius: BorderRadius.circular(40.r),
                 color: Colors.transparent,
                 border: Border.all(
-                    color: isSelected
-                        ? TocModuleColors.darkBlue
-                        : TocModuleColors.greys60,
-                    width: 1.w),
+                  color: isSelected
+                      ? TocModuleColors.darkBlue
+                      : TocModuleColors.greys60,
+                  width: 1.w,
+                ),
               ),
               child: Text(
                 sectorName,
@@ -144,12 +148,16 @@ class _SectorSubsectorViewState extends State<SectorSubsectorView> {
                   ),
                   SizedBox(height: 8.w),
                   Container(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.w),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 8.w,
+                      vertical: 4.w,
+                    ),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(40.r),
                       border: Border.all(
-                          color: TocModuleColors.darkBlue, width: 1.w),
+                        color: TocModuleColors.darkBlue,
+                        width: 1.w,
+                      ),
                     ),
                     child: Text(
                       subSector,
