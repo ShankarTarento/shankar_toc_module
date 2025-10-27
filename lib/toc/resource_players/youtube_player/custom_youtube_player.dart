@@ -28,26 +28,27 @@ class CustomYoutubePlayer extends StatefulWidget {
   final Color? appbar;
   final Color? leadingIconColor;
 
-  CustomYoutubePlayer(
-      {this.batchId,
-      required this.url,
-      this.currentProgress,
-      this.currentWatchTime,
-      this.progressPercentage,
-      this.contentDuration,
-      this.status,
-      this.isLive = false,
-      this.isFeatured = false,
-      this.completionRequiredPercentage = ContentCompletionPercentage.youtube,
-      this.completionRequiredTimeInSec = 180,
-      this.contentChildWidget,
-      required this.updateContentProgress,
-      this.setAllOrientation,
-      this.setLandscape,
-      this.onNavigateBack,
-      this.title,
-      this.leadingIconColor,
-      this.appbar});
+  CustomYoutubePlayer({
+    this.batchId,
+    required this.url,
+    this.currentProgress,
+    this.currentWatchTime,
+    this.progressPercentage,
+    this.contentDuration,
+    this.status,
+    this.isLive = false,
+    this.isFeatured = false,
+    this.completionRequiredPercentage = ContentCompletionPercentage.youtube,
+    this.completionRequiredTimeInSec = 180,
+    this.contentChildWidget,
+    required this.updateContentProgress,
+    this.setAllOrientation,
+    this.setLandscape,
+    this.onNavigateBack,
+    this.title,
+    this.leadingIconColor,
+    this.appbar,
+  });
 
   @override
   _CustomYoutubePlayerState createState() => _CustomYoutubePlayerState();
@@ -108,8 +109,8 @@ class _CustomYoutubePlayerState extends State<CustomYoutubePlayer> {
 
   void listener() async {
     try {
-      double playerDuration =
-          _controller.value.metaData.duration.inSeconds.toDouble();
+      double playerDuration = _controller.value.metaData.duration.inSeconds
+          .toDouble();
       double duration = (widget.contentDuration != null)
           ? widget.contentDuration!
           : double.parse(playerDuration.toString());
@@ -124,8 +125,8 @@ class _CustomYoutubePlayerState extends State<CustomYoutubePlayer> {
           _hasSought = true;
         }
       }
-    } catch (_) {
-      print(_);
+    } catch (e) {
+      print(e);
     }
     if (_isPlayerReady && mounted && _controller.value.isFullScreen) {
       if (widget.setLandscape != null) {
@@ -139,14 +140,18 @@ class _CustomYoutubePlayerState extends State<CustomYoutubePlayer> {
   }
 
   _setLandscape() async {
-    await SystemChrome.setPreferredOrientations(
-        [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
+    await SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
     setState(() {});
   }
 
   _setAllOrientation({bool isFromDisposeFunction = false}) async {
-    await SystemChrome.setPreferredOrientations(
-        [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
+    await SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.portraitUp,
+    ]);
     if (!isFromDisposeFunction) {
       setState(() {});
     }
@@ -154,44 +159,43 @@ class _CustomYoutubePlayerState extends State<CustomYoutubePlayer> {
 
   void _startTimer() {
     const oneSec = const Duration(seconds: 1);
-    _timer = Timer.periodic(
-      oneSec,
-      (Timer timer) async {
-        PlayerState playerState = await _controller.value.playerState;
-        if (playerState == PlayerState.playing) {
-          double currentTime = _controller.value.position.inSeconds.toDouble();
-          double playerDuration =
-              _controller.value.metaData.duration.inSeconds.toDouble();
-          double duration = (widget.contentDuration != null)
-              ? widget.contentDuration!
-              : playerDuration;
+    _timer = Timer.periodic(oneSec, (Timer timer) async {
+      PlayerState playerState = await _controller.value.playerState;
+      if (playerState == PlayerState.playing) {
+        double currentTime = _controller.value.position.inSeconds.toDouble();
+        double playerDuration = _controller.value.metaData.duration.inSeconds
+            .toDouble();
+        double duration = (widget.contentDuration != null)
+            ? widget.contentDuration!
+            : playerDuration;
 
-          if (currentTime > _previousProgressTime) {
-            _totalWatchedTime += 1;
-          }
-
-          // Update progress
-          _currentProgressInSeconds = currentTime;
-          _currentProgressPercentage =
-              (_totalWatchedTime / (duration > 0 ? duration : 1) * 100)
-                  .clamp(0, 100);
-
-          _previousProgressTime = currentTime;
-
-          if (((_currentProgressPercentage >=
-                      widget.completionRequiredPercentage) ||
-                  currentTime >= duration) &&
-              _contentStatus != 2) {
-            await _updateContentProgress();
-          }
-
-          if (widget.completionRequiredTimeInSec != 0 &&
-              _totalWatchedTime == widget.completionRequiredTimeInSec) {
-            await _updateContentProgress();
-          }
+        if (currentTime > _previousProgressTime) {
+          _totalWatchedTime += 1;
         }
-      },
-    );
+
+        // Update progress
+        _currentProgressInSeconds = currentTime;
+        _currentProgressPercentage =
+            (_totalWatchedTime / (duration > 0 ? duration : 1) * 100).clamp(
+              0,
+              100,
+            );
+
+        _previousProgressTime = currentTime;
+
+        if (((_currentProgressPercentage >=
+                    widget.completionRequiredPercentage) ||
+                currentTime >= duration) &&
+            _contentStatus != 2) {
+          await _updateContentProgress();
+        }
+
+        if (widget.completionRequiredTimeInSec != 0 &&
+            _totalWatchedTime == widget.completionRequiredTimeInSec) {
+          await _updateContentProgress();
+        }
+      }
+    });
     // _updateProgressTimer = Timer.periodic(oneMin, (Timer timer) async {
     //   if (_contentStatus < 2)
     //     await _updateContentProgress();
@@ -222,8 +226,8 @@ class _CustomYoutubePlayerState extends State<CustomYoutubePlayer> {
   Future<void> _updateContentProgress() async {
     if (!widget.isFeatured) {
       List<double> current = [];
-      var playerDuration =
-          _controller.value.metaData.duration.inSeconds.toDouble();
+      var playerDuration = _controller.value.metaData.duration.inSeconds
+          .toDouble();
       ;
       double maxSize = (widget.contentDuration != null)
           ? widget.contentDuration!
@@ -243,22 +247,22 @@ class _CustomYoutubePlayerState extends State<CustomYoutubePlayer> {
 
         double completionPercentage =
             (widget.completionRequiredTimeInSec != 0 &&
-                    _totalWatchedTime >= widget.completionRequiredTimeInSec)
-                ? 100.0
-                : _currentProgressPercentage;
+                _totalWatchedTime >= widget.completionRequiredTimeInSec)
+            ? 100.0
+            : _currentProgressPercentage;
 
         int status = widget.status != 2
             ? widget.completionRequiredTimeInSec != 0 &&
-                    _totalWatchedTime >= widget.completionRequiredTimeInSec
-                ? 2
-                : completionPercentage >= ContentCompletionPercentage.youtube
-                    ? 2
-                    : 1
+                      _totalWatchedTime >= widget.completionRequiredTimeInSec
+                  ? 2
+                  : completionPercentage >= ContentCompletionPercentage.youtube
+                  ? 2
+                  : 1
             : 2;
         double totalWatchedTime =
             (_totalWatchedTime >= widget.completionRequiredTimeInSec)
-                ? maxSize
-                : _totalWatchedTime;
+            ? maxSize
+            : _totalWatchedTime;
 
         _contentStatus = status;
 
@@ -269,10 +273,10 @@ class _CustomYoutubePlayerState extends State<CustomYoutubePlayer> {
           'maxSize': maxSize,
           'completionPercentage':
               completionPercentage >= ContentCompletionPercentage.youtube
-                  ? 100.0
-                  : completionPercentage,
+              ? 100.0
+              : completionPercentage,
           'totalWatchedTime': totalWatchedTime,
-          'currentTime': currentTime
+          'currentTime': currentTime,
         };
         widget.updateContentProgress(data);
       }
@@ -290,72 +294,75 @@ class _CustomYoutubePlayerState extends State<CustomYoutubePlayer> {
   @override
   Widget build(BuildContext context) {
     return OrientationBuilder(
-        builder: (BuildContext context, Orientation orientation) {
-      return Scaffold(
-        backgroundColor: TocModuleColors.greys,
-        appBar: orientation != Orientation.landscape
-            ? _buildAppBar(orientation)
-            : null,
-        body: Column(
-          mainAxisAlignment: widget.contentChildWidget != null
-              ? MainAxisAlignment.start
-              : MainAxisAlignment.center,
-          children: [
-            playerWidget(orientation: orientation),
-            if (orientation != Orientation.landscape)
-              widget.contentChildWidget ?? const SizedBox.shrink(),
-          ],
-        ),
-      );
-    });
+      builder: (BuildContext context, Orientation orientation) {
+        return Scaffold(
+          backgroundColor: TocModuleColors.greys,
+          appBar: orientation != Orientation.landscape
+              ? _buildAppBar(orientation)
+              : null,
+          body: Column(
+            mainAxisAlignment: widget.contentChildWidget != null
+                ? MainAxisAlignment.start
+                : MainAxisAlignment.center,
+            children: [
+              playerWidget(orientation: orientation),
+              if (orientation != Orientation.landscape)
+                widget.contentChildWidget ?? const SizedBox.shrink(),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   PreferredSizeWidget _buildAppBar(Orientation orientation) {
     return AppBar(
-        backgroundColor: widget.appbar ?? Colors.transparent,
-        automaticallyImplyLeading: false,
-        title: widget.title != null
-            ? SizedBox(
-                width: 0.6.sw,
-                child: Text(
-                  widget.title ?? '',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.lato(
-                      fontWeight: FontWeight.w700,
-                      color: TocModuleColors.greys,
-                      fontSize: 16.sp),
+      backgroundColor: widget.appbar ?? Colors.transparent,
+      automaticallyImplyLeading: false,
+      title: widget.title != null
+          ? SizedBox(
+              width: 0.6.sw,
+              child: Text(
+                widget.title ?? '',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.lato(
+                  fontWeight: FontWeight.w700,
+                  color: TocModuleColors.greys,
+                  fontSize: 16.sp,
                 ),
-              )
-            : null,
-        leading: InkWell(
-          onTap: () async {
-            if (orientation == Orientation.landscape) {
-              // _controller.exitFullScreen();
-            } else {
-              await _setAllOrientation(isFromDisposeFunction: true);
-              try {
-                if (_contentStatus < 2) {
-                  await _updateContentProgress().then((_) {
-                    doPop(context);
-                  });
-                } else {
+              ),
+            )
+          : null,
+      leading: InkWell(
+        onTap: () async {
+          if (orientation == Orientation.landscape) {
+            // _controller.exitFullScreen();
+          } else {
+            await _setAllOrientation(isFromDisposeFunction: true);
+            try {
+              if (_contentStatus < 2) {
+                await _updateContentProgress().then((_) {
                   doPop(context);
-                }
-              } catch (e) {
+                });
+              } else {
                 doPop(context);
               }
+            } catch (e) {
+              doPop(context);
             }
-          },
-          child: Padding(
-            padding: const EdgeInsets.only(left: 16, right: 16).r,
-            child: Icon(
-              Icons.arrow_back,
-              size: 24.sp,
-              color: widget.leadingIconColor ?? TocModuleColors.white70,
-            ),
+          }
+        },
+        child: Padding(
+          padding: const EdgeInsets.only(left: 16, right: 16).r,
+          child: Icon(
+            Icons.arrow_back,
+            size: 24.sp,
+            color: widget.leadingIconColor ?? TocModuleColors.white70,
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   Widget playerWidget({required Orientation orientation}) {

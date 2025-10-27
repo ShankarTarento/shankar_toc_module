@@ -18,6 +18,7 @@ import 'package:toc_module/toc/pages/toc_content_page.dart';
 import 'package:toc_module/toc/pages/toc_skeleton/toc_sekeleton.dart';
 import 'package:toc_module/toc/repository/toc_repository.dart';
 import 'package:toc_module/toc/screen/toc_player_screen.dart';
+import 'package:toc_module/toc/services/toc_module_service.dart';
 import 'package:toc_module/toc/services/toc_services.dart';
 import 'package:toc_module/toc/util/fade_route.dart';
 import 'package:toc_module/toc/widgets/course_sharing_page/course_sharing_page.dart';
@@ -441,10 +442,11 @@ class _CourseTocPageState extends State<CourseTocPage>
   }
 
   Widget _buildCommentsTab(CourseTocViewModel viewModel) {
-    return CourseComments(
+    return TocModuleService.config.courseComments(
       courseId: viewModel.courseId ?? '',
       isEnrolled: viewModel.enrolledCourse.value != null,
       bottomMargin: viewModel.isBlendedProgram ? 180 : 32,
+      context: context,
     );
   }
 

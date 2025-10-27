@@ -4,6 +4,7 @@ import 'package:http/http.dart';
 import 'package:toc_module/toc/constants/toc_constants.dart';
 import 'package:toc_module/toc/model/batch_model.dart';
 import 'package:toc_module/toc/model/cbp_plan_model.dart';
+import 'package:toc_module/toc/model/content_state_model.dart';
 import 'package:toc_module/toc/model/course_hierarchy_model.dart';
 import 'package:toc_module/toc/model/course_model.dart';
 import 'package:toc_module/toc/model/resource_details.dart';
@@ -22,6 +23,7 @@ class TocRepository extends ChangeNotifier {
   OverallRating? _overallRating;
   double? _courseProgress;
   bool _isWebWiewPersist = true;
+  Map<String, dynamic> _languageProgress = {};
 
   ///
   ///
@@ -37,6 +39,7 @@ class TocRepository extends ChangeNotifier {
   Batch? get batch => _batch;
   OverallRating? get overallRating => _overallRating;
   bool get isWebWiewPersist => _isWebWiewPersist;
+  Map<String, dynamic> get languageProgress => _languageProgress;
 
   ///
   ///
@@ -55,12 +58,14 @@ class TocRepository extends ChangeNotifier {
 
   Future<Course?> getCourseReadData({required String courseId}) async {
     try {
-      final Response response =
-          await TocServices().getCourseReadData(courseId: courseId);
+      final Response response = await TocServices().getCourseReadData(
+        courseId: courseId,
+      );
 
       if (response.statusCode != 200) {
         debugPrint(
-            'Failed to load course read data. Status code: ${response.statusCode}');
+          'Failed to load course read data. Status code: ${response.statusCode}',
+        );
         return null;
       }
 
@@ -86,15 +91,18 @@ class TocRepository extends ChangeNotifier {
     }
   }
 
-  Future<CourseHierarchyModel?> getCourseHierarchyData(
-      {required String courseId}) async {
+  Future<CourseHierarchyModel?> getCourseHierarchyData({
+    required String courseId,
+  }) async {
     try {
-      final Response response =
-          await TocServices().getCourseHierarchyData(courseId: courseId);
+      final Response response = await TocServices().getCourseHierarchyData(
+        courseId: courseId,
+      );
 
       if (response.statusCode != 200) {
         debugPrint(
-            'Failed to load course read data. Status code: ${response.statusCode}');
+          'Failed to load course read data. Status code: ${response.statusCode}',
+        );
         return null;
       }
 
@@ -120,16 +128,16 @@ class TocRepository extends ChangeNotifier {
     }
   }
 
-  Future<Course?> getEnrolledCourseById({
-    required String courseId,
-  }) async {
+  Future<Course?> getEnrolledCourseById({required String courseId}) async {
     try {
-      final response =
-          await TocServices().getEnrolledCourseById(courseId: courseId);
+      final response = await TocServices().getEnrolledCourseById(
+        courseId: courseId,
+      );
 
       if (response.statusCode != 200) {
         debugPrint(
-            'Failed to load courses. Status code: ${response.statusCode}');
+          'Failed to load courses. Status code: ${response.statusCode}',
+        );
         return null;
       }
 
@@ -176,10 +184,11 @@ class TocRepository extends ChangeNotifier {
   Future<dynamic> getKarmaPointCourseRead(String courseId) async {
     var response;
     try {
-      response =
-          await TocServices().getKarmaPointCourseRead(courseId: courseId);
-    } catch (_) {
-      return _;
+      response = await TocServices().getKarmaPointCourseRead(
+        courseId: courseId,
+      );
+    } catch (e) {
+      return e;
     }
     if (response.statusCode == 200) {
       var contents = jsonDecode(response.body);
@@ -213,11 +222,13 @@ class TocRepository extends ChangeNotifier {
     return "error";
   }
 
-  Future<ResourceDetails?> getResourceDetails(
-      {required String courseId}) async {
+  Future<ResourceDetails?> getResourceDetails({
+    required String courseId,
+  }) async {
     try {
-      final response =
-          await TocServices().getCourseReadData(courseId: courseId);
+      final response = await TocServices().getCourseReadData(
+        courseId: courseId,
+      );
 
       if (response.statusCode == 200) {
         final data = jsonDecode(utf8.decode(response.bodyBytes));
@@ -229,19 +240,20 @@ class TocRepository extends ChangeNotifier {
     return null;
   }
 
-  updateContentProgress(
-      {required String courseId,
-      required String batchId,
-      required String contentId,
-      required int status,
-      required String contentType,
-      required List current,
-      var maxSize,
-      required double completionPercentage,
-      bool isAssessment = false,
-      bool? isPreRequisite = false,
-      int spentTime = 0,
-      required String language}) {
+  updateContentProgress({
+    required String courseId,
+    required String batchId,
+    required String contentId,
+    required int status,
+    required String contentType,
+    required List current,
+    var maxSize,
+    required double completionPercentage,
+    bool isAssessment = false,
+    bool? isPreRequisite = false,
+    int spentTime = 0,
+    required String language,
+  }) {
     TocServices().updateContentProgress(
       courseId: courseId,
       batchId: batchId,
@@ -258,28 +270,37 @@ class TocRepository extends ChangeNotifier {
     );
   }
 
-  void setInitialBatch(
-      {List<Batch>? batches, Course? enrolledCourse, String? courseId}) {
+  void setInitialBatch({
+    List<Batch>? batches,
+    Course? enrolledCourse,
+    String? courseId,
+  }) {
     if (enrolledCourse != null) {
-      Batch approvedBatch = batches!
-          .firstWhere((element) => element.id == enrolledCourse.batch!.batchId);
+      Batch approvedBatch = batches!.firstWhere(
+        (element) => element.id == enrolledCourse.batch!.batchId,
+      );
       _batch = approvedBatch;
       setBatchDetails(selectedBatch: _batch!);
     } else {
       try {
         DateTime now = DateTime(
-            DateTime.now().year, DateTime.now().month, DateTime.now().day);
+          DateTime.now().year,
+          DateTime.now().month,
+          DateTime.now().day,
+        );
         _batch = batches!.fold(null, (closest, current) {
           if (current.enrollmentEndDate.isEmpty) {
             return closest ?? current;
           }
-          DateTime enrollmentEndDate =
-              DateTime.parse(current.enrollmentEndDate);
+          DateTime enrollmentEndDate = DateTime.parse(
+            current.enrollmentEndDate,
+          );
           if (((enrollmentEndDate.isAfter(now)) ||
                   enrollmentEndDate.isAtSameMomentAs(now)) &&
               (closest == null ||
-                  enrollmentEndDate
-                      .isBefore(DateTime.parse(closest.enrollmentEndDate)))) {
+                  enrollmentEndDate.isBefore(
+                    DateTime.parse(closest.enrollmentEndDate),
+                  ))) {
             return current;
           }
           return closest;
@@ -315,9 +336,10 @@ class TocRepository extends ChangeNotifier {
     required List<Course> enrollmentData,
     required String courseId,
   }) {
-    Course? course = enrollmentData
-        .cast<Course?>()
-        .firstWhere((element) => element!.id == courseId, orElse: () => null);
+    Course? course = enrollmentData.cast<Course?>().firstWhere(
+      (element) => element!.id == courseId,
+      orElse: () => null,
+    );
 
     if (course != null) {
       if (course.completionPercentage == COURSE_COMPLETION_PERCENTAGE) {
@@ -332,5 +354,67 @@ class TocRepository extends ChangeNotifier {
       return 'Enroll';
     }
     return 'Enroll';
+  }
+
+  Future<List<ContentStateModel>?> readContentProgress({
+    required String courseId,
+    required String batchId,
+    List contentIds = const [],
+    required String language,
+    bool forceUpdateOverallProgress = false,
+  }) async {
+    _languageProgress = {};
+
+    try {
+      final response = await tocService.readContentProgress(
+        courseId: courseId,
+        batchId: batchId,
+        contentIds: contentIds,
+        language: language,
+      );
+      if (response.statusCode == 200) {
+        var contents = jsonDecode(response.body);
+
+        if (contents['result']['languageProgress'] != null &&
+            contents['result']['languageProgress'].isNotEmpty &&
+            forceUpdateOverallProgress) {
+          _languageProgress = contents['result']['languageProgress'];
+          notifyListeners();
+        }
+        List<ContentStateModel> content = contents['result']['contentList']
+            .map((dynamic item) => ContentStateModel.fromJson(item))
+            .toList()
+            .cast<ContentStateModel>();
+        return content;
+      }
+    } catch (_) {
+      throw 'Unable to fetch content progress';
+    }
+    return null;
+  }
+
+  void resetLanguageProgress() {
+    _languageProgress = {};
+    notifyListeners();
+  }
+
+  Future<dynamic> autoEnrollBatch({
+    required String courseId,
+    String? language,
+  }) async {
+    try {
+      Response res = await tocService.autoEnrollBatch(
+        courseId: courseId,
+        language: language,
+      );
+      if (res.statusCode == 200) {
+        var contents = jsonDecode(res.body);
+        return contents['result']['response']['content'][0];
+      } else {
+        return jsonDecode(res.body)['params']['errmsg'];
+      }
+    } catch (e) {
+      return 'Unable to auto enroll a batch';
+    }
   }
 }

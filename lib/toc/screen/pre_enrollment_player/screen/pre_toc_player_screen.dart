@@ -1,17 +1,14 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:toc_module/l10n/generated/toc_localizations.dart';
-
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/constants/toc_constants.dart';
 import 'package:toc_module/toc/helper/toc_helper.dart';
 import 'package:toc_module/toc/model/course_hierarchy_model.dart';
 import 'package:toc_module/toc/model/course_model.dart';
-import 'package:toc_module/toc/model/course_structure_model.dart';
 import 'package:toc_module/toc/model/learn_tab_model.dart';
 import 'package:toc_module/toc/model/navigation_model.dart';
 import 'package:toc_module/toc/model/toc_player_model.dart';
@@ -24,6 +21,7 @@ import 'package:toc_module/toc/repository/toc_repository.dart';
 import 'package:toc_module/toc/screen/toc_open_resource.dart';
 import 'package:toc_module/toc/util/no_data_widget.dart';
 import 'package:toc_module/toc/widgets/course_progress_widget.dart';
+import 'package:toc_module/toc/widgets/course_sharing_page/course_sharing_page.dart';
 import 'package:toc_module/toc/widgets/toc_appbar_widget.dart';
 import 'package:toc_module/toc/widgets/toc_player_button.dart';
 
@@ -111,15 +109,10 @@ class _PreTocPlayerScreenState extends State<PreTocPlayerScreen>
   Widget buildBody() {
     return DefaultTabController(
       length: tabItems.length,
-      child: Selector<TocRepository, CourseStructure>(
-        selector: (_, repo) =>
-            CourseStructure(repo.contentRead, repo.courseHierarchyInfo),
+      child: Consumer<TocRepository>(
         builder: (context, value, child) {
-          if (course == null && value.contentRead.isNotEmpty) {
-            course = Course.fromJson(value.contentRead);
-          }
-          if (courseHierarchyData == null &&
-              course?.preEnrolmentResources != null) {
+          course ??= value.getCourseRead;
+          if (courseHierarchyData == null) {
             courseHierarchyData = course?.preEnrolmentResources;
             courseHierarchyData?.identifier = course?.id ?? '';
             courseHierarchyData?.name = course?.name ?? '';
@@ -567,12 +560,12 @@ class _PreTocPlayerScreenState extends State<PreTocPlayerScreen>
       builder: (BuildContext context) {
         return Container(
           child: CourseSharingPage(
-            course!.id,
-            course!.name,
-            course!.appIcon,
-            course!.source,
-            course!.courseCategory,
-            receiveShareResponse,
+            courseId: course!.id,
+            courseName: course!.name,
+            coursePosterImageUrl: course!.appIcon,
+            courseProvider: course!.source ?? "",
+            primaryCategory: course!.courseCategory,
+            callback: receiveShareResponse,
           ),
         );
       },

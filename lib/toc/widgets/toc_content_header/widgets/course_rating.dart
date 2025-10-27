@@ -1,13 +1,11 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:http/http.dart';
 import 'package:igot_ui_components/utils/fade_route.dart';
 import 'package:igot_ui_components/utils/module_colors.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:toc_module/l10n/generated/toc_localizations.dart';
-
+import 'package:toc_module/toc/pages/about_tab/widgets/review_rating/repository/review_rating_repository.dart';
 import 'package:toc_module/toc/widgets/toc_content_header/widgets/course_rating_submitted.dart';
 
 class CourseRating extends StatefulWidget {
@@ -32,7 +30,6 @@ class CourseRating extends StatefulWidget {
 }
 
 class _CourseRatingState extends State<CourseRating> {
-  final LearnService learnService = LearnService();
   final _textController = TextEditingController();
   double? _rating;
   double? _previousRating;
@@ -59,14 +56,14 @@ class _CourseRatingState extends State<CourseRating> {
   }
 
   _saveRatingAndReview(id, type, rating, comment, context) async {
-    Response response = await learnService.postCourseReview(
-      id,
-      type,
-      rating,
-      comment,
+    bool response = await ReviewRatingRepository().postCourseReview(
+      courseId: id,
+      primaryCategory: type,
+      rating: rating,
+      comment: comment,
     );
 
-    if (response.statusCode == 200) {
+    if (response) {
       Navigator.push(
         context,
         FadeRoute(
@@ -84,7 +81,7 @@ class _CourseRatingState extends State<CourseRating> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(jsonDecode(response.body)['params']['errmsg']),
+          content: Text("Something went Wrong"),
           backgroundColor: ModuleColors.negativeLight,
         ),
       );
@@ -224,6 +221,10 @@ class _CourseRatingState extends State<CourseRating> {
                             right: 10,
                             bottom: 10,
                           ).r,
+                          decoration: BoxDecoration(
+                            color: ModuleColors.appBarBackground,
+                            border: Border.all(color: ModuleColors.grey16),
+                          ),
                           child: TextField(
                             // autofocus: true,
                             focusNode: myFocusNode,
@@ -250,10 +251,6 @@ class _CourseRatingState extends State<CourseRating> {
                             },
                             // onTap: () {
                             // },
-                          ),
-                          decoration: BoxDecoration(
-                            color: ModuleColors.appBarBackground,
-                            border: Border.all(color: ModuleColors.grey16),
                           ),
                         ),
                         // Padding(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:igot_ui_components/constants/color_constants.dart';
 import 'package:toc_module/l10n/generated/toc_localizations.dart';
 
 import 'package:provider/provider.dart';
@@ -15,6 +16,7 @@ import 'package:toc_module/toc/screen/toc_player_screen.dart';
 import 'package:toc_module/toc/services/toc_module_service.dart';
 import 'package:toc_module/toc/util/button_with_border.dart';
 import 'package:toc_module/toc/util/fade_route.dart';
+import 'package:toc_module/toc/widgets/rate_now.dart';
 import '../enroll_moderated_program.dart';
 import 'PreEnrollLanguageSelector.dart';
 
@@ -357,30 +359,34 @@ class _TocButtonWidgetState extends State<TocButtonWidget> {
     widget.courseDetails.languageMap.languages[baseLanguage];
     courseId = TocHelper.getBaseCourseId(widget.courseDetails) ?? courseId;
 
-    var response = await TocRepository.autoEnrollBatch(
+    var response = await TocRepository().autoEnrollBatch(
       courseId: courseId,
       language: widget.courseDetails.languageMap.languages[baseLanguage]?.name,
     );
     //   TocModuleService.config.navigatorKey.currentState!.context is used to handle context issue from dialog widgets
     if (response.runtimeType == String) {
-      TocHelper.showSnackBarMessage(
-        bgColor: TocModuleColors.darkBlue,
-        textColor: Colors.white,
-        context: TocModuleService.config.navigatorKey.currentState!.context,
-        text: response,
-      );
+      if (mounted) {
+        TocHelper.showSnackBarMessage(
+          bgColor: TocModuleColors.darkBlue,
+          textColor: Colors.white,
+          context: TocModuleService.config.navigatorKey.currentState!.context,
+          text: response,
+        );
+      }
     } else {
       await fetchEnrolInfo(courseId);
 
       trackCourseEnrolled();
-      TocHelper.showSnackBarMessage(
-        bgColor: TocModuleColors.darkBlue,
-        textColor: Colors.white,
-        context: TocModuleService.config.navigatorKey.currentState!.context,
-        text: TocLocalizations.of(
-          TocModuleService.config.navigatorKey.currentState!.context,
-        )!.mStaticEnrolledSuccessfully,
-      );
+      if (mounted) {
+        TocHelper.showSnackBarMessage(
+          bgColor: TocModuleColors.darkBlue,
+          textColor: Colors.white,
+          context: TocModuleService.config.navigatorKey.currentState!.context,
+          text: TocLocalizations.of(
+            TocModuleService.config.navigatorKey.currentState!.context,
+          )!.mStaticEnrolledSuccessfully,
+        );
+      }
     }
   }
 
@@ -400,18 +406,26 @@ class _TocButtonWidgetState extends State<TocButtonWidget> {
     if (response.toLowerCase() == EnglishLang.success.toLowerCase()) {
       await fetchEnrolInfo(widget.courseDetails.id);
       trackCourseEnrolled();
-      TocHelper.showToastMessage(
-        TocModuleService.config.navigatorKey.currentState!.context,
-        message: TocLocalizations.of(
-          TocModuleService.config.navigatorKey.currentState!.context,
-        )!.mStaticEnrolledSuccessfully,
-      );
+      if (mounted) {
+        TocHelper.showSnackBarMessage(
+          context: TocModuleService.config.navigatorKey.currentState!.context,
+          text: TocLocalizations.of(
+            TocModuleService.config.navigatorKey.currentState!.context,
+          )!.mStaticEnrolledSuccessfully,
+          bgColor: ModuleColors.darkBlue,
+          textColor: Colors.white,
+        );
+      }
     } else {
-      TocHelper.showToastMessage(
-        TocModuleService.config.navigatorKey.currentState!.context,
-        message:
-            '${TocLocalizations.of(TocModuleService.config.navigatorKey.currentState!.context)!.mStaticEnrollmentFailed}, ${response}',
-      );
+      if (mounted) {
+        TocHelper.showSnackBarMessage(
+          bgColor: ModuleColors.darkBlue,
+          textColor: Colors.white,
+          context: TocModuleService.config.navigatorKey.currentState!.context,
+          text:
+              '${TocLocalizations.of(TocModuleService.config.navigatorKey.currentState!.context)!.mStaticEnrollmentFailed}, ${response}',
+        );
+      }
     }
   }
 
@@ -424,21 +438,26 @@ class _TocButtonWidgetState extends State<TocButtonWidget> {
     if (message.toLowerCase() == EnglishLang.success.toLowerCase()) {
       await fetchEnrolInfo(widget.courseDetails.id);
       trackCourseEnrolled();
-      TocHelper.showToastMessage(
-        TocModuleService.config.navigatorKey.currentState!.context,
-        message: TocLocalizations.of(
-          TocModuleService.config.navigatorKey.currentState!.context,
-        )!.mStaticEnrolledSuccessfully,
-      );
+      if (mounted) {
+        TocHelper.showSnackBarMessage(
+          context: TocModuleService.config.navigatorKey.currentState!.context,
+          text: TocLocalizations.of(
+            TocModuleService.config.navigatorKey.currentState!.context,
+          )!.mStaticEnrolledSuccessfully,
+          bgColor: ModuleColors.darkBlue,
+          textColor: Colors.white,
+        );
+      }
     } else {
-      TocHelper.showToastMessage(
-        TocModuleService.config.navigatorKey.currentState!.context,
-        message: message.isNotEmpty
-            ? message
-            : TocLocalizations.of(
-                TocModuleService.config.navigatorKey.currentState!.context,
-              )!.mStaticEnrollmentFailed,
-      );
+      if (mounted) {
+        TocHelper.showSnackBarMessage(
+          bgColor: ModuleColors.darkBlue,
+          textColor: Colors.white,
+          context: TocModuleService.config.navigatorKey.currentState!.context,
+          text:
+              '${TocLocalizations.of(TocModuleService.config.navigatorKey.currentState!.context)!.mStaticEnrollmentFailed}, ${response}',
+        );
+      }
     }
   }
 
@@ -497,13 +516,7 @@ class _TocButtonWidgetState extends State<TocButtonWidget> {
           builder: (ctx) => RateNowPopUp(courseDetails: widget.courseDetails),
         ).whenComplete(
           () => InAppReviewRespository().triggerInAppReviewPopup(
-            TocModuleService
-                .config
-                .TocModuleService
-                .config
-                .navigatorKey
-                .currentState!
-                .context,
+            TocModuleService.config.navigatorKey.currentState!.context,
           ),
         );
       }
@@ -528,29 +541,29 @@ class _TocButtonWidgetState extends State<TocButtonWidget> {
   }
 
   void trackCourseEnrolled() async {
-    try {
-      bool _isContentEnrolmentEnabled = await Provider.of<TocRepository>(
-        TocModuleService.config.navigatorKey.currentState!.context,
-        listen: false,
-      ).isSmartechEventEnabled(eventName: SMTTrackEvents.contentEnrolment);
-      if (_isContentEnrolmentEnabled) {
-        SmartechService.trackCourseEnrolled(
-          courseCategory: widget.courseDetails.courseCategory,
-          courseName: widget.courseDetails.name,
-          image: widget.courseDetails.appIcon,
-          contentUrl:
-              "${TocModuleService.config.baseUrl}/app/toc/${widget.courseDetails.id}",
-          doId: widget.courseId.toString(),
-          courseDuration: int.parse(widget.courseDetails.duration.toString()),
-          learningPathContent: widget.isLearningPathContent ? 1 : 0,
-          provider: widget.courseDetails.source,
-          courseRating: widget.courseRating,
-          numberOfCourseRating: widget.numberOfCourseRating,
-        );
-      }
-    } catch (e) {
-      print(e);
-    }
+    // try {
+    //   bool _isContentEnrolmentEnabled = await Provider.of<TocRepository>(
+    //     TocModuleService.config.navigatorKey.currentState!.context,
+    //     listen: false,
+    //   ).isSmartechEventEnabled(eventName: SMTTrackEvents.contentEnrolment);
+    //   if (_isContentEnrolmentEnabled) {
+    //     SmartechService.trackCourseEnrolled(
+    //       courseCategory: widget.courseDetails.courseCategory,
+    //       courseName: widget.courseDetails.name,
+    //       image: widget.courseDetails.appIcon,
+    //       contentUrl:
+    //           "${TocModuleService.config.baseUrl}/app/toc/${widget.courseDetails.id}",
+    //       doId: widget.courseId.toString(),
+    //       courseDuration: int.parse(widget.courseDetails.duration.toString()),
+    //       learningPathContent: widget.isLearningPathContent ? 1 : 0,
+    //       provider: widget.courseDetails.source,
+    //       courseRating: widget.courseRating,
+    //       numberOfCourseRating: widget.numberOfCourseRating,
+    //     );
+    //   }
+    // } catch (e) {
+    //   print(e);
+    // }
   }
 
   Future<void> showLanguageSelectionBtmSheet() async {

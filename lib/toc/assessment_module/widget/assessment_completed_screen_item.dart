@@ -6,10 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:igot_ui_components/constants/color_constants.dart';
 import 'package:toc_module/l10n/generated/toc_localizations.dart';
 import 'package:toc_module/toc/assessment_module/widget/html_webview_widget.dart';
-
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/constants/toc_constants.dart';
-
 import 'package:html/parser.dart' as html_parser;
 import 'package:html/dom.dart' as dom;
 import 'package:toc_module/toc/helper/toc_helper.dart';

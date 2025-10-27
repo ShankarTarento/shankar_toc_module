@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -13,11 +12,12 @@ class AudioVideoWebView extends StatefulWidget {
   final bool isAudio;
   final bool isVideo;
 
-  const AudioVideoWebView(
-      {super.key,
-      required this.htmlText,
-      this.isAudio = false,
-      this.isVideo = false});
+  const AudioVideoWebView({
+    super.key,
+    required this.htmlText,
+    this.isAudio = false,
+    this.isVideo = false,
+  });
   @override
   State<AudioVideoWebView> createState() => _AudioVideoWebViewState();
 }
@@ -57,8 +57,10 @@ class _AudioVideoWebViewState extends State<AudioVideoWebView> {
   void initializeController() {
     webViewController = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..loadRequest(Uri.parse(Uri.dataFromString(
-        '''<html lang='en'>
+      ..loadRequest(
+        Uri.parse(
+          Uri.dataFromString(
+            '''<html lang='en'>
           <head>
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
           </head>
@@ -66,9 +68,11 @@ class _AudioVideoWebViewState extends State<AudioVideoWebView> {
         ${widget.htmlText}
           </body>
           </html>''',
-        mimeType: 'text/html',
-        encoding: Encoding.getByName('utf-8'),
-      ).toString()));
+            mimeType: 'text/html',
+            encoding: Encoding.getByName('utf-8'),
+          ).toString(),
+        ),
+      );
   }
 
   void _updateHeight() {
@@ -76,15 +80,16 @@ class _AudioVideoWebViewState extends State<AudioVideoWebView> {
       webViewController!
           .runJavaScriptReturningResult('document.body.scrollHeight;')
           .then((result) {
-        double height = double.tryParse(result.toString()) ?? 500.0;
-        if (height != _webViewHeight) {
-          setState(() {
-            _webViewHeight = height;
+            double height = double.tryParse(result.toString()) ?? 500.0;
+            if (height != _webViewHeight) {
+              setState(() {
+                _webViewHeight = height;
+              });
+            }
+          })
+          .catchError((error) {
+            print('Error getting height===============: $error');
           });
-        }
-      }).catchError((error) {
-        print('Error getting height===============: $error');
-      });
     }
   }
 
@@ -103,21 +108,22 @@ class _AudioVideoWebViewState extends State<AudioVideoWebView> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<TocRepository>(builder: (context, tocServices, _) {
-      if (!tocServices.isWebWiewPersist) {
-        stopAllMedia();
-        webViewController!.clearCache();
-        Provider.of<TocRepository>(context).setWebView();
-        initializeController();
-      }
-      final Set<Factory<OneSequenceGestureRecognizer>> gestureRecognizers = {
-        Factory(() => EagerGestureRecognizer())
-      };
-      return Container(
-        height: _webViewHeight,
-        width: 1.0.sw,
-        alignment: Alignment.bottomLeft,
-        child: WebViewWidget(
+    return Consumer<TocRepository>(
+      builder: (context, tocServices, _) {
+        if (!tocServices.isWebWiewPersist) {
+          stopAllMedia();
+          webViewController!.clearCache();
+          Provider.of<TocRepository>(context).setWebView();
+          initializeController();
+        }
+        final Set<Factory<OneSequenceGestureRecognizer>> gestureRecognizers = {
+          Factory(() => EagerGestureRecognizer()),
+        };
+        return Container(
+          height: _webViewHeight,
+          width: 1.0.sw,
+          alignment: Alignment.bottomLeft,
+          child: WebViewWidget(
             controller: webViewController!
               ..setNavigationDelegate(
                 NavigationDelegate(
@@ -136,8 +142,10 @@ class _AudioVideoWebViewState extends State<AudioVideoWebView> {
                   },
                 ),
               ),
-            gestureRecognizers: gestureRecognizers),
-      );
-    });
+            gestureRecognizers: gestureRecognizers,
+          ),
+        );
+      },
+    );
   }
 }

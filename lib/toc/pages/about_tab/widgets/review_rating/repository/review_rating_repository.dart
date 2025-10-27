@@ -10,11 +10,15 @@ class ReviewRatingRepository with ChangeNotifier {
 
   OverallRating? get courseRating => _courseRating;
 
-  Future<OverallRating> getCourseReviewSummary(
-      {required String courseId, required String primaryCategory}) async {
+  Future<OverallRating> getCourseReviewSummary({
+    required String courseId,
+    required String primaryCategory,
+  }) async {
     try {
       final response = await _tocServices.getCourseReviewSummery(
-          id: courseId, primaryCategory: primaryCategory);
+        id: courseId,
+        primaryCategory: primaryCategory,
+      );
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
@@ -24,7 +28,8 @@ class ReviewRatingRepository with ChangeNotifier {
         return _courseRating!;
       } else {
         throw Exception(
-            'Failed to load course review summary. Status code: ${response.statusCode}');
+          'Failed to load course review summary. Status code: ${response.statusCode}',
+        );
       }
     } catch (e) {
       debugPrint('Error fetching course review summary for $courseId: $e');
@@ -32,13 +37,17 @@ class ReviewRatingRepository with ChangeNotifier {
     }
   }
 
-  Future<List<TopReview>> getCourseReview(
-      {required String courseId,
-      required String primaryCategory,
-      required int limit}) async {
+  Future<List<TopReview>> getCourseReview({
+    required String courseId,
+    required String primaryCategory,
+    required int limit,
+  }) async {
     try {
       final response = await _tocServices.getCourseReview(
-          courseId: courseId, primaryCategory: primaryCategory, limit: limit);
+        courseId: courseId,
+        primaryCategory: primaryCategory,
+        limit: limit,
+      );
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
@@ -49,7 +58,8 @@ class ReviewRatingRepository with ChangeNotifier {
             .toList();
       } else {
         throw Exception(
-            'Failed to load course reviews. Status code: ${response.statusCode}');
+          'Failed to load course reviews. Status code: ${response.statusCode}',
+        );
       }
     } catch (e) {
       debugPrint('Error fetching course reviews for $courseId: $e');
@@ -95,10 +105,11 @@ class ReviewRatingRepository with ChangeNotifier {
   }) async {
     try {
       final response = await _tocServices.postCourseReview(
-          courseId: courseId,
-          primaryCategory: primaryCategory,
-          rating: rating,
-          comment: comment);
+        courseId: courseId,
+        primaryCategory: primaryCategory,
+        rating: rating,
+        comment: comment,
+      );
 
       if (response.statusCode == 200) {
         return true;

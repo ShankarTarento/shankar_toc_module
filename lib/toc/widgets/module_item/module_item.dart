@@ -233,7 +233,7 @@ class _ModuleItemState extends State<ModuleItem> {
                                 size: 22.sp,
                                 color: TocModuleColors.darkBlue,
                               )
-                            : Container(
+                            : SizedBox(
                                 height: 20.w,
                                 width: 20.w,
                                 child: CircularProgressIndicator(
@@ -359,9 +359,8 @@ class _ModuleItemState extends State<ModuleItem> {
                         );
                       }
                     } else if (widget.allowAccess) {
-                      var result;
                       if (canNavigateToTocPlayer()) {
-                        result = await Navigator.push(
+                        await Navigator.push(
                           context,
                           FadeRoute(
                             page: TocPlayerScreen(

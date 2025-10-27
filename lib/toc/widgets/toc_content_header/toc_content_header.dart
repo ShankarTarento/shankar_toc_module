@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/helper/date_time_helper.dart';
 import 'package:toc_module/toc/model/course_model.dart';
-import 'package:toc_module/toc/repository/toc_repository.dart';
+import 'package:toc_module/toc/pages/about_tab/widgets/review_rating/repository/review_rating_repository.dart';
 import 'package:toc_module/toc/services/toc_module_service.dart';
 import 'package:toc_module/toc/widgets/primary_category_widget.dart';
 import 'package:toc_module/toc/widgets/toc_content_header/widgets/feedback_overlay_card.dart';
@@ -19,14 +19,14 @@ import '../language_listview.dart';
 
 class TocContentHeader extends StatelessWidget {
   const TocContentHeader({
-    Key? key,
+    super.key,
     required this.course,
     this.enrolledCourse,
     this.clickedRating,
     this.recommendationId,
     required this.isFeedbackPending,
     required this.submitFeedback,
-  }) : super(key: key);
+  });
   final Course? enrolledCourse;
   final Course course;
   final VoidCallback? clickedRating;
@@ -80,9 +80,9 @@ class TocContentHeader extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
                 SizedBox(height: 8.w),
-                Consumer<TocRepository>(
-                  builder: (context, TocRepository, _) {
-                    var courseRatingInfo = TocRepository.courseRating;
+                Consumer<ReviewRatingRepository>(
+                  builder: (context, reviewRatingRepository, _) {
+                    var courseRatingInfo = reviewRatingRepository.courseRating;
                     if (courseRatingInfo != null) {
                       if (courseRatingInfo.runtimeType != String) {
                         double totalRating = getTotalRating(courseRatingInfo);
@@ -145,8 +145,7 @@ class TocContentHeader extends StatelessWidget {
                   child: Row(
                     children: [
                       SvgPicture.network(
-                        TocModuleService.config.baseUrl +
-                            '/assets/images/sakshamAI/lady-greet.svg',
+                        '${TocModuleService.config.baseUrl}/assets/images/sakshamAI/lady-greet.svg',
                         height: 70.w,
                         placeholderBuilder: (context) => SizedBox.shrink(),
                       ),

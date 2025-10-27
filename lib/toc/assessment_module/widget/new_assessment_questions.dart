@@ -260,10 +260,10 @@ class _NewAssessmentQuestionsState extends State<NewAssessmentQuestions> {
   }
 
   Future _onSubmitPressed(contextMain) {
-    widget.generateInteractTelemetryData(
-      widget.identifier,
-      TelemetrySubType.submit,
-    );
+    // widget.generateInteractTelemetryData(
+    //   widget.identifier,
+    //   TelemetrySubType.submit,
+    // );
     return showModalBottomSheet(
       isScrollControlled: true,
       // useSafeArea: true,
@@ -872,10 +872,10 @@ class _NewAssessmentQuestionsState extends State<NewAssessmentQuestions> {
           children: _microSurvey.map((item) {
             return InkWell(
               onTap: () {
-                widget.generateInteractTelemetryData(
-                  _microSurvey[_microSurvey.indexOf(item)]['identifier'],
-                  TelemetrySubType.click,
-                );
+                // widget.generateInteractTelemetryData(
+                //   _microSurvey[_microSurvey.indexOf(item)]['identifier'],
+                //   TelemetrySubType.click,
+                // );
                 _questionIndex = _microSurvey.indexOf(item);
                 setState(() {
                   if (_answerGiven(

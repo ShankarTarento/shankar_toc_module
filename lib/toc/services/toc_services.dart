@@ -30,9 +30,11 @@ class TocServices {
   String get postReviewUrl => config.baseUrl + ApiUrls.postReview;
   String get updatePreRequisiteContentProgress =>
       config.baseUrl + ApiUrls.updatePreRequisiteContentProgress;
-
   String get updateContentProgressUrl =>
       config.baseUrl + ApiUrls.updateContentProgress;
+  String get readContentProgressUrl =>
+      config.baseUrl + ApiUrls.readContentProgress;
+  String get autoEnrollBatchUrl => config.baseUrl + ApiUrls.autoEnrollBatch;
 
   Future<Response> getCbplan() async {
     Response response = await get(
@@ -75,70 +77,77 @@ class TocServices {
   Future<Response> getKarmaPointCourseRead({required String courseId}) async {
     var body = json.encode({
       "request": {
-        "filters": {
-          "contextType": "Course",
-          "contextId": courseId,
-        }
-      }
+        "filters": {"contextType": "Course", "contextId": courseId},
+      },
     });
-    final response = await post(Uri.parse(getKarmapoints),
-        headers: NetworkHeaders.profilePostHeaders(
-          token: config.token,
-          wid: config.wid,
-          rootOrgId: config.orgId,
-          apiKey: config.apiKey,
-        ),
-        body: body);
+    final response = await post(
+      Uri.parse(getKarmapoints),
+      headers: NetworkHeaders.profilePostHeaders(
+        token: config.token,
+        wid: config.wid,
+        rootOrgId: config.orgId,
+        apiKey: config.apiKey,
+      ),
+      body: body,
+    );
     return response;
   }
 
   Future<Response> claimKarmaPoints(String courseId) async {
     var body = json.encode({"userId": config.wid, "courseId": courseId});
-    final response = await post(Uri.parse(claimKarmaPointsUrl),
-        headers: NetworkHeaders.profilePostHeaders(
-          token: config.token,
-          wid: config.wid,
-          rootOrgId: config.orgId,
-          apiKey: config.apiKey,
-        ),
-        body: body);
+    final response = await post(
+      Uri.parse(claimKarmaPointsUrl),
+      headers: NetworkHeaders.profilePostHeaders(
+        token: config.token,
+        wid: config.wid,
+        rootOrgId: config.orgId,
+        apiKey: config.apiKey,
+      ),
+      body: body,
+    );
     return response;
   }
 
-  Future<Response> getCourseReviewSummery(
-      {required String id, required String primaryCategory}) async {
-    Response res =
-        await get(Uri.parse(courseReviewSummeryUrl + '$id/$primaryCategory'),
-            headers: NetworkHeaders.getHeaders(
-              token: config.token,
-              wid: config.wid,
-              rootOrgId: config.orgId,
-              apiKey: config.apiKey,
-            ));
+  Future<Response> getCourseReviewSummery({
+    required String id,
+    required String primaryCategory,
+  }) async {
+    Response res = await get(
+      Uri.parse(courseReviewSummeryUrl + '$id/$primaryCategory'),
+      headers: NetworkHeaders.getHeaders(
+        token: config.token,
+        wid: config.wid,
+        rootOrgId: config.orgId,
+        apiKey: config.apiKey,
+      ),
+    );
     return res;
   }
 
-  Future<Response> getCourseReview(
-      {required String courseId,
-      required String primaryCategory,
-      required int limit}) async {
+  Future<Response> getCourseReview({
+    required String courseId,
+    required String primaryCategory,
+    required int limit,
+  }) async {
     Map data = {
       "activityId": courseId,
       "activityType": primaryCategory,
       "limit": limit,
-      "updateOn": ""
+      "updateOn": "",
     };
 
     var body = json.encode(data);
-    Response res = await post(Uri.parse(getCourseReviewUrl),
-        headers: NetworkHeaders.postHeaders(
-          token: config.token,
-          wid: config.wid,
-          rootOrgId: config.orgId,
-          apiKey: config.apiKey,
-          baseUrl: config.baseUrl,
-        ),
-        body: body);
+    Response res = await post(
+      Uri.parse(getCourseReviewUrl),
+      headers: NetworkHeaders.postHeaders(
+        token: config.token,
+        wid: config.wid,
+        rootOrgId: config.orgId,
+        apiKey: config.apiKey,
+        baseUrl: config.baseUrl,
+      ),
+      body: body,
+    );
 
     return res;
   }
@@ -152,26 +161,30 @@ class TocServices {
         "activityId": id,
         "activityType": primaryCategory,
         "userId": [config.wid],
-      }
+      },
     };
 
     var body = json.encode(data);
-    Response res = await post(Uri.parse(getYourRatingUrl),
-        body: body,
-        headers: NetworkHeaders.getHeaders(
-            apiKey: config.apiKey,
-            token: config.token,
-            wid: config.wid,
-            rootOrgId: config.orgId));
+    Response res = await post(
+      Uri.parse(getYourRatingUrl),
+      body: body,
+      headers: NetworkHeaders.getHeaders(
+        apiKey: config.apiKey,
+        token: config.token,
+        wid: config.wid,
+        rootOrgId: config.orgId,
+      ),
+    );
 
     return res;
   }
 
-  Future<Response> postCourseReview(
-      {required String courseId,
-      required String primaryCategory,
-      required double rating,
-      required String comment}) async {
+  Future<Response> postCourseReview({
+    required String courseId,
+    required String primaryCategory,
+    required double rating,
+    required String comment,
+  }) async {
     Map data;
     if (comment.trim().length > 0) {
       data = {
@@ -179,7 +192,7 @@ class TocServices {
         "userId": config.wid,
         "activityType": primaryCategory,
         "rating": rating.toInt(),
-        "review": comment
+        "review": comment,
       };
     } else {
       data = {
@@ -191,15 +204,17 @@ class TocServices {
     }
 
     var body = json.encode(data);
-    Response response = await post(Uri.parse(postReviewUrl),
-        headers: NetworkHeaders.postHeaders(
-          token: config.token,
-          wid: config.wid,
-          rootOrgId: config.orgId,
-          apiKey: config.apiKey,
-          baseUrl: config.baseUrl,
-        ),
-        body: body);
+    Response response = await post(
+      Uri.parse(postReviewUrl),
+      headers: NetworkHeaders.postHeaders(
+        token: config.token,
+        wid: config.wid,
+        rootOrgId: config.orgId,
+        apiKey: config.apiKey,
+        baseUrl: config.baseUrl,
+      ),
+      body: body,
+    );
     return response;
   }
 
@@ -210,48 +225,51 @@ class TocServices {
     Map data = {
       "printUri": printUri,
       "inputFormat": "svg",
-      "outputFormat": outputType ?? CertificateType.pdf
+      "outputFormat": outputType ?? CertificateType.pdf,
     };
 
     var body = json.encode(data);
-    Response certRes =
-        await post(Uri.parse(getCourseCompletionCertificateForMobile),
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: body);
+    Response certRes = await post(
+      Uri.parse(getCourseCompletionCertificateForMobile),
+      headers: {'Content-Type': 'application/json'},
+      body: body,
+    );
 
     return certRes;
   }
 
-  Future<Response> getCourseCompletionDynamicCertificate(
-      {required String courseId, required String batchId}) async {
+  Future<Response> getCourseCompletionDynamicCertificate({
+    required String courseId,
+    required String batchId,
+  }) async {
     Map data = {
       "request": {
         "userId": config.wid,
         "courseId": courseId,
-        "batchId": batchId
-      }
+        "batchId": batchId,
+      },
     };
 
     var body = json.encode(data);
 
-    Response res =
-        await post(Uri.parse(getCourseCompletionDynamicCertificateUrl),
-            headers: NetworkHeaders.postHeaders(
-              token: config.token,
-              wid: config.wid,
-              rootOrgId: config.orgId,
-              apiKey: config.apiKey,
-              baseUrl: config.baseUrl,
-            ),
-            body: body);
+    Response res = await post(
+      Uri.parse(getCourseCompletionDynamicCertificateUrl),
+      headers: NetworkHeaders.postHeaders(
+        token: config.token,
+        wid: config.wid,
+        rootOrgId: config.orgId,
+        apiKey: config.apiKey,
+        baseUrl: config.baseUrl,
+      ),
+      body: body,
+    );
 
     return res;
   }
 
-  Future<dynamic> getCourseCompletionCertificate(
-      {required String certificateId}) async {
+  Future<dynamic> getCourseCompletionCertificate({
+    required String certificateId,
+  }) async {
     Response res = await get(
       Uri.parse(getCourseCompletionCertificateUrl + certificateId),
       headers: {'Authorization': 'bearer ${config.apiKey}'},
@@ -265,38 +283,40 @@ class TocServices {
       "request": {
         "retiredCoursesEnabled": true,
         "courseId": [courseId],
-      }
+      },
     };
 
     var body = json.encode(data);
 
-    Response res =
-        await post(Uri.parse(getCourseEnrollDetailsByIdsUrl + config.wid),
-            headers: NetworkHeaders.postHeaders(
-              token: config.token,
-              wid: config.wid,
-              rootOrgId: config.orgId,
-              apiKey: config.apiKey,
-              baseUrl: config.baseUrl,
-            ),
-            body: body);
+    Response res = await post(
+      Uri.parse(getCourseEnrollDetailsByIdsUrl + config.wid),
+      headers: NetworkHeaders.postHeaders(
+        token: config.token,
+        wid: config.wid,
+        rootOrgId: config.orgId,
+        apiKey: config.apiKey,
+        baseUrl: config.baseUrl,
+      ),
+      body: body,
+    );
 
     return res;
   }
 
-  Future<Response> updateContentProgress(
-      {required String courseId,
-      required String batchId,
-      required String contentId,
-      required int status,
-      required String contentType,
-      required List current,
-      var maxSize,
-      required double completionPercentage,
-      bool isAssessment = false,
-      bool? isPreRequisite = false,
-      int spentTime = 0,
-      required String language}) async {
+  Future<Response> updateContentProgress({
+    required String courseId,
+    required String batchId,
+    required String contentId,
+    required int status,
+    required String contentType,
+    required List current,
+    var maxSize,
+    required double completionPercentage,
+    bool isAssessment = false,
+    bool? isPreRequisite = false,
+    int spentTime = 0,
+    required String language,
+  }) async {
     List dateTime = DateTime.now().toUtc().toString().split('.');
 
     Map data;
@@ -312,10 +332,10 @@ class TocServices {
                 "lastAccessTime": '${dateTime[0]}:00+0000',
                 "progressdetails": {"mimeType": contentType},
                 "completionPercentage": completionPercentage,
-                "language": language.toLowerCase()
-              }
-            ]
-          }
+                "language": language.toLowerCase(),
+              },
+            ],
+          },
         };
       } else {
         data = {
@@ -328,13 +348,13 @@ class TocServices {
                 "progressdetails": {
                   "max_size": maxSize,
                   "current": current,
-                  "mimeType": contentType
+                  "mimeType": contentType,
                 },
                 "completionPercentage": completionPercentage,
-                "language": language.toLowerCase()
-              }
-            ]
-          }
+                "language": language.toLowerCase(),
+              },
+            ],
+          },
         };
       }
     } else {
@@ -349,10 +369,10 @@ class TocServices {
                 "status": status,
                 "courseId": courseId,
                 "lastAccessTime": '${dateTime[0]}:00+0000',
-                "language": language.toLowerCase()
-              }
-            ]
-          }
+                "language": language.toLowerCase(),
+              },
+            ],
+          },
         };
       } else {
         data = {
@@ -369,13 +389,13 @@ class TocServices {
                   "max_size": maxSize,
                   "current": current,
                   "mimeType": contentType,
-                  "spentTime": spentTime
+                  "spentTime": spentTime,
                 },
                 "completionPercentage": completionPercentage,
-                "language": language.toLowerCase()
-              }
-            ]
-          }
+                "language": language.toLowerCase(),
+              },
+            ],
+          },
         };
       }
     }
@@ -384,15 +404,69 @@ class TocServices {
     String url = (isPreRequisite ?? false)
         ? updatePreRequisiteContentProgress
         : updateContentProgressUrl;
-    Response res = await patch(Uri.parse(url),
-        headers: NetworkHeaders.postHeaders(
-          token: config.token,
-          wid: config.wid,
-          rootOrgId: config.orgId,
-          apiKey: config.apiKey,
-          baseUrl: config.baseUrl,
-        ),
-        body: body);
+    Response res = await patch(
+      Uri.parse(url),
+      headers: NetworkHeaders.postHeaders(
+        token: config.token,
+        wid: config.wid,
+        rootOrgId: config.orgId,
+        apiKey: config.apiKey,
+        baseUrl: config.baseUrl,
+      ),
+      body: body,
+    );
+    return res;
+  }
+
+  Future<Response> readContentProgress({
+    required String courseId,
+    required String batchId,
+    List contentIds = const [],
+    required String language,
+  }) async {
+    Map data = {
+      "request": {
+        "batchId": batchId,
+        "userId": config.wid,
+        "courseId": courseId,
+        "contentIds": contentIds,
+        "fields": ["progressdetails"],
+        "language": language.toLowerCase(),
+      },
+    };
+    var body = jsonEncode(data);
+    Response res = await post(
+      Uri.parse(readContentProgressUrl),
+      headers: NetworkHeaders.postHeaders(
+        token: config.token,
+        wid: config.wid,
+        rootOrgId: config.orgId,
+        apiKey: config.apiKey,
+        baseUrl: config.baseUrl,
+      ),
+      body: body,
+    );
+    return res;
+  }
+
+  Future<dynamic> autoEnrollBatch({
+    required String courseId,
+    String? language,
+  }) async {
+    Uri uri = Uri.parse(
+      autoEnrollBatchUrl,
+    ).replace(queryParameters: {'language': language});
+
+    Response res = await get(
+      uri,
+      headers: NetworkHeaders.postHeaders(
+        token: config.token,
+        wid: config.wid,
+        rootOrgId: config.orgId,
+        apiKey: config.apiKey,
+        baseUrl: config.baseUrl,
+      ),
+    );
     return res;
   }
 }

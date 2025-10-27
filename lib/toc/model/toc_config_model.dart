@@ -9,6 +9,13 @@ class TocConfigModel {
   final Widget Function(BuildContext) tipsForLearners;
   final Widget Function(BuildContext) notificationIcon;
   final GlobalKey<NavigatorState> navigatorKey;
+  final Widget Function({
+    required BuildContext context,
+    required String courseId,
+    required bool isEnrolled,
+    double bottomMargin,
+  })
+  courseComments;
 
   TocConfigModel({
     required this.baseUrl,
@@ -19,5 +26,6 @@ class TocConfigModel {
     required this.tipsForLearners,
     required this.notificationIcon,
     required this.navigatorKey,
+    required this.courseComments,
   });
 }

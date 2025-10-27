@@ -50,6 +50,9 @@ class ApiUrls {
       '/api/content/v2/state/read';
   static const String updateContentProgress =
       '/api/course/v1/content/state/update';
+  static const String readContentProgress = '/api/course/v1/content/state/read';
+  static const String autoEnrollBatch = '/api/v1/autoenrollment';
+
   static const androidUrl =
       'https://play.google.com/store/apps/details?id=com.igot.karmayogibharat';
   static const iOSUrl =

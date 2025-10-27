@@ -18,6 +18,7 @@ import 'package:toc_module/toc/pages/about_tab/widgets/tags.dart';
 import 'package:toc_module/toc/pages/player/external_course_player.dart';
 import 'package:toc_module/toc/pages/toc_skeleton/external_course_toc_skeleton.dart';
 import 'package:toc_module/toc/repository/toc_repository.dart';
+import 'package:toc_module/toc/services/toc_module_service.dart';
 import 'package:toc_module/toc/util/button_widget_v2.dart';
 import 'package:toc_module/toc/view_model/course_toc_view_model.dart';
 import 'about_tab/widgets/competency_strip/competency_strip.dart';
@@ -260,9 +261,10 @@ class _ExternalCourseTOCState extends State<ExternalCourseTOC>
                                 bool? isEnrolled,
                                 Widget? child,
                               ) {
-                                return CourseComments(
+                                return TocModuleService.config.courseComments(
                                   courseId: widget.contentId,
                                   isEnrolled: isEnrolled ?? false,
+                                  context: context,
                                 );
                               },
                         ),

@@ -811,10 +811,10 @@ class _NewAssessmentV2QuestionsState extends State<NewAssessmentV2Questions> {
   }) async {
     sectionNo.value = widget.sectionIndex + 1;
     List<Map<String, dynamic>> sectionSummaryList = [];
-    widget.generateInteractTelemetryData(
-      widget.identifier,
-      TelemetrySubType.submit,
-    );
+    // widget.generateInteractTelemetryData(
+    //   widget.identifier,
+    //   TelemetrySubType.submit,
+    // );
     return showDialog<void>(
       context: cxt,
       barrierDismissible: false,

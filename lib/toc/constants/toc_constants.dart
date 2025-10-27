@@ -545,3 +545,7 @@ List<InformationCardModel> scenario4Info(context) => [
     iconColor: ModuleColors.greys60,
   ),
 ];
+
+class InviteOnlyBatchStatus {
+  static const String batchNotStarted = 'batchNotStarted';
+}

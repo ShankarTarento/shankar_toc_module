@@ -5,6 +5,7 @@ import 'package:toc_module/toc/constants/color_constants.dart';
 import 'package:toc_module/toc/constants/toc_constants.dart';
 import 'package:toc_module/toc/helper/toc_helper.dart';
 import 'package:toc_module/toc/model/batch_model.dart';
+import 'package:toc_module/toc/model/cbp_plan_model.dart';
 import 'package:toc_module/toc/model/course_hierarchy_model.dart';
 import 'package:toc_module/toc/model/course_model.dart';
 import 'package:toc_module/toc/model/learn_tab_model.dart';
@@ -171,15 +172,13 @@ class CourseTocViewModel extends ChangeNotifier {
 
   // Content read api - To get all course details including batch info
   Future<void> getCourseInfo(BuildContext context) async {
-    final courseInfo = await Provider.of<TocRepository>(context, listen: false)
-        .getCourseData(
-          _courseId,
-          isFeatured: _isFeaturedCourse,
-          pointToProd: _arguments?.pointToProd ?? false,
-        );
+    final courseInfo = await Provider.of<TocRepository>(
+      context,
+      listen: false,
+    ).getCourseReadData(courseId: _courseId ?? "");
 
     if (courseInfo != null) {
-      _course = Course.fromJson(courseInfo);
+      _course = courseInfo;
       if (_course != null && _course!.languageMap.languages.isNotEmpty) {
         // Find the language key where id matches _courseId
         for (final entry in _course!.languageMap.languages.entries) {
@@ -223,7 +222,7 @@ class CourseTocViewModel extends ChangeNotifier {
 
   // Get enrolment info
   Future<void> getEnrolmentInfo(BuildContext context) async {
-    List<Course> response = await _TocRepository.getCourseEnrollDetailsByIds(
+    List<Course> response = await TocRepository.getCourseEnrollDetailsByIds(
       courseIds: [_baseCourseId!],
     );
 
@@ -248,7 +247,7 @@ class CourseTocViewModel extends ChangeNotifier {
     if (_enrolledCourse.value != null &&
         _enrolledCourse.value!.languageMap.languages.isNotEmpty &&
         _enrolledCourse.value?.completionPercentage != 100) {
-      final String? recentLang = _enrolledCourse.value!.recent_language;
+      final String? recentLang = _enrolledCourse.value!.recentLanguage;
       if (recentLang != null) {
         if (recentLang.toLowerCase() != course!.language.toLowerCase()) {
           showModalBottomSheet(
@@ -394,15 +393,13 @@ class CourseTocViewModel extends ChangeNotifier {
   }
 
   Future<void> getCourseHierarchyDetails(BuildContext context) async {
-    final response = await Provider.of<TocRepository>(context, listen: false)
-        .getCourseDetails(
-          _courseId,
-          isFeatured: _isFeaturedCourse,
-          pointToProd: _arguments?.pointToProd ?? false,
-        );
+    final response = await Provider.of<TocRepository>(
+      context,
+      listen: false,
+    ).getCourseHierarchyData(courseId: _courseId ?? "");
 
     if (response != null) {
-      _courseHierarchyData = CourseHierarchyModel.fromJson(response);
+      _courseHierarchyData = response;
       await setTabItems(context);
       notifyListeners();
     }
@@ -598,82 +595,82 @@ class CourseTocViewModel extends ChangeNotifier {
   }
 
   Future<void> _smtTrackCourseView() async {
-    if (_smtTrackCourseViewEnabled) {
-      try {
-        bool isContentViewEnabled = await _TocRepository.isSmartechEventEnabled(
-          eventName: SMTTrackEvents.contentView,
-        );
+    // if (_smtTrackCourseViewEnabled) {
+    //   try {
+    //     bool isContentViewEnabled = await _TocRepository.isSmartechEventEnabled(
+    //       eventName: SMTTrackEvents.contentView,
+    //     );
 
-        if (isContentViewEnabled) {
-          Future.delayed(Duration(seconds: 1), () {
-            SmartechService.trackCourseView(
-              courseCategory: _course?.courseCategory ?? '',
-              courseName: _course?.name ?? '',
-              image: _course?.appIcon ?? '',
-              contentUrl:
-                  "${TocModuleService.config.baseUrl}/app/toc/${_course?.id ?? ''}",
-              doId: _course?.id ?? '',
-              courseDuration: int.tryParse(_course?.duration?.toString() ?? ''),
-              learningPathContent: _isLearningPathContent ? 1 : 0,
-              provider: _course?.source ?? '',
-              courseRating: _courseRating,
-              numberOfCourseRating: _numberOfCourseRating,
-            );
-          });
-          _smtTrackCourseViewEnabled = false;
-        }
-      } catch (e) {
-        print(e);
-      }
-    }
+    //     if (isContentViewEnabled) {
+    //       Future.delayed(Duration(seconds: 1), () {
+    //         SmartechService.trackCourseView(
+    //           courseCategory: _course?.courseCategory ?? '',
+    //           courseName: _course?.name ?? '',
+    //           image: _course?.appIcon ?? '',
+    //           contentUrl:
+    //               "${TocModuleService.config.baseUrl}/app/toc/${_course?.id ?? ''}",
+    //           doId: _course?.id ?? '',
+    //           courseDuration: int.tryParse(_course?.duration?.toString() ?? ''),
+    //           learningPathContent: _isLearningPathContent ? 1 : 0,
+    //           provider: _course?.source ?? '',
+    //           courseRating: _courseRating,
+    //           numberOfCourseRating: _numberOfCourseRating,
+    //         );
+    //       });
+    //       _smtTrackCourseViewEnabled = false;
+    //     }
+    //   } catch (e) {
+    //     print(e);
+    //   }
+    // }
   }
 
   Future<void> _generateTelemetryData(BuildContext context) async {
-    var telemetryRepository = TelemetryRepository();
-    Map eventData = telemetryRepository.getImpressionTelemetryEvent(
-      pageIdentifier: _isFeaturedCourse
-          ? TelemetryPageIdentifier.publicCourseDetailsPageId
-          : TelemetryPageIdentifier.courseDetailsPageId,
-      telemetryType: TelemetryType.page,
-      pageUri:
-          (_isFeaturedCourse
-                  ? TelemetryPageIdentifier.publicCourseDetailsPageUri
-                  : TelemetryPageIdentifier.courseDetailsPageUri)
-              .replaceAll(':do_ID', _courseId!),
-      env: TelemetryEnv.learn,
-      objectId: _courseId,
-      objectType: _course?.courseCategory,
-      isPublic: _isFeaturedCourse,
-    );
+    // var telemetryRepository = TelemetryRepository();
+    // Map eventData = telemetryRepository.getImpressionTelemetryEvent(
+    //   pageIdentifier: _isFeaturedCourse
+    //       ? TelemetryPageIdentifier.publicCourseDetailsPageId
+    //       : TelemetryPageIdentifier.courseDetailsPageId,
+    //   telemetryType: TelemetryType.page,
+    //   pageUri:
+    //       (_isFeaturedCourse
+    //               ? TelemetryPageIdentifier.publicCourseDetailsPageUri
+    //               : TelemetryPageIdentifier.courseDetailsPageUri)
+    //           .replaceAll(':do_ID', _courseId!),
+    //   env: TelemetryEnv.learn,
+    //   objectId: _courseId,
+    //   objectType: _course?.courseCategory,
+    //   isPublic: _isFeaturedCourse,
+    // );
 
-    await telemetryRepository.insertEvent(
-      eventData: eventData,
-      isPublic: _isFeaturedCourse,
-    );
+    // await telemetryRepository.insertEvent(
+    //   eventData: eventData,
+    //   isPublic: _isFeaturedCourse,
+    // );
   }
 
   Future<void> _generateInteractTelemetryData(
     String contentId,
     BuildContext context,
   ) async {
-    var telemetryRepository = TelemetryRepository();
-    Map eventData = telemetryRepository.getInteractTelemetryEvent(
-      pageIdentifier:
-          (_isFeaturedCourse
-              ? TelemetryPageIdentifier.publicCourseDetailsPageId
-              : TelemetryPageIdentifier.courseDetailsPageId) +
-          '_' +
-          contentId,
-      contentId: contentId,
-      subType: TelemetrySubType.courseTab,
-      env: TelemetryEnv.learn,
-      isPublic: _isFeaturedCourse,
-    );
+    // var telemetryRepository = TelemetryRepository();
+    // Map eventData = telemetryRepository.getInteractTelemetryEvent(
+    //   pageIdentifier:
+    //       (_isFeaturedCourse
+    //           ? TelemetryPageIdentifier.publicCourseDetailsPageId
+    //           : TelemetryPageIdentifier.courseDetailsPageId) +
+    //       '_' +
+    //       contentId,
+    //   contentId: contentId,
+    //   subType: TelemetrySubType.courseTab,
+    //   env: TelemetryEnv.learn,
+    //   isPublic: _isFeaturedCourse,
+    // );
 
-    await telemetryRepository.insertEvent(
-      eventData: eventData,
-      isPublic: _isFeaturedCourse,
-    );
+    // await telemetryRepository.insertEvent(
+    //   eventData: eventData,
+    //   isPublic: _isFeaturedCourse,
+    // );
   }
 
   Future<void> _checkCompatibility(BuildContext context) async {

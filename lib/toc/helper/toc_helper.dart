@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+import 'package:toc_module/toc/constants/learn_compatability_constants.dart';
 import 'package:toc_module/toc/model/content_state_model.dart';
 import 'package:toc_module/toc/model/course_hierarchy_model.dart';
 import 'package:toc_module/toc/model/course_model.dart';
@@ -83,19 +84,17 @@ class TocHelper {
     }
   }
 
-  static showSnackBarMessage(
-      {required BuildContext context,
-      required String text,
-      int? durationInSec,
-      required Color textColor,
-      required Color bgColor}) {
+  static showSnackBarMessage({
+    required BuildContext context,
+    required String text,
+    int? durationInSec,
+    required Color textColor,
+    required Color bgColor,
+  }) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         duration: Duration(seconds: durationInSec ?? 2),
-        content: Text(text,
-            style: GoogleFonts.lato(
-              color: textColor,
-            )),
+        content: Text(text, style: GoogleFonts.lato(color: textColor)),
         backgroundColor: bgColor,
       ),
     );
@@ -111,9 +110,10 @@ class TocHelper {
     return cleaned.replaceAll("", "");
   }
 
-  static Future<void> doLaunchUrl(
-      {required String url,
-      LaunchMode mode = LaunchMode.platformDefault}) async {
+  static Future<void> doLaunchUrl({
+    required String url,
+    LaunchMode mode = LaunchMode.platformDefault,
+  }) async {
     if (Platform.isIOS) {
       if (await canLaunchUrl(Uri.parse(url))) {
         await launchUrl(Uri.parse(url), mode: mode);
@@ -121,36 +121,40 @@ class TocHelper {
         throw 'Could not launch $url';
       }
     } else {
-      await launchUrl(
-        Uri.parse(url),
-        mode: mode,
-      );
+      await launchUrl(Uri.parse(url), mode: mode);
     }
   }
 
-  static Future<NavigationModel?> getResourceInfo(
-      {required BuildContext context,
-      required String resourceId,
-      required bool isFeatured,
-      required NavigationModel resourceNavigateItems}) async {
+  static Future<NavigationModel?> getResourceInfo({
+    required BuildContext context,
+    required String resourceId,
+    required bool isFeatured,
+    required NavigationModel resourceNavigateItems,
+  }) async {
     final courseInfo = {"": ""};
     // await Provider.of<TocRepository>(context,
     //         listen: false)
     //     .getCourseData(resourceId, isFeatured: isFeatured, isResource: true);
 
     if (courseInfo != null) {
-      NavigationModel resource = NavigationModel.fromJson(courseInfo,
-          index: 0, language: resourceNavigateItems.language);
+      NavigationModel resource = NavigationModel.fromJson(
+        courseInfo,
+        index: 0,
+        language: resourceNavigateItems.language,
+      );
       resource = TocHelper.compareAndUpdate(
-          resourseFromHierarchy: resourceNavigateItems, resource: resource);
+        resourseFromHierarchy: resourceNavigateItems,
+        resource: resource,
+      );
       return resource;
     }
     return null;
   }
 
-  static NavigationModel compareAndUpdate(
-      {required NavigationModel resourseFromHierarchy,
-      required NavigationModel resource}) {
+  static NavigationModel compareAndUpdate({
+    required NavigationModel resourseFromHierarchy,
+    required NavigationModel resource,
+  }) {
     resource.parentBatchId = resourseFromHierarchy.parentBatchId;
     resource.parentCourseId = resourseFromHierarchy.parentCourseId;
     if (resource.duration == null || resource.duration == '0') {
@@ -159,9 +163,11 @@ class TocHelper {
     resource.moduleDuration = resourseFromHierarchy.moduleDuration;
     resource.courseDuration = resourseFromHierarchy.courseDuration;
     if (double.parse(resource.currentProgress) <
-        double.parse(resourseFromHierarchy.currentProgress != ''
-            ? resourseFromHierarchy.currentProgress
-            : '0')) {
+        double.parse(
+          resourseFromHierarchy.currentProgress != ''
+              ? resourseFromHierarchy.currentProgress
+              : '0',
+        )) {
       resource.currentProgress = resourseFromHierarchy.currentProgress;
     }
     if (resource.completionPercentage <
@@ -244,24 +250,32 @@ class TocHelper {
   }
 
   bool checkInviteOnlyProgramIsActive(
-      Course courseDetails, Course? enrolledCourse) {
+    Course courseDetails,
+    Course? enrolledCourse,
+  ) {
     if (courseDetails.batches != null &&
         courseDetails.batches!.isNotEmpty &&
         courseDetails.batches![0].enrollmentType == "invite-only") {
       DateTime today = DateTime.now();
       if (enrolledCourse != null) {
-        if (DateTime.parse(enrolledCourse.batch!.startDate)
-            .isAfter(DateTime(today.year, today.month, today.day))) {
+        if (DateTime.parse(
+          enrolledCourse.batch!.startDate,
+        ).isAfter(DateTime(today.year, today.month, today.day))) {
           return false;
-        } else if ((DateTime.parse(enrolledCourse.batch!.startDate)
-                    .isBefore(DateTime(today.year, today.month, today.day)) ||
-                DateTime.parse(enrolledCourse.batch!.startDate)
-                    .isAtSameMomentAs(
-                        DateTime(today.year, today.month, today.day))) &&
-            (DateTime.parse(enrolledCourse.batch!.endDate)
-                    .isAfter(DateTime(today.year, today.month, today.day)) ||
+        } else if ((DateTime.parse(
+                  enrolledCourse.batch!.startDate,
+                ).isBefore(DateTime(today.year, today.month, today.day)) ||
+                DateTime.parse(
+                  enrolledCourse.batch!.startDate,
+                ).isAtSameMomentAs(
+                  DateTime(today.year, today.month, today.day),
+                )) &&
+            (DateTime.parse(
+                  enrolledCourse.batch!.endDate,
+                ).isAfter(DateTime(today.year, today.month, today.day)) ||
                 DateTime.parse(enrolledCourse.batch!.endDate).isAtSameMomentAs(
-                    DateTime(today.year, today.month, today.day)))) {
+                  DateTime(today.year, today.month, today.day),
+                ))) {
           return true;
         } else {
           return false;
@@ -280,21 +294,25 @@ class TocHelper {
   }
 
   static bool isProgramLive(enrolledCourse) {
-    var batchStartDate =
-        DateTime.parse(enrolledCourse.raw['batch']['startDate']).toLocal();
+    var batchStartDate = DateTime.parse(
+      enrolledCourse.raw['batch']['startDate'],
+    ).toLocal();
     var batchEndDate = enrolledCourse.raw['batch']['endDate'] != null
         ? DateTime.parse(enrolledCourse.raw['batch']['endDate']).toLocal()
         : null;
 
     var now = DateTime.now();
 
-    bool isLive = (batchStartDate.isBefore(now) ||
-            batchStartDate
-                .isAtSameMomentAs(DateTime(now.year, now.month, now.day))) &&
+    bool isLive =
+        (batchStartDate.isBefore(now) ||
+            batchStartDate.isAtSameMomentAs(
+              DateTime(now.year, now.month, now.day),
+            )) &&
         (batchEndDate == null ||
             batchEndDate.isAfter(now) ||
-            batchEndDate
-                .isAtSameMomentAs(DateTime(now.year, now.month, now.day)));
+            batchEndDate.isAtSameMomentAs(
+              DateTime(now.year, now.month, now.day),
+            ));
 
     return isLive;
   }
@@ -325,8 +343,9 @@ class TocHelper {
 
   static upgradeGoogleAPI(String uri) {
     String updatedUri = uri.replaceFirst(
-        'https://storage.googleapis.com/igotprod',
-        '${TocModuleService.config.baseUrl}${Env.cdnBucket}');
+      'https://storage.googleapis.com/igotprod',
+      '${TocModuleService.config.baseUrl}${Env.cdnBucket}',
+    );
     return updatedUri;
   }
 
@@ -338,24 +357,28 @@ class TocHelper {
   }
 
   static double getCourseOverallProgress(
-      double totalProgress, List<NavigationModel> resourceNavigateItems) {
+    double totalProgress,
+    List<NavigationModel> resourceNavigateItems,
+  ) {
     resourceNavigateItems.forEach((element) {
       if (element is! List) {
         if (element.status == 2) {
           totalProgress += 1;
         } else {
-          totalProgress +=
-              double.parse((element.completionPercentage).toString());
+          totalProgress += double.parse(
+            (element.completionPercentage).toString(),
+          );
         }
       }
     });
     return totalProgress;
   }
 
-  bool isResourceLocked(
-      {required String courseCategory,
-      required String contextLockingType,
-      required int compatibilityLevel}) {
+  bool isResourceLocked({
+    required String courseCategory,
+    required String contextLockingType,
+    required int compatibilityLevel,
+  }) {
     return (TocConstants.contextLockCategories.contains(courseCategory) &&
         contextLockingType == EContextLockingType.courseAssessmentOnly &&
         compatibilityLevel >=
@@ -363,11 +386,15 @@ class TocHelper {
   }
 
   static List<NavigationModel> updateLock(
-      List<NavigationModel> resourceNavigateItems, String id) {
+    List<NavigationModel> resourceNavigateItems,
+    String id,
+  ) {
     NavigationModel? result = resourceNavigateItems
-        .where((resource) =>
-            resource.parentCourseId != id &&
-            (resource.status != 2 && resource.completionPercentage != 1))
+        .where(
+          (resource) =>
+              resource.parentCourseId != id &&
+              (resource.status != 2 && resource.completionPercentage != 1),
+        )
         .firstOrNull;
     for (NavigationModel resource in resourceNavigateItems) {
       if (resource.mimeType == EMimeTypes.newAssessment &&
@@ -383,7 +410,8 @@ class TocHelper {
   }
 
   static List<String> getContentIdsFromCourse(
-      List<CourseHierarchyModelChild?>? courseHierarchyList) {
+    List<CourseHierarchyModelChild?>? courseHierarchyList,
+  ) {
     if (courseHierarchyList == null) return [];
     return courseHierarchyList
         .whereType<CourseHierarchyModelChild>()
@@ -392,13 +420,14 @@ class TocHelper {
         .toList();
   }
 
-  static Future<dynamic> generatePreEnrollNavigationItem(
-      {required CourseHierarchyModel courseHierarchyData,
-      required Course course,
-      required BuildContext context,
-      bool isPlayer = false,
-      String? courseCategory,
-      bool isFeatured = false}) async {
+  static Future<dynamic> generatePreEnrollNavigationItem({
+    required CourseHierarchyModel courseHierarchyData,
+    required Course course,
+    required BuildContext context,
+    bool isPlayer = false,
+    String? courseCategory,
+    bool isFeatured = false,
+  }) async {
     int index;
     int k = 0;
     List tempNavItems = [];
@@ -410,10 +439,11 @@ class TocHelper {
     if (!isFeatured) {
       if ((course.preEnrolmentResources?.children ?? []).isNotEmpty) {
         final contentIds = TocHelper.getContentIdsFromCourse(
-            course.preEnrolmentResources?.children ?? []);
+          course.preEnrolmentResources?.children ?? [],
+        );
         parentContentList.clear();
-        parentContentList =
-            await TocRepository().readPreRequisiteContentProgress(contentIds);
+        parentContentList = await TocRepository()
+            .readPreRequisiteContentProgress(contentIds);
         getOverallProgress(parentContentList, course, context);
       }
     }
@@ -429,34 +459,46 @@ class TocHelper {
         if ((courseHierarchyData.children![index].contentType == 'Collection' ||
             courseHierarchyData.children![index].contentType == 'CourseUnit')) {
           List<NavigationModel> temp = [];
-          Map<String, dynamic> childObject =
-              courseHierarchyData.children![index].toJson();
+          Map<String, dynamic> childObject = courseHierarchyData
+              .children![index]
+              .toJson();
 
           if (courseHierarchyData.children![index].children != null) {
-            for (int i = 0;
-                i < courseHierarchyData.children![index].children!.length;
-                i++) {
-              ProgressModel progress = getProgress(isCompleted,
-                  childObject['children']![i]['identifier'], contentList);
-              NavigationModel content = NavigationModel.fromJson(childObject,
-                  index: k++,
-                  childIndex: i,
-                  hasChildren: true,
-                  parentBatchId: course.batches?[0].batchId ?? '',
-                  parentCourseId: parentCourseId,
-                  progress: progress,
-                  isMandatory:
-                      courseHierarchyData.children![index].isMandatory);
+            for (
+              int i = 0;
+              i < courseHierarchyData.children![index].children!.length;
+              i++
+            ) {
+              ProgressModel progress = getProgress(
+                isCompleted,
+                childObject['children']![i]['identifier'],
+                contentList,
+              );
+              NavigationModel content = NavigationModel.fromJson(
+                childObject,
+                index: k++,
+                childIndex: i,
+                hasChildren: true,
+                parentBatchId: course.batches?[0].batchId ?? '',
+                parentCourseId: parentCourseId,
+                progress: progress,
+                isMandatory: courseHierarchyData.children![index].isMandatory,
+              );
               temp.add(content);
               resourceNavigateItems.add(content);
             }
           } else {
             ProgressModel progress = getProgress(
-                isCompleted, childObject['identifier'], contentList);
-            NavigationModel content = NavigationModel.fromJson(childObject,
-                index: k++,
-                progress: progress,
-                isMandatory: courseHierarchyData.children![index].isMandatory);
+              isCompleted,
+              childObject['identifier'],
+              contentList,
+            );
+            NavigationModel content = NavigationModel.fromJson(
+              childObject,
+              index: k++,
+              progress: progress,
+              isMandatory: courseHierarchyData.children![index].isMandatory,
+            );
             temp.add(content);
             resourceNavigateItems.add(content);
           }
@@ -464,105 +506,134 @@ class TocHelper {
         } else if (courseHierarchyData.children![index].contentType ==
             'Course') {
           List courseList = [];
-          for (var i = 0;
-              i < courseHierarchyData.children![index].children!.length;
-              i++) {
+          for (
+            var i = 0;
+            i < courseHierarchyData.children![index].children!.length;
+            i++
+          ) {
             List<NavigationModel> temp = [];
             if (courseHierarchyData.children![index].children![i].contentType ==
                     'Collection' ||
                 courseHierarchyData.children![index].children![i].contentType ==
                     'CourseUnit') {
-              Map<String, dynamic> childObject =
-                  courseHierarchyData.children![index].children![i].toJson();
+              Map<String, dynamic> childObject = courseHierarchyData
+                  .children![index]
+                  .children![i]
+                  .toJson();
 
-              for (var j = 0;
-                  j <
-                      courseHierarchyData
-                          .children![index].children![i].children!.length;
-                  j++) {
-                ProgressModel progress = getProgress(isCompleted,
-                    childObject['children']![j]['identifier'], contentList);
-                NavigationModel content = NavigationModel.fromJson(childObject,
-                    index: k++,
-                    hasChildren: true,
-                    parentBatchId: course.batches?[0].batchId ?? '',
-                    parentCourseId: parentCourseId,
-                    courseName: courseHierarchyData.children![index].name,
-                    childIndex: j,
-                    progress: progress,
-                    isMandatory:
-                        courseHierarchyData.children![index].isMandatory);
+              for (
+                var j = 0;
+                j <
+                    courseHierarchyData
+                        .children![index]
+                        .children![i]
+                        .children!
+                        .length;
+                j++
+              ) {
+                ProgressModel progress = getProgress(
+                  isCompleted,
+                  childObject['children']![j]['identifier'],
+                  contentList,
+                );
+                NavigationModel content = NavigationModel.fromJson(
+                  childObject,
+                  index: k++,
+                  hasChildren: true,
+                  parentBatchId: course.batches?[0].batchId ?? '',
+                  parentCourseId: parentCourseId,
+                  courseName: courseHierarchyData.children![index].name,
+                  childIndex: j,
+                  progress: progress,
+                  isMandatory: courseHierarchyData.children![index].isMandatory,
+                );
                 temp.add(content);
                 resourceNavigateItems.add(content);
               }
               courseList.add(temp);
             } else {
-              Map<String, dynamic> childObject =
-                  courseHierarchyData.children![index].toJson();
-              ProgressModel progress = getProgress(isCompleted,
-                  childObject['children']![i]['identifier'], contentList);
-              NavigationModel content = NavigationModel.fromJson(childObject,
-                  index: k++,
-                  parentBatchId: course.batches?[0].batchId ?? '',
-                  parentCourseId: parentCourseId,
-                  isCourse: true,
-                  hasChildren: true,
-                  courseName: courseHierarchyData.children![index].name,
-                  childIndex: i,
-                  progress: progress,
-                  isMandatory:
-                      courseHierarchyData.children![index].isMandatory);
+              Map<String, dynamic> childObject = courseHierarchyData
+                  .children![index]
+                  .toJson();
+              ProgressModel progress = getProgress(
+                isCompleted,
+                childObject['children']![i]['identifier'],
+                contentList,
+              );
+              NavigationModel content = NavigationModel.fromJson(
+                childObject,
+                index: k++,
+                parentBatchId: course.batches?[0].batchId ?? '',
+                parentCourseId: parentCourseId,
+                isCourse: true,
+                hasChildren: true,
+                courseName: courseHierarchyData.children![index].name,
+                childIndex: i,
+                progress: progress,
+                isMandatory: courseHierarchyData.children![index].isMandatory,
+              );
               courseList.add(content);
               resourceNavigateItems.add(content);
             }
           }
           tempNavItems.add(courseList);
         } else {
-          Map<String, dynamic> childObject =
-              courseHierarchyData.children![index].toJson();
-          ProgressModel progress =
-              getProgress(isCompleted, childObject['identifier'], contentList);
-          NavigationModel content = NavigationModel.fromJson(childObject,
-              index: k++,
-              parentBatchId: course.batches?[0].batchId ?? '',
-              parentCourseId: parentCourseId,
-              isCourse: true,
-              progress: progress,
-              isMandatory: courseHierarchyData.children![index].isMandatory);
+          Map<String, dynamic> childObject = courseHierarchyData
+              .children![index]
+              .toJson();
+          ProgressModel progress = getProgress(
+            isCompleted,
+            childObject['identifier'],
+            contentList,
+          );
+          NavigationModel content = NavigationModel.fromJson(
+            childObject,
+            index: k++,
+            parentBatchId: course.batches?[0].batchId ?? '',
+            parentCourseId: parentCourseId,
+            isCourse: true,
+            progress: progress,
+            isMandatory: courseHierarchyData.children![index].isMandatory,
+          );
           tempNavItems.add(content);
           resourceNavigateItems.add(content);
         }
       }
       return {
         'navItems': tempNavItems,
-        'resourceNavItems': resourceNavigateItems
+        'resourceNavItems': resourceNavigateItems,
       };
     }
   }
 
   static ProgressModel getProgress(
-      isCompleted, identifier, List<ContentStateModel> contentList) {
+    isCompleted,
+    identifier,
+    List<ContentStateModel> contentList,
+  ) {
     if (isCompleted) {
       return ProgressModel.fromJson({'completionPercentage': 1.0, 'status': 2});
     }
     if (contentList.isNotEmpty) {
       for (int i = 0; i < contentList.length; i++) {
         if (contentList[i].contentId == identifier) {
-          int spentTime = contentList[i].progressdetails != null &&
+          int spentTime =
+              contentList[i].progressdetails != null &&
                   contentList[i].progressdetails!['spentTime'] != null
               ? contentList[i].progressdetails!['spentTime']
               : 0;
-          String currentProgress = contentList[i].progressdetails != null &&
+          String currentProgress =
+              contentList[i].progressdetails != null &&
                   contentList[i].progressdetails!['current'] != null
               ? (contentList[i].progressdetails!['current'].length > 0)
-                  ? contentList[i].progressdetails!['current'].last.toString()
-                  : '0'
+                    ? contentList[i].progressdetails!['current'].last.toString()
+                    : '0'
               : '0';
           return ProgressModel.fromJson({
             'completionPercentage': contentList[i].completionPercentage / 100,
             'spentTime': spentTime,
             'currentProgress': currentProgress,
-            'status': contentList[i].status
+            'status': contentList[i].status,
           });
         }
       }
@@ -583,15 +654,16 @@ class TocHelper {
     }
   }
 
-  static Future<dynamic> generateNavigationItem(
-      {required CourseHierarchyModel courseHierarchyData,
-      required Course course,
-      required BuildContext context,
-      required List<Course> enrollmentList,
-      Course? enrolledCourse,
-      bool isPlayer = false,
-      String? courseCategory,
-      bool isFeatured = false}) async {
+  static Future<dynamic> generateNavigationItem({
+    required CourseHierarchyModel courseHierarchyData,
+    required Course course,
+    required BuildContext context,
+    required List<Course> enrollmentList,
+    Course? enrolledCourse,
+    bool isPlayer = false,
+    String? courseCategory,
+    bool isFeatured = false,
+  }) async {
     int index;
     int k = 0;
     List tempNavItems = [];
@@ -604,36 +676,46 @@ class TocHelper {
 
     if (!isFeatured) {
       if (enrolledCourse != null) {
-        isCompleted = enrolledCourse.completionPercentage ==
+        isCompleted =
+            enrolledCourse.completionPercentage ==
             TocConstants.COURSE_COMPLETION_PERCENTAGE;
         if (!isCompleted ||
             enrolledCourse.languageMap.languages.isNotEmpty &&
                 enrolledCourse.languageMap.languages.length > 1) {
           parentContentList.clear();
           parentContentList =
-              await Provider.of<TocRepository>(context, listen: false)
-                  .readContentProgress(
-                      enrolledCourse.id, enrolledCourse.batch!.batchId,
-                      contentIds: course.leafNodes,
-                      language: course.language,
-                      forceUpdateOverallProgress: true);
+              await Provider.of<TocRepository>(
+                context,
+                listen: false,
+              ).readContentProgress(
+                enrolledCourse.id,
+                enrolledCourse.batch!.batchId,
+                contentIds: course.leafNodes,
+                language: course.language,
+                forceUpdateOverallProgress: true,
+              );
           if (course.languageMap.languages.isNotEmpty &&
               enrolledCourse.completionPercentage ==
                   TocConstants.COURSE_COMPLETION_PERCENTAGE) {
-            Provider.of<TocRepository>(context, listen: false)
-                .setCourseProgress(1.0);
+            Provider.of<TocRepository>(
+              context,
+              listen: false,
+            ).setCourseProgress(1.0);
           } else {
             getOverallProgress(parentContentList, course, context);
           }
 
-          languageProgress = Provider.of<TocRepository>(context, listen: false)
-              .languageProgress;
+          languageProgress = Provider.of<TocRepository>(
+            context,
+            listen: false,
+          ).languageProgress;
           if (languageProgress.isNotEmpty &&
               languageProgress[course.language.toLowerCase()] != null) {
             currentLangProgress =
                 languageProgress[course.language.toLowerCase()];
           }
-          isCompleted = enrolledCourse.completionPercentage ==
+          isCompleted =
+              enrolledCourse.completionPercentage ==
                   TocConstants.COURSE_COMPLETION_PERCENTAGE &&
               (currentLangProgress ==
                   TocConstants.COURSE_COMPLETION_PERCENTAGE);
@@ -654,22 +736,28 @@ class TocHelper {
                   courseHierarchyData.identifier &&
               enrolledCourse.id ==
                   TocPlayerViewModel().getEnrolledCourseId(
-                      context, courseHierarchyData.identifier)) {
+                    context,
+                    courseHierarchyData.identifier,
+                  )) {
             parentBatchId = enrolledCourse.batchId;
             parentCourseId = enrolledCourse.id;
             language = course.language;
-            isCompleted = enrolledCourse.completionPercentage ==
+            isCompleted =
+                enrolledCourse.completionPercentage ==
                     TocConstants.COURSE_COMPLETION_PERCENTAGE &&
                 (currentLangProgress == null ||
                     currentLangProgress ==
                         TocConstants.COURSE_COMPLETION_PERCENTAGE);
           }
           Course? enrolledSubCourse = enrollmentList.cast<Course?>().firstWhere(
-              (course) =>
-                  course!.id ==
-                  TocPlayerViewModel().getEnrolledCourseId(
-                      context, courseHierarchyData.children![index].identifier),
-              orElse: () => null);
+            (course) =>
+                course!.id ==
+                TocPlayerViewModel().getEnrolledCourseId(
+                  context,
+                  courseHierarchyData.children![index].identifier,
+                ),
+            orElse: () => null,
+          );
 
           if (enrolledSubCourse != null) {
             try {
@@ -677,10 +765,12 @@ class TocHelper {
               parentCourseId = enrolledSubCourse.id;
               Map<String, dynamic>? _course = await TocRepository()
                   .getCourseData(
-                      courseHierarchyData.children![index].identifier,
-                      isFeatured: isFeatured);
-              language =
-                  _course != null ? Course.fromJson(_course).language : null;
+                    courseHierarchyData.children![index].identifier,
+                    isFeatured: isFeatured,
+                  );
+              language = _course != null
+                  ? Course.fromJson(_course).language
+                  : null;
 
               double? currentSubCourseLangProgress;
               if (languageProgress.isNotEmpty &&
@@ -689,7 +779,8 @@ class TocHelper {
                 currentSubCourseLangProgress =
                     languageProgress[language.toLowerCase()];
               }
-              isCompleted = enrolledSubCourse.completionPercentage ==
+              isCompleted =
+                  enrolledSubCourse.completionPercentage ==
                       TocConstants.COURSE_COMPLETION_PERCENTAGE &&
                   (currentSubCourseLangProgress == null ||
                       currentSubCourseLangProgress ==
@@ -697,8 +788,11 @@ class TocHelper {
               if (!isCompleted && language != null) {
                 contentList.clear();
                 contentList = await TocRepository().readContentProgress(
-                    enrolledSubCourse.id, enrolledSubCourse.batch!.batchId,
-                    contentIds: course.leafNodes, language: language);
+                  enrolledSubCourse.id,
+                  enrolledSubCourse.batch!.batchId,
+                  contentIds: course.leafNodes,
+                  language: language,
+                );
               }
             } catch (e) {}
           } else if (courseHierarchyData.children![index].mimeType !=
@@ -707,9 +801,11 @@ class TocHelper {
             try {
               contentList.clear();
               contentList = await TocRepository().readContentProgress(
-                  enrolledCourse.id, enrolledCourse.batch!.batchId,
-                  contentIds: course.leafNodes,
-                  language: language ?? course.language);
+                enrolledCourse.id,
+                enrolledCourse.batch!.batchId,
+                contentIds: course.leafNodes,
+                language: language ?? course.language,
+              );
             } catch (e) {}
           } else {
             contentList = parentContentList;
@@ -723,31 +819,46 @@ class TocHelper {
         if ((courseHierarchyData.children![index].contentType == 'Collection' ||
             courseHierarchyData.children![index].contentType == 'CourseUnit')) {
           List<NavigationModel> temp = [];
-          Map<String, dynamic> childObject =
-              courseHierarchyData.children![index].toJson();
+          Map<String, dynamic> childObject = courseHierarchyData
+              .children![index]
+              .toJson();
 
           if (courseHierarchyData.children![index].children != null) {
-            for (int i = 0;
-                i < courseHierarchyData.children![index].children!.length;
-                i++) {
-              ProgressModel progress = getProgress(isCompleted,
-                  childObject['children']![i]['identifier'], contentList);
-              NavigationModel content = NavigationModel.fromJson(childObject,
-                  index: k++,
-                  childIndex: i,
-                  hasChildren: true,
-                  parentBatchId: parentBatchId,
-                  parentCourseId: parentCourseId,
-                  progress: progress,
-                  language: language);
+            for (
+              int i = 0;
+              i < courseHierarchyData.children![index].children!.length;
+              i++
+            ) {
+              ProgressModel progress = getProgress(
+                isCompleted,
+                childObject['children']![i]['identifier'],
+                contentList,
+              );
+              NavigationModel content = NavigationModel.fromJson(
+                childObject,
+                index: k++,
+                childIndex: i,
+                hasChildren: true,
+                parentBatchId: parentBatchId,
+                parentCourseId: parentCourseId,
+                progress: progress,
+                language: language,
+              );
               temp.add(content);
               resourceNavigateItems.add(content);
             }
           } else {
             ProgressModel progress = getProgress(
-                isCompleted, childObject['identifier'], contentList);
-            NavigationModel content = NavigationModel.fromJson(childObject,
-                index: k++, progress: progress, language: language);
+              isCompleted,
+              childObject['identifier'],
+              contentList,
+            );
+            NavigationModel content = NavigationModel.fromJson(
+              childObject,
+              index: k++,
+              progress: progress,
+              language: language,
+            );
             temp.add(content);
             resourceNavigateItems.add(content);
           }
@@ -755,90 +866,121 @@ class TocHelper {
         } else if (courseHierarchyData.children![index].contentType ==
             'Course') {
           List courseList = [];
-          for (var i = 0;
-              i < courseHierarchyData.children![index].children!.length;
-              i++) {
+          for (
+            var i = 0;
+            i < courseHierarchyData.children![index].children!.length;
+            i++
+          ) {
             List<NavigationModel> temp = [];
             if (courseHierarchyData.children![index].children![i].contentType ==
                     'Collection' ||
                 courseHierarchyData.children![index].children![i].contentType ==
                     'CourseUnit') {
-              Map<String, dynamic> childObject =
-                  courseHierarchyData.children![index].children![i].toJson();
+              Map<String, dynamic> childObject = courseHierarchyData
+                  .children![index]
+                  .children![i]
+                  .toJson();
 
-              for (var j = 0;
-                  j <
-                      courseHierarchyData
-                          .children![index].children![i].children!.length;
-                  j++) {
-                ProgressModel progress = getProgress(isCompleted,
-                    childObject['children']![j]['identifier'], contentList);
-                NavigationModel content = NavigationModel.fromJson(childObject,
-                    index: k++,
-                    hasChildren: true,
-                    parentBatchId: parentBatchId,
-                    parentCourseId: parentCourseId,
-                    courseName: courseHierarchyData.children![index].name,
-                    childIndex: j,
-                    progress: progress,
-                    language: language);
+              for (
+                var j = 0;
+                j <
+                    courseHierarchyData
+                        .children![index]
+                        .children![i]
+                        .children!
+                        .length;
+                j++
+              ) {
+                ProgressModel progress = getProgress(
+                  isCompleted,
+                  childObject['children']![j]['identifier'],
+                  contentList,
+                );
+                NavigationModel content = NavigationModel.fromJson(
+                  childObject,
+                  index: k++,
+                  hasChildren: true,
+                  parentBatchId: parentBatchId,
+                  parentCourseId: parentCourseId,
+                  courseName: courseHierarchyData.children![index].name,
+                  childIndex: j,
+                  progress: progress,
+                  language: language,
+                );
                 temp.add(content);
                 resourceNavigateItems.add(content);
               }
               courseList.add(temp);
             } else {
-              Map<String, dynamic> childObject =
-                  courseHierarchyData.children![index].toJson();
-              ProgressModel progress = getProgress(isCompleted,
-                  childObject['children']![i]['identifier'], contentList);
-              NavigationModel content = NavigationModel.fromJson(childObject,
-                  index: k++,
-                  parentBatchId: parentBatchId,
-                  parentCourseId: parentCourseId,
-                  isCourse: true,
-                  hasChildren: true,
-                  courseName: courseHierarchyData.children![index].name,
-                  childIndex: i,
-                  progress: progress,
-                  language: language);
+              Map<String, dynamic> childObject = courseHierarchyData
+                  .children![index]
+                  .toJson();
+              ProgressModel progress = getProgress(
+                isCompleted,
+                childObject['children']![i]['identifier'],
+                contentList,
+              );
+              NavigationModel content = NavigationModel.fromJson(
+                childObject,
+                index: k++,
+                parentBatchId: parentBatchId,
+                parentCourseId: parentCourseId,
+                isCourse: true,
+                hasChildren: true,
+                courseName: courseHierarchyData.children![index].name,
+                childIndex: i,
+                progress: progress,
+                language: language,
+              );
               courseList.add(content);
               resourceNavigateItems.add(content);
             }
           }
           tempNavItems.add(courseList);
         } else {
-          Map<String, dynamic> childObject =
-              courseHierarchyData.children![index].toJson();
-          ProgressModel progress =
-              getProgress(isCompleted, childObject['identifier'], contentList);
-          NavigationModel content = NavigationModel.fromJson(childObject,
-              index: k++,
-              parentBatchId: parentBatchId,
-              parentCourseId: parentCourseId,
-              isCourse: true,
-              progress: progress,
-              language: language);
+          Map<String, dynamic> childObject = courseHierarchyData
+              .children![index]
+              .toJson();
+          ProgressModel progress = getProgress(
+            isCompleted,
+            childObject['identifier'],
+            contentList,
+          );
+          NavigationModel content = NavigationModel.fromJson(
+            childObject,
+            index: k++,
+            parentBatchId: parentBatchId,
+            parentCourseId: parentCourseId,
+            isCourse: true,
+            progress: progress,
+            language: language,
+          );
           tempNavItems.add(content);
           resourceNavigateItems.add(content);
         }
       }
       if (enrolledCourse != null &&
           isResourceLocked(
-              courseCategory: course.courseCategory,
-              contextLockingType: course.contextLockingType,
-              compatibilityLevel: course.compatibilityLevel)) {
-        resourceNavigateItems =
-            updateLock(resourceNavigateItems, courseHierarchyData.identifier);
+            courseCategory: course.courseCategory,
+            contextLockingType: course.contextLockingType,
+            compatibilityLevel: course.compatibilityLevel,
+          )) {
+        resourceNavigateItems = updateLock(
+          resourceNavigateItems,
+          courseHierarchyData.identifier,
+        );
       }
       return {
         'navItems': tempNavItems,
-        'resourceNavItems': resourceNavigateItems
+        'resourceNavItems': resourceNavigateItems,
       };
     }
   }
 
   static bool containsLastAccessedContent(
-      dynamic content, String? lastAccessContentId) {
+    dynamic content,
+    String? lastAccessContentId,
+  ) {
     if (content is List) {
       for (var item in content) {
         if (containsLastAccessedContent(item, lastAccessContentId)) {
@@ -858,5 +1000,106 @@ class TocHelper {
       }
     }
     return false;
+  }
+
+  static double? getRating(dynamic courseRating) {
+    try {
+      if (courseRating is! Map) return null;
+      var sumOfTotalRatings = courseRating['sum_of_total_ratings'];
+      var totalNumberOfRatings = courseRating['total_number_of_ratings'];
+
+      if (sumOfTotalRatings == null ||
+          totalNumberOfRatings == null ||
+          totalNumberOfRatings == 0) {
+        return null;
+      }
+
+      double rating = sumOfTotalRatings / totalNumberOfRatings;
+      return double.parse(rating.toStringAsFixed(1));
+    } catch (e) {
+      return null;
+    }
+  }
+
+  static String? getBaseCourseId(Course data) {
+    if (data.languageMap.languages.isNotEmpty) {
+      for (final language in data.languageMap.languages.entries) {
+        if (language.value.isBaseLanguage) {
+          return language.value.id;
+        }
+      }
+    }
+    return null;
+  }
+
+  Future<Course?> checkIsCoursesInProgress({
+    Course? enrolledCourse,
+    required String courseId,
+    BuildContext? context,
+  }) async {
+    if (enrolledCourse != null &&
+        enrolledCourse.lastReadContentId != null &&
+        enrolledCourse.status.toString() != '2') {
+      var courseInfo = await getCourseInfo(courseId, context!);
+      if (courseInfo != null) {
+        if (courseInfo.courseCategory == PrimaryCategory.moderatedProgram) {
+          if (isProgramLive(enrolledCourse)) {
+            return enrolledCourse;
+          } else {
+            return null;
+          }
+        } else if (courseInfo.courseCategory ==
+            PrimaryCategory.blendedProgram) {
+          if (isProgramLive(enrolledCourse)) {
+            return enrolledCourse;
+          } else {
+            return null;
+          }
+        } else if (isInviteOnlyProgram(courseInfo)) {
+          if (isProgramLive(enrolledCourse)) {
+            return enrolledCourse;
+          } else {
+            return null;
+          }
+        } else {
+          return enrolledCourse;
+        }
+      }
+    }
+    return null;
+  }
+
+  Future<Course?> getCourseInfo(String courseId, BuildContext context) async {
+    return await Provider.of<TocRepository>(
+      context,
+      listen: false,
+    ).getCourseReadData(courseId: courseId);
+  }
+
+  isInviteOnlyProgram(Course courseInfo) {
+    return courseInfo.batches != null &&
+        courseInfo.batches!.isNotEmpty &&
+        courseInfo.batches![0].enrollmentType == "invite-only";
+  }
+
+  static bool isCourseCategoryNotCompatible({
+    required String courseCategory,
+    required int compatibilityLevel,
+  }) {
+    final formattedCourseCategory = courseCategory.toLowerCase();
+
+    try {
+      final allVersions = CourseCategoryVersion.getAllVersions();
+
+      // If the category is found in the map, compare its version with the compatibility level
+      if (allVersions.containsKey(formattedCourseCategory)) {
+        return compatibilityLevel > allVersions[formattedCourseCategory]!;
+      }
+
+      // If the category is not found in the map, assume it's not compatible
+      return true;
+    } catch (_) {
+      return true;
+    }
   }
 }

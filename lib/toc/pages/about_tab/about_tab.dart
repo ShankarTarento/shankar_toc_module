@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:toc_module/l10n/generated/toc_localizations.dart';
 
 import 'package:toc_module/toc/certificate/certificate_view/certificate_view.dart';
 
@@ -16,7 +17,6 @@ import 'package:toc_module/toc/pages/about_tab/widgets/provider.dart';
 import 'package:toc_module/toc/pages/about_tab/widgets/review_rating/review_rating.dart';
 import 'package:toc_module/toc/pages/about_tab/widgets/sector.dart';
 import 'package:toc_module/toc/pages/about_tab/widgets/tags.dart';
-import 'gen_l10n/toc_localizations.dart' show TocLocalizations;
 //import 'package:flutter_gen/gen_l10n/toc_localizations.dart';
 
 class AboutTab extends StatefulWidget {

@@ -5,10 +5,10 @@ import 'package:igot_ui_components/utils/module_colors.dart';
 import 'package:provider/provider.dart';
 import 'package:toc_module/toc/constants/toc_constants.dart';
 import 'package:toc_module/toc/model/course_model.dart';
+import 'package:toc_module/toc/pages/about_tab/widgets/review_rating/repository/review_rating_repository.dart';
 import 'package:toc_module/toc/repository/toc_repository.dart';
 import 'package:toc_module/toc/widgets/course_progress_widget.dart';
 import 'package:toc_module/l10n/generated/toc_localizations.dart';
-
 import 'package:toc_module/toc/widgets/toc_content_header/widgets/course_rating.dart';
 
 class OverallProgress extends StatefulWidget {
@@ -69,7 +69,7 @@ class _OverallProgressState extends State<OverallProgress> {
               CourseProgressWidget(progress: progress, width: 200.w),
               Spacer(),
               Selector<TocRepository, Map<String, dynamic>>(
-                selector: (context, learnRepo) => learnRepo.languageProgress,
+                selector: (context, tocRepo) => tocRepo.languageProgress,
                 builder: (context, languageProgress, child) {
                   final showRating = _shouldShowRating(
                     languageProgress: languageProgress,
@@ -96,20 +96,22 @@ class _OverallProgressState extends State<OverallProgress> {
                                   yourReviews,
                                   parentAction: () {},
                                   onSubmitted: (value) async {
-                                    // await Provider.of<TocRepository>(context,
-                                    //         listen: false)
-                                    //     .getCourseReviewSummery(
-                                    //         forceUpdate: true,
-                                    //         courseId: widget.course.id,
-                                    //         primaryCategory: widget
-                                    //             .course.primaryCategory);
-                                    // await Provider.of<TocRepository>(context,
-                                    //         listen: false)
-                                    //     .getYourReview(
-                                    //         id: widget.course.id,
-                                    //         primaryCategory:
-                                    //             widget.course.primaryCategory,
-                                    //         forceUpdate: true);
+                                    await Provider.of<ReviewRatingRepository>(
+                                      context,
+                                      listen: false,
+                                    ).getCourseReviewSummary(
+                                      courseId: widget.course.id,
+                                      primaryCategory:
+                                          widget.course.primaryCategory,
+                                    );
+                                    await Provider.of<ReviewRatingRepository>(
+                                      context,
+                                      listen: false,
+                                    ).getYourRating(
+                                      courseId: widget.course.id,
+                                      primaryCategory:
+                                          widget.course.primaryCategory,
+                                    );
                                   },
                                 ),
                               ),

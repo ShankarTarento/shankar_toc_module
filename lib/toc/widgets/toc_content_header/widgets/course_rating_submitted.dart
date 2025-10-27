@@ -5,13 +5,17 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:igot_ui_components/utils/module_colors.dart';
 import 'package:provider/provider.dart';
 import 'package:toc_module/l10n/generated/toc_localizations.dart';
-
-import 'package:toc_module/toc/repository/toc_repository.dart';
+import 'package:toc_module/toc/pages/about_tab/widgets/review_rating/repository/review_rating_repository.dart';
 
 class CourseRatingSubmitted extends StatefulWidget {
   final String? title, courseId, primaryCategory;
 
-  CourseRatingSubmitted({this.title, this.courseId, this.primaryCategory});
+  const CourseRatingSubmitted({
+    super.key,
+    this.title,
+    this.courseId,
+    this.primaryCategory,
+  });
   @override
   _CourseRatingSubmittedState createState() => _CourseRatingSubmittedState();
 }
@@ -152,21 +156,22 @@ class _CourseRatingSubmittedState extends State<CourseRatingSubmitted> {
   }
 
   Future<void> getYourRatingAndReview() async {
-    await Provider.of<TocRepository>(context, listen: false).getYourReview(
-      id: widget.courseId!,
+    await Provider.of<ReviewRatingRepository>(
+      context,
+      listen: false,
+    ).getYourRating(
+      courseId: widget.courseId!,
       primaryCategory: widget.primaryCategory!,
-      forceUpdate: true,
     );
   }
 
   Future<void> getReviews() async {
-    await Provider.of<TocRepository>(
+    await Provider.of<ReviewRatingRepository>(
       context,
       listen: false,
-    ).getCourseReviewSummery(
+    ).getCourseReviewSummary(
       courseId: widget.courseId!,
       primaryCategory: widget.primaryCategory!,
-      forceUpdate: true,
     );
   }
 }

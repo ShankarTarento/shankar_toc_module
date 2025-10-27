@@ -334,10 +334,11 @@ class _CourseSharingPageState extends State<CourseSharingPage>
                                         Future.delayed(
                                           Duration(seconds: 3),
                                           () {
-                                            if (mounted)
+                                            if (mounted) {
                                               setState(() {
                                                 showDialogWidget = false;
                                               });
+                                            }
                                           },
                                         );
                                       } else {
@@ -360,10 +361,11 @@ class _CourseSharingPageState extends State<CourseSharingPage>
                                           Future.delayed(
                                             Duration(seconds: 3),
                                             () {
-                                              if (mounted)
+                                              if (mounted) {
                                                 setState(() {
                                                   showDialogWidget = false;
                                                 });
+                                              }
                                             },
                                           );
                                         }
@@ -389,7 +391,7 @@ class _CourseSharingPageState extends State<CourseSharingPage>
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
+                            SizedBox(
                               width: 0.7.sw,
                               child: Text(
                                 TocLocalizations.of(
@@ -436,10 +438,11 @@ class _CourseSharingPageState extends State<CourseSharingPage>
                               )!.mContentSharePageLinkCopied;
                             });
                             Future.delayed(Duration(seconds: 3), () {
-                              if (mounted)
+                              if (mounted) {
                                 setState(() {
                                   showDialogWidget = false;
                                 });
+                              }
                             });
                           },
                           child: Row(
@@ -480,15 +483,16 @@ class _CourseSharingPageState extends State<CourseSharingPage>
                                 )!.mContentSharePageEmptyEmailWarning;
                               });
                               Future.delayed(Duration(seconds: 3), () {
-                                if (mounted)
+                                if (mounted) {
                                   setState(() {
                                     showDialogWidget = false;
                                   });
+                                }
                               });
                             }
                           },
                           opacity: 1.0,
-                          child: Container(
+                          child: SizedBox(
                             width: 80.w,
                             child: isLoading
                                 ? Padding(
@@ -557,10 +561,11 @@ class _CourseSharingPageState extends State<CourseSharingPage>
             )!.mContentSharePageSimilarEmailWarning;
           });
           Future.delayed(Duration(seconds: 3), () {
-            if (mounted)
+            if (mounted) {
               setState(() {
                 showDialogWidget = false;
               });
+            }
           });
         } else {
           if (selectedRecipients.length.toInt() < maxRecipient.toInt()) {
@@ -589,10 +594,11 @@ class _CourseSharingPageState extends State<CourseSharingPage>
               )!.mContentSharePageEmailLimitWarning;
             });
             Future.delayed(Duration(seconds: 3), () {
-              if (mounted)
+              if (mounted) {
                 setState(() {
                   showDialogWidget = false;
                 });
+              }
             });
           }
         }
@@ -605,10 +611,11 @@ class _CourseSharingPageState extends State<CourseSharingPage>
           )!.mContentSharePageInvalidEmailError;
         });
         Future.delayed(Duration(seconds: 3), () {
-          if (mounted)
+          if (mounted) {
             setState(() {
               showDialogWidget = false;
             });
+          }
         });
       }
     }
@@ -638,10 +645,11 @@ class _CourseSharingPageState extends State<CourseSharingPage>
         )!.mContentSharePageEmailLimitWarning;
       });
       Future.delayed(Duration(seconds: 3), () {
-        if (mounted)
+        if (mounted) {
           setState(() {
             showDialogWidget = false;
           });
+        }
       });
       return [];
     }
@@ -702,10 +710,11 @@ class _CourseSharingPageState extends State<CourseSharingPage>
         )!.mContentSharePageSharingError;
       });
       Future.delayed(Duration(seconds: 3), () {
-        if (mounted)
+        if (mounted) {
           setState(() {
             showDialogWidget = false;
           });
+        }
       });
     }
     setState(() {
@@ -727,7 +736,7 @@ class _CourseSharingPageState extends State<CourseSharingPage>
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Expanded(
-            child: Container(
+            child: SizedBox(
               child: Text(
                 dialogMessage,
                 style: TextStyle(
